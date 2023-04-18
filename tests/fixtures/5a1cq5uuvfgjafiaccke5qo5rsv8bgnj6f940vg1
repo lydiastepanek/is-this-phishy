@@ -1,0 +1,80 @@
+Return-Path: <fake@email.com>
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id 5a1cq5uuvfgjafiaccke5qo5rsv8bgnj6f940vg1
+ for help@isthisphishy.io;
+ Fri, 28 Apr 2023 17:48:13 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.217.46 as permitted sender) client-ip=209.85.217.46; envelope-from=fake@email.com; helo=mail-vs1-f46.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.217.46 as permitted sender) client-ip=209.85.217.46; envelope-from=fake@email.com; helo=mail-vs1-f46.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFFRW11S08wYmFKdi9tVHUvWlBIcUsrMFA4N25RTDNkRFo5T2tSSnB4UHcxOURkMlBhODR5VmFtL3N4Nk4wR1dsajRxemJ5cFVGeHJNcUltamQxNTBsQk9lN3ZJaG1saHU1NVBaKzZic2VZV3pvNTUrTnRmTVBaZFRzaTQ0MmFLZGlmS3dRRE80OE5rcmdyY29iS3c2NkxhM2RsNEVrSUN4U1B4MEN3WEZPMzVBbEVsK2JnZTA4bmFDWmdUbzd6UENOUDVETGxQU0R5UG5oYjVHTWNVMm5iRUx1Mm9VRng2dm5NYTQ4ekxQTWdPSEcvbFhXc0w5Rm9idmhLVUxVbFd0OER6WWxSMXlXME1qOVNvUytrN283aTNpZnF0VW9YZnpSa01tTWpwV0hVQ3c9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=O+5NZH/cD+W5yPmIfJa24JfnMnQ2h8VI89U2EOogE8BU1GKqCpgi2RH6Uz+/AePIlPCTZxMplu2eQ3c5XPplxZSp0qnEwDaXlW8n2IjL5GtVDbtHGOBtzK3umg1quxqNFc9GzPvvnyx8KZNbQXDTlWfWdBYdN5pdqGFX1tOZgwY=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1682704093; v=1; bh=75H4FnGwiP2ENW7jLnqbpToquOzpvA9MII6lhutjSpA=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-42e668a2c5eso85474137.3
+        for <help@isthisphishy.io>; Fri, 28 Apr 2023 10:48:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682704092; x=1685296092;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=T0dadgzZtDaxTYtPwjdFQyJsuphl1FPAW5RsX0/rNoY=;
+        b=WgM57aNa6XYPkSTJu9r/9/mi16bKEoSfmdgNby3eBamoxv58NttB2/m47J8fIsGA1D
+         F9xmlqeJLZXtYkKlu9RlR4lYarHt4E6nhWyN/rrxVSH9aWYnbCGrVwmTIDLQxtlEfQKV
+         aesQAnu39bvHgPA2z0jnlGYq4KWa8w+fX2edL8v2BP6sciP31EDXXNe9h90asbBpKVaE
+         BxD1Hf85sLWxnq00wD8vBpzy5oqHklYD9+Ng8GldrAn4ob5VmAOU7geLjXHB1psGVRN+
+         BKk6H9ZkNjI9ycdKmYlBAsvwdXj4i6zeuZkJ7JMPtSymJhQjxN7xS8u6plfthnQDuqCN
+         vjOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682704092; x=1685296092;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=T0dadgzZtDaxTYtPwjdFQyJsuphl1FPAW5RsX0/rNoY=;
+        b=UNjeBY4kzZFXrr+xJMGzflX1DyiJg8OhF0VEKkynzscjveOfIYVFsoR1mTw7Xcm4EB
+         YZn69ivULKPX9L/FD2qCXp3LXezljCBLdiu3djZ5M7TvwQn1YrElfFbB693myFp6JoUm
+         wCjwNEawxnHqXo3a5DS5uBF5ptztTeXB/by9XJYS9ltOFTfno1Swt0Vx7mmo2sroAI4o
+         ziIVo6zKWIvPjDqQoWEyewW/gUNqti0S67mqfPfsS4H9QF+Z4+z9ecfoPjLZQuaZG9TN
+         2a8SUcuclmuD2Qry9FLwcXUND8YMKUpu9byT1h4dh05NmvMrjwnJ5obyM3UjYAMZ5MpG
+         Hxyg==
+X-Gm-Message-State: AC+VfDxPC8wrAMB+bb5VCLUZqZMi6uV84fE0l+0Hlh2mIkL6fqli8bP/
+	EHUz0nZkmtb/uZcvkRRz7HiA99ZpnMYLSV45V2XQJ0+E6mQ=
+X-Google-Smtp-Source: ACHHUZ6Y9TNue8D8jVoRGAnFqsRHHM9e3M/jd9ndewNr8aX7aLZfKRstKNLAFrVKkeZEd2Etkmg2ZiULM8Jvdkm9L/8=
+X-Received: by 2002:a05:6102:7aa:b0:430:2c2c:5da5 with SMTP id
+ x10-20020a05610207aa00b004302c2c5da5mr3034526vsg.29.1682704092248; Fri, 28
+ Apr 2023 10:48:12 -0700 (PDT)
+MIME-Version: 1.0
+From: Lydia Stepanek <fake@email.com>
+Date: Fri, 28 Apr 2023 13:48:00 -0400
+Message-ID: <CADvz_yfOwmxHc2CoF8rbJr7pCNnLDMJXriJhFVXbA9rjBjRL2w@mail.gmail.com>
+Subject: hi
+To: help@isthisphishy.io
+Content-Type: multipart/alternative; boundary="000000000000ae416205fa691354"
+
+--000000000000ae416205fa691354
+Content-Type: text/plain; charset="UTF-8"
+
+hi
+
+-- 
+Lydia*Stepanek*
+203.804.9137
+
+--000000000000ae416205fa691354
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">hi<br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature" da=
+ta-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><di=
+v><div style=3D"font-family:arial,sans-serif;font-size:13.200000762939453px=
+;font-style:normal;font-variant:normal;letter-spacing:normal;line-height:no=
+rmal;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-spac=
+e:normal;word-spacing:0px;background-color:rgb(255,255,255)"><font color=3D=
+"#ff6600">Lydia<b>Stepanek</b></font></div><div style=3D"font-family:arial,=
+sans-serif;font-size:13.2000007629395px;font-style:normal;font-variant:norm=
+al;font-weight:normal;letter-spacing:normal;line-height:normal;text-align:-=
+webkit-auto;text-indent:0px;text-transform:none;white-space:normal;word-spa=
+cing:0px;background-color:rgb(255,255,255)"><font color=3D"#666666">203.804=
+.9137</font></div></div></div></div></div></div></div>
+
+--000000000000ae416205fa691354--

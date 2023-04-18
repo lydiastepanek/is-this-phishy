@@ -1,0 +1,1886 @@
+Return-Path: <fake@email.com>
+Received: from sonic320-20.consmr.mail.ne1.yahoo.com (sonic320-20.consmr.mail.ne1.yahoo.com [66.163.191.82])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id ar8hceu5jrp1p2ku02rdlcopm99uhd2b65acdu01
+ for help@isthisphishy.io;
+ Sun, 30 Apr 2023 17:27:20 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.mail.yahoo.com designates 66.163.191.82 as permitted sender) client-ip=66.163.191.82; envelope-from=fake@email.com; helo=sonic320-20.consmr.mail.ne1.yahoo.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.mail.yahoo.com designates 66.163.191.82 as permitted sender) client-ip=66.163.191.82; envelope-from=fake@email.com; helo=sonic320-20.consmr.mail.ne1.yahoo.com;
+ dkim=pass header.i=@yahoo.com;
+ dmarc=pass header.from=yahoo.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFFNUZ1akRIeE5zckFZZ0JGaE54ZEEySFZoY3RyT0x4N1o3MFpRQ0ZNeHZJcGRSbzdLMnN0QmVYd1dYNlFzc1U1OFZYN0c3Mk5mcVhHYTN1TkNYU1B6cGN5M2diVjhURzFtODhmS2hnL2lUWWRYMWNmU0hmU1FtNlJmRld0eGpucFVRb2hCRTdhL0crK1RkSFRhaXZYOUNrY20yaUswTDRpU1R0cFFlUFRYRkRjcTJIWnVCVkNJWk1BWWN4RU9pM0VFTm1YOXFpajFBdC84WE42eVlmM3BLTksvbUJhZ3VGcXdYMm1QY1lWV1JyS0c5Tk42WHJjZHAvVU0yNVVrY0R5czFGdmNUZUZIenNGSG5GY243YzBzajhXTEVuRHlkL2I5eUVBNGpRbUJhYmc9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=Crwpn1Sbz4l5Wiz38GpUvofRP2Q2sLxVKXWezIE1bkWOd1+poiXkuo2+Td4segTprFpKx8XPjGepkIQekJXEXpCIMpUo/cmllaatRj/5M4do6of/b94Gtnjw8hCQvw/V1B9MrAIasb9kQGIdx/X+4Y6Rj7zfcJiZsnSDaaMShoY=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1682875641; v=1; bh=hFVhMUDW/WrduSNxQdjadcff635g0B+DLuLB9sf1uBk=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1682875639; bh=qGZB2sURK7qTdwXJmtvqhsHklUdu5BUrf6t67HzFIBg=; h=Date:From:To:In-Reply-To:References:Subject:From:Subject:Reply-To; b=KXz6HQMsp+Ltt9bjjzO1CgOdW+gX6DBJap+XUgf06d/S4IOGqllXQE65MzBT2wVef7Xxmi0DRgvVGlnude30A47/ZP2uTWxOwkvJIziQxRgXZOF7L0F5e+qNch7Cy8fUSGU25+z1lEjo9jnFLLEH6ciWAe4KB/wn8AgcuQ/SCXj3MjRErfEvVBpCuhnLA92jrTn9jpa6siqBUDQPmUh3AdaOFCh7HEZDmlDzknypuQ13WMOAiifitA1onsho2a/ToG+t813RUxd7/4YkEwoOKrJUCiH+oiTDYO1mjQCVqPF18+lsZOnd8wmR1MWI+63eJfAHWj+NCdgECoSNIzz3rQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1682875639; bh=VtjRkif2oH7ByGTVohRMrzkKT4qiTHLoTTMAuOa0IUA=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=XBFD+yrKS8xaHc6bFD6k3QLIDb/5uPyM/sIC87ZPQ6ro7on314uW8wqzkM8FngAIGa9SaclZvPtYIl0FzCg9oUYVnvZvDsiortMhcAAUt9697LehJNwsPuC5qxKHGtntGFjpJsYUUj+MsTW9mVeBWjokZcc03IG2vETNIyvB6/vJyZzcj498n1XfP4Ugr0FcxAkNJzik64TKQxYmHlBpvlF+A45cSewDLJ20SdZdF7olY4yOOG/t9sU2XzO99Vgrq6o0FR9SBMfrY5BnQJPTyLnYs58jXpwTLSzKVPYYtv7wmuMu1YL6jqE+PXZJBWmC/fns3OXQW5jjiC9e9ct24Q==
+X-YMail-OSG: ABxJHP4VM1nFga3_nK8OPuVcbxScOfLlQLSkbJs5wGsKJCs7IDj4DQRerHKRe2A
+ lIDkDQOZ9GwRTpbTheX7qcUNXXVIuHb49SDTpQSAPts2K1Hi15sURe8wqbbLgaFeenr0vpJ7HjK4
+ dG2L1zyjHeBE4139.n_UzAHqDm2YLFpnVAB2EmZxwNhQDXXqecFhnzfTOahTErjOqn167RH6Xjo9
+ 8NCWgWQYMEgfooV00acG7M0MiX7cQQAhHeIzodQGGgCQZgA.bINklcMOR6mWUNzIagLRjnkzQ8zO
+ j1c5S87pqIG5adHNYX7pmr8rya5oI8wcFPBQZLnTVzHlybuC52uTrW6I17XAO58LjL1DcnI_qis9
+ _HxJb7Tv7ZNstbCbKB8jhu8d35IZ_v.oK9V2Fe3qn.B3Co3YTSsiZMllr3ZpPu.BNH5OJDu0xlzk
+ z8L.COZneB3Z.vHdnDjOAj3XSWirwL8YyguEgySC2hNV27HzQGOt1tK4oqr_4mO5lLRXIPmrNGmb
+ _sFdeni9CJ1NvST_1c.knOyQizC2qL30RVCzZMRL8fgv0ah_pmA4z4YZQVv4mZpRUGMNo3e3MtZd
+ tBdmxy3Bglo6o.raJ3nyV1OMUuRUbM.7wgkawZUgll59QrmkdBk0sk83U0FRvStlZjz7mWJayWiy
+ oCm.kAJ4HrCuqz14uQSocjgAzM9p7A0F4TGwsXL7rTmpCfSi19MheEQEIZnsrXW6An2m7PrLbMH_
+ B0airM2fUC6e0zgwVb2.iUrslDSCq4OkTBqOzUJGQxGoOC9kXJUXcNVfaHxkAbqGadxN6Dld3Z4k
+ RSnlHR6kmlm5xyk7PCTsLJpr5g9dvxI7OlvCDu8DPKEQ0DwKPx0kq6552cGBOA.hjNkGbwzvY1oC
+ wy5bjmOKho7HcLkSs.5uWQaCZQoOvU5jLvDI2eIZgqx61FuhOVU4q1twZ20xxWejjaj_8K5DU.47
+ Pw4v4QufmiFhb4eaSo5xj8pRNWmzizsZ_lmdmcLmpxXg6GqzHV8lJBPzZEBv6AigdKOQlKb1Cz1Q
+ cV1l3QF5_3wkQPojyYl5vvGXijP_1C3V19USrXjuPNmg7kQb4ODA8ql50bb.pgYPNP7c9NYdj517
+ atGQO9sgGO2Ws2CigD8LrnRJ20Nqnd2fzSF2VJFYZO8AVfZrYm7gcceLsW3zoJ7AWX9I748Mx0Nf
+ vI8U3TfAsczBewIe5wM33sBeluXY3NJtcYOswTE4fpewAp3RYGmkK8lf4.mPYVmQyH79QjOY_xU7
+ Yx5_XZsXaGg4lavIuaEymVztdFoiExP0SqjcXvPivYuni.On6L6Gg0WWNhxIXOaHEbfJmDjRIkrY
+ Qteo1Q._v4nDJDocsjA7X2eKK9sdQDqwSGsmotnIoRVvaCFfJchl_jE8gDYNDLolIKhNs6ZVLSpP
+ b.K8FmtYtKVTA9KvXJMfBWiYY_rjSzHiM7IxnS83Z4iFI9fjAdVEQYpegYGFQjzjHi56qWwcfL4w
+ kEMxMi2rintGgjzaTNd4hBxfRN38G8N.SmtzTaztkKscN_EUp9XefPKvh574r6V7RZurdrU3GDPv
+ 7pPRCi34jIDUjTbgpIiY7KhV8Nz4gblwCNFNZMyjlamuREonPjCuMN.16Gw79W79gXjXkWS2hW1k
+ Dkfv1PDx.WDPfmSIRQFGdwWDd1xQeQ.Y7lhRkVppVe9Gohqjr03dQYowgjPOpO4oyJd10ssiQGla
+ ChZof9AVirgvT6FPoQziUiNdDyv1inC68vW.unYgv_Z9dZafR6YMly74UUDGxdn7IW27Dxl9jk.C
+ Q2Ma2z1TCk8h0.kcjw4iTBCkphcS0ahyJBJXuiyRtAbeXrJDaytMcMDsjcqqL2ERqF5iqSSCoF3A
+ iDu0APTCeuUA.9CxH9_TH3.wg.ADOqY4S77xuR7gcxGP9LwXuk1iSBo2miFzrYmc2xeA5w9i_St1
+ Y2ztPqoqYQj2BdUQXDM5yadexE.7rvHUIo9JRkw.IXgokjJsiRk5LU8voXCO_ZKbVMZviKNStdcs
+ djwbRivRDXUJ0IzSPcX20Q10a5biVFyaSGHJnLFRM_K_7.ffgri6TQyRPjnns9ebvH3_ViL6aSm_
+ PYsrmJd6tJ78PWN7vaKyobox_4zx0kDnoTKNNKsKa1w.ZM08bfu104PbVCdLwaxRhuRZHdXCjtK3
+ qKEsPfx209yH_DUq2gPwUBIFVe4h57kP1XIP_ahFkmp1NuRiQbMNua7tmZCxa5kH3g.unA7u9bEo
+ 1B1neCZbauG1Dn.mCHtAr0MmsDKB5IDs.k64PMjlZp766Dvz3nRJvafFoedifGkyS.Nf_3CI-
+X-Sonic-MF: <fake@email.com>
+X-Sonic-ID: 2282ca18-973b-4e19-83f2-0f980edc26b4
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic320.consmr.mail.ne1.yahoo.com with HTTP; Sun, 30 Apr 2023 17:27:19 +0000
+Date: Sun, 30 Apr 2023 17:27:14 +0000 (UTC)
+From: "fake@email.com" <fake@email.com>
+To: "help@isthisphishy.io" <help@isthisphishy.io>
+Message-ID: <1544262670.2039434.1682875634655@mail.yahoo.com>
+In-Reply-To: <NM6270D122C0070B4FFhandm_mid_prod13@email.cos.com>
+References: <NM6270D122C0070B4FFhandm_mid_prod13@email.cos.com>
+Subject: Fw: The dress refresh
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_2039433_169359356.1682875634648"
+X-Mailer: WebService/1.1.21417 YMailNorrin
+Content-Length: 56939
+
+------=_Part_2039433_169359356.1682875634648
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+=20
+
+   ----- Forwarded Message ----- From: COS <news@email.cos.com>To: "lyddieu=
+h@yahoo.com" <fake@email.com>Sent: Saturday, April 29, 2023 at 09:26:01=
+ AM EDTSubject: The dress refresh
+  =20
+| =20
+|    |   The LBD. The mini. The midi. Meet the modern, classic silhouettes =
+from our edit  |
+|    | =20
+|  =20
+|    |
+
+
+|     |
+|
+
+=20
+|    |
+
+ Dress season=20
+|    |
+
+
+|     |
+|
+
+=20
+|    |
+
+
+| =20
+| =20
+Modern, directional cuts, shoulder-baring necklines and sophisticated shade=
+s headline the Summer 2023 Collection.=20
+  |
+
+  |
+
+=20
+|    |
+
+=20
+|   SHOP NOW   |
+
+=20
+|    |
+
+
+| =20
+|     |
+
+  |    | =20
+|     |
+
+  |    | =20
+|     |
+
+  |
+
+=20
+|    |
+
+
+| =20
+|     |
+
+  |    | =20
+|     |
+
+  |    | =20
+|     |
+
+  |
+
+=20
+|    |
+
+
+|     |
+|
+
+=20
+|    |
+
+
+| =20
+|     |
+
+  |    | =20
+|     |
+
+  |    | =20
+|     |
+
+  |
+
+=20
+|    |
+
+
+| =20
+|     |
+
+  |    | =20
+|     |
+
+  |    | =20
+|     |
+
+  |
+
+=20
+|    |
+
+=20
+|   SHOP NOW   |
+
+=20
+|    |
+
+
+|     |
+|
+
+=20
+|    |
+
+
+| =20
+|    |
+| =20
+
+IN FOCUS
+
+  |
+
+  |
+|    |
+
+=20
+|    |
+
+ The linen shirt dress=20
+|    |
+
+
+| =20
+|     |
+
+  |    | =20
+|     |
+
+  |
+
+=20
+|    |
+
+
+| =20
+| =20
+Revisited from the COS archive in breathable linen, our midi-length shirt d=
+ress can be styled partly unbuttoned over pants or cinched with the matchin=
+g belt.=20
+  |
+
+  |
+
+=20
+|    |
+
+=20
+|   SHOP THE DRESS   |
+
+=20
+|    |
+
+  |
+
+  |    |
+
+=20
+|    | =20
+| =20
+|    |
+
+  |
+| =20
+| =20
+|  |
+
+  |
+|    |
+
+  |
+| =20
+| =20
+| =20
+|   Facebook   |   Instagram   |   Pinterest   |   Spotify   |
+
+  |
+|    |
+
+=20
+|   =20
+This message was sent by COS (H & M Hennes & Mauritz GBC AB, M=C3=A4ster Sa=
+muelsgatan 46, 106 38 Stockholm, Sweden).
+=20
+
+=C2=A0
+
+You are receiving this email because you are signed up to receive COS email=
+ newsletters.
+ You can't reply to this mail but you're welcome to contact us at customers=
+ervice.us@cosstores.com.
+ H&M Hennes & Mauritz=E2=80=AFL.P.,110 5th Avenue =E2=80=93 11th floor, New=
+ York, NY 10011
+
+=C2=A0
+
+If you have trouble reading this email,=C2=A0view in your browser.
+=20
+
+If you wouldn=E2=80=99t like to receive newsletters from COS=C2=A0unsubscri=
+be here.
+
+=C2=A0
+    |
+
+=20
+|    |
+|   |    |   |    |    |    |   |    |   |  |
+
+  |
+
+  |
+| =20
+|    |
+
+  |
+
+  |    |
+
+  |
+
+ =20
+------=_Part_2039433_169359356.1682875634648
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head></head><body><div class=3D"ydpecedf1b8yahoo-style-wrap" style=
+=3D"font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:16px=
+;"><div></div>
+        <div><br></div><div><br></div>
+       =20
+        </div><div id=3D"ydpac577ba8yahoo_quoted_3457343936" class=3D"ydpac=
+577ba8yahoo_quoted">
+            <div style=3D"font-family:'Helvetica Neue', Helvetica, Arial, s=
+ans-serif;font-size:13px;color:#26282a;">
+                <div>----- Forwarded Message -----</div>
+                <div><b>From:</b> COS &lt;news@email.cos.com&gt;</div><div>=
+<b>To:</b> "fake@email.com" &lt;fake@email.com&gt;</div><div><b>Sen=
+t:</b> Saturday, April 29, 2023 at 09:26:01 AM EDT</div><div><b>Subject:</b=
+> The dress refresh</div><div><br></div>
+                <div><div id=3D"ydpac577ba8yiv2466053739">
+
+   =20
+
+     =09=20
+
+
+=09=09
+=09=09=20
+
+      =20
+      =20
+      =20
+=09  =20
+
+
+=09=09
+
+
+
+
+
+=09=09=20
+
+=09=09
+=09=09=09
+=09=09=09
+=09=09=09
+
+    <div>
+=09
+        =09
+        =09   =09=20
+        =09
+    =09
+=09<table id=3D"ydpac577ba8yiv2466053739ac-body-table" align=3D"center" wid=
+th=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" style=3D"font-=
+family:'SuisseIntl-Regular', 'Arial', 'Sans-Serif';">
+=09=09<tbody>
+=09=09=09<tr>
+=09=09=09=09<td id=3D"ydpac577ba8yiv2466053739ac-content-table" align=3D"ce=
+nter" colspan=3D"1" rowspan=3D"1">
+=09=09=09=09=09<table align=3D"center" width=3D"604" cellpadding=3D"0" cell=
+spacing=3D"0" border=3D"0" class=3D"ydpac577ba8yiv2466053739resizedynamic10=
+0">
+=09=09=09=09=09=09<tbody>
+                            <tr>
+                                 <td>
+                                    <div></div>
+
+                                  </td>
+                                 <td>
+                                      <div style=3D"display: none; font-siz=
+e: 1px; color: rgb(51, 51, 51); line-height: 1px; max-width: 0px; min-heigh=
+t: 0px;">
+=09The LBD. The mini. The midi. Meet the modern, classic silhouettes from o=
+ur edit
+</div>
+
+
+
+                                 </td>
+                            </tr>
+=09=09=09=09=09
+=09=09=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09=09<td class=3D"ydpac577ba8yiv2466053739spacerdynamic5=
+">
+=09=09=09=09=09=09=09=09=09<img src=3D"https://www.cos.com/etc/designs/appe=
+aser/cos/clientlibs/pattern-lib/images/spacer.gif" alt=3D"" style=3D"displa=
+y: block; width: 0px; max-width: 1px;" data-inlineimagemanipulating=3D"true=
+">
+=09=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=09=09=09<td align=3D"center" colspan=3D"1" rowspan=3D"1" va=
+lign=3D"top" width=3D"604" style=3D"color:#444444;" class=3D"ydpac577ba8yiv=
+2466053739content-wrapper ydpac577ba8yiv2466053739resizedynamic90">
+=09=09=09=09=09=09=09=09=09<table align=3D"center" width=3D"100%" cellpaddi=
+ng=3D"0" cellspacing=3D"0" border=3D"0">
+=09=09=09=09=09=09=09=09=09=09<tbody>
+=09=09=09=09=09=09=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09=09=09=09=09=09<td>
+=09=09=09=09=09=09=09=09=09=09=09=09=09<div></div>
+=09=09=09=09=09=09=09=09=09=09=09=09=09
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"50" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"50">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"50" style=3D"displa=
+y: block; min-height: 50px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+
+<table align=3D"center" width=3D"604" cellpadding=3D"0" cellspacing=3D"0" b=
+order=3D"0" class=3D"ydpac577ba8yiv2466053739image-component ydpac577ba8yiv=
+2466053739resizedynamic100">
+=09<tbody>
+=09<tr>
+=09=09<td align=3D"center" colspan=3D"1" rowspan=3D"1" width=3D"604" valign=
+=3D"top" class=3D"ydpac577ba8yiv2466053739resizedynamic100">
+=09=09=09
+=09=09=09=09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc26430f,e3=
+18eb52" target=3D"_blank" rel=3D"noreferrer noopener"><img src=3D"https://w=
+ww.cos.com/content/dam/cos/2021/nl/new-logo_nl/COS-logo-NL-new.jpg" border=
+=3D"0" style=3D"width: 604px; max-width: 800px; display: block;" data-inlin=
+eimagemanipulating=3D"true">
+=09=09=09=09</a>
+=09=09=09
+=09=09=09
+=09=09</td>
+=09</tr>
+=09<tr>
+=09=09
+=09</tr>
+=09</tbody>
+</table>
+
+
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"50" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"50">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"50" style=3D"displa=
+y: block; min-height: 50px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+
+
+=09
+=09
+=09<center><font style=3D"color:rgb(27,27,27);line-height:50.0px;letter-spa=
+cing:0.04em;font-size:45.0px;font-family:SuisseIntl-Regular , , Helvetica ,=
+ Arial , Sans-Serif;text-decoration:none;" class=3D"ydpac577ba8yiv246605373=
+9sub-headline">
+Dress season
+</font></center>
+=09
+=09
+
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"50" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"50">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"50" style=3D"displa=
+y: block; min-height: 50px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+
+<table align=3D"center" width=3D"604" cellpadding=3D"0" cellspacing=3D"0" b=
+order=3D"0" class=3D"ydpac577ba8yiv2466053739image-component ydpac577ba8yiv=
+2466053739resizedynamic100">
+=09<tbody>
+=09<tr>
+=09=09<td align=3D"center" colspan=3D"1" rowspan=3D"1" width=3D"604" valign=
+=3D"top" class=3D"ydpac577ba8yiv2466053739resizedynamic100">
+=09=09=09
+=09=09=09=09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc26430f,e3=
+18eb53" target=3D"_blank" rel=3D"noreferrer noopener"><img src=3D"https://w=
+ww.cos.com/content/dam/cos/2023/nl/wk17/us/wed/750x1000-SPRING-NEWNESS_08.j=
+pg" border=3D"0" style=3D"width: 604px; max-width: 750px; display: block;" =
+data-inlineimagemanipulating=3D"true">
+=09=09=09=09</a>
+=09=09=09
+=09=09=09
+=09=09</td>
+=09</tr>
+=09<tr>
+=09=09
+=09</tr>
+=09</tbody>
+</table>
+
+
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"50" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"50">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"50" style=3D"displa=
+y: block; min-height: 50px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<table align=3D"left" width=3D"604" border=3D"0" cellpadding=3D"0" cellspac=
+ing=3D"0" class=3D"ydpac577ba8yiv2466053739text-block-component ydpac577ba8=
+yiv2466053739text-block-ed ydpac577ba8yiv2466053739resizedynamic100">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td colspan=3D"1" rowspan=3D"1" valign=3D"top" class=3D"ydpac577ba=
+8yiv2466053739resizedynamic90">
+=09=09=09=09<table align=3D"left" border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"0" class=3D"ydpac577ba8yiv2466053739o-text-block-newsletter">
+=09=09=09=09=09<tbody>
+=09=09=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09=09<td class=3D"ydpac577ba8yiv2466053739free-text-bloc=
+k">
+=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09=09<p style=3D"text-align:left;color:#000000;font-f=
+amily:SuisseIntl-Regular, Arial, Sans-Serif;" class=3D"ydpac577ba8yiv246605=
+3739bodytext">Modern, directional cuts, shoulder-baring necklines and sophi=
+sticated shades headline the Summer 2023 Collection.  </p>
+=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=09=09</tr>
+
+=09=09=09=09=09</tbody>
+=09=09=09=09</table>
+=09=09=09</td>
+=09=09</tr>
+    </tbody>
+</table>
+
+
+
+
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"50" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"50">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"50" style=3D"displa=
+y: block; min-height: 50px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+    <table cellpadding=3D"0" cellspacing=3D"0" width=3D"604" border=3D"0">
+
+=09<tbody>
+
+=09<tr>
+
+=09=09<td style=3D"width:520px;background-color:rgb(27,27,27);color:rgb(255=
+,255,255);font-size:16.0px;padding:15.0px 15.0px;font-family:SuisseIntl-Reg=
+ular , Helvetica Neue , Helvetica , Arial , Sans-Serif;text-align:center;bo=
+rder:solid 1.0px rgb(255,255,255);">
+
+
+=09=09=09
+=09=09=09
+=09=09=09=09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc26430f,e3=
+18eb54&amp;p1=3D3200175278" style=3D"color:rgb(255,255,255);text-decoration=
+:none;display:block;text-align:center;font-family:SuisseIntl-Regular , Helv=
+etica Neue , Helvetica , Arial , Sans-Serif;" target=3D"_blank" rel=3D"nore=
+ferrer noopener">=09=09=09
+=09=09=09
+=09=09=09SHOP NOW
+=09=09=09</a>
+
+=09=09</td>
+
+=09</tr>
+
+=09</tbody>
+
+</table>
+
+
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"50" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"50">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"50" style=3D"displa=
+y: block; min-height: 50px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+
+<table align=3D"center" width=3D"604" cellpadding=3D"0" cellspacing=3D"0" b=
+order=3D"0" class=3D"ydpac577ba8yiv2466053739three-tile-component">
+    <tbody>
+        <tr>
+            <td colspan=3D"1" rowspan=3D"1" width=3D"198" style=3D"vertical=
+-align:top;">
+                <table align=3D"center" width=3D"100%" cellpadding=3D"0" ce=
+llspacing=3D"0" border=3D"0" style=3D"text-align: center;">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td style=3D"font-size:0px;">
+=09=09=09=09=09=09=09
+=09=09        =09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc2643=
+0f,e318eb55" class=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" rel=
+=3D"noreferrer noopener"><img src=3D"https://www.cos.com/content/dam/cos/20=
+23/nl/wk17/us/wed/app001prod%201.jpg" border=3D"0" style=3D"display: block;=
+ width: 198px; max-width: 600px;" data-inlineimagemanipulating=3D"true">
+=09=09        =09</a>
+=09=09=09=09
+=09=09=09=09
+=09=09=09</td>
+=09=09</tr>
+=09=09
+=09</tbody>
+</table>
+
+
+
+            </td>
+            <td style=3D"width:5px;" class=3D"ydpac577ba8yiv2466053739space=
+r">
+                <img src=3D"https://www.cos.com/etc/designs/appeaser/cos/cl=
+ientlibs/pattern-lib/images/spacer.gif" alt=3D"" border=3D"0" width=3D"5" s=
+tyle=3D"display:block;max-width:100%;" data-inlineimagemanipulating=3D"true=
+">
+            </td>
+            <td colspan=3D"1" rowspan=3D"1" width=3D"198" style=3D"vertical=
+-align:top;">
+                <table align=3D"center" width=3D"100%" cellpadding=3D"0" ce=
+llspacing=3D"0" border=3D"0" style=3D"text-align: center;">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td style=3D"font-size:0px;">
+=09=09=09=09=09=09=09
+=09=09        =09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc2643=
+0f,e318eb56" class=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" rel=
+=3D"noreferrer noopener"><img src=3D"https://www.cos.com/content/dam/cos/20=
+23/nl/wk17/us/wed/app001prod%20(18).jpeg" border=3D"0" style=3D"display: bl=
+ock; width: 198px; max-width: 800px;" data-inlineimagemanipulating=3D"true"=
+>
+=09=09        =09</a>
+=09=09=09=09
+=09=09=09=09
+=09=09=09</td>
+=09=09</tr>
+=09=09
+=09</tbody>
+</table>
+
+
+
+            </td>
+            <td style=3D"width:5px;" class=3D"ydpac577ba8yiv2466053739space=
+r">
+                <img src=3D"https://www.cos.com/etc/designs/appeaser/cos/cl=
+ientlibs/pattern-lib/images/spacer.gif" alt=3D"" border=3D"0" width=3D"5" s=
+tyle=3D"display:block;max-width:100%;" data-inlineimagemanipulating=3D"true=
+">
+            </td>
+            <td colspan=3D"1" rowspan=3D"1" width=3D"198" style=3D"vertical=
+-align:top;">
+                <table align=3D"center" width=3D"100%" cellpadding=3D"0" ce=
+llspacing=3D"0" border=3D"0" style=3D"text-align: center;">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td style=3D"font-size:0px;">
+=09=09=09=09=09=09=09
+=09=09        =09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc2643=
+0f,e318eb57" class=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" rel=
+=3D"noreferrer noopener"><img src=3D"https://www.cos.com/content/dam/cos/20=
+23/nl/wk17/us/wed/app001prod.jpg" border=3D"0" style=3D"display: block; wid=
+th: 198px; max-width: 600px;" data-inlineimagemanipulating=3D"true">
+=09=09        =09</a>
+=09=09=09=09
+=09=09=09=09
+=09=09=09</td>
+=09=09</tr>
+=09=09
+=09</tbody>
+</table>
+
+
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"5" class=3D"ydpac577ba8yiv2466053739component-sp=
+acer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"5">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"5" style=3D"display=
+: block; min-height: 5px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+
+<table align=3D"center" width=3D"604" cellpadding=3D"0" cellspacing=3D"0" b=
+order=3D"0" class=3D"ydpac577ba8yiv2466053739three-tile-component">
+    <tbody>
+        <tr>
+            <td colspan=3D"1" rowspan=3D"1" width=3D"198" style=3D"vertical=
+-align:top;">
+                <table align=3D"center" width=3D"100%" cellpadding=3D"0" ce=
+llspacing=3D"0" border=3D"0" style=3D"text-align: center;">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td style=3D"font-size:0px;">
+=09=09=09=09=09=09=09
+=09=09        =09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc2643=
+0f,e318eb58" class=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" rel=
+=3D"noreferrer noopener"><img src=3D"https://www.cos.com/content/dam/cos/20=
+23/nl/wk17/us/wed/UPDATE%2025.jpg" border=3D"0" style=3D"display: block; wi=
+dth: 198px; max-width: 600px;" data-inlineimagemanipulating=3D"true">
+=09=09        =09</a>
+=09=09=09=09
+=09=09=09=09
+=09=09=09</td>
+=09=09</tr>
+=09=09
+=09</tbody>
+</table>
+
+
+
+            </td>
+            <td style=3D"width:5px;" class=3D"ydpac577ba8yiv2466053739space=
+r">
+                <img src=3D"https://www.cos.com/etc/designs/appeaser/cos/cl=
+ientlibs/pattern-lib/images/spacer.gif" alt=3D"" border=3D"0" width=3D"5" s=
+tyle=3D"display:block;max-width:100%;" data-inlineimagemanipulating=3D"true=
+">
+            </td>
+            <td colspan=3D"1" rowspan=3D"1" width=3D"198" style=3D"vertical=
+-align:top;">
+                <table align=3D"center" width=3D"100%" cellpadding=3D"0" ce=
+llspacing=3D"0" border=3D"0" style=3D"text-align: center;">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td style=3D"font-size:0px;">
+=09=09=09=09=09=09=09
+=09=09        =09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc2643=
+0f,e318eb59" class=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" rel=
+=3D"noreferrer noopener"><img src=3D"https://www.cos.com/content/dam/cos/20=
+23/nl/wk16/us/fri/app001prod%208.jpg" border=3D"0" style=3D"display: block;=
+ width: 198px; max-width: 600px;" data-inlineimagemanipulating=3D"true">
+=09=09        =09</a>
+=09=09=09=09
+=09=09=09=09
+=09=09=09</td>
+=09=09</tr>
+=09=09
+=09</tbody>
+</table>
+
+
+
+            </td>
+            <td style=3D"width:5px;" class=3D"ydpac577ba8yiv2466053739space=
+r">
+                <img src=3D"https://www.cos.com/etc/designs/appeaser/cos/cl=
+ientlibs/pattern-lib/images/spacer.gif" alt=3D"" border=3D"0" width=3D"5" s=
+tyle=3D"display:block;max-width:100%;" data-inlineimagemanipulating=3D"true=
+">
+            </td>
+            <td colspan=3D"1" rowspan=3D"1" width=3D"198" style=3D"vertical=
+-align:top;">
+                <table align=3D"center" width=3D"100%" cellpadding=3D"0" ce=
+llspacing=3D"0" border=3D"0" style=3D"text-align: center;">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td style=3D"font-size:0px;">
+=09=09=09=09=09=09=09
+=09=09        =09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc2643=
+0f,e318eb5a" class=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" rel=
+=3D"noreferrer noopener"><img src=3D"https://www.cos.com/content/dam/cos/20=
+23/nl/wk17/us/wed/app001prod%2019.jpg" border=3D"0" style=3D"display: block=
+; width: 198px; max-width: 600px;" data-inlineimagemanipulating=3D"true">
+=09=09        =09</a>
+=09=09=09=09
+=09=09=09=09
+=09=09=09</td>
+=09=09</tr>
+=09=09
+=09</tbody>
+</table>
+
+
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"50" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"50">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"50" style=3D"displa=
+y: block; min-height: 50px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+
+<table align=3D"center" width=3D"604" cellpadding=3D"0" cellspacing=3D"0" b=
+order=3D"0" class=3D"ydpac577ba8yiv2466053739image-component ydpac577ba8yiv=
+2466053739resizedynamic100">
+=09<tbody>
+=09<tr>
+=09=09<td align=3D"center" colspan=3D"1" rowspan=3D"1" width=3D"604" valign=
+=3D"top" class=3D"ydpac577ba8yiv2466053739resizedynamic100">
+=09=09=09
+=09=09=09=09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc26430f,e3=
+18eb5b" target=3D"_blank" rel=3D"noreferrer noopener"><img src=3D"https://w=
+ww.cos.com/content/dam/cos/2023/nl/wk17/us/wed/750x1000-PADDED%20(8).jpg" b=
+order=3D"0" style=3D"width: 604px; max-width: 751px; display: block;" data-=
+inlineimagemanipulating=3D"true">
+=09=09=09=09</a>
+=09=09=09
+=09=09=09
+=09=09</td>
+=09</tr>
+=09<tr>
+=09=09
+=09</tr>
+=09</tbody>
+</table>
+
+
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"50" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"50">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"50" style=3D"displa=
+y: block; min-height: 50px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+
+<table align=3D"center" width=3D"604" cellpadding=3D"0" cellspacing=3D"0" b=
+order=3D"0" class=3D"ydpac577ba8yiv2466053739three-tile-component">
+    <tbody>
+        <tr>
+            <td colspan=3D"1" rowspan=3D"1" width=3D"198" style=3D"vertical=
+-align:top;">
+                <table align=3D"center" width=3D"100%" cellpadding=3D"0" ce=
+llspacing=3D"0" border=3D"0" style=3D"text-align: center;">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td style=3D"font-size:0px;">
+=09=09=09=09=09=09=09
+=09=09        =09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc2643=
+0f,e318eb5c" class=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" rel=
+=3D"noreferrer noopener"><img src=3D"https://www.cos.com/content/dam/cos/20=
+23/nl/wk17/us/wed/app001prod%204.jpg" border=3D"0" style=3D"display: block;=
+ width: 198px; max-width: 600px;" data-inlineimagemanipulating=3D"true">
+=09=09        =09</a>
+=09=09=09=09
+=09=09=09=09
+=09=09=09</td>
+=09=09</tr>
+=09=09
+=09</tbody>
+</table>
+
+
+
+            </td>
+            <td style=3D"width:5px;" class=3D"ydpac577ba8yiv2466053739space=
+r">
+                <img src=3D"https://www.cos.com/etc/designs/appeaser/cos/cl=
+ientlibs/pattern-lib/images/spacer.gif" alt=3D"" border=3D"0" width=3D"5" s=
+tyle=3D"display:block;max-width:100%;" data-inlineimagemanipulating=3D"true=
+">
+            </td>
+            <td colspan=3D"1" rowspan=3D"1" width=3D"198" style=3D"vertical=
+-align:top;">
+                <table align=3D"center" width=3D"100%" cellpadding=3D"0" ce=
+llspacing=3D"0" border=3D"0" style=3D"text-align: center;">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td style=3D"font-size:0px;">
+=09=09=09=09=09=09=09
+=09=09        =09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc2643=
+0f,e318eb5d" class=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" rel=
+=3D"noreferrer noopener"><img src=3D"https://www.cos.com/content/dam/cos/20=
+23/nl/wk17/us/wed/app001prod%205.jpg" border=3D"0" style=3D"display: block;=
+ width: 198px; max-width: 600px;" data-inlineimagemanipulating=3D"true">
+=09=09        =09</a>
+=09=09=09=09
+=09=09=09=09
+=09=09=09</td>
+=09=09</tr>
+=09=09
+=09</tbody>
+</table>
+
+
+
+            </td>
+            <td style=3D"width:5px;" class=3D"ydpac577ba8yiv2466053739space=
+r">
+                <img src=3D"https://www.cos.com/etc/designs/appeaser/cos/cl=
+ientlibs/pattern-lib/images/spacer.gif" alt=3D"" border=3D"0" width=3D"5" s=
+tyle=3D"display:block;max-width:100%;" data-inlineimagemanipulating=3D"true=
+">
+            </td>
+            <td colspan=3D"1" rowspan=3D"1" width=3D"198" style=3D"vertical=
+-align:top;">
+                <table align=3D"center" width=3D"100%" cellpadding=3D"0" ce=
+llspacing=3D"0" border=3D"0" style=3D"text-align: center;">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td style=3D"font-size:0px;">
+=09=09=09=09=09=09=09
+=09=09        =09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc2643=
+0f,e318eb5e" class=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" rel=
+=3D"noreferrer noopener"><img src=3D"https://www.cos.com/content/dam/cos/20=
+23/nl/wk17/us/wed/app001prod%206.jpg" border=3D"0" style=3D"display: block;=
+ width: 198px; max-width: 600px;" data-inlineimagemanipulating=3D"true">
+=09=09        =09</a>
+=09=09=09=09
+=09=09=09=09
+=09=09=09</td>
+=09=09</tr>
+=09=09
+=09</tbody>
+</table>
+
+
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"5" class=3D"ydpac577ba8yiv2466053739component-sp=
+acer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"5">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"5" style=3D"display=
+: block; min-height: 5px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+
+<table align=3D"center" width=3D"604" cellpadding=3D"0" cellspacing=3D"0" b=
+order=3D"0" class=3D"ydpac577ba8yiv2466053739three-tile-component">
+    <tbody>
+        <tr>
+            <td colspan=3D"1" rowspan=3D"1" width=3D"198" style=3D"vertical=
+-align:top;">
+                <table align=3D"center" width=3D"100%" cellpadding=3D"0" ce=
+llspacing=3D"0" border=3D"0" style=3D"text-align: center;">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td style=3D"font-size:0px;">
+=09=09=09=09=09=09=09
+=09=09        =09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc2643=
+0f,e318eb5f" class=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" rel=
+=3D"noreferrer noopener"><img src=3D"https://www.cos.com/content/dam/cos/20=
+23/nl/wk17/us/wed/app001prod%207.jpg" border=3D"0" style=3D"display: block;=
+ width: 198px; max-width: 600px;" data-inlineimagemanipulating=3D"true">
+=09=09        =09</a>
+=09=09=09=09
+=09=09=09=09
+=09=09=09</td>
+=09=09</tr>
+=09=09
+=09</tbody>
+</table>
+
+
+
+            </td>
+            <td style=3D"width:5px;" class=3D"ydpac577ba8yiv2466053739space=
+r">
+                <img src=3D"https://www.cos.com/etc/designs/appeaser/cos/cl=
+ientlibs/pattern-lib/images/spacer.gif" alt=3D"" border=3D"0" width=3D"5" s=
+tyle=3D"display:block;max-width:100%;" data-inlineimagemanipulating=3D"true=
+">
+            </td>
+            <td colspan=3D"1" rowspan=3D"1" width=3D"198" style=3D"vertical=
+-align:top;">
+                <table align=3D"center" width=3D"100%" cellpadding=3D"0" ce=
+llspacing=3D"0" border=3D"0" style=3D"text-align: center;">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td style=3D"font-size:0px;">
+=09=09=09=09=09=09=09
+=09=09        =09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc2643=
+0f,e318eb60" class=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" rel=
+=3D"noreferrer noopener"><img src=3D"https://www.cos.com/content/dam/cos/20=
+23/nl/wk17/us/wed/app001prod%208.jpg" border=3D"0" style=3D"display: block;=
+ width: 198px; max-width: 600px;" data-inlineimagemanipulating=3D"true">
+=09=09        =09</a>
+=09=09=09=09
+=09=09=09=09
+=09=09=09</td>
+=09=09</tr>
+=09=09
+=09</tbody>
+</table>
+
+
+
+            </td>
+            <td style=3D"width:5px;" class=3D"ydpac577ba8yiv2466053739space=
+r">
+                <img src=3D"https://www.cos.com/etc/designs/appeaser/cos/cl=
+ientlibs/pattern-lib/images/spacer.gif" alt=3D"" border=3D"0" width=3D"5" s=
+tyle=3D"display:block;max-width:100%;" data-inlineimagemanipulating=3D"true=
+">
+            </td>
+            <td colspan=3D"1" rowspan=3D"1" width=3D"198" style=3D"vertical=
+-align:top;">
+                <table align=3D"center" width=3D"100%" cellpadding=3D"0" ce=
+llspacing=3D"0" border=3D"0" style=3D"text-align: center;">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td style=3D"font-size:0px;">
+=09=09=09=09=09=09=09
+=09=09        =09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc2643=
+0f,e318eb61" class=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" rel=
+=3D"noreferrer noopener"><img src=3D"https://www.cos.com/content/dam/cos/20=
+23/nl/wk17/us/wed/app001prod%209.jpg" border=3D"0" style=3D"display: block;=
+ width: 198px; max-width: 600px;" data-inlineimagemanipulating=3D"true">
+=09=09        =09</a>
+=09=09=09=09
+=09=09=09=09
+=09=09=09</td>
+=09=09</tr>
+=09=09
+=09</tbody>
+</table>
+
+
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"50" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"50">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"50" style=3D"displa=
+y: block; min-height: 50px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+    <table cellpadding=3D"0" cellspacing=3D"0" width=3D"604" border=3D"0">
+
+=09<tbody>
+
+=09<tr>
+
+=09=09<td style=3D"width:520px;background-color:rgb(27,27,27);color:rgb(255=
+,255,255);font-size:16.0px;padding:15.0px 15.0px;font-family:SuisseIntl-Reg=
+ular , Helvetica Neue , Helvetica , Arial , Sans-Serif;text-align:center;bo=
+rder:solid 1.0px rgb(255,255,255);">
+
+
+=09=09=09
+=09=09=09
+=09=09=09=09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc26430f,e3=
+18eb62&amp;p1=3D3200175278" style=3D"color:rgb(255,255,255);text-decoration=
+:none;display:block;text-align:center;font-family:SuisseIntl-Regular , Helv=
+etica Neue , Helvetica , Arial , Sans-Serif;" target=3D"_blank" rel=3D"nore=
+ferrer noopener">=09=09=09
+=09=09=09
+=09=09=09SHOP NOW
+=09=09=09</a>
+
+=09=09</td>
+
+=09</tr>
+
+=09</tbody>
+
+</table>
+
+
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"50" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"50">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"50" style=3D"displa=
+y: block; min-height: 50px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+
+<table align=3D"center" width=3D"604" cellpadding=3D"0" cellspacing=3D"0" b=
+order=3D"0" class=3D"ydpac577ba8yiv2466053739image-component ydpac577ba8yiv=
+2466053739resizedynamic100">
+=09<tbody>
+=09<tr>
+=09=09<td align=3D"center" colspan=3D"1" rowspan=3D"1" width=3D"604" valign=
+=3D"top" class=3D"ydpac577ba8yiv2466053739resizedynamic100">
+=09=09=09
+=09=09=09=09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc26430f,e3=
+18eb63" target=3D"_blank" rel=3D"noreferrer noopener"><img src=3D"https://w=
+ww.cos.com/content/dam/cos/2021/wk2/us-hp/Keyline_Grey_900px.jpg" border=3D=
+"0" style=3D"width: 604px; max-width: 800px; display: block;" data-inlineim=
+agemanipulating=3D"true">
+=09=09=09=09</a>
+=09=09=09
+=09=09=09
+=09=09</td>
+=09</tr>
+=09<tr>
+=09=09
+=09</tr>
+=09</tbody>
+</table>
+
+
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"50" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"50">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"50" style=3D"displa=
+y: block; min-height: 50px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+<table align=3D"center" width=3D"604px" border=3D"0" cellpadding=3D"0" cell=
+spacing=3D"0" class=3D"ydpac577ba8yiv2466053739text-block-component ydpac57=
+7ba8yiv2466053739text-block-ed ydpac577ba8yiv2466053739resizedynamic100">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td colspan=3D"1" rowspan=3D"1" valign=3D"top" width=3D"100%" styl=
+e=3D"text-align:left;width:100%;" class=3D"ydpac577ba8yiv2466053739resizedy=
+namic90">
+=09=09=09=09<table align=3D"center" width=3D"100%" border=3D"0" cellpadding=
+=3D"0" cellspacing=3D"0" class=3D"ydpac577ba8yiv2466053739o-text-block-news=
+letter">
+=09=09=09=09=09<tbody>
+=09=09=09=09=09=09
+=09=09=09=09=09=09
+=09=09=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09=09<td height=3D"0" class=3D"ydpac577ba8yiv2466053739s=
+pacer">
+=09=09=09=09=09=09=09=09=09<img src=3D"https://www.cos.com/etc/designs/appe=
+aser/cos/clientlibs/pattern-lib/images/spacer.gif" alt=3D"" border=3D"0" st=
+yle=3D"display: block; max-width: 1px;" data-inlineimagemanipulating=3D"tru=
+e">
+=09=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09=09<td class=3D"ydpac577ba8yiv2466053739free-text-bloc=
+k">
+=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09=09<p style=3D"color:#000000;font-size:13px;line-he=
+ight:18px;font-family:SuisseIntl-Regular, Arial, Sans-Serif;margin:0;displa=
+y:block;color:black;text-decoration:none;display:inline-block;"></p><center=
+><font style=3D"color:rgb(27,27,27);letter-spacing:0.025em;font-size:18.0px=
+;">
+IN FOCUS</font></center><p></p>
+=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09
+=09=09=09=09=09=09
+=09=09=09=09=09</tbody>
+=09=09=09=09</table>
+=09=09=09</td>
+=09=09</tr>
+        <tr>
+     =09<td height=3D"0" class=3D"ydpac577ba8yiv2466053739spacer">
+     =09=09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clientl=
+ibs/pattern-lib/images/spacer.gif" alt=3D"" border=3D"0" style=3D"display: =
+block; max-width: 1px;" data-inlineimagemanipulating=3D"true">
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"30" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td height=3D"30" class=3D"ydpac577ba8yiv2466053739spacer">
+=09=09=09=09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/client=
+libs/pattern-lib/images/spacer.gif" alt=3D"" border=3D"0" height=3D"30" sty=
+le=3D"display: block; max-width: 100%; min-height: 30px;" data-inlineimagem=
+anipulating=3D"true">
+=09=09=09</td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+
+=09
+=09
+=09<center><font style=3D"color:rgb(27,27,27);line-height:50.0px;letter-spa=
+cing:0.04em;font-size:45.0px;font-family:SuisseIntl-Regular , , Helvetica ,=
+ Arial , Sans-Serif;text-decoration:none;" class=3D"ydpac577ba8yiv246605373=
+9sub-headline">
+The linen shirt dress
+</font></center>
+=09
+=09
+
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"50" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"50">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"50" style=3D"displa=
+y: block; min-height: 50px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+
+<table align=3D"center" width=3D"604" cellpadding=3D"0" cellspacing=3D"0" b=
+order=3D"0" class=3D"ydpac577ba8yiv2466053739two-tile-component">
+       <tbody>
+              <tr>
+                     <td colspan=3D"1" rowspan=3D"1" width=3D"300" style=3D=
+"vertical-align:top;">
+                           <table align=3D"center" width=3D"100%" cellpaddi=
+ng=3D"0" cellspacing=3D"0" border=3D"0" style=3D"text-align: center;">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td style=3D"font-size:0px;">
+=09=09=09=09=09=09=09
+=09=09        =09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc2643=
+0f,e318eb64" class=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" rel=
+=3D"noreferrer noopener"><img src=3D"https://www.cos.com/content/dam/cos/20=
+23/nl/wk17/us/wed/app001prod%2010.jpg" border=3D"0" style=3D"display: block=
+; width: 300px; max-width: 600px;" data-inlineimagemanipulating=3D"true">
+=09=09        =09</a>
+=09=09=09=09
+=09=09=09=09
+=09=09=09</td>
+=09=09</tr>
+=09=09
+=09</tbody>
+</table>
+
+
+
+                     </td>
+                     <td style=3D"width:4px;" class=3D"ydpac577ba8yiv246605=
+3739spacer">
+                           <img src=3D"https://www.cos.com/etc/designs/appe=
+aser/cos/clientlibs/pattern-lib/images/spacer.gif" alt=3D"" border=3D"0" wi=
+dth=3D"4" style=3D"display:block;max-width:100%;" data-inlineimagemanipulat=
+ing=3D"true">
+                     </td>
+                     <td colspan=3D"1" rowspan=3D"1" width=3D"300" style=3D=
+"vertical-align:top;">
+                           <table align=3D"center" width=3D"100%" cellpaddi=
+ng=3D"0" cellspacing=3D"0" border=3D"0" style=3D"text-align: center;">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td style=3D"font-size:0px;">
+=09=09=09=09=09=09=09
+=09=09        =09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc2643=
+0f,e318eb65" class=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" rel=
+=3D"noreferrer noopener"><img src=3D"https://www.cos.com/content/dam/cos/20=
+23/nl/wk17/us/wed/2nd%20(6).gif" border=3D"0" style=3D"display: block; widt=
+h: 300px; max-width: 800px;" data-inlineimagemanipulating=3D"true">
+=09=09        =09</a>
+=09=09=09=09
+=09=09=09=09
+=09=09=09</td>
+=09=09</tr>
+=09=09
+=09</tbody>
+</table>
+
+
+
+                     </td>
+              </tr>
+       </tbody>
+</table>
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"50" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"50">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"50" style=3D"displa=
+y: block; min-height: 50px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<table align=3D"left" width=3D"604" border=3D"0" cellpadding=3D"0" cellspac=
+ing=3D"0" class=3D"ydpac577ba8yiv2466053739text-block-component ydpac577ba8=
+yiv2466053739text-block-ed ydpac577ba8yiv2466053739resizedynamic100">
+=09<tbody>
+=09=09<tr>
+=09=09=09<td colspan=3D"1" rowspan=3D"1" valign=3D"top" class=3D"ydpac577ba=
+8yiv2466053739resizedynamic90">
+=09=09=09=09<table align=3D"left" border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"0" class=3D"ydpac577ba8yiv2466053739o-text-block-newsletter">
+=09=09=09=09=09<tbody>
+=09=09=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09=09<td class=3D"ydpac577ba8yiv2466053739free-text-bloc=
+k">
+=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09=09<p style=3D"text-align:left;color:#000000;font-f=
+amily:SuisseIntl-Regular, Arial, Sans-Serif;" class=3D"ydpac577ba8yiv246605=
+3739bodytext">Revisited from the COS archive in breathable linen, our midi-=
+length shirt dress can be styled partly unbuttoned over pants or cinched wi=
+th the matching belt. </p>
+=09=09=09=09=09=09=09=09
+=09=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=09=09</tr>
+
+=09=09=09=09=09</tbody>
+=09=09=09=09</table>
+=09=09=09</td>
+=09=09</tr>
+    </tbody>
+</table>
+
+
+
+
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"50" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"50">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"50" style=3D"displa=
+y: block; min-height: 50px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+    <table cellpadding=3D"0" cellspacing=3D"0" width=3D"604" border=3D"0">
+
+=09<tbody>
+
+=09<tr>
+
+=09=09<td style=3D"width:520px;background-color:rgb(27,27,27);color:rgb(255=
+,255,255);font-size:16.0px;padding:15.0px 15.0px;font-family:SuisseIntl-Reg=
+ular , Helvetica Neue , Helvetica , Arial , Sans-Serif;text-align:center;bo=
+rder:solid 1.0px rgb(255,255,255);">
+
+
+=09=09=09
+=09=09=09
+=09=09=09=09<a href=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc26430f,e3=
+18eb66&amp;p1=3D3200175278" style=3D"color:rgb(255,255,255);text-decoration=
+:none;display:block;text-align:center;font-family:SuisseIntl-Regular , Helv=
+etica Neue , Helvetica , Arial , Sans-Serif;" target=3D"_blank" rel=3D"nore=
+ferrer noopener">=09=09=09
+=09=09=09
+=09=09=09SHOP THE DRESS
+=09=09=09</a>
+
+=09=09</td>
+
+=09</tr>
+
+=09</tbody>
+
+</table>
+
+
+
+    <table align=3D"center" width=3D"100%" cellpadding=3D"0" cellspacing=3D=
+"0" border=3D"0" height=3D"50" class=3D"ydpac577ba8yiv2466053739component-s=
+pacer">
+=09<tbody>
+=09=09<tr>
+=09=09    <td height=3D"50">
+=09=09    =09<img src=3D"https://www.cos.com/etc/designs/appeaser/cos/clien=
+tlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"50" style=3D"displa=
+y: block; min-height: 50px;" data-inlineimagemanipulating=3D"true">
+=09=09    </td>
+=09=09</tr>
+=09</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=09=09=09=09=09=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09=09=09=09=09</tbody>
+=09=09=09=09=09=09=09=09=09</table>
+=09=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=09=09=09<td class=3D"ydpac577ba8yiv2466053739spacerdynamic5=
+">
+=09=09=09=09=09=09=09=09=09<img src=3D"https://www.cos.com/etc/designs/appe=
+aser/cos/clientlibs/pattern-lib/images/spacer.gif" alt=3D"" style=3D"displa=
+y: block; width: 0px; max-width: 1px;" data-inlineimagemanipulating=3D"true=
+">
+=09=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09</tbody>
+=09=09=09=09=09</table>
+=09=09=09=09=09<table align=3D"center" width=3D"604" cellpadding=3D"0" cell=
+spacing=3D"0" border=3D"0" style=3D"text-align:center;" class=3D"ydpac577ba=
+8yiv2466053739resizedynamic100">
+=09=09=09=09=09=09<tbody>
+=09=09=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09=09<td class=3D"ydpac577ba8yiv2466053739spacerdynamic5=
+">
+=09=09=09=09=09=09=09=09=09<img src=3D"https://www.cos.com/etc/designs/appe=
+aser/cos/clientlibs/pattern-lib/images/spacer.gif" alt=3D"" style=3D"displa=
+y: block; width: 0px; max-width: 1px;" data-inlineimagemanipulating=3D"true=
+">
+=09=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=09=09=09<td align=3D"left" colspan=3D"1" rowspan=3D"1" vali=
+gn=3D"top" width=3D"604" class=3D"ydpac577ba8yiv2466053739footer-wrapper yd=
+pac577ba8yiv2466053739resizedynamic90">
+=09=09=09=09=09=09=09=09=09<table align=3D"center" width=3D"100%" cellpaddi=
+ng=3D"0" cellspacing=3D"0" border=3D"0" style=3D"text-align:left;" class=3D=
+"ydpac577ba8yiv2466053739footer-component">
+        <tbody>
+            <tr>
+                <td>
+                    <table align=3D"left" width=3D"100%" cellpadding=3D"0" =
+cellspacing=3D"0" border=3D"0" style=3D"text-align:left;" class=3D"ydpac577=
+ba8yiv2466053739footer-component-spacer">
+                        <tbody>
+                            <tr>
+                                <td style=3D"min-height:40px;width:100%;" h=
+eight=3D"40">
+                                =09<img src=3D"https://www.cos.com/etc/desi=
+gns/appeaser/cos/clientlibs/pattern-lib/images/spacer.gif" alt=3D"" height=
+=3D"40" style=3D"display: block; min-height: 40px; max-width: 100%;" data-i=
+nlineimagemanipulating=3D"true">
+                                </td>
+=09                        </tr>
+=09                    </tbody>
+=09                </table>
+=09            </td>
+=09        </tr>
+       =09=09<tr>
+            =09<td>
+                <table align=3D"left" width=3D"100%" border=3D"0" cellpaddi=
+ng=3D"0" cellspacing=3D"0" style=3D"text-align:left;">
+                    <tbody>
+                        <tr>
+                            <td width=3D"100%" style=3D"font-size:15px;line=
+-height:16px;" class=3D"ydpac577ba8yiv2466053739resizedynamic100">
+                                <table align=3D"left" width=3D"100%" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"text-align:left;" class=
+=3D"ydpac577ba8yiv2466053739divider-component">
+=09=09=09=09=09=09=09=09=09<tbody>
+=09=09=09=09=09=09=09=09=09    <tr style=3D"line-height:1px;font-size:1px;"=
+>
+=09=09=09=09=09=09=09=09=09    =09<td colspan=3D"1" rowspan=3D"1" height=3D=
+"1" style=3D"min-height:1px;border-bottom:1px solid #cccccc;"></td>
+=09=09=09=09=09=09=09=09=09    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+=09=09=09=09=09=09=09<td style=3D"min-height:30px;width:100%;" height=3D"30=
+" class=3D"ydpac577ba8yiv2466053739spacer">
+=09=09=09=09=09=09=09=09<img src=3D"https://www.cos.com/etc/designs/appease=
+r/cos/clientlibs/pattern-lib/images/spacer.gif" alt=3D"" height=3D"30" styl=
+e=3D"display: block; max-width: 100%; min-height: 30px;" data-inlineimagema=
+nipulating=3D"true">
+=09=09=09=09=09=09=09</td>
+   =09=09=09=09=09=09</tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table align=3D"left" width=3D"100%" border=3D"0" cellpaddi=
+ng=3D"0" cellspacing=3D"0" style=3D"text-align:left;">
+                    <tbody>
+                        <tr>
+                            <td width=3D"604" class=3D"ydpac577ba8yiv246605=
+3739resizedynamic100">
+                            =09
+                                =09<table align=3D"left" width=3D"100%" bor=
+der=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"text-align:left;" cl=
+ass=3D"ydpac577ba8yiv2466053739social-links">
+                                    =09<tbody>
+                                        =09<tr>
+                                            =09<td>
+                                                =09<table align=3D"left" wi=
+dth=3D"100%" cellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"text=
+-align:left;">
+                                                    =09<tbody>
+                                                        =09<tr>            =
+                                            =09=09
+                                                            =09            =
+                                                =09
+                                                            =09<td width=3D=
+"100">
+                                                            =09=09<a href=
+=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc26430f,e318eb67" style=3D"fo=
+nt-family:'SuisseIntl-Regular', 'Arial', 'Sans-Serif';color:#444444;font-si=
+ze:11px;line-height:22px;text-decoration:none;" class=3D"ydpac577ba8yiv2466=
+053739a-link" target=3D"_blank" rel=3D"noreferrer noopener">               =
+                                             =09=09=09Facebook
+                                                            =09=09</a>
+                                                            =09</td>
+                                                            =09
+                                                            =09<td width=3D=
+"100">
+                                                            =09=09<a href=
+=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc26430f,e318eb68" style=3D"fo=
+nt-family:'SuisseIntl-Regular', 'Arial', 'Sans-Serif';color:#444444;font-si=
+ze:11px;line-height:22px;text-decoration:none;" class=3D"ydpac577ba8yiv2466=
+053739a-link" target=3D"_blank" rel=3D"noreferrer noopener">               =
+                                             =09=09=09Instagram
+                                                            =09=09</a>
+                                                            =09</td>
+                                                            =09
+                                                            =09<td width=3D=
+"100">
+                                                            =09=09<a href=
+=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc26430f,e318eb69" style=3D"fo=
+nt-family:'SuisseIntl-Regular', 'Arial', 'Sans-Serif';color:#444444;font-si=
+ze:11px;line-height:22px;text-decoration:none;" class=3D"ydpac577ba8yiv2466=
+053739a-link" target=3D"_blank" rel=3D"noreferrer noopener">               =
+                                             =09=09=09Pinterest
+                                                            =09=09</a>
+                                                            =09</td>
+                                                            =09
+                                                            =09<td width=3D=
+"100">
+                                                            =09=09<a href=
+=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc26430f,e318eb6a" style=3D"fo=
+nt-family:'SuisseIntl-Regular', 'Arial', 'Sans-Serif';color:#444444;font-si=
+ze:11px;line-height:22px;text-decoration:none;" class=3D"ydpac577ba8yiv2466=
+053739a-link" target=3D"_blank" rel=3D"noreferrer noopener">               =
+                                             =09=09=09Spotify
+                                                            =09=09</a>
+                                                            =09</td>
+                                                        =09</tr>
+                                                    =09</tbody>
+                                                =09</table>
+                                            =09</td>
+                                        =09</tr>
+                                        =09<tr>
+                                            =09<td colspan=3D"2" style=3D"m=
+in-height:25px;width:100%;" height=3D"25" class=3D"ydpac577ba8yiv2466053739=
+spacer">
+                                            =09=09<img src=3D"https://www.c=
+os.com/etc/designs/appeaser/cos/clientlibs/pattern-lib/images/spacer.gif" a=
+lt=3D"" height=3D"25" style=3D"display: block; max-width: 100%; min-height:=
+ 25px;" data-inlineimagemanipulating=3D"true">
+                                            =09</td>
+                                        =09</tr>
+                                    =09</tbody>
+                                =09</table>
+
+                                <table align=3D"left" width=3D"100%" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"text-align:left;" class=
+=3D"ydpac577ba8yiv2466053739footer-free-text">
+                                    <tbody>
+                                        <tr>
+                                            <td id=3D"ydpac577ba8yiv2466053=
+739freeText">
+=09                                            <div style=3D"font-family:'S=
+uisseIntl-Regular', 'Arial', 'Sans-Serif';font-size:11px;line-height:19px;c=
+olor:#999999;" class=3D"ydpac577ba8yiv2466053739a-paragraph ydpac577ba8yiv2=
+466053739is-richtext">
+                                            =09       <div>
+=09                                                =09=09<p>This message wa=
+s sent by COS (H &amp; M Hennes &amp; Mauritz GBC AB, M=C3=A4ster Samuelsga=
+tan 46, 106 38 Stockholm, Sweden).<br> </p>
+<p>&nbsp;</p>
+<p>You are receiving this email because you are signed up to receive COS em=
+ail newsletters.<br> You can't reply to this mail but you're welcome to con=
+tact us at customerservice.us@cosstores.com.<br> H&amp;M Hennes &amp; Mauri=
+tz=E2=80=AFL.P.,110 5th Avenue =E2=80=93 11th floor, New York, NY 10011</p>
+<p>&nbsp;</p>
+<p>If you have trouble reading this email,&nbsp;<a href=3D"http://t.email.c=
+os.com/r/?id=3Dhb6df15bd,bc26430f,e318eb6b" style=3D"color:#9B9B9B;" class=
+=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" rel=3D"noreferrer noo=
+pener">view in your browser</a>.<br> </p>
+<p>If you wouldn=E2=80=99t like to receive newsletters from COS&nbsp;<a hre=
+f=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc26430f,e318eb6c" style=3D"c=
+olor:#9B9B9B;" class=3D"ydpac577ba8yiv2466053739a-link" target=3D"_blank" r=
+el=3D"noreferrer noopener">unsubscribe here</a>.</p>
+<p>&nbsp;</p>
+=09                                                </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table align=3D"left" width=3D"100%" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"text-align:left;white-s=
+pace:nowrap;">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan=3D"3" height=3D"20"=
+>
+                                            =09<img src=3D"https://www.cos.=
+com/etc/designs/appeaser/cos/clientlibs/pattern-lib/images/spacer.gif" alt=
+=3D"" height=3D"20" style=3D"display: block; max-width: 100%; min-height: 2=
+0px;" data-inlineimagemanipulating=3D"true">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        =09<td>
+                                        =09=09
+                                            =09
+                                            </td>
+                                            <td width=3D"23">
+                                            =09<img src=3D"https://www.cos.=
+com/etc/designs/appeaser/cos/clientlibs/pattern-lib/images/spacer.gif" alt=
+=3D"" width=3D"23" style=3D"display:block;max-width:100%;" data-inlineimage=
+manipulating=3D"true">
+                                            </td>
+
+                                            <td>
+                                            =09
+=09
+                                            </td>
+                                            <td width=3D"23">
+                                            =09<img src=3D"https://www.cos.=
+com/etc/designs/appeaser/cos/clientlibs/pattern-lib/images/spacer.gif" alt=
+=3D"" width=3D"23" style=3D"display:block;" data-inlineimagemanipulating=3D=
+"true">
+                                            </td>
+
+                                            <td>
+                                            =09
+=09                                            =09<a href=3D"http://t.email=
+.cos.com/r/?id=3Dhb6df15bd,bc26430f,e318eb6d" style=3D"font-family:'SuisseI=
+ntl-Regular', 'Arial', 'Sans-Serif';color:#999999;font-size:11px;line-heigh=
+t:22px;text-decoration:none;" class=3D"ydpac577ba8yiv2466053739a-link" targ=
+et=3D"_blank" rel=3D"noreferrer noopener"></a>
+=09
+=09
+                                            </td>
+                                            <td width=3D"23">
+                                            =09<img src=3D"https://www.cos.=
+com/etc/designs/appeaser/cos/clientlibs/pattern-lib/images/spacer.gif" alt=
+=3D"" width=3D"23" style=3D"display:block;max-width:100%;" data-inlineimage=
+manipulating=3D"true">
+                                            </td>
+
+                                            <td>
+                                            =09
+=09
+                                            </td>
+                                            <td width=3D"23">
+                                            =09<img src=3D"https://www.cos.=
+com/etc/designs/appeaser/cos/clientlibs/pattern-lib/images/spacer.gif" alt=
+=3D"" width=3D"23" style=3D"display:block;max-width:100%;" data-inlineimage=
+manipulating=3D"true">
+                                            </td>
+
+                                            <td>
+=09
+=09
+                                            </td>
+                                            <td width=3D"300"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table align=3D"left" width=3D"100%" cellpadding=3D"0" cell=
+spacing=3D"0" border=3D"0" style=3D"text-align:left;" class=3D"ydpac577ba8y=
+iv2466053739footer-component-spacer">
+                    <tbody>
+                        <tr>
+                            <td height=3D"60">
+                            =09<img src=3D"https://www.cos.com/etc/designs/=
+appeaser/cos/clientlibs/pattern-lib/images/spacer.gif" alt=3D"" style=3D"di=
+splay: block; width: 100%; max-width: 1px;" data-inlineimagemanipulating=3D=
+"true">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+=09
+
+=09=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=09=09=09<td class=3D"ydpac577ba8yiv2466053739spacerdynamic5=
+">
+=09=09=09=09=09=09=09=09=09<img src=3D"https://www.cos.com/etc/designs/appe=
+aser/cos/clientlibs/pattern-lib/images/spacer.gif" alt=3D"" style=3D"displa=
+y: block; width: 0px; max-width: 1px;" data-inlineimagemanipulating=3D"true=
+">
+=09=09=09=09=09=09=09=09 </td>
+=09=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09</tbody>
+=09=09=09=09=09</table>
+=09=09=09=09</td>
+=09=09=09</tr>
+=09=09</tbody>
+=09</table>
+<img alt=3D"" src=3D"http://t.email.cos.com/r/?id=3Dhb6df15bd,bc26430f,1" d=
+ata-inlineimagemanipulating=3D"true" style=3D"width: 0px; max-width: 1px;">=
+</div>
+
+</div></div>
+            </div>
+        </div></body></html>
+------=_Part_2039433_169359356.1682875634648--

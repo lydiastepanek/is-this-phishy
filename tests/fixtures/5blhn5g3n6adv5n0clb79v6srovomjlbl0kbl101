@@ -1,0 +1,3342 @@
+Return-Path: <fake@email.com>
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id 5blhn5g3n6adv5n0clb79v6srovomjlbl0kbl101
+ for help@isthisphishy.io;
+ Tue, 23 May 2023 19:55:13 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.222.43 as permitted sender) client-ip=209.85.222.43; envelope-from=fake@email.com; helo=mail-ua1-f43.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.222.43 as permitted sender) client-ip=209.85.222.43; envelope-from=fake@email.com; helo=mail-ua1-f43.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFIL3FQK3orcVZKUEdGem1zOWpoTzMyM01Bb0dvdjNGdllYSkNjT0NFN0hxalVseGZrMXFIOUlnTzROb0I5TXVkTjJ3a3UrNis5QTgrK3hONEp2ZmJUTjhLS0twbE4zOWhhQ2RtYUpINXovd1MyTFlrYVJSUkxEdzBRTEl4OGZCZEozVUZIRjY0dkNlSzBVVEYzQ2RwdThoZ3RFOXJkeEh2bzF6M1RtV1ZZWkNjdFBPMGtwT0Q2d2tMRlFaTnJuMXB3MTBZSDZaVEZTVE9xdm0wWFFONEVVdHpJb0p3TWNMMld5aU84OStXbk0vY1V4ZGJnNWF5Nm5odVdHYWhQSlNmYndFMUpsWDVjemU0UEV0dU9JVkd2Mjkza212QjY2TUFpZ2dYemIwOHVKdnc9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=CPGlCjjiBLu5XJ0HhuZkqr5hgoo0H6+ENkbdHRRZWHVr7OrRWResDd6FvmHMApmEXBo0XrKyXJwaJl5S0Q6Lp4aJB49bgEQ+//WEmKtBKSAFMg8ndd8V7IuZx/hzTTcnC1+v4C57Kss5B5SHIYP9ClAVa7zfRbcAJEdGYYHihjk=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1684871714; v=1; bh=Xay4jaS+5ix/nkHQV/rveL60GWHg98TiLytIk7zp8Lg=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-783f7e82ef4so87639241.0
+        for <help@isthisphishy.io>; Tue, 23 May 2023 12:55:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684871713; x=1687463713;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QU7ZbPtytHvjQ6id0UZsK9gwHTVTCqPfYBTKZpJrXF4=;
+        b=POctTXfnWLEumytRXScpbx74W4GHKaKD0xkEk2qbxyRhJDF7U0zPEofneMfFeUiZTy
+         opAnTwUEsaxojaJpLnWU6kEyXRRdS5FYpzpUoqBg8DDS5YCL8VK6V7ultgUlJ4CyWPK7
+         O7Lg3w9+in4gLeTmT95MivsW99wyyKRaF1F4STS2QzWQhcFT8W+ZJlyx8hNU843ZZPwX
+         sagTrAfUbeNmCjJhU7A4NkktQ8tNWjCyGuicQppXcK8Teq6pZgZw6+XcnTcLw6/RXR2H
+         gRefM1+Bg+wM/eKcTrDAJKOql7/WWXVOLmQE8W7a2M+J4cJIitkdLKBvvpAGsu+bWwvN
+         8FeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684871713; x=1687463713;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QU7ZbPtytHvjQ6id0UZsK9gwHTVTCqPfYBTKZpJrXF4=;
+        b=UTJTpUEttbLPVKNrmRTX9z8Y+YWzZoIb7gft3AZfWg9ZlwLsWi+vEj0tGevE/R+b5+
+         3d8I2BtXZLIyQp52rP9UMzatwUMQlt1i+72DSsDUtYc5fmLVOV4QvcWiOdpuNXP2hd4m
+         /3aDSIvSMkypbNlqq3ggzOROryMoGTv85W78r3oiOsdnVqrxbq+u9+iL2nmymD83gqlr
+         Hx+KPKozo97Kjl3Ykxz6aHTYcSFDtbPAWVCPnIhqJMCviMhkO9AJ6N+2x1FQliADJaz7
+         Sumut85NTPZcxmxFT4Zqam4jTZMtMuTRo3h+ZL7QBFqoKkghOZuPkC0WMMGnZ7emqjPw
+         IR9w==
+X-Gm-Message-State: AC+VfDx/6lwlIBzUqZ08m46qymVq6vztThs/iFjxvlDGw/+DeOlR/zHY
+	CEb9kNM+xzXHJ9fxLe0KP3SmK5ezC5BNbzTNsoKS+VWokzQ=
+X-Google-Smtp-Source: ACHHUZ5nTO3yRKocaE2J/gJ9iTiytUSmlW/JMQYwPex8ISUN+N89TfJBzCZSG4UHBfkJsTMK4hISSPM5SAwI3sn7GJk=
+X-Received: by 2002:a67:f711:0:b0:42f:c2c2:2961 with SMTP id
+ m17-20020a67f711000000b0042fc2c22961mr3931956vso.16.1684871712132; Tue, 23
+ May 2023 12:55:12 -0700 (PDT)
+MIME-Version: 1.0
+References: <5f8d7faa79488_46183f7f10a86d84617a1@ip-172-30-1-208.mail>
+In-Reply-To: <5f8d7faa79488_46183f7f10a86d84617a1@ip-172-30-1-208.mail>
+From: Lydia Stepanek <fake@email.com>
+Date: Tue, 23 May 2023 15:54:59 -0400
+Message-ID: <CADvz_ycSXBVRLdQnttFV2=G78m+Za3Xhpkp9s+EB9BTbwx8djQ@mail.gmail.com>
+Subject: Fwd: This Week In Silicon Alley (Inc 5000 Vision Conf, WSJ Tech Live,
+ Adobe Max, AgTech Week, Fintech Future, NYU Entrepreneurs Festival, Comms
+ Week, Rethink Summit, Swissnex Demo Day, Heads of Ops Conf)
+To: help@isthisphishy.io
+Content-Type: multipart/alternative; boundary="000000000000e4d3ac05fc61c3cf"
+
+--000000000000e4d3ac05fc61c3cf
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: GarysGuide <newsletter@garysguide.com>
+Date: Mon, Oct 19, 2020 at 7:59=E2=80=AFAM
+Subject: This Week In Silicon Alley (Inc 5000 Vision Conf, WSJ Tech Live,
+Adobe Max, AgTech Week, Fintech Future, NYU Entrepreneurs Festival, Comms
+Week, Rethink Summit, Swissnex Demo Day, Heads of Ops Conf)
+To: <fake@email.com>
+
+
+[image: GarysGuide]
+   *New York City*    San Francisco Bay Area
+<https://www.garysguide.com/events?region=3Dsfbay>
+   Oct 19, 2020: The Mathematical Library Of The Future Edition! View in
+browser <http://gary.to/yoy8mrq>   |   Subscribe
+<https://www.garysguide.com/events?region=3Dnewyork>
+*"Mathematicians manually inputting mathematics into Lean program,
+translating thousands of years of accumulated knowledge into a form the
+program can understand. Digitizing math could lead to using AI to discover
+new mathematics & find new solns to old problems."* // *Mathematical
+Library* *Of The Future <http://gary.to/8xcuq2b>*
+
+*"A state known as cosmic inflation eventually ended & gave rise to the Big
+Bang. We can observe its imprints on the Universe today but only for last
+tiny, minuscule fraction of second as the inflation, by its very nature,
+erases whatever existed in pre-inflationary Universe."* // *Cosmic* *Inflat=
+ion
+<http://gary.to/ky3hsy7>*
+
+*LVMH's* $16 Billion acquisition <http://gary.to/wu26u6r> of Tiffany set to
+be approved by EU antitrust regulators. *Twilio* *(cloud communications)*
+acquired <http://gary.to/m4akuhh> Segment *(customer data platform)* for
+$3.2 Billion. *House antitrust report* on big tech <http://gary.to/h1eqg0x>=
+.
+*Virgin Orbit* *(satellite-launch)* looking to raise
+<http://gary.to/f3ii03n> up $200M *(@ $1B valuation)*. *Microsoft* to let
+<http://gary.to/qjustuc> employees work from home permanently. *Comcast*
+beginning <http://gary.to/lpzcew8> trial of symmetrical 1.25Gbps internet.
+*Calm* *(meditation & sleep app)* looking to raise <http://gary.to/ws8vagj>
+$150M *(@ $2.2B valuation)*. *Copyright battle case* between
+<http://gary.to/rsmctqc> Google & Oracle. And *Coming To America* to be
+released <http://gary.to/znbicz4> on Amazon.
+
+NEW THINGS =3D=3D> *The Citizen Browser Project* By The Markup & NY Times
+<http://gary.to/penirtb> *(Analyzing how algorithms of Facebook & YouTube
+serve content to users)*. *HomePod Mini* By Apple *(360=E2=80=91degree audi=
+o; $99)*.
+*MSCHF*.xyz <http://gary.to/5p3djzh> *(Internet art collective; New drops
+every 2nd & 4th Monday @ 11am ET)*.
+
+As y'all know, my New Years Resolution is to get to know GarysGuide members
+& subscribers better :) So *shoot me an email <gary@garysguide.com>* &
+introduce yourself!
+
+ANNOUNCING =3D=3D> *Techstars NYC* *Accelerator <http://gary.to/onnwa1n>* *=
+(One
+of the top accelerator programs in the world; $120,000 funding for 6%
+equity; 3 months hybrid program; Mar 22 - Jun 17; Mentorship, demo day; 60+
+alumni including ClassPass, Plated, Timehop, Jukely)*; apply by Dec 20.
+
+ANNOUNCING =3D=3D> *ERA* *Accelerator <http://gary.to/ghardgt>* *(Winter 20=
+21
+Program; $100K funding for 8% equity + potential follow-on; Jan 11 - Apr
+30; Network of 500+ mentors & 200+ alums including Scentbird, YoungAlfred,
+Glia, Sayspring, Cardflight)*; apply by Nov 02.
+
+ANNOUNCING =3D=3D> *LAUNCH* *Virtual Accelerator <http://gary.to/jdm5p0r>* =
+*(For
+startups with product in market, traction, revenue & technical execution;
+Vertical agnostic; 7 startups in each session; 12 week program; Begins Jun
+25; Pitch to 200+ investors in Silicon Valley)*; apply.
+
+ANNOUNCING =3D=3D> *Alpaca* *VC <http://gary.to/gockrhl>* *(Formerly Corigi=
+n
+Ventures; Investing $2.5M into funds operated by Black investors over the
+next year including writing 3-5 commitments betn $500K & $1M each to
+US-based funds that are majority-black owned & focus on seed & pre-seed
+investments)*.
+
+ANNOUNCING =3D=3D> *Black Founder Startup* *Grant <http://gary.to/xgehpvy>*=
+ *(Cash
+grants for black women & non-binary founders & entrepreneurs; 9 grants of
+$10K & $5K; Awardees receive tactical help navigating fundraising
+environment; With SoGal Foundation, Winky Lux, bluemercury, twelveNYC,
+Lively)*.
+
+DON'T MISS! =3D=3D> Oct 19 *Inc 5000* *Vision Conf <http://gary.to/j8phr36>=
+* w/
+Mark Cuban *(Judge @ Shark Tank & Owner of Dallas Mavericks)*, Vint
+Cerf *(Chief
+Internet Evangelist, Google)*, David Chang *(Founder, Momofuku)*, Ethan
+Brown *(Founder, Beyond Meat)*, Eren Bali *(Founder, Udemy)*, Ted Allen *(F=
+ood
+Network's Chopped)*.
+
+DON'T MISS! =3D=3D> Oct 20 *Adobe* *Max <http://gary.to/cfwpiln>* *(FREE;
+Online)* w/ Shantanu Narayen *(CEO, Adobe)*, Conan O'Brien *(Comedian)*,
+Ava DuVernay *(Filmmaker)*, Gwyneth Paltrow *(Founder, Goop)*, Wes Anderson
+*(Filmmaker)*, Nick Offerman *(Actor & Woodworker)*, Awkwafina *(Actress)*,
+Scott Belsky *(CPO, Adobe)*.
+
+DON'T MISS! =3D=3D> Oct 19 *WSJ Tech* *Live <http://gary.to/pb89gyk>* w/
+Melinda Gates *(Co-Chair, Gates Foundation)*, Evan Spiegel *(Co-Founder/CEO=
+,
+Snap)*, Dara Khosrowshahi *(CEO, Uber)*, Arvind Krishna *(CEO, IBM)*, Eric
+Schmidt *(ex-CEO, Google)*, Ron Howard *(Filmmaker)*, Deepak Chopra *(Autho=
+r,
+Total Mediation)*.
+
+DON'T MISS! =3D=3D> Oct 20-21 *AgTech* *Week <http://gary.to/hjr7dw6>* w/ H=
+enry
+Sztul *(Bowery Farming)*, Yemi Amu *(Oko Farms)*, Rob Laing *(Farm.One)*,
+Keith Carr *(City Harvest)*, Zachary Witman *(Grow Squares)*, Alexander
+Oelsen *(Babylon Micro-Farms)*, Ricky Stephens *(Agritecture)*; 10% off w/
+"GarysGuide10".
+
+DON'T MISS! =3D=3D> Oct 22 *VC* *Pitch Night <http://gary.to/bfqye9m>* w/
+Charmaine Hayden *(Good Soil VC)*, Eric Bahn *(Hustle Fund)*, Sarah
+Leners *(Bull
+City Venture Partners)*. Oct 21 *Startup* *Grind <http://gary.to/71gdb9f>*
+w/ Yancey Strickler *(Founder, Kickstarter And Author, This Could Be Our
+Future: A Manifesto For A More Generous World)*.
+
+DON'T MISS! =3D=3D> Nov 02-13 *Global Open Innovation Korea* *Conference
+<http://gary.to/865uqg8>* w/ Korea Trade-Investment Promotion Agency *(even=
+ts,
+pitch competitions, investor/startup meetings)*. Nov 04 *Founders* *Leaders=
+hip
+<http://gary.to/dodjtb7>* *(FREE; Online)* w/ Julie Wainwright *(CEO, The
+RealReal)*.
+
+DON'T MISS! =3D=3D> Oct 23 *NYU Entrepreneurs* *Festival
+<http://gary.to/twdy4o8>* w/ Evan Moore *(Founder @ DoorDash, Vevo &
+OpenDoor)*, Andy Kangpan *(Two Sigma Ventures)*, David Shin *(Rosecliff VC)=
+*,
+Molly O'Shea *(NYL Ventures)*, Adrian Grant *(The Fund)*, Paul Kaiser
+*(Blackstone
+LaunchPad & Techstars)*.
+
+DON'T MISS! =3D=3D> Oct 22 *WRLD**CTY <http://gary.to/5aloplf>* w/ Bjarke
+Ingels *(Founder, BIG)*, Dan Doctoroff *(CEO, Sidewalk Labs)*, Shin-Pei
+Tsay *(Dir. Policy, Uber)*, Laura Cha *(Chairman, Hong Kong Exchanges)*,
+Fred Olayele *(Chief Economist, NYC)*, Chip Conley *(ex-Head of Global
+Strategy, Airbnb)*.
+
+DON'T MISS! =3D=3D> Oct 21 *Global Entrepreneurship Experience* *After Scho=
+ol
+Program <http://gary.to/esx26tb>* *(FREE; Online)* w/ founders Yancey
+Strickler *(Kickstarter)*, Francisco D'Souza *(Cognizant)*, Angie
+Hicks *(Angie's
+List)*, Sean O'Sullivan *(SOSV)*. Oct 28 *Techstars* *AMA
+<http://gary.to/sfplevk>* *(FREE; Online)* w/ Jenny Fielding *(MD,
+Techstars)*.
+
+Oct 19 *Comms* *Week <http://gary.to/p6c29he>* *(FREE; Online)* w/ Jeanine
+Liburd *(Chief Social Impact Officer, BET)*, Jani Lehtimki *(Co-Founder,
+Brella)*, Aslak Silva *(CEO, Nordic Business Forum)*, Dan Frommer *(Founder=
+,
+New Consumer)*, James Wright *(CEO, Red Havas)*, Dale Bornstein *(CEO, M
+Booth)*.
+
+Oct 22 *Swissnex* *Demo Day <http://gary.to/3c41o0b>* *(FREE; Online)* w/
+Co-Founder/CEOs Mathieu Horras *(ASPIVIX)*, Volker Bartenbach & Michael
+Stucky *(Auxivo)*, Antonia Bolla *(JAMIE & I)*, Nicolas Vachicouras
+*(Neurosoft)*, Harald Studer *(Optimo)*. Oct 19 *Launching* *On Product
+Hunt <http://gary.to/o07okll>* *(FREE; Online)*.
+
+Oct 22 *Heads Of Operations* *Conf <http://gary.to/5igm7cc>* *(FREE;
+Online)* w/ Dir. Ops Dan Perkins *(IBM)*, Philip Devin *(Oracle)*, Nikhil
+Subramanian *(Microsoft)*, Arnab Guha *(VMware)*, Ram Parimi *(Google
+Cloud)*. Oct 24 *Brunch**work <http://gary.to/ln262kc>* w/ Priti Joshi *(VP
+Strategy & Ops, Bumble)*. Oct 29 *Trick or Tequila:* *Halloween Costume
+Party <http://gary.to/tddd464>*.
+
+Oct 22 *AI* *& Future Of Journalism <http://gary.to/pxs7gbo>* *(FREE;
+Online)* w/ Daniel Levitt *(WSJ)* & Francesco Marconi *(Co-Founder, Applied
+XL)*. Oct 28 *System* *Malfunction <http://gary.to/3ota56w>* *(FREE;
+Online)* w/ Michael Tubbs *(Mayor @ Stockton, CA)*, Melvin Carter *(Mayor @
+Saint Paul, MN)*.
+
+Oct 28 *Startup* *Pitch <http://gary.to/3kpwlp4>* w/ Brad Jenkins *(Seed
+Round Capital)*. Oct 23 *CURIOUS Digital & Ecommerce Marketing* *Conf
+<http://gary.to/mwsxpek>* *(FREE; Online)* w/ Seth Dallaire *(CRO,
+Instacart)*, Yoav Izhar-Prato *(CEO, Kenshoo)*, Elizabeth Mansfield *(Globa=
+l
+Mktg, Pinterest)*, Alexis Josephs *(VP Partnerships, Walmart Media)*.
+
+Oct 28 *When Donuts Meet Croissants:* *Cultural Differences In Business
+Betn French & Americans <http://gary.to/7g18pl0>* *(FREE; Online)* w/
+Isabelle Morin *(Global Mobility Expert, Choose Paris Region)*, Daphne
+Lora *(East
+Coast Mgr USA & Canada, Choose Paris Region)*, Delphine Joubert *(An
+American in Paris)*.
+
+Oct 29 *M&A Bootcamp:* *Ultimate Guide To Mergers & Acquisitions For
+Startups <http://gary.to/c08lake>* *(FREE; Online)* w/ BNP Paribas, KPMG,
+Wilson Sonsini, Woodruff Sawyer. Oct 28 *Planning* *During Uncertainty
+<http://gary.to/7m75chu>* *(FREE; Online)* w/ Amy Wu *(Lightspeed VC)* &
+Michael Manne *(CRO, Ocrolus)*.
+
+Nov 04 *Journey To Forbes 30 Under 30:* *Learning From Honorees
+<http://gary.to/xjhtim3>* w/ Kyleigh Russ *(Co-Founder/COO, Govern For
+America)*, Ouriel Lemmel *(CEO, WinIt)*, Vanessa Luna *(Co-Founder,
+ImmSchools)*, Ahmed Kord *(Design Enggr, Qualcomm)*, Brendan Gahan *(Chief
+Social Officer, Mekanism)*.
+
+Nov 12 *Venture Capital* *Pitch Night <http://gary.to/ycxyypv>* w/ Balaji
+Gopinath *(General Partner, Kubera Venture Capital)*, Tai Rattigan *(VP Biz
+Dev, GGV Capital)*, Alexander Saunders *(Founder/CEO, Simple Tones
+Ventures)*, Kevin Siskar *(CEO, Finta)*. Thru Nov 19 *ValleyML* *AI Expo
+<http://gary.to/od1ha7p>*; Talks on AI hardware, enterprise & robotics.
+
+CLASSES =3D=3D> Oct 22 *How To Excel As A Data Scientist* In Any Company
+<http://gary.to/f0ooi81> w/ Katie Critelli *(Data Scientist & Product Mgr,
+Total Brain)*. Oct 28 *How Strong Is Your Machine Learning* Model
+<http://gary.to/2sdssdn>. *SVMs* w/ Metis <http://gary.to/8kf8n14> w/ Alice
+Zhao *(Sr Data Scientist, Metis)*.
+
+Mo' Classes =3D=3D> Oct *Human-centered Design* For AR & VR
+<http://gary.to/d64vjub> w/ Sam Brewton *(AR Design Mgr, Wayfair)*. Oct *3D
+Capture:* Scanning Techniques, Workflows & Applications
+<http://gary.to/3n2pdpv> w/ Michelle Hessel *(New Media Artist & Creative
+Technologist)* & Woraya Mint Boonyapanachoti *(Guest Artist)*.
+
+CONGRATS! =3D=3D> *Proterra* *(electric buses)* raised <http://gary.to/5f3j=
+dq3>
+$200M. *Plenty=E2=80=8C =E2=80=8CUnlimited=E2=80=8C* *(farming)* raised <ht=
+tp://gary.to/re26c09>
+$140M. *Snapdocs* *(real estate)* raised <http://gary.to/694p52m> $60M.
+*Augury* *(machine diagnostics)* raised <http://gary.to/4g9qdaw> $55M.
+*Alkira* *(cloud networking)* raised <http://gary.to/3fl3sjr> $54M.
+*Fivestars* *(small biz payments & mktg)* raised <http://gary.to/sbgvhc9>
+$52.5M.
+
+Mo' Congrats! =3D=3D> *Extend* *(product warranties)* raised
+<http://gary.to/izkk900> $40M. *Apiiro* *(code risk scanning)* raised
+<http://gary.to/iskztrh> $35M. *Cribl* *(data observability)* raised
+<http://gary.to/62tbfjd> $35M. *Vineti* *(gene therapy platform)* raised
+<http://gary.to/1oes4ho> $33M. *Kasa Living* *(short term rental)* raised
+<http://gary.to/598n4ng> $30M. *FOSSA* *(open source mgmt)* raised
+<http://gary.to/tpdch6w> $23.2M.
+
+Mo' Congrats! =3D=3D> *Argyle* *(track & verify employment records)* raised
+<http://gary.to/zdod03x> $20M. *Matroid* *(computer vision)* raised
+<http://gary.to/n75zir3> $20M. *Sonrai Security* *(cloud security platform)=
+*
+raised <http://gary.to/5a1s6e3> $20M. *Vivun* *(presale s/w)* raised
+<http://gary.to/22x018v> $18M. *Infiot* *(IoT infrastructure)* raised
+<http://gary.to/k4e56ik> $15M. *Savana* *(big data for electronic health
+records)* raised <http://gary.to/viijvp0> $15M.
+
+Mo' Congrats! =3D=3D> *Engageli* *(digital classroom platform)* raised
+<http://gary.to/kvzetpj> $14.5M. *Chiper* *(e-commerce for independent
+merchants)* raised <http://gary.to/70c5shs> $12M. *River* *(content
+discovery platform)* raised <http://gary.to/817p2mb> $10.4M. *GetSetup* *(e=
+du
+tech for older adults)* raised <http://gary.to/63q0fhn> $10M.
+*Playbook* *(marketplace
+for fitness instructors)* raised <http://gary.to/k0o2fpv> $9.3M.
+
+Mo' Congrats! =3D=3D> *Sanity* *(content platform for developers)* raised
+<http://gary.to/cfwhkef> $9.3M. *Urban Umbrella* *(scaffolding design)*
+raised <http://gary.to/dj4qu1n> $9M. *Findem* *(HR recruiting & retention)*
+raised <http://gary.to/xloi7ai> $7.3M. *Tiltify* *(fundraising platform)*
+raised <http://gary.to/qjpm164> $6.5M. *Nabis* *(cannabis distributor)*
+raised <http://gary.to/zld36hc> $5M.
+
+Mo' Congrats! =3D=3D> *Clair* *(rapid pay for gig economy workers)* raised
+<http://gary.to/jlq3vm0> $4.5M. *Moment House* *(digital live experiences)*
+raised <http://gary.to/e43pn0v> $1.5M. *Profitboss* *(online ordering)*
+raised <http://gary.to/tcmeruo> $3.5M. *Caliber* *(fitness coaching
+platform)* raised <http://gary.to/ejvmlep> $2.2M. *The Juggernaut* *(media)=
+*
+raised <http://gary.to/ck5krzs> $2M.
+
+RECENTLY READ =3D=3D> *Drones & Ghosting* In Age Of Surveillance
+<http://gary.to/2m3d6lo>, *60 Billion Dollar* Woman <http://gary.to/fudpvg0=
+>,
+*Quarter Century* Of Hype <http://gary.to/erh0nej>, *Disney & Airbnb* Custo=
+mer
+Service <http://gary.to/p6uxi28>, *Africa's* Animation Scene
+<http://gary.to/rout93u>, *China* Policies & Practices
+<http://gary.to/288sx22>, *The Genius Of* Spelling Bee
+<http://gary.to/w7jc1vx> and *The World's Largest* Insect Farm
+<http://gary.to/cynzb47>.
+
+WHO'S HIRING =3D=3D> Product Designer <http://gary.to/9nna600> at
+*BentoBox*, Transit
+Planning Associate <http://gary.to/v831zj8> at *Via*, Growth Product Mktg
+<http://gary.to/nt2s4sp> at *Compass*, Engg Mgr, Mapping
+<http://gary.to/ar0okhw> at *Lyft*, Mktg <http://gary.to/6zj0j3d> at *Zola*=
+,
+Launch Coordinator <http://gary.to/b4peoeb> at *Peloton*, Head of Risk &
+Info Security <http://gary.to/caooac7> at *Betterment*, Product Designer
+<http://gary.to/clrmqlc> at *Bark*, Product Mgr <http://gary.to/7dmd43p> at
+*GA*, Partner Ops Principal <http://gary.to/zplhzw5> at *Via*, Dir. Data
+Engg <http://gary.to/bjkbuks> at *Peloton*, Culinary Development Mgr
+<http://gary.to/pcxlqrn> at *HelloFresh*, Product Mktg
+<http://gary.to/baf8mzo> at *HelloFresh*, Analyst <http://gary.to/xxjncer>
+at *CLEAR*, Partner <http://gary.to/7nqqnn4> at *First Round Capital*, Sale=
+s
+Dev Rep For French Tech Startups & Scaleups Launching In US
+<http://gary.to/qmiwf3p> at *Business France*, & *many more
+<http://www.garysguide.com/jobs?region=3Dnewyork>!*
+
+LOCAL *(w/ 25% occupancy & timed ticketing)* =3D=3D> *MoMA* Museum
+<http://gary.to/1npaccp>. *Met* Museum <http://gary.to/8fxxunw>. *American
+Museum* of Natural History <http://gary.to/c5kxbch>. *NY Historical* Societ=
+y
+<http://gary.to/k2u5xwd>. *Met* Cloisters <http://gary.to/8fxxunw>.
+
+ONLINE =3D=3D> Oct 24 *Daybreaker* Live <http://gary.to/lleyblq>. Oct 19 - =
+Oct
+25 *Met* Opera <http://gary.to/s0z5y4z> *(7:30pm; Rossini's Il Barbiere di
+Siviglia, Mozart's Cosi fan tutte, Rossini's La Cenerentola, Verdi's
+Falstaff, Strauss's Der Rosenkavalier, Rossini's Le Comte Ory)*. *MoMA* Fre=
+e
+Courses <http://gary.to/3uckx4l> *(Modern & contemporary art)*.
+
+Mo' Online *(virtual tours)* =3D=3D> *The Met* Museum <http://gary.to/12k78=
+6x>.
+*Musee* du Louvre <http://gary.to/vcdlzex>. *Musee* D'Orsay
+<http://gary.to/h9olo1m>. *Vatican* Museum <http://gary.to/thlxep4>.
+*Uffizi* Gallery <http://gary.to/in3lzfl>. *Istanbul* Museum Of Modern Art
+<http://gary.to/ox6mx7m>. *British* Museum <http://gary.to/tfy582m>.
+*Chateau* de Versailles <http://gary.to/mh09kqo>. *Van Gogh* Museum
+<http://gary.to/r95bhet>. *National Gallery* London <http://gary.to/jaoeocy=
+>.
+*Guggenheim* Bilbao <http://gary.to/o6vlh8i>. *Getty* Museum
+<http://gary.to/a4gr5z1>. *National* Parks <http://gary.to/nk53b0q>.
+
+Mo' Online =3D=3D> *Free Courses* Online <http://gary.to/2ciy9k2> *(450 fre=
+e
+courses by Harvard, Columbia, Cornell, Princeton, Yale)*. *Free Audiobooks*=
+ By
+Audible <http://gary.to/nioy487> *(Hundreds of free titles)*. *Virtual
+Workout* Classes <http://gary.to/chgu9u1> *(With ClassPass, Peloton,
+CorePower & more)*. *NY Public Library* E-Book Central
+<http://gary.to/85geh5w> *(300,000+ free e-books)*.
+
+Now watch *Monster* Hunter <http://gary.to/kmt7inj>, *Jungle*land
+<http://gary.to/bb3msho> and *The Mandalorian:* Season 2
+<http://gary.to/0fjcxim> *(premiering Oct 30)*!
+
+Until next week :)
+Gary
+*(aka "The Guy with the Red Tie <http://gary.to/x0u3r70>")*
+
+Like this week's newsletter? Feel free to share it with your friends &
+followers on *Facebook <http://gary.to/qkrz1nw>*, *LinkedIn
+<http://gary.to/s8bhxna>* & *Twitter <http://gary.to/7ddjxvq>*. Merci!
+<http://www.garysguide.com/redtie>
+
+<http://gary.to/fb992rb>
+*Ree is a self-contained electric vehicle chassis w/ all components of
+drivetrain & steering built into it & tiny motors inside wheels so car can
+assume any form. Nice, yo!*
+
+<http://gary.to/41vt78h>
+*Recent images released by NASA taken by Chandra X (the most powerful X-ray
+observatory ever built) in partnership w/ other telescopes incl. Hubble
+Space Telescope.*
+
+<http://gary.to/15q5vr2>
+*Koda Loft is a tiny movable home that is 396 sq ft in size, has a living
+room, kitchen, bathroom & upstairs bedroom and costs only $95,000.*
+
+<http://gary.to/0hqt3pa>
+*Ghost 4 military drone (by Anduril Industries) is 2-meter aircraft that
+can be carried in a backpack & designed to withstand sand, mud & seawater
+of military operations.*
+<http://gary.to/0zsx9wu>
+
+<http://gary.to/90amwj4>
+
+<http://gary.to/hc63tnh>
+
+<http://gary.to/3dpad6x>
+
+<http://gary.to/7i0wnk3>
+
+<http://gary.to/sub9cqx>
+
+<http://gary.to/yvniha9>
+
+<http://gary.to/ycn8ilq>
+
+<http://gary.to/en9yhge>
+
+<http://gary.to/27eitgy>
+*Spotlight*
+------------------------------
+*Oct 19: Building Products In Uncertain Environments
+<http://gary.to/u7cir7i>*
+With Claudia Laurie (Product Mgr, Uber).
+*Oct 20: AgTech Week <http://gary.to/u7w2vb0>*
+With Henry Sztul (Bowery Farming), Yemi Amu (Oko Farms), Rob Laing
+(Farm.One), Keith Carr (City Harvest), Zachary Witman (Grow Squares),
+Alexander Oelsen (Babylon), Ricky Stephens (Agritecture). 10% off w/
+"GarysGuide10".
+*Oct 21: Global Entrepreneurship Experience After School Program
+<http://gary.to/0ru0c9p>*
+With Francisco D'Souza (Co-Founder, Cognizant), Yancey Strickler
+(Co-Founder, Kickstarter), Sean O'Sullivan (SOSV Ventures), Wendy Diamond
+(Women's Entrepreneurship Day Org), Angie Hicks (Founder, Angie's List).
+*Oct 22: Venture Capital Pitch Night <http://gary.to/bwp75uc>*
+With Charmaine Hayden (Partner, Good Soil VC), Eric Bahn (Co-Founder,
+Hustle Fund), Sarah Leners (Sr Assoc., Bull City Venture Partners).
+*Oct 28: System Reset - System Malfunction <http://gary.to/y7dl71w>*
+With Michael Tubbs (Mayor of Stockton, CA), Melvin Carter (Mayor of Saint
+Paul, Minnesota), Robin Steinberg (Founder/CEO, The Bail Project), Kiah
+Williams (Co-Founder, Sirum).
+*Nov 02: Global Open Innovation Korea Conference <http://gary.to/4mdz6it>*
+2-week conference (Nov 02-13) including online events, workshops, pitching
+competitions & 1:1 investor/startup meetings. Hosted by Korea
+Trade-Investment Promotion Agency.
+
+*Class Spotlight*
+------------------------------
+*SVMs w/ Metis <http://gary.to/sntkwsy>*
+With Alice Zhao (Sr Data Scientist, Metis).
+*Oct 19: Customer Feedback For Product Decisions <http://gary.to/kilf0dh>*
+With Rafael Colorado (Principal Product Mgr, Amazon).
+*Oct 28: How Strong Is Your Machine Learning Model <http://gary.to/9xhkwua>=
+*
+Learn about concept of likelihood function as it supervises models from
+logistic regression to deep learning.
+*Monday, Oct 19*
+------------------------------
+*Oct 19*
+9:00am Free
+*Communications Week 2020 <http://gary.to/wya01ys>*
+*Online*
+With Jeanine Liburd (Chief Social Impact Officer, BET), Jani Lehtimki
+(Co-Founder, Brella), Aslak Silva (CEO, Nordic Business Forum), Dan Frommer
+(Founder, The New Consumer), James Wright (CEO, Red Havas), Valerie Waller
+(CMO, The Y), Aaron Kwittken (Founder, PRophet), Dale Bornstein (CEO, M
+Booth).
+
+*Oct 19*
+9:00am *Inc 5000 Vision Conference <http://gary.to/hbkrhvu>*
+*Online*
+With Mark Cuban (Judge @ Shark Tank & Owner of Dallas Mavericks), Vint Cerf
+(Chief Internet Evangelist, Google), David Chang (Founder, Momofuku), Ethan
+Brown (Founder/CEO, Beyond Meat), Eren Bali (Founder, Udemy), Ted Allen
+(Food Network's Chopped), Steve Case (CEO, Revolution & Co-Founder, AOL).
+
+*Oct 19*
+10:00am Free
+*Techstars Startup Week Online <http://gary.to/13fq301>*
+*Online*
+
+*Oct 19*
+10:00am Free
+*Diversity & Inclusion Advice For Startups <http://gary.to/sqkuuio>*
+*Online*
+With Kellie Wagner (Founder/CEO, Collective).
+
+*Oct 19*
+11:00am Free
+*Rethink Summit <http://gary.to/mowavuw>*
+*Online*
+With Tom Fishburne (Founder, Marketoonist), Baratunde Thurston (Comedian),
+Vivek Sharma (Founder, Movable Ink), Matthew Nolan (Dir. Product Mktg,
+Pegasystems), Roger Barnette (CEO, MessageGears), Chelsea McClure (Dir.,
+Redbubble), Gabe Alonso (Head of Digital Platforms & Community, Pepsico).
+
+*Oct 19*
+12:00pm *WSJ Tech Live <http://gary.to/sgbijm1>*
+*Online*
+With Melinda Gates (Co-Chair, Gates Foundation), Evan Spiegel
+(Co-Founder/CEO, Snap), Dara Khosrowshahi (CEO, Uber), Arvind Krishna (CEO,
+IBM), Eric Schmidt (ex-CEO, Google), Ron Howard (Filmmaker), Fei Fei Li
+(Dir., Stanford Institute for Human-Centered AI), Deepak Chopra (Author,
+Total Mediation).
+
+*Oct 19*
+1:00pm Free
+*Launching On Product Hunt <http://gary.to/zdhgxkq>*
+*Online*
+With Justin Mitchell & Jordan Walker (Co-Founders, Yac).
+
+*Oct 19*
+1:30pm Free
+*Product Mgmt Live Chat <http://gary.to/eo7o14g>*
+*Online*
+With Karan Mathur (Product Mgr, YouTube).
+
+*Oct 19*
+2:00pm *Angel University <http://gary.to/cea0079>*
+*Online*
+Learn about startup sourcing, negotiation, structuring deals & portfolio
+mgmt, allocating capital & providing value to founders.
+
+*Oct 19*
+2:30pm Free
+*Building Products In Uncertain Environments <http://gary.to/6qh7w6o>*
+*Online*
+With Claudia Laurie (Product Mgr, Uber).
+
+*Oct 19*
+5:00pm Free
+*Customer Feedback For Product Decisions <http://gary.to/5uuituw>*
+*Online*
+With Rafael Colorado (Principal Product Mgr, Amazon).
+
+*Oct 19*
+11:00pm Free
+*Expectations In Different Product Roles <http://gary.to/q2x1gz6>*
+*Online*
+With Agatha Krajewski (Dir. Product, Shopify).
+
+*Tuesday, Oct 20*
+------------------------------
+*Oct 20*
+9:00am Free
+*Adobe To The Max <http://gary.to/qrd5l7d>*
+*Online*
+With Shantanu Narayen (CEO, Adobe), Conan O'Brien (Comedian), Ava DuVernay
+(Dir. & Producer), Gwyneth Paltrow (Founder, Goop), Wes Anderson
+(Filmmaker), Nick Offerman (Actor & Woodworker), Taika Waititi (Dir.),
+Awkwafina (Comedian), Scott Belsky (Chief Product Officer, Adobe).
+
+*Oct 20*
+10:00am Free
+*Rise Presents - The Future Of FinTech <http://gary.to/msnlsc5>*
+*Online*
+With Jacob Bouer (Dir. Strategic Partnerships, The Venture Center), Sandra
+Ro (CEO, Global Blockchain Business Council), Ron Shevlin (Dir. Research,
+Cornerstone Advisors), Jon Zanoff (Founder, Empire Startups), Jatin Rajput
+(Founder, Ad-In Ventures).
+
+*Oct 20*
+10:00am $10
+*VC Perspectives From The Boardroom <http://gary.to/l7wm7wp>*
+*Online*
+With Wendy Xiao Schadeck (Principal, Northzone).
+
+*Oct 20*
+11:30am Free
+*Tackling The Hurdles Of Enterprise Blockchain <http://gary.to/23c06so>*
+*Online*
+With Robert van Donge & Yana Koldra (IntellectEU) & Gary Crisci (GE).
+
+*Oct 20*
+12:00pm $45
+*AgTech Week <http://gary.to/vcxc3cw>*
+*Online*
+With Henry Sztul (Bowery Farming), Yemi Amu (Oko Farms), Rob Laing
+(Farm.One), Kadeesha Williams (NYBG Bronx Green-Up), Keith Carr (City
+Harvest), Zachary Witman (Grow Squares), Alexander Oelsen (Babylon
+Micro-Farms), Ricky Stephens (Agritecture). 10% off w/ "GarysGuide10".
+
+*Oct 20*
+12:00pm Free
+*Hit Reset - Preventing Screen Fatigue While Staying Connected
+<http://gary.to/d0pfmib>*
+*Online*
+With Liana Pavane (Founder, TTYL).
+
+*Oct 20*
+12:00pm Free
+*Next Big Idea Club <http://gary.to/lfkpzkt>*
+*Online*
+With Rutger Bregman (Author, Humankind).
+
+*Oct 20*
+12:00pm *Day One Conference <http://gary.to/v8p3d6c>*
+*Online*
+With Carmen Bryant (Indeed), Keia Clarke (New York Liberty), Kamal
+Ahluwalia (Eightfold), Alexandra Powell (Reward Gateway), Jon Schlossberg
+(Even), Curtis Brooks (US Bank), Jennifer Dove (NBC Universal), Anne Helen
+Petersen (Author), Lydia Dishman (Fast Company).
+
+*Oct 20*
+1:00pm Free
+*NYC Meets London Tech & Startups <http://gary.to/4witmnr>*
+*Online*
+With Laura Connell (Principal, Balderton Capital), Russ Shaw (Founder, Tech
+London Advocates), Henrik Wetter Sanchez (Assoc., Playfair Capital).
+
+*Oct 20*
+1:00pm Free
+*Amazon AWS Virtual Startup Day <http://gary.to/bcdl3ah>*
+*Online*
+Focus on AWS products & services.
+
+*Oct 20*
+1:00pm Free
+*Building It - Launching Burrito Pop <http://gary.to/12dhtgw>*
+*Online*
+With Madelin Woods (Founder/CEO @ Walden & Creator @ Burrito Pop).
+
+*Oct 20*
+1:30pm Free
+*Product Mgmt Live Chat <http://gary.to/ii2aivy>*
+*Online*
+With Ming Guang Yong (Product Mgr, Google).
+
+*Oct 20*
+2:30pm Free
+*Fireside Chat w/ Nestle <http://gary.to/c4spr0o>*
+*Online*
+With Luca Dell'orletta (Global Product Dir., Nestle Mobile).
+
+*Oct 20*
+5:00pm Free
+*5 Top Tips For Breaking Into Product <http://gary.to/nzodetv>*
+*Online*
+With Mike Skelton (Exec PM, BBC).
+
+*Oct 20*
+5:00pm Free
+*How She Got There - Product Mgmt <http://gary.to/t81uak7>*
+*Online*
+With Riana Singh (Founder, Boss Women Collective).
+
+*Oct 20*
+5:00pm Free
+*How To Build A Brand People Love <http://gary.to/6kdu7hb>*
+*Online*
+With Emily Heyward (Co-Founder & Chief Brand Officer, Red Antler).
+
+*Oct 20*
+5:00pm Free
+*Women In Tech <http://gary.to/4cs16yh>*
+*Online*
+With Danielle Plecki (S/w Enggr, Oscar Health), Lauren Meier (S/w Engg
+Intern, Oscar Health), Wei Ji (Assoc. S/w Enggr, Oscar Health), Shannon Lin
+(Sr S/w Enggr, Oscar Health).
+
+*Oct 20*
+5:00pm $25
+*Deep Tech Startup Pitches <http://gary.to/yuji65q>*
+*Online*
+With Hermann Schindler (CEO, Scalator Ventures), Maria Malavenda (MD, KOL
+Ventures), Peter Ondruska (Head of Research, Lyft), Rana Gujral (CEO,
+Behavioral Signals).
+
+*Oct 20*
+5:00pm Free
+*She+ Geeks Out Power Up - Up Your Strategic Game <http://gary.to/cfhl72a>*
+*Online*
+With Colleen Tartow (Dir. Engg, Starburst Data), Bhuvana Husain (Sr Dir.,
+GrubHub), Lily Konings (Product Designer, Facebook), Jess Iandiorio (CMO,
+Starburst Data).
+
+*Oct 20*
+5:30pm $25
+*Brunchwork w/ Lightspeed Venture Partners <http://gary.to/no3tdak>*
+*Online*
+With Amy Wu (Partner, Lightspeed Venture Partners).
+
+*Oct 20*
+5:30pm Free
+*The David Prize <http://gary.to/uripla6>*
+*Online*
+$200,000 in funding each for five individuals and/or ideas to create a
+better, brighter New York City.
+
+*Oct 20*
+6:00pm Free
+*Data Visualization For Real-world Machine Learning
+<http://gary.to/d6pprjy>*
+*Online*
+With Julia Silge (Data Scientist, RStudio PBC).
+
+*Oct 20*
+6:30pm Free
+*SQL Streaming Databases <http://gary.to/41ur10l>*
+*Online*
+With Frank McSherry (Co-Founder & Chief Scientist, Materialize).
+
+*Oct 20*
+7:00pm Free
+*Candid Election - Climate, Justice & The Economy <http://gary.to/qsbnu0o>*
+*Online*
+With Andrew Revkin (Founding Dir., The Earth Institute @ Columbia), Linette
+Lopez (Columnist Politics & Economy, Business Insider), Rina Shah
+(Political Advisor, The Lincoln Project), Eliza Orlins (Public Defender,
+Legal Aid Society & Manhattan District Attorney Candidate).
+
+*Wednesday, Oct 21*
+------------------------------
+*Oct 21*
+9:00am Free
+*Global Entrepreneurship Experience After School Program
+<http://gary.to/zimle2w>*
+*Online*
+With Francisco D'Souza (Co-Founder, Cognizant), Yancey Strickler
+(Co-Founder, Kickstarter), Sean O'Sullivan (SOSV Ventures), Wendy Diamond
+(Women's Entrepreneurship Day Org), Angie Hicks (Founder, Angie's List).
+
+*Oct 21*
+9:30am Free
+*Exploring The Future Of Downtown <http://gary.to/gt5ggon>*
+*Online*
+With Shaina Horowitz (VP Product & Programs, Newlab), Micha Lasher (CUNY),
+Jim O'Grady (WNYC), Christine Quinn (CEO, Win), Jessica Walker (CEO,
+Manhattan Chamber of Commerce).
+
+*Oct 21*
+10:00am Free
+*Changing The Financial Landscape - Gen Z & Millennial Banking Trends
+<http://gary.to/9s4lkqd>*
+*Online*
+With Adrienne Yih (MD Consumer Discretionary Analyst, Barclays), Neel Ganu
+(Founder, Finch), Stuart Sopp (CEO, Current), Julie VerHage
+(Editor-in-Chief, FinTech Today).
+
+*Oct 21*
+10:00am $10
+*Customer Acquisition & Performance Marketing Advice For Startups
+<http://gary.to/rsis3n1>*
+*Online*
+With Gylan Saunders (Head of Consumer Performance Mktg, Klarna).
+
+*Oct 21*
+11:00am Free
+*WE Inspire Conference <http://gary.to/cpd0m62>*
+*Online*
+With Lucy Cooper (Head of Innovation, Accenture) & Zainab Ahmed
+(Co-Founder/CEO, QuickCount).
+
+*Oct 21*
+11:00am Free
+*IoTC Huddles - Connected Transportation, Fleet Mgmt & Role Of Data
+<http://gary.to/w9jpiqs>*
+*Online*
+
+*Oct 21*
+11:30am Free
+*Uncertainty Visualization & Bayes <http://gary.to/wah02c4>*
+*Online*
+With Matthew Kay (Asst Prof. CS & Communication @ Northwestern University).
+
+*Oct 21*
+1:00pm Free
+*Leaders Live w/ Narrative I/O <http://gary.to/bl6256r>*
+*Online*
+With Nick Jordan (Founder/CEO, Narrative I/O).
+
+*Oct 21*
+2:00pm Free
+*Taking Over Tech - Empowering Girls & Womxn Everywhere
+<http://gary.to/frhfa99>*
+*Online*
+
+*Oct 21*
+2:00pm Free
+*Let There Be Hope - Celebrating Social Entrepreneurs
+<http://gary.to/5xkeekb>*
+*Online*
+With Chris Gordon (CEO, Irish Social Enterprise Network), Amr Dawood
+(Co-Founder, The Good Summit), Dermot McCarthy (Co-Founder, Under The
+Rainbow), Vikki Brennan (CEO, Proudly Made In Africa), Ellie Kisyombe
+(Co-Founder, Our Table), Donal Traynor (Dir., Community Finance Ireland).
+
+*Oct 21*
+2:30pm Free
+*Where Product Meets Compliance <http://gary.to/ntqymim>*
+*Online*
+With Phil O'Hagan (Product Mgr, Booking.com).
+
+*Oct 21*
+4:00pm Free
+*How To Thrive As A POC Small Biz Owner - The One-Page Business Plan
+<http://gary.to/tsjcm2w>*
+*Online*
+With Pam Capalad (Founder, Brunch & Budget) & MC Dyalekt (Hip Hop Educator)=
+.
+
+*Oct 21*
+4:00pm Free
+*MedMo 2021 Vision Challenge <http://gary.to/x1ttiql>*
+*Online*
+
+*Oct 21*
+5:00pm Free
+*Why You Should Think Like An Editor <http://gary.to/oqtyc1x>*
+*Online*
+With Terek Judi (Product Mgr of AR, Google).
+
+*Oct 21*
+6:00pm Free
+*ERA Women Founders Night <http://gary.to/z4a62js>*
+*Online*
+With Chelsea Brownridge (Co-Founder/CEO, DogSpot), Jessica Peltz-Zatulove
+(Founding Partner, Hannah Grey), Aubrey Hubbell (Co-Founder, Hazel), Tanya
+Perkins (COO, Tembo Health).
+
+*Oct 21*
+7:30pm Free
+*Stanford Entrepreneurial Thought Leaders Talk w/ Zoom
+<http://gary.to/fdcof95>*
+*Online*
+With Eric Yuan (Founder, Zoom).
+
+*Oct 21*
+9:00pm $20
+*Startup Grind w/ Kickstarter <http://gary.to/os4njq8>*
+*Online*
+With Yancey Strickler (Founder, Kickstarter And Author, This Could Be Our
+Future: A Manifesto For A More Generous World).
+
+*Thursday, Oct 22*
+------------------------------
+*Oct 22*
+9:00am *WRLDCTY <http://gary.to/rye2u3t>*
+*Online*
+With Bjarke Ingels (Founder, BIG), Dan Doctoroff (CEO, Sidewalk Labs),
+Shin-Pei Tsay (Dir. Policy, Uber), Laura Cha (Chairman, Hong Kong
+Exchanges), Fred Olayele (Chief Economist, NYC), Chip Conley (ex-Head of
+Global Strategy, Airbnb), Micah Kotch (MD, URBAN-X by MINI), Andrew Weir
+(Chairman, KPMG China).
+
+*Oct 22*
+10:00am $10
+*What Founders Need To Know About IP <http://gary.to/z1kdw8w>*
+*Online*
+
+*Oct 22*
+10:00am Free
+*In-housing In 2020 & Beyond <http://gary.to/w9nb7c1>*
+*Online*
+With Ben Knight (Co-Founder, Serpico by Croud), Jerry Buhlmann (Non-Exec
+Chairman, Croud), Jude Bridge (Managing Partner, Oystercatchers), Branwell
+Johnson (Dir. Content, Propeller).
+
+*Oct 22*
+11:00am Free
+*Rise Presents - FinTech Across The Globe <http://gary.to/822wy4l>*
+*Online*
+With Pablo Viguera (Co-Founder/Co-CEO, Belvo) & Chioma Ruky Okotcha
+(Co-Founder, PayHippo).
+
+*Oct 22*
+11:00am Free
+*Building Digital Readiness For A New Era <http://gary.to/fub7zuc>*
+*Online*
+
+*Oct 22*
+12:00pm Free
+*Swissnex Demo Day <http://gary.to/ngpz91h>*
+*Online*
+With Mathieu Horras (Co-Founder/CEO, ASPIVIX), Volker Bartenbach & Michael
+Stucky (Co-Founders, Auxivo), Antonia Bolla (Founder, JAMIE & I), Giacomo
+Valle (MYLEG), Nicolas Vachicouras (CEO, Neurosoft Bioelectronics), Harald
+Studer (CEO, Optimo Medical), Peter Nestorov (CEO, Scailyte).
+
+*Oct 22*
+12:00pm Free
+*Heads Of Operations Conference <http://gary.to/ld2mr4a>*
+*Online*
+With Dan Perkins (Dir. Ops, IBM), Philip Devin (Dir. Ops Strategic
+Accounts, Oracle), Nikhil Subramanian (Sr Dir. Strategy & Ops Mixed
+Reality, Microsoft), Arnab Guha (Dir. Business Ops, VMware), Ram Parimi
+(Head of Strategy & Ops, Google Cloud).
+
+*Oct 22*
+12:30pm Free
+*ESPN Fantasy Football - Trade Assistant & Player Insights w/ IBM Watson
+<http://gary.to/15pk573>*
+*Online*
+With Aaron Baughman (Developer Advocate, IBM) & Micah Forster (S/w Enggr,
+IBM).
+
+*Oct 22*
+1:00pm Free
+*Making Your First Sales Hire <http://gary.to/7r0xj6h>*
+*Online*
+
+*Oct 22*
+1:00pm Free
+*Author In Residence w/ Kara Goldin of Hint Water <http://gary.to/7einsa3>*
+*Online*
+With Kara Goldin (Founder @ Hint Water & Author of Undaunted: Overcoming
+Doubts & Doubters).
+
+*Oct 22*
+1:30pm Free
+*Product Mgmt Live Chat <http://gary.to/6n5aro1>*
+*Online*
+With Debapriya Basu (Principal Product Mgr, Zillow).
+
+*Oct 22*
+2:00pm Free
+*Fraud In 2030 <http://gary.to/fihy3of>*
+*Online*
+With Maneesh Madan (CEO, InsurAnalytics AI), Vivian Li (Principal, Avanta
+Ventures), Kamesh Raghavendra (Chief Product Officer, The Hive).
+
+*Oct 22*
+2:30pm Free
+*B2B & B2C Product Launch From 0 <http://gary.to/uj47920>*
+*Online*
+With Suyash Tiwari (Sr Product Mgr, Microsoft).
+
+*Oct 22*
+3:00pm Free
+*Newsmakers - AI & Future Of Journalism <http://gary.to/toch1a2>*
+*Online*
+With Daniel Levitt (Journalist @ WSJ & Founder @ Inside The Newsroom) &
+Francesco Marconi (SVP AI @ Newlab & Co-Founder @ Applied XL).
+
+*Oct 22*
+3:00pm Free
+*Founders Take w/ Shareity <http://gary.to/2j8ngoo>*
+*Online*
+With Ben Hill (Founder, Shareity).
+
+*Oct 22*
+4:00pm Free
+*Supply Chain Meetup - Optimizing Port Drayage With Technology
+<http://gary.to/6py7zo9>*
+*Online*
+With Giovanni Antonuccio (GM, APM Terminals), Gary Kendle (VP Operations,
+Pacifica Trucks), Sammi Liu (COO, Dray Alliance), Michael Mecca (CEO,
+PortPro).
+
+*Oct 22*
+4:00pm Free
+*Investor Intros The Unconventional Way <http://gary.to/rxpsyy9>*
+*Online*
+With Brian Folmer (Founder/CEO, FirstLook).
+
+*Oct 22*
+4:30pm Free
+*Retail X Series - Building A Curated Marketpace <http://gary.to/l1nspfh>*
+*Online*
+With Michelle Reeves (Co-Founder/CEO, The Accessory Junkie).
+
+*Oct 22*
+5:00pm Free
+*PM For Different Stages Of A Company & How To Navigate
+<http://gary.to/dik5s73>*
+*Online*
+With Shashaank Shekhar Singhal (Product Mgr, Uber).
+
+*Oct 22*
+5:00pm *MassChallenge 2020 Awards <http://gary.to/f53l7oy>*
+*Online*
+
+*Oct 22*
+5:30pm Free
+*Diversity In Tech & Finance - How To Build A Career As A Minority
+<http://gary.to/41koc1g>*
+*Online*
+With Jon Chu (Chief Product Officer, PrivCo), Betty Ng (Founder/CEO,
+Inspiring Diversity), Brett Johnson (Implementation Consultant, LinkedIn).
+
+*Oct 22*
+6:00pm Free
+*How To Excel As A Data Scientist In Any Company <http://gary.to/ptl7zsn>*
+*Online*
+With Katie Critelli (Data Scientist & Product Mgr, Total Brain).
+
+*Oct 22*
+6:00pm Free
+*Zahn Innovation Center Fireside Chat w/ Backstage Capital
+<http://gary.to/88jjqy6>*
+*Online*
+With Arlan Hamilton (Founder, Backstage Capital).
+
+*Oct 22*
+6:00pm $10
+*Investor Office Hours <http://gary.to/vpq228i>*
+*Online*
+
+*Oct 22*
+6:30pm *Venture Capital Pitch Night <http://gary.to/djbsvtj>*
+*Online*
+With Charmaine Hayden (Partner, Good Soil VC), Eric Bahn (Co-Founder,
+Hustle Fund), Sarah Leners (Sr Assoc., Bull City Venture Partners).
+
+*Oct 22*
+7:00pm Free
+*Solving Security & Compliance Needs In Kubernetes <http://gary.to/2ml2kmi>=
+*
+*Online*
+With Colby Dyess (Cloud Strategy, Tufin) & Johan Tordsson (Founder/CTO,
+Elastisys).
+
+*Oct 22*
+7:00pm Free
+*Analyzing Gender Bias w/ R <http://gary.to/ehbe851>*
+*Online*
+With Yipeng Lai (Applied Scientist, StreetEasy).
+
+*Friday, Oct 23*
+------------------------------
+*Oct 23*
+8:00am Free
+*CURIOUS Digital & Ecommerce Marketing Conference <http://gary.to/ljv32gt>*
+*Online*
+With Seth Dallaire (CRO, Instacart), Yoav Izhar-Prato (CEO, Kenshoo),
+Elizabeth Mansfield (Global Mktg, Pinterest), Alexis Josephs (VP
+Partnerships, Walmart Media), Kris McDermott (Dir. Shopper Mktg,
+Kimberly-Clark), Nizan Teeni (Head of Performance, Dentsu), Frank Kochenash
+(Wunderman Thompson).
+
+*Oct 23*
+10:00am *NYU Entrepreneurs Festival <http://gary.to/wnrm43i>*
+*Online*
+With Evan Moore (Founder @ DoorDash, Vevo & OpenDoor), Andy Kangpan (Two
+Sigma Ventures), David Shin (Rosecliff Ventures), Molly O'Shea (NYL
+Ventures), Adrian Grant (The Fund), Paul Kaiser (Blackstone LaunchPad &
+Techstars), Vanessa Wruble (Co-Founder, Esusu), Riley Jones (Co-Founder,
+Bloc).
+
+*Oct 23*
+2:00pm Free
+*HVTechFest 2020 - Youth Virtual Hackathon <http://gary.to/afqv61w>*
+*Online*
+
+*Oct 23*
+2:30pm Free
+*Transitioning To Product From Marketing <http://gary.to/ic7na26>*
+*Online*
+With Sophie Kahan (Product Mgr, Amazon).
+
+*Oct 23*
+3:00pm Free
+*Entrepreneur Chat w/ TerraCycle & Loop <http://gary.to/t9bkgas>*
+*Online*
+With Tom Szacky (Founder/CEO, TerraCycle & Loop).
+
+*Oct 23*
+4:00pm Free
+*Fireside Chat w/ InVision <http://gary.to/t7z0p7x>*
+*Online*
+With Frank Harris (VP Platform & Growth, InVision).
+
+*Oct 23*
+5:00pm Free
+*Common Mistakes When Starting A/B Testing <http://gary.to/ptr1qk0>*
+*Online*
+With Gina Benedetti (Product Mgr, Warby Parker).
+
+*Saturday, Oct 24*
+------------------------------
+*Oct 24*
+11:00am Free
+*The Future Of Women At Work Hackathon <http://gary.to/lzff3cz>*
+*Online*
+With Katie Franco (Exec Dir., Girl Develop It), Leslie Forde (Founder,
+Mom's Hierarchy of Needs), Kandice Harris (Dir., Run for Something).
+
+*Oct 24*
+2:30pm Free
+*Coordinate Roadmaps & Work w/ Multiple Teams <http://gary.to/t1h9mam>*
+*Online*
+With Moumita Paul (Product Mgr, Amazon).
+
+*Oct 24*
+2:30pm $25
+*Bumble Brunchwork <http://gary.to/vwuy3hr>*
+*Online*
+With Priti Joshi (VP Strategy & Operations, Bumble).
+
+*Sunday, Oct 25*
+------------------------------
+*Oct 25*
+2:30pm Free
+*How To Sell Your Idea Effectively As A PM <http://gary.to/7li0ael>*
+*Online*
+With Rakshit Sinha (Sr Product Mgr, Spotify).
+
+
+More Upcoming Events
+------------------------------
+Oct 26:  *Founder University <http://gary.to/iqqsppu>* @ Online
+
+Oct 26:  *Fireside Chat w/ Hopin <http://gary.to/1tjxquj>* @ Online
+
+Oct 26:  *The Importance To Understand Your Product
+<http://gary.to/twmqzxy>* @ Online
+
+Oct 27:  *Mentor Makers LIVE <http://gary.to/pii3mtd>* @ Online
+
+Oct 27:  *Product Mgmt Live Chat <http://gary.to/5jx6lgb>* @ Online
+
+Oct 27:  *ERA Accelerator Founders Panel <http://gary.to/p892440>* @ Online
+
+Oct 28:  *Techstars NYC AMA <http://gary.to/dtmahzo>* @ Online
+
+Oct 28:  *When Donuts Meet Croissants - Cultural Differences In Business
+Betn French & Americans <http://gary.to/a50yut6>* @ Online
+
+Oct 28:  *Planning During Uncertainty - How To Build An Annual Plan For
+2021 <http://gary.to/udbhfa5>* @ Online
+
+Oct 28:  *Funding Hacks - Building A Funnel & Running A Process
+<http://gary.to/632or3x>* @ Online
+
+Oct 28:  *Enterprise Tech Meetup - Essential Guide To SaaS Metrics
+<http://gary.to/5v5bjfh>* @ Online
+
+Oct 28:  *AMA Live <http://gary.to/ltc29on>* @ Online
+
+Oct 28:  *Fireside Chat <http://gary.to/sa2eonk>* @ Online
+
+Oct 28:  *Disney+ Brunchwork <http://gary.to/8etox14>* @ Online
+
+Oct 28:  *System Reset - System Malfunction <http://gary.to/adok7ih>* @
+Online
+
+Oct 28:  *How Strong Is Your Machine Learning Model
+<http://gary.to/vrkgkba>* @ Online
+
+Oct 28:  *Startup Pitch Competition <http://gary.to/8kxqeye>* @ Online
+
+Oct 28:  *Creating A Brighter Future - STEM, Tech & Community
+<http://gary.to/5gkc9fk>* @ Online
+
+Oct 28:  *Stanford Entrepreneurial Thought Leaders Talk w/ RUNWAY
+<http://gary.to/aicnowb>* @ Online
+
+Oct 29:  *Retail X Series - Fundraising 101 <http://gary.to/5gpl4zu>* @
+Online
+
+Oct 29:  *M&A Bootcamp - Ultimate Guide To Mergers & Acquisitions For
+Startups <http://gary.to/zcmgjh5>* @ Online
+
+Oct 29:  *Virtual Trick or Tequila - Halloween Costume Party
+<http://gary.to/fl9vcbc>* @ Online
+
+Nov 02:  *Global Open Innovation Korea Conference <http://gary.to/i7y3gkv>*
+@ Online
+
+Nov 04:  *Founders Leadership Series w/ The RealReal
+<http://gary.to/npxw50b>* @ Online
+
+Nov 04:  *Journey To Forbes 30 Under 30 - Learning From The Honorees
+<http://gary.to/fjo6h0w>* @ Online
+
+Nov 04:  *Stanford Entrepreneurial Thought Leaders Talk w/ Lightspeed
+Ventures <http://gary.to/2lkfci0>* @ Online
+
+Nov 05:  *Alternative Funding Pathways For Innovators - Startups & Small
+Business <http://gary.to/s26snje>* @ Online
+
+Nov 07:  *Notion Brunchwork <http://gary.to/v7jqxdr>* @ Online
+
+Nov 10:  *From JPMorgan To Uber - Career Transitions As A Woman Of Color
+<http://gary.to/hj1y7rz>* @ Online
+
+Nov 10:  *Headspace Brunchwork <http://gary.to/077ahud>* @ Online
+
+Nov 11:  *Stanford Entrepreneurial Thought Leaders Talk w/ Nextdoor
+<http://gary.to/esjut6v>* @ Online
+
+Nov 12:  *Venture Capital Pitch Night <http://gary.to/ke0o5na>* @ Online
+
+Nov 13:  *Entrepreneur Chat w/ Boxed <http://gary.to/pzctj1s>* @ Online
+
+Nov 17:  *TechDay New York <http://gary.to/m7yh0i9>* @ Online
+
+Nov 17:  *Brunchwork w/ LTSE & FirstMark Capital <http://gary.to/q4l5gb2>*
+@ Online
+
+Dec 02:  *Sight Tech Global - Accessibility Tech <http://gary.to/dyxxg9d>*
+@ Online
+
+Dec 09:  *System Reset - Existential Threats <http://gary.to/gagg5vo>* @
+Online
+
+Add newsletter@garysguide.com to your address book to ensure delivery into
+your Inbox and not your bulk or junk folders.
+
+To change your email address just reply to this email with the new email
+address.
+
+To unsubscribe from the newsletter just reply to this email with the word
+"unsubscribe" in the title.
+
+Have a question, comment or feedback? Email Gary (aka "The Guy with the Red
+Tie") at gary@garysguide.com
+
+=C2=A9 2020 GarysGuide
+
+
+--=20
+Lydia*Stepanek*
+203.804.9137
+
+--000000000000e4d3ac05fc61c3cf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">---------- Forwarded message ---------<br>From: <strong cla=
+ss=3D"gmail_sendername" dir=3D"auto">GarysGuide</strong> <span dir=3D"auto"=
+>&lt;<a href=3D"mailto:newsletter@garysguide.com">newsletter@garysguide.com=
+</a>&gt;</span><br>Date: Mon, Oct 19, 2020 at 7:59=E2=80=AFAM<br>Subject: T=
+his Week In Silicon Alley (Inc 5000 Vision Conf, WSJ Tech Live, Adobe Max, =
+AgTech Week, Fintech Future,  NYU Entrepreneurs Festival, Comms Week, Rethi=
+nk Summit, Swissnex Demo Day, Heads of Ops Conf)<br>To:  &lt;<a href=3D"mai=
+lto:fake@email.com">fake@email.com</a>&gt;<br></div><br=
+><br><u></u>
+
+
+<div>
+
+<table width=3D"100%" cellspacing=3D"10" cellpadding=3D"10" style=3D"backgr=
+ound-color:#eeeeee">
+
+<tbody><tr><td><table width=3D"100%" style=3D"background-color:#ffffff" cel=
+lspacing=3D"0" cellpadding=3D"0">
+
+<tbody><tr height=3D"50"><td height=3D"50" style=3D"background-color:#e03d3=
+e" align=3D"left" valign=3D"middle"><table cellspacing=3D"0" cellpadding=3D=
+"0"><tbody><tr><td>
+<img width=3D"560" height=3D"50" alt=3D"GarysGuide" src=3D"https://s3.amazo=
+naws.com/garysguide_images/gg_newsletter_top_nyc.png">
+
+
+</td></tr></tbody></table></td></tr>
+
+<tr><td height=3D"30" style=3D"background-color:#d1d1d1"><table width=3D"10=
+0%">
+<tbody><tr><td height=3D"30" valign=3D"middle" align=3D"left" style=3D"back=
+ground-color:#d1d1d1">
+=C2=A0=C2=A0=C2=A0<b>New York City</b>
+=C2=A0=C2=A0=C2=A0<a href=3D"https://www.garysguide.com/events?region=3Dsfb=
+ay" target=3D"_blank">San Francisco Bay Area</a>
+</td></tr></tbody></table></td></tr>
+
+<tr><td height=3D"30" style=3D"background-color:#e3e3e3"><table width=3D"10=
+0%">
+<tbody><tr><td height=3D"30" valign=3D"middle" align=3D"left" style=3D"back=
+ground-color:#e3e3e3">=C2=A0=C2=A0=C2=A0Oct 19, 2020: The Mathematical Libr=
+ary Of The Future Edition!</td>
+<td align=3D"right" style=3D"background-color:#e3e3e3"><a href=3D"http://ga=
+ry.to/yoy8mrq" target=3D"_blank">View in browser</a>=C2=A0=C2=A0=C2=A0|=C2=
+=A0=C2=A0=C2=A0<a href=3D"https://www.garysguide.com/events?region=3Dnewyor=
+k" target=3D"_blank">Subscribe</a>=C2=A0=C2=A0=C2=A0</td></tr>
+</tbody></table></td></tr>
+
+<tr><td valign=3D"top" style=3D"background-color:#ffffff"><table width=3D"1=
+00%" cellspacing=3D"8" cellpadding=3D"8"><tbody><tr><td valign=3D"top">
+<i>&quot;Mathematicians manually inputting mathematics into Lean program, t=
+ranslating thousands of years of accumulated knowledge into a form the prog=
+ram can understand. Digitizing math could lead to using AI to discover new =
+mathematics &amp; find new solns to old problems.&quot;</i> // <b>Mathemati=
+cal Library</b> <b><a href=3D"http://gary.to/8xcuq2b" target=3D"_blank">Of =
+The Future</a></b>
+<br>
+<br><i>&quot;A state known as cosmic inflation eventually ended &amp; gave =
+rise to the Big Bang. We can observe its imprints on the Universe today but=
+ only for last tiny, minuscule fraction of second as the inflation, by its =
+very nature, erases whatever existed in pre-inflationary Universe.&quot;</i=
+> // <b>Cosmic</b> <b><a href=3D"http://gary.to/ky3hsy7" target=3D"_blank">=
+Inflation</a></b>
+<br>
+<br><b>LVMH&#39;s</b> <a href=3D"http://gary.to/wu26u6r" target=3D"_blank">=
+$16 Billion acquisition</a> of Tiffany set to be approved by EU antitrust r=
+egulators. <b>Twilio</b> <i>(cloud communications)</i> <a href=3D"http://ga=
+ry.to/m4akuhh" target=3D"_blank">acquired</a> Segment <i>(customer data pla=
+tform)</i> for $3.2 Billion. <b>House antitrust report</b> <a href=3D"http:=
+//gary.to/h1eqg0x" target=3D"_blank">on big tech</a>. <b>Virgin Orbit</b> <=
+i>(satellite-launch)</i> <a href=3D"http://gary.to/f3ii03n" target=3D"_blan=
+k">looking to raise</a> up $200M <i>(@ $1B valuation)</i>. <b>Microsoft</b>=
+ <a href=3D"http://gary.to/qjustuc" target=3D"_blank">to let</a> employees =
+work from home permanently. <b>Comcast</b> <a href=3D"http://gary.to/lpzcew=
+8" target=3D"_blank">beginning</a> trial of symmetrical 1.25Gbps internet. =
+<b>Calm</b> <i>(meditation &amp; sleep app)</i> <a href=3D"http://gary.to/w=
+s8vagj" target=3D"_blank">looking to raise</a> $150M <i>(@ $2.2B valuation)=
+</i>. <b>Copyright battle case</b> <a href=3D"http://gary.to/rsmctqc" targe=
+t=3D"_blank">between</a> Google &amp; Oracle. And <b>Coming To America</b> =
+<a href=3D"http://gary.to/znbicz4" target=3D"_blank">to be released</a> on =
+Amazon.
+<br>
+<br>NEW THINGS =3D=3D&gt; <b>The Citizen Browser Project</b> <a href=3D"htt=
+p://gary.to/penirtb" target=3D"_blank">By The Markup &amp; NY Times</a> <i>=
+(Analyzing how algorithms of Facebook &amp; YouTube serve content to users)=
+</i>. <b>HomePod Mini</b> <a>By Apple</a> <i>(360=E2=80=91degree audio; $99=
+)</i>. <b>MSCHF</b><a href=3D"http://gary.to/5p3djzh" target=3D"_blank">.xy=
+z</a> <i>(Internet art collective; New drops every 2nd &amp; 4th Monday @ 1=
+1am ET)</i>.
+<br>
+<br>As y&#39;all know, my New Years Resolution is to get to know GarysGuide=
+ members &amp; subscribers better :) So <b><a href=3D"mailto:gary@garysguid=
+e.com" target=3D"_blank">shoot me an email</a></b> &amp; introduce yourself=
+!<br><br>
+<font style=3D"background-color:#ffff99;padding:2px">ANNOUNCING</font> =3D=
+=3D&gt; <b>Techstars NYC</b> <b><a href=3D"http://gary.to/onnwa1n" target=
+=3D"_blank">Accelerator</a></b> <i>(One of the top accelerator programs in =
+the world; $120,000 funding for 6% equity; 3 months hybrid program; Mar 22 =
+- Jun 17; Mentorship, demo day; 60+ alumni including ClassPass, Plated, Tim=
+ehop, Jukely)</i>; apply by Dec 20.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">ANNOUNCING</font> =
+=3D=3D&gt; <b>ERA</b> <b><a href=3D"http://gary.to/ghardgt" target=3D"_blan=
+k">Accelerator</a></b> <i>(Winter 2021 Program; $100K funding for 8% equity=
+ + potential follow-on; Jan 11 - Apr 30; Network of 500+ mentors &amp; 200+=
+ alums including Scentbird, YoungAlfred, Glia, Sayspring, Cardflight)</i>; =
+apply by Nov 02.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">ANNOUNCING</font> =
+=3D=3D&gt; <b>LAUNCH</b> <b><a href=3D"http://gary.to/jdm5p0r" target=3D"_b=
+lank">Virtual Accelerator</a></b> <i>(For startups with product in market, =
+traction, revenue &amp; technical execution; Vertical agnostic; 7 startups =
+in each session; 12 week program; Begins Jun 25; Pitch to 200+ investors in=
+ Silicon Valley)</i>; apply.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">ANNOUNCING</font> =
+=3D=3D&gt; <b>Alpaca</b> <b><a href=3D"http://gary.to/gockrhl" target=3D"_b=
+lank">VC</a></b> <i>(Formerly Corigin Ventures; Investing $2.5M into funds =
+operated by Black investors over the next year including writing 3-5 commit=
+ments betn $500K &amp; $1M each to US-based funds that are majority-black o=
+wned &amp; focus on seed &amp; pre-seed investments)</i>.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">ANNOUNCING</font> =
+=3D=3D&gt; <b>Black Founder Startup</b> <b><a href=3D"http://gary.to/xgehpv=
+y" target=3D"_blank">Grant</a></b> <i>(Cash grants for black women &amp; no=
+n-binary founders &amp; entrepreneurs; 9 grants of $10K &amp; $5K; Awardees=
+ receive tactical help navigating fundraising environment; With SoGal Found=
+ation, Winky Lux, bluemercury, twelveNYC, Lively)</i>.<br><br>
+
+<font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</font>!=
+ =3D=3D&gt; Oct 19 <b>Inc 5000</b> <b><a href=3D"http://gary.to/j8phr36" ta=
+rget=3D"_blank">Vision Conf</a></b> w/ Mark Cuban <i>(Judge @ Shark Tank &a=
+mp; Owner of Dallas Mavericks)</i>, Vint Cerf <i>(Chief Internet Evangelist=
+, Google)</i>, David Chang <i>(Founder, Momofuku)</i>, Ethan Brown <i>(Foun=
+der, Beyond Meat)</i>, Eren Bali <i>(Founder, Udemy)</i>, Ted Allen <i>(Foo=
+d Network&#39;s Chopped)</i>.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</fo=
+nt>! =3D=3D&gt; Oct 20 <b>Adobe</b> <b><a href=3D"http://gary.to/cfwpiln" t=
+arget=3D"_blank">Max</a></b> <i>(FREE; Online)</i> w/ Shantanu Narayen <i>(=
+CEO, Adobe)</i>, Conan O&#39;Brien <i>(Comedian)</i>, Ava DuVernay <i>(Film=
+maker)</i>, Gwyneth Paltrow <i>(Founder, Goop)</i>, Wes Anderson <i>(Filmma=
+ker)</i>, Nick Offerman <i>(Actor &amp; Woodworker)</i>, Awkwafina <i>(Actr=
+ess)</i>, Scott Belsky <i>(CPO, Adobe)</i>.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</fo=
+nt>! =3D=3D&gt; Oct 19 <b>WSJ Tech</b> <b><a href=3D"http://gary.to/pb89gyk=
+" target=3D"_blank">Live</a></b> w/ Melinda Gates <i>(Co-Chair, Gates Found=
+ation)</i>, Evan Spiegel <i>(Co-Founder/CEO, Snap)</i>, Dara Khosrowshahi <=
+i>(CEO, Uber)</i>, Arvind Krishna <i>(CEO, IBM)</i>, Eric Schmidt <i>(ex-CE=
+O, Google)</i>, Ron Howard <i>(Filmmaker)</i>, Deepak Chopra <i>(Author, To=
+tal Mediation)</i>.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</fo=
+nt>! =3D=3D&gt; Oct 20-21 <b>AgTech</b> <b><a href=3D"http://gary.to/hjr7dw=
+6" target=3D"_blank">Week</a></b> w/ Henry Sztul <i>(Bowery Farming)</i>, Y=
+emi Amu <i>(Oko Farms)</i>, Rob Laing <i>(Farm.One)</i>, Keith Carr <i>(Cit=
+y Harvest)</i>, Zachary Witman <i>(Grow Squares)</i>, Alexander Oelsen <i>(=
+Babylon Micro-Farms)</i>, Ricky Stephens <i>(Agritecture)</i>; 10% off w/ &=
+quot;GarysGuide10&quot;.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</fo=
+nt>! =3D=3D&gt; Oct 22 <b>VC</b> <b><a href=3D"http://gary.to/bfqye9m" targ=
+et=3D"_blank">Pitch Night</a></b> w/ Charmaine Hayden <i>(Good Soil VC)</i>=
+, Eric Bahn <i>(Hustle Fund)</i>, Sarah Leners <i>(Bull City Venture Partne=
+rs)</i>. Oct 21 <b>Startup</b> <b><a href=3D"http://gary.to/71gdb9f" target=
+=3D"_blank">Grind</a></b> w/ Yancey Strickler <i>(Founder, Kickstarter And =
+Author, This Could Be Our Future: A Manifesto For A More Generous World)</i=
+>.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</fo=
+nt>! =3D=3D&gt; Nov 02-13 <b>Global Open Innovation Korea</b> <b><a href=3D=
+"http://gary.to/865uqg8" target=3D"_blank">Conference</a></b> w/ Korea Trad=
+e-Investment Promotion Agency <i>(events, pitch competitions, investor/star=
+tup meetings)</i>. Nov 04 <b>Founders</b> <b><a href=3D"http://gary.to/dodj=
+tb7" target=3D"_blank">Leadership</a></b> <i>(FREE; Online)</i> w/ Julie Wa=
+inwright <i>(CEO, The RealReal)</i>.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</fo=
+nt>! =3D=3D&gt; Oct 23 <b>NYU Entrepreneurs</b> <b><a href=3D"http://gary.t=
+o/twdy4o8" target=3D"_blank">Festival</a></b> w/ Evan Moore <i>(Founder @ D=
+oorDash, Vevo &amp; OpenDoor)</i>, Andy Kangpan <i>(Two Sigma Ventures)</i>=
+, David Shin <i>(Rosecliff VC)</i>, Molly O&#39;Shea <i>(NYL Ventures)</i>,=
+ Adrian Grant <i>(The Fund)</i>, Paul Kaiser <i>(Blackstone LaunchPad &amp;=
+ Techstars)</i>.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</fo=
+nt>! =3D=3D&gt; Oct 22 <b>WRLD</b><b><a href=3D"http://gary.to/5aloplf" tar=
+get=3D"_blank">CTY</a></b> w/ Bjarke Ingels <i>(Founder, BIG)</i>, Dan Doct=
+oroff <i>(CEO, Sidewalk Labs)</i>, Shin-Pei Tsay <i>(Dir. Policy, Uber)</i>=
+, Laura Cha <i>(Chairman, Hong Kong Exchanges)</i>, Fred Olayele <i>(Chief =
+Economist, NYC)</i>, Chip Conley <i>(ex-Head of Global Strategy, Airbnb)</i=
+>.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</fo=
+nt>! =3D=3D&gt; Oct 21 <b>Global Entrepreneurship Experience</b> <b><a href=
+=3D"http://gary.to/esx26tb" target=3D"_blank">After School Program</a></b> =
+<i>(FREE; Online)</i> w/ founders Yancey Strickler <i>(Kickstarter)</i>, Fr=
+ancisco D&#39;Souza <i>(Cognizant)</i>, Angie Hicks <i>(Angie&#39;s List)</=
+i>, Sean O&#39;Sullivan <i>(SOSV)</i>. Oct 28 <b>Techstars</b> <b><a href=
+=3D"http://gary.to/sfplevk" target=3D"_blank">AMA</a></b> <i>(FREE; Online)=
+</i> w/ Jenny Fielding <i>(MD, Techstars)</i>.
+<br>
+<br>Oct 19 <b>Comms</b> <b><a href=3D"http://gary.to/p6c29he" target=3D"_bl=
+ank">Week</a></b> <i>(FREE; Online)</i> w/ Jeanine Liburd <i>(Chief Social =
+Impact Officer, BET)</i>, Jani Lehtimki <i>(Co-Founder, Brella)</i>, Aslak =
+Silva <i>(CEO, Nordic Business Forum)</i>, Dan Frommer <i>(Founder, New Con=
+sumer)</i>, James Wright <i>(CEO, Red Havas)</i>, Dale Bornstein <i>(CEO, M=
+ Booth)</i>.
+<br>
+<br>Oct 22 <b>Swissnex</b> <b><a href=3D"http://gary.to/3c41o0b" target=3D"=
+_blank">Demo Day</a></b> <i>(FREE; Online)</i> w/ Co-Founder/CEOs Mathieu H=
+orras <i>(ASPIVIX)</i>, Volker Bartenbach &amp; Michael Stucky <i>(Auxivo)<=
+/i>, Antonia Bolla <i>(JAMIE &amp; I)</i>, Nicolas Vachicouras <i>(Neurosof=
+t)</i>, Harald Studer <i>(Optimo)</i>. Oct 19 <b>Launching</b> <b><a href=
+=3D"http://gary.to/o07okll" target=3D"_blank">On Product Hunt</a></b> <i>(F=
+REE; Online)</i>.
+<br>
+<br>Oct 22 <b>Heads Of Operations</b> <b><a href=3D"http://gary.to/5igm7cc"=
+ target=3D"_blank">Conf</a></b> <i>(FREE; Online)</i> w/ Dir. Ops Dan Perki=
+ns <i>(IBM)</i>, Philip Devin <i>(Oracle)</i>, Nikhil Subramanian <i>(Micro=
+soft)</i>, Arnab Guha <i>(VMware)</i>, Ram Parimi <i>(Google Cloud)</i>. Oc=
+t 24 <b>Brunch</b><b><a href=3D"http://gary.to/ln262kc" target=3D"_blank">w=
+ork</a></b> w/ Priti Joshi <i>(VP Strategy &amp; Ops, Bumble)</i>. Oct 29 <=
+b>Trick or Tequila:</b> <b><a href=3D"http://gary.to/tddd464" target=3D"_bl=
+ank">Halloween Costume Party</a></b>.
+<br>
+<br>Oct 22 <b>AI</b> <b><a href=3D"http://gary.to/pxs7gbo" target=3D"_blank=
+">&amp; Future Of Journalism</a></b> <i>(FREE; Online)</i> w/ Daniel Levitt=
+ <i>(WSJ)</i> &amp; Francesco Marconi <i>(Co-Founder, Applied XL)</i>. Oct =
+28 <b>System</b> <b><a href=3D"http://gary.to/3ota56w" target=3D"_blank">Ma=
+lfunction</a></b> <i>(FREE; Online)</i> w/ Michael Tubbs <i>(Mayor @ Stockt=
+on, CA)</i>, Melvin Carter <i>(Mayor @ Saint Paul, MN)</i>.=20
+<br>
+<br>Oct 28 <b>Startup</b> <b><a href=3D"http://gary.to/3kpwlp4" target=3D"_=
+blank">Pitch</a></b> w/ Brad Jenkins <i>(Seed Round Capital)</i>. Oct 23 <b=
+>CURIOUS Digital &amp; Ecommerce Marketing</b> <b><a href=3D"http://gary.to=
+/mwsxpek" target=3D"_blank">Conf</a></b> <i>(FREE; Online)</i> w/ Seth Dall=
+aire <i>(CRO, Instacart)</i>, Yoav Izhar-Prato <i>(CEO, Kenshoo)</i>, Eliza=
+beth Mansfield <i>(Global Mktg, Pinterest)</i>, Alexis Josephs <i>(VP Partn=
+erships, Walmart Media)</i>.
+<br>
+<br>Oct 28 <b>When Donuts Meet Croissants:</b> <b><a href=3D"http://gary.to=
+/7g18pl0" target=3D"_blank">Cultural Differences In Business Betn French &a=
+mp; Americans</a></b> <i>(FREE; Online)</i> w/ Isabelle Morin <i>(Global Mo=
+bility Expert, Choose Paris Region)</i>, Daphne Lora <i>(East Coast Mgr USA=
+ &amp; Canada, Choose Paris Region)</i>, Delphine Joubert <i>(An American i=
+n Paris)</i>.
+<br>
+<br>Oct 29 <b>M&amp;A Bootcamp:</b> <b><a href=3D"http://gary.to/c08lake" t=
+arget=3D"_blank">Ultimate Guide To Mergers &amp; Acquisitions For Startups<=
+/a></b> <i>(FREE; Online)</i> w/ BNP Paribas, KPMG, Wilson Sonsini, Woodruf=
+f Sawyer. Oct 28 <b>Planning</b> <b><a href=3D"http://gary.to/7m75chu" targ=
+et=3D"_blank">During Uncertainty</a></b> <i>(FREE; Online)</i> w/ Amy Wu <i=
+>(Lightspeed VC)</i> &amp; Michael Manne <i>(CRO, Ocrolus)</i>.
+<br>
+<br>Nov 04 <b>Journey To Forbes 30 Under 30:</b> <b><a href=3D"http://gary.=
+to/xjhtim3" target=3D"_blank">Learning From Honorees</a></b> w/ Kyleigh Rus=
+s <i>(Co-Founder/COO, Govern For America)</i>, Ouriel Lemmel <i>(CEO, WinIt=
+)</i>, Vanessa Luna <i>(Co-Founder, ImmSchools)</i>, Ahmed Kord <i>(Design =
+Enggr, Qualcomm)</i>, Brendan Gahan <i>(Chief Social Officer, Mekanism)</i>=
+.
+<br>
+<br>Nov 12 <b>Venture Capital</b> <b><a href=3D"http://gary.to/ycxyypv" tar=
+get=3D"_blank">Pitch Night</a></b> w/ Balaji Gopinath <i>(General Partner, =
+Kubera Venture Capital)</i>, Tai Rattigan <i>(VP Biz Dev, GGV Capital)</i>,=
+ Alexander Saunders <i>(Founder/CEO, Simple Tones Ventures)</i>, Kevin Sisk=
+ar <i>(CEO, Finta)</i>. Thru Nov 19 <b>ValleyML</b> <b><a href=3D"http://ga=
+ry.to/od1ha7p" target=3D"_blank">AI Expo</a></b>; Talks on AI hardware, ent=
+erprise &amp; robotics.<br><br>
+<font style=3D"background-color:#ffff99;padding:2px">CLASSES</font> =3D=3D&=
+gt; Oct 22 <b>How To Excel As A Data Scientist</b> <a href=3D"http://gary.t=
+o/f0ooi81" target=3D"_blank">In Any Company</a> w/ Katie Critelli <i>(Data =
+Scientist &amp; Product Mgr, Total Brain)</i>. Oct 28 <b>How Strong Is Your=
+ Machine Learning</b> <a href=3D"http://gary.to/2sdssdn" target=3D"_blank">=
+Model</a>. <b>SVMs</b> <a href=3D"http://gary.to/8kf8n14" target=3D"_blank"=
+>w/ Metis</a> w/ Alice Zhao <i>(Sr Data Scientist, Metis)</i>.
+<br>
+<br>Mo&#39; Classes =3D=3D&gt; Oct <b>Human-centered Design</b> <a href=3D"=
+http://gary.to/d64vjub" target=3D"_blank">For AR &amp; VR</a> w/ Sam Brewto=
+n <i>(AR Design Mgr, Wayfair)</i>. Oct <b>3D Capture:</b> <a href=3D"http:/=
+/gary.to/3n2pdpv" target=3D"_blank">Scanning Techniques, Workflows &amp; Ap=
+plications</a> w/ Michelle Hessel <i>(New Media Artist &amp; Creative Techn=
+ologist)</i> &amp; Woraya Mint Boonyapanachoti <i>(Guest Artist)</i>.<br><b=
+r>
+
+<font style=3D"background-color:#ffff99;padding:2px">CONGRATS</font>! =3D=
+=3D&gt; <b>Proterra</b> <i>(electric buses)</i> <a href=3D"http://gary.to/5=
+f3jdq3" target=3D"_blank">raised</a> $200M. <b>Plenty=E2=80=8C =E2=80=8CUnl=
+imited=E2=80=8C</b> <i>(farming)</i> <a href=3D"http://gary.to/re26c09" tar=
+get=3D"_blank">raised</a> $140M. <b>Snapdocs</b> <i>(real estate)</i> <a hr=
+ef=3D"http://gary.to/694p52m" target=3D"_blank">raised</a> $60M. <b>Augury<=
+/b> <i>(machine diagnostics)</i> <a href=3D"http://gary.to/4g9qdaw" target=
+=3D"_blank">raised</a> $55M. <b>Alkira</b> <i>(cloud networking)</i> <a hre=
+f=3D"http://gary.to/3fl3sjr" target=3D"_blank">raised</a> $54M. <b>Fivestar=
+s</b> <i>(small biz payments &amp; mktg)</i> <a href=3D"http://gary.to/sbgv=
+hc9" target=3D"_blank">raised</a> $52.5M.
+<br>
+<br>Mo&#39; Congrats! =3D=3D&gt; <b>Extend</b> <i>(product warranties)</i> =
+<a href=3D"http://gary.to/izkk900" target=3D"_blank">raised</a> $40M. <b>Ap=
+iiro</b> <i>(code risk scanning)</i> <a href=3D"http://gary.to/iskztrh" tar=
+get=3D"_blank">raised</a> $35M. <b>Cribl</b> <i>(data observability)</i> <a=
+ href=3D"http://gary.to/62tbfjd" target=3D"_blank">raised</a> $35M. <b>Vine=
+ti</b> <i>(gene therapy platform)</i> <a href=3D"http://gary.to/1oes4ho" ta=
+rget=3D"_blank">raised</a> $33M. <b>Kasa Living</b> <i>(short term rental)<=
+/i> <a href=3D"http://gary.to/598n4ng" target=3D"_blank">raised</a> $30M. <=
+b>FOSSA</b> <i>(open source mgmt)</i> <a href=3D"http://gary.to/tpdch6w" ta=
+rget=3D"_blank">raised</a> $23.2M.=20
+<br>
+<br>Mo&#39; Congrats! =3D=3D&gt; <b>Argyle</b> <i>(track &amp; verify emplo=
+yment records)</i> <a href=3D"http://gary.to/zdod03x" target=3D"_blank">rai=
+sed</a> $20M. <b>Matroid</b> <i>(computer vision)</i> <a href=3D"http://gar=
+y.to/n75zir3" target=3D"_blank">raised</a> $20M. <b>Sonrai Security</b> <i>=
+(cloud security platform)</i> <a href=3D"http://gary.to/5a1s6e3" target=3D"=
+_blank">raised</a> $20M. <b>Vivun</b> <i>(presale s/w)</i> <a href=3D"http:=
+//gary.to/22x018v" target=3D"_blank">raised</a> $18M. <b>Infiot</b> <i>(IoT=
+ infrastructure)</i> <a href=3D"http://gary.to/k4e56ik" target=3D"_blank">r=
+aised</a> $15M. <b>Savana</b> <i>(big data for electronic health records)</=
+i> <a href=3D"http://gary.to/viijvp0" target=3D"_blank">raised</a> $15M.
+<br>
+<br>Mo&#39; Congrats! =3D=3D&gt; <b>Engageli</b> <i>(digital classroom plat=
+form)</i> <a href=3D"http://gary.to/kvzetpj" target=3D"_blank">raised</a> $=
+14.5M. <b>Chiper</b> <i>(e-commerce for independent merchants)</i> <a href=
+=3D"http://gary.to/70c5shs" target=3D"_blank">raised</a> $12M. <b>River</b>=
+ <i>(content discovery platform)</i> <a href=3D"http://gary.to/817p2mb" tar=
+get=3D"_blank">raised</a> $10.4M. <b>GetSetup</b> <i>(edu tech for older ad=
+ults)</i> <a href=3D"http://gary.to/63q0fhn" target=3D"_blank">raised</a> $=
+10M. <b>Playbook</b> <i>(marketplace for fitness instructors)</i> <a href=
+=3D"http://gary.to/k0o2fpv" target=3D"_blank">raised</a> $9.3M.=20
+<br>
+<br>Mo&#39; Congrats! =3D=3D&gt; <b>Sanity</b> <i>(content platform for dev=
+elopers)</i> <a href=3D"http://gary.to/cfwhkef" target=3D"_blank">raised</a=
+> $9.3M. <b>Urban Umbrella</b> <i>(scaffolding design)</i> <a href=3D"http:=
+//gary.to/dj4qu1n" target=3D"_blank">raised</a> $9M. <b>Findem</b> <i>(HR r=
+ecruiting &amp; retention)</i> <a href=3D"http://gary.to/xloi7ai" target=3D=
+"_blank">raised</a> $7.3M. <b>Tiltify</b> <i>(fundraising platform)</i> <a =
+href=3D"http://gary.to/qjpm164" target=3D"_blank">raised</a> $6.5M. <b>Nabi=
+s</b> <i>(cannabis distributor)</i> <a href=3D"http://gary.to/zld36hc" targ=
+et=3D"_blank">raised</a> $5M.=20
+<br>
+<br>Mo&#39; Congrats! =3D=3D&gt; <b>Clair</b> <i>(rapid pay for gig economy=
+ workers)</i> <a href=3D"http://gary.to/jlq3vm0" target=3D"_blank">raised</=
+a> $4.5M. <b>Moment House</b> <i>(digital live experiences)</i> <a href=3D"=
+http://gary.to/e43pn0v" target=3D"_blank">raised</a> $1.5M. <b>Profitboss</=
+b> <i>(online ordering)</i> <a href=3D"http://gary.to/tcmeruo" target=3D"_b=
+lank">raised</a> $3.5M. <b>Caliber</b> <i>(fitness coaching platform)</i> <=
+a href=3D"http://gary.to/ejvmlep" target=3D"_blank">raised</a> $2.2M. <b>Th=
+e Juggernaut</b> <i>(media)</i> <a href=3D"http://gary.to/ck5krzs" target=
+=3D"_blank">raised</a> $2M.<br><br>
+<font style=3D"background-color:#ffff99;padding:2px">RECENTLY READ</font> =
+=3D=3D&gt; <b>Drones &amp; Ghosting</b> <a href=3D"http://gary.to/2m3d6lo" =
+target=3D"_blank">In Age Of Surveillance</a>, <b>60 Billion Dollar</b> <a h=
+ref=3D"http://gary.to/fudpvg0" target=3D"_blank">Woman</a>, <b>Quarter Cent=
+ury</b> <a href=3D"http://gary.to/erh0nej" target=3D"_blank">Of Hype</a>, <=
+b>Disney &amp; Airbnb</b> <a href=3D"http://gary.to/p6uxi28" target=3D"_bla=
+nk">Customer Service</a>, <b>Africa&#39;s</b> <a href=3D"http://gary.to/rou=
+t93u" target=3D"_blank">Animation Scene</a>, <b>China</b> <a href=3D"http:/=
+/gary.to/288sx22" target=3D"_blank">Policies &amp; Practices</a>, <b>The Ge=
+nius Of</b> <a href=3D"http://gary.to/w7jc1vx" target=3D"_blank">Spelling B=
+ee</a> and <b>The World&#39;s Largest</b> <a href=3D"http://gary.to/cynzb47=
+" target=3D"_blank">Insect Farm</a>.<br><br>
+<font style=3D"background-color:#ffff93;padding:2px">WHO&#39;S HIRING</font=
+> =3D=3D&gt; <a href=3D"http://gary.to/9nna600" target=3D"_blank">Product D=
+esigner</a> at <b>BentoBox</b>, <a href=3D"http://gary.to/v831zj8" target=
+=3D"_blank">Transit Planning Associate</a> at <b>Via</b>, <a href=3D"http:/=
+/gary.to/nt2s4sp" target=3D"_blank">Growth Product Mktg</a> at <b>Compass</=
+b>, <a href=3D"http://gary.to/ar0okhw" target=3D"_blank">Engg Mgr, Mapping<=
+/a> at <b>Lyft</b>, <a href=3D"http://gary.to/6zj0j3d" target=3D"_blank">Mk=
+tg</a> at <b>Zola</b>, <a href=3D"http://gary.to/b4peoeb" target=3D"_blank"=
+>Launch Coordinator</a> at <b>Peloton</b>, <a href=3D"http://gary.to/caooac=
+7" target=3D"_blank">Head of Risk &amp; Info Security</a> at <b>Betterment<=
+/b>, <a href=3D"http://gary.to/clrmqlc" target=3D"_blank">Product Designer<=
+/a> at <b>Bark</b>, <a href=3D"http://gary.to/7dmd43p" target=3D"_blank">Pr=
+oduct Mgr</a> at <b>GA</b>, <a href=3D"http://gary.to/zplhzw5" target=3D"_b=
+lank">Partner Ops Principal</a> at <b>Via</b>, <a href=3D"http://gary.to/bj=
+kbuks" target=3D"_blank">Dir. Data Engg</a> at <b>Peloton</b>, <a href=3D"h=
+ttp://gary.to/pcxlqrn" target=3D"_blank">Culinary Development Mgr</a> at <b=
+>HelloFresh</b>, <a href=3D"http://gary.to/baf8mzo" target=3D"_blank">Produ=
+ct Mktg</a> at <b>HelloFresh</b>, <a href=3D"http://gary.to/xxjncer" target=
+=3D"_blank">Analyst</a> at <b>CLEAR</b>, <a href=3D"http://gary.to/7nqqnn4"=
+ target=3D"_blank">Partner</a> at <b>First Round Capital</b>, <a href=3D"ht=
+tp://gary.to/qmiwf3p" target=3D"_blank">Sales Dev Rep For French Tech Start=
+ups &amp; Scaleups Launching In US</a> at <b>Business France</b>,  &amp; <b=
+><a href=3D"http://www.garysguide.com/jobs?region=3Dnewyork" target=3D"_bla=
+nk">many more</a>!</b><br><br>
+
+
+<font style=3D"background-color:#ffff99;padding:2px">LOCAL</font> <i>(w/ 25=
+% occupancy &amp; timed ticketing)</i> =3D=3D&gt; <b>MoMA</b> <a href=3D"ht=
+tp://gary.to/1npaccp" target=3D"_blank">Museum</a>. <b>Met</b> <a href=3D"h=
+ttp://gary.to/8fxxunw" target=3D"_blank">Museum</a>. <b>American Museum</b>=
+ <a href=3D"http://gary.to/c5kxbch" target=3D"_blank">of Natural History</a=
+>. <b>NY Historical</b> <a href=3D"http://gary.to/k2u5xwd" target=3D"_blank=
+">Society</a>. <b>Met</b> <a href=3D"http://gary.to/8fxxunw" target=3D"_bla=
+nk">Cloisters</a>.<br><br>
+<font style=3D"background-color:#ffff99;padding:2px">ONLINE</font> =3D=3D&g=
+t; Oct 24 <b>Daybreaker</b> <a href=3D"http://gary.to/lleyblq" target=3D"_b=
+lank">Live</a>. Oct 19 - Oct 25 <b>Met</b> <a href=3D"http://gary.to/s0z5y4=
+z" target=3D"_blank">Opera</a> <i>(7:30pm; Rossini&#39;s Il Barbiere di Siv=
+iglia, Mozart&#39;s Cosi fan tutte, Rossini&#39;s La Cenerentola, Verdi&#39=
+;s Falstaff, Strauss&#39;s Der Rosenkavalier, Rossini&#39;s Le Comte Ory)</=
+i>. <b>MoMA</b> <a href=3D"http://gary.to/3uckx4l" target=3D"_blank">Free C=
+ourses</a> <i>(Modern &amp; contemporary art)</i>.
+<br>
+<br>Mo&#39; Online <i>(virtual tours)</i> =3D=3D&gt; <b>The Met</b> <a href=
+=3D"http://gary.to/12k786x" target=3D"_blank">Museum</a>. <b>Musee</b> <a h=
+ref=3D"http://gary.to/vcdlzex" target=3D"_blank">du Louvre</a>. <b>Musee</b=
+> <a href=3D"http://gary.to/h9olo1m" target=3D"_blank">D&#39;Orsay</a>. <b>=
+Vatican</b> <a href=3D"http://gary.to/thlxep4" target=3D"_blank">Museum</a>=
+. <b>Uffizi</b> <a href=3D"http://gary.to/in3lzfl" target=3D"_blank">Galler=
+y</a>. <b>Istanbul</b> <a href=3D"http://gary.to/ox6mx7m" target=3D"_blank"=
+>Museum Of Modern Art</a>. <b>British</b> <a href=3D"http://gary.to/tfy582m=
+" target=3D"_blank">Museum</a>. <b>Chateau</b> <a href=3D"http://gary.to/mh=
+09kqo" target=3D"_blank">de Versailles</a>. <b>Van Gogh</b> <a href=3D"http=
+://gary.to/r95bhet" target=3D"_blank">Museum</a>. <b>National Gallery</b> <=
+a href=3D"http://gary.to/jaoeocy" target=3D"_blank">London</a>. <b>Guggenhe=
+im</b> <a href=3D"http://gary.to/o6vlh8i" target=3D"_blank">Bilbao</a>. <b>=
+Getty</b> <a href=3D"http://gary.to/a4gr5z1" target=3D"_blank">Museum</a>. =
+<b>National</b> <a href=3D"http://gary.to/nk53b0q" target=3D"_blank">Parks<=
+/a>.
+<br>
+<br>Mo&#39; Online =3D=3D&gt; <b>Free Courses</b> <a href=3D"http://gary.to=
+/2ciy9k2" target=3D"_blank">Online</a> <i>(450 free courses by Harvard, Col=
+umbia, Cornell, Princeton, Yale)</i>. <b>Free Audiobooks</b> <a href=3D"htt=
+p://gary.to/nioy487" target=3D"_blank">By Audible</a> <i>(Hundreds of free =
+titles)</i>. <b>Virtual Workout</b> <a href=3D"http://gary.to/chgu9u1" targ=
+et=3D"_blank">Classes</a> <i>(With ClassPass, Peloton, CorePower &amp; more=
+)</i>. <b>NY Public Library</b> <a href=3D"http://gary.to/85geh5w" target=
+=3D"_blank">E-Book Central</a> <i>(300,000+ free e-books)</i>.<br><br>
+Now watch <b>Monster</b> <a href=3D"http://gary.to/kmt7inj" target=3D"_blan=
+k">Hunter</a>, <b>Jungle</b><a href=3D"http://gary.to/bb3msho" target=3D"_b=
+lank">land</a> and <b>The Mandalorian:</b> <a href=3D"http://gary.to/0fjcxi=
+m" target=3D"_blank">Season 2</a> <i>(premiering Oct 30)</i>!<br><br>
+Until next week :)<br>Gary<br><i>(aka &quot;<a href=3D"http://gary.to/x0u3r=
+70" target=3D"_blank">The Guy with the Red Tie</a>&quot;)</i><br><br>
+
+Like this week&#39;s newsletter? Feel free to share it with your friends &a=
+mp; followers on <b><a href=3D"http://gary.to/qkrz1nw" target=3D"_blank">Fa=
+cebook</a></b>, <b><a href=3D"http://gary.to/s8bhxna" target=3D"_blank">Lin=
+kedIn</a></b> &amp; <b><a href=3D"http://gary.to/7ddjxvq" target=3D"_blank"=
+>Twitter</a></b>. Merci!<br>
+</td><td valign=3D"top" align=3D"center" width=3D"190"><a href=3D"http://ww=
+w.garysguide.com/redtie" target=3D"_blank"><img width=3D"190" height=3D"335=
+" src=3D"https://s3.amazonaws.com/garysguide/2ef0d96391704f5f9aa73b5696b91b=
+10original.jpg"></a>
+<br><br><a href=3D"http://gary.to/fb992rb" target=3D"_blank"><img width=3D"=
+190" height=3D"127" src=3D"https://s3.amazonaws.com/garysguide/59c52aade547=
+494ea290f014ee828e3doriginal.jpg"></a><br><i><b>Ree</b> is a <b>self-contai=
+ned electric vehicle chassis</b> w/ all components of <b>drivetrain &amp; s=
+teering built into it</b> &amp; tiny motors inside wheels so car can assume=
+ <b>any form</b>. Nice, yo!</i>
+<br><br><a href=3D"http://gary.to/41vt78h" target=3D"_blank"><img width=3D"=
+190" height=3D"127" src=3D"https://s3.amazonaws.com/garysguide/83e417e7da39=
+4eb790c30212db91c2a3original.png"></a><br><i>Recent images released by <b>N=
+ASA</b> taken by <b>Chandra X</b> (the <b>most powerful X-ray observatory</=
+b> ever built) in partnership w/ other telescopes incl. <b>Hubble Space Tel=
+escope</b>.</i>
+<br><br><a href=3D"http://gary.to/15q5vr2" target=3D"_blank"><img width=3D"=
+190" height=3D"127" src=3D"https://s3.amazonaws.com/garysguide/bf43c7ec6c9c=
+4df48e16f458ede4294boriginal.png"></a><br><i><b>Koda Loft</b> is a <b>tiny =
+movable home</b> that is <b>396 sq ft</b> in size, has a living room, kitch=
+en, bathroom &amp; upstairs bedroom and costs only <b>$95,000</b>.</i>
+<br><br><a href=3D"http://gary.to/0hqt3pa" target=3D"_blank"><img width=3D"=
+190" height=3D"127" src=3D"https://s3.amazonaws.com/garysguide/b9027408504d=
+4c83841eb69b8c759aaforiginal.jpg"></a><br><i><b>Ghost 4 military drone</b> =
+(by Anduril Industries) is 2-meter aircraft that can be <b>carried in a bac=
+kpack</b> &amp; designed to <b>withstand sand, mud &amp; seawater</b> of mi=
+litary operations.</i>
+</td></tr></tbody></table></td></tr>
+
+<tr><td valign=3D"top" style=3D"background-color:#ffffff">
+<table width=3D"100%" cellspacing=3D"8" cellpadding=3D"8">
+<tbody><tr><td><table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr><td><a href=3D"http://gary.to/0zsx9wu" target=3D"_blank"><img wi=
+dth=3D"600" height=3D"72.5" src=3D"https://s3.amazonaws.com/garysguide/1d89=
+c1a517734d15929306158b2705e5original.png"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/90amwj4" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"https://s3.amazonaws.com/garysguide/2a3646afc84=
+54804b0b871d7498991aforiginal.jpg"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/hc63tnh" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"https://s3.amazonaws.com/garysguide/35b903f4daf=
+94ab39de8338be2fa27b4original.jpg"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/3dpad6x" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"https://s3.amazonaws.com/garysguide/7d8a4ec41f9=
+f46adbdd3b3962c7ea5b7original.jpg"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/7i0wnk3" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"https://s3.amazonaws.com/garysguide/7290aab8f5e=
+d4f2f9a81c1df460e1194original.png"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/sub9cqx" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"https://s3.amazonaws.com/garysguide/7ba7f2a220b=
+d433cbe413a041d890d07original.png"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/yvniha9" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"https://s3.amazonaws.com/garysguide/22738d80909=
+a40208e50b1054ccd23eaoriginal.png"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/ycn8ilq" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"https://s3.amazonaws.com/garysguide/e908b4dbe7e=
+f466daa0dd8b3c4aded48original.png"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/en9yhge" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"https://s3.amazonaws.com/garysguide/04033df07a3=
+141158dec85f5f06a1816original.jpg"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/27eitgy" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"https://s3.amazonaws.com/garysguide/3e43d4f5af6=
+74548bbc359e8039e39adoriginal.jpg"></a></td></tr>
+
+</tbody></table></td></tr>
+</tbody></table></td></tr>
+
+<tr><td valign=3D"top" style=3D"background-color:#ffffff"><table width=3D"1=
+00%" cellspacing=3D"8" cellpadding=3D"8">
+<tbody><tr><td><table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0">
+
+<tbody><tr><td><b><font style=3D"font-size:17px;color:#585858">Spotlight</f=
+ont></b></td></tr>
+<tr><td><hr style=3D"border:0;color:#585858;background-color:#585858;height=
+:1px"></td></tr>
+<tr><td align=3D"left"><table width=3D"100%" cellspacing=3D"3" cellpadding=
+=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"https:=
+//s3.amazonaws.com/garysguide/3586cf8b25c74b0182a373ce73ce7621original.jpg"=
+></td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/u7cir7i" target=3D"_blank">Oct 19: Building Products In Uncer=
+tain Environments</a></b>
+<br><font style=3D"font-size:14px">With Claudia Laurie (Product Mgr, Uber).=
+</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table width=3D"100%" cellspacing=3D"3" cellpadding=
+=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"https:=
+//s3.amazonaws.com/garysguide/b693649f9fbc4b6199069eb3ad4d6615original.jpg"=
+></td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/u7w2vb0" target=3D"_blank">Oct 20: AgTech Week</a></b>
+<br><font style=3D"font-size:14px">With Henry Sztul (Bowery Farming), Yemi =
+Amu (Oko Farms), Rob Laing (Farm.One), Keith Carr (City Harvest), Zachary W=
+itman (Grow Squares), Alexander Oelsen (Babylon), Ricky Stephens (Agritectu=
+re). 10% off w/ &quot;GarysGuide10&quot;.</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table width=3D"100%" cellspacing=3D"3" cellpadding=
+=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"https:=
+//s3.amazonaws.com/garysguide/efee51bc0da34c6f8f187af2290bddb7original.png"=
+></td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/0ru0c9p" target=3D"_blank">Oct 21: Global Entrepreneurship Ex=
+perience After School Program</a></b>
+<br><font style=3D"font-size:14px">With Francisco D&#39;Souza (Co-Founder, =
+Cognizant), Yancey Strickler (Co-Founder, Kickstarter), Sean O&#39;Sullivan=
+ (SOSV Ventures), Wendy Diamond (Women&#39;s Entrepreneurship Day Org), Ang=
+ie Hicks (Founder, Angie&#39;s List).</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table width=3D"100%" cellspacing=3D"3" cellpadding=
+=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"https:=
+//s3.amazonaws.com/garysguide/bca6cde101cc45a680830d85a0214273original.png"=
+></td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/bwp75uc" target=3D"_blank">Oct 22: Venture Capital Pitch Nigh=
+t</a></b>
+<br><font style=3D"font-size:14px">With Charmaine Hayden (Partner, Good Soi=
+l VC), Eric Bahn (Co-Founder, Hustle Fund), Sarah Leners (Sr Assoc., Bull C=
+ity Venture Partners).</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table width=3D"100%" cellspacing=3D"3" cellpadding=
+=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"https:=
+//s3.amazonaws.com/garysguide/f5f77a99190e4bd5abec89b220f56ab5original.jpg"=
+></td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/y7dl71w" target=3D"_blank">Oct 28: System Reset - System Malf=
+unction</a></b>
+<br><font style=3D"font-size:14px">With Michael Tubbs (Mayor of Stockton, C=
+A), Melvin Carter (Mayor of Saint Paul, Minnesota), Robin Steinberg (Founde=
+r/CEO, The Bail Project), Kiah Williams (Co-Founder, Sirum).</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table width=3D"100%" cellspacing=3D"3" cellpadding=
+=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"https:=
+//s3.amazonaws.com/garysguide/84d6fdbff8f243da9b07f006fae13783original.png"=
+></td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/4mdz6it" target=3D"_blank">Nov 02: Global Open Innovation Kor=
+ea Conference</a></b>
+<br><font style=3D"font-size:14px">2-week conference (Nov 02-13) including =
+online events, workshops, pitching competitions &amp; 1:1 investor/startup =
+meetings. Hosted by Korea Trade-Investment Promotion Agency. </font>
+</td></tr>
+</tbody></table></td></tr>
+
+<tr><td>=C2=A0</td></tr>
+<tr><td><b><font style=3D"font-size:17px;color:#585858">Class Spotlight</fo=
+nt></b></td></tr>
+<tr><td><hr style=3D"border:0;color:#585858;background-color:#585858;height=
+:1px"></td></tr>
+<tr><td align=3D"left"><table cellspacing=3D"3" cellpadding=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"https:=
+//s3.amazonaws.com/garysguide/ec4cde530c25485db45fa7cb49803d00original.jpg"=
+></td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/sntkwsy" target=3D"_blank">SVMs w/ Metis</a></b>
+<br><font style=3D"font-size:14px">With Alice Zhao (Sr Data Scientist, Meti=
+s).</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table cellspacing=3D"3" cellpadding=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"https:=
+//s3.amazonaws.com/garysguide/3586cf8b25c74b0182a373ce73ce7621original.jpg"=
+></td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/kilf0dh" target=3D"_blank">Oct 19: Customer Feedback For Prod=
+uct Decisions</a></b>
+<br><font style=3D"font-size:14px">With Rafael Colorado (Principal Product =
+Mgr, Amazon).</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table cellspacing=3D"3" cellpadding=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"https:=
+//s3.amazonaws.com/garysguide/1df58be4663e46e18ac7779fd4b7a707original.png"=
+></td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/9xhkwua" target=3D"_blank">Oct 28: How Strong Is Your Machine=
+ Learning Model</a></b>
+<br><font style=3D"font-size:14px">Learn about concept of likelihood functi=
+on as it supervises models from logistic regression to deep learning.</font=
+>
+</td></tr>
+</tbody></table></td></tr>
+
+
+
+</tbody></table></td></tr>
+</tbody></table></td></tr>
+
+<tr><td><table width=3D"100%" cellspacing=3D"8" cellpadding=3D"8">
+<tbody><tr><td><table cellspacing=3D"0" cellpadding=3D"0">=20
+<tbody><tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858"><b>Mond=
+ay, Oct 19</b></td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 19</b><br>9=
+:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/wya01ys" target=3D"_blank">Communications Week 2020</a><=
+/b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Jeanine Liburd (Ch=
+ief Social Impact Officer, BET), Jani Lehtimki (Co-Founder, Brella), Aslak =
+Silva (CEO, Nordic Business Forum), Dan Frommer (Founder, The New Consumer)=
+, James Wright (CEO, Red Havas), Valerie Waller (CMO, The Y), Aaron Kwittke=
+n (Founder, PRophet), Dale Bornstein (CEO, M Booth).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 19</b><br>9=
+:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">
+<img src=3D"https://bit.ly/2zBegtB"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/hbkrhvu" target=3D"_blank">Inc 5000 Vision Conference</a=
+></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Mark Cuban (Judge =
+@ Shark Tank &amp; Owner of Dallas Mavericks), Vint Cerf (Chief Internet Ev=
+angelist, Google), David Chang (Founder, Momofuku), Ethan Brown (Founder/CE=
+O, Beyond Meat), Eren Bali (Founder, Udemy), Ted Allen (Food Network&#39;s =
+Chopped), Steve Case (CEO, Revolution &amp; Co-Founder, AOL).</font></td></=
+tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 19</b><br>1=
+0:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/13fq301" target=3D"_blank">Techstars Startup Week Online=
+</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b></font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 19</b><br>1=
+0:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/sqkuuio" target=3D"_blank">Diversity &amp; Inclusion Adv=
+ice For Startups</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Kellie Wagner (Fou=
+nder/CEO, Collective).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 19</b><br>1=
+1:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/mowavuw" target=3D"_blank">Rethink Summit</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Tom Fishburne (Fou=
+nder, Marketoonist), Baratunde Thurston (Comedian), Vivek Sharma (Founder, =
+Movable Ink), Matthew Nolan (Dir. Product Mktg, Pegasystems), Roger Barnett=
+e (CEO, MessageGears), Chelsea McClure (Dir., Redbubble), Gabe Alonso (Head=
+ of Digital Platforms &amp; Community, Pepsico).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 19</b><br>1=
+2:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">
+<img src=3D"https://bit.ly/2zBegtB"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/sgbijm1" target=3D"_blank">WSJ Tech Live</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Melinda Gates (Co-=
+Chair, Gates Foundation), Evan Spiegel (Co-Founder/CEO, Snap), Dara Khosrow=
+shahi (CEO, Uber), Arvind Krishna (CEO, IBM), Eric Schmidt (ex-CEO, Google)=
+, Ron Howard (Filmmaker), Fei Fei Li (Dir., Stanford Institute for Human-Ce=
+ntered AI), Deepak Chopra (Author, Total Mediation).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 19</b><br>1=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/zdhgxkq" target=3D"_blank">Launching On Product Hunt</a>=
+</b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Justin Mitchell &a=
+mp; Jordan Walker (Co-Founders, Yac).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 19</b><br>1=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/eo7o14g" target=3D"_blank">Product Mgmt Live Chat</a></b=
+>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Karan Mathur (Prod=
+uct Mgr, YouTube).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 19</b><br>2=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/cea0079" target=3D"_blank">Angel University</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>Learn about startup sou=
+rcing, negotiation, structuring deals &amp; portfolio mgmt, allocating capi=
+tal &amp; providing value to founders.</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 19</b><br>2=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/6qh7w6o" target=3D"_blank">Building Products In Uncertai=
+n Environments</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Claudia Laurie (Pr=
+oduct Mgr, Uber).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 19</b><br>5=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/5uuituw" target=3D"_blank">Customer Feedback For Product=
+ Decisions</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Rafael Colorado (P=
+rincipal Product Mgr, Amazon).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 19</b><br>1=
+1:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/q2x1gz6" target=3D"_blank">Expectations In Different Pro=
+duct Roles</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Agatha Krajewski (=
+Dir. Product, Shopify).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858"><b>Tuesday, Oc=
+t 20</b></td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>9=
+:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2zBegtB"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/qrd5l7d" target=3D"_blank">Adobe To The Max</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Shantanu Narayen (=
+CEO, Adobe), Conan O&#39;Brien (Comedian), Ava DuVernay (Dir. &amp; Produce=
+r), Gwyneth Paltrow (Founder, Goop), Wes Anderson (Filmmaker), Nick Offerma=
+n (Actor &amp; Woodworker), Taika Waititi (Dir.), Awkwafina (Comedian), Sco=
+tt Belsky (Chief Product Officer, Adobe).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>1=
+0:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/msnlsc5" target=3D"_blank">Rise Presents - The Future Of=
+ FinTech</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Jacob Bouer (Dir. =
+Strategic Partnerships, The Venture Center), Sandra Ro (CEO, Global Blockch=
+ain Business Council), Ron Shevlin (Dir. Research, Cornerstone Advisors), J=
+on Zanoff (Founder, Empire Startups), Jatin Rajput (Founder, Ad-In Ventures=
+).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>1=
+0:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+10<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/l7wm7wp" target=3D"_blank">VC Perspectives From The Boar=
+droom</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Wendy Xiao Schadec=
+k (Principal, Northzone).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>1=
+1:30am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/23c06so" target=3D"_blank">Tackling The Hurdles Of Enter=
+prise Blockchain</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Robert van Donge &=
+amp; Yana Koldra (IntellectEU) &amp; Gary Crisci (GE).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>1=
+2:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+45<br>
+<img src=3D"https://bit.ly/2n3pzFj"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/vcxc3cw" target=3D"_blank">AgTech Week</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Henry Sztul (Bower=
+y Farming), Yemi Amu (Oko Farms), Rob Laing (Farm.One), Kadeesha Williams (=
+NYBG Bronx Green-Up), Keith Carr (City Harvest), Zachary Witman (Grow Squar=
+es), Alexander Oelsen (Babylon Micro-Farms), Ricky Stephens (Agritecture). =
+10% off w/ &quot;GarysGuide10&quot;.</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>1=
+2:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/d0pfmib" target=3D"_blank">Hit Reset - Preventing Screen=
+ Fatigue While Staying Connected</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Liana Pavane (Foun=
+der, TTYL).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>1=
+2:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/lfkpzkt" target=3D"_blank">Next Big Idea Club</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Rutger Bregman (Au=
+thor, Humankind).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>1=
+2:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/v8p3d6c" target=3D"_blank">Day One Conference</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Carmen Bryant (Ind=
+eed), Keia Clarke (New York Liberty), Kamal Ahluwalia (Eightfold), Alexandr=
+a Powell (Reward Gateway), Jon Schlossberg (Even), Curtis Brooks (US Bank),=
+ Jennifer Dove (NBC Universal), Anne Helen Petersen (Author), Lydia Dishman=
+ (Fast Company).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>1=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2zBegtB"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/4witmnr" target=3D"_blank">NYC Meets London Tech &amp; S=
+tartups</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Laura Connell (Pri=
+ncipal, Balderton Capital), Russ Shaw (Founder, Tech London Advocates), Hen=
+rik Wetter Sanchez (Assoc., Playfair Capital).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>1=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/bcdl3ah" target=3D"_blank">Amazon AWS Virtual Startup Da=
+y</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>Focus on AWS products &=
+amp; services.</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>1=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/12dhtgw" target=3D"_blank">Building It - Launching Burri=
+to Pop</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Madelin Woods (Fou=
+nder/CEO @ Walden &amp; Creator @ Burrito Pop).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>1=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ii2aivy" target=3D"_blank">Product Mgmt Live Chat</a></b=
+>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Ming Guang Yong (P=
+roduct Mgr, Google).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>2=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/c4spr0o" target=3D"_blank">Fireside Chat w/ Nestle</a></=
+b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Luca Dell&#39;orle=
+tta (Global Product Dir., Nestle Mobile).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>5=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/nzodetv" target=3D"_blank">5 Top Tips For Breaking Into =
+Product</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Mike Skelton (Exec=
+ PM, BBC).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>5=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/t81uak7" target=3D"_blank">How She Got There - Product M=
+gmt</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Riana Singh (Found=
+er, Boss Women Collective).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>5=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/6kdu7hb" target=3D"_blank">How To Build A Brand People L=
+ove</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Emily Heyward (Co-=
+Founder &amp; Chief Brand Officer, Red Antler).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>5=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/4cs16yh" target=3D"_blank">Women In Tech</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Danielle Plecki (S=
+/w Enggr, Oscar Health), Lauren Meier (S/w Engg Intern, Oscar Health), Wei =
+Ji (Assoc. S/w Enggr, Oscar Health), Shannon Lin (Sr S/w Enggr, Oscar Healt=
+h).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>5=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+25<br>
+<img src=3D"https://bit.ly/2zBegtB"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/yuji65q" target=3D"_blank">Deep Tech Startup Pitches</a>=
+</b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Hermann Schindler =
+(CEO, Scalator Ventures), Maria Malavenda (MD, KOL Ventures), Peter Ondrusk=
+a (Head of Research, Lyft), Rana Gujral (CEO, Behavioral Signals).</font></=
+td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>5=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/cfhl72a" target=3D"_blank">She+ Geeks Out Power Up - Up =
+Your Strategic Game</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Colleen Tartow (Di=
+r. Engg, Starburst Data), Bhuvana Husain (Sr Dir., GrubHub), Lily Konings (=
+Product Designer, Facebook), Jess Iandiorio (CMO, Starburst Data).</font></=
+td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>5=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+25<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/no3tdak" target=3D"_blank">Brunchwork w/ Lightspeed Vent=
+ure Partners</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Amy Wu (Partner, L=
+ightspeed Venture Partners).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>5=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2zBegtB"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/uripla6" target=3D"_blank">The David Prize</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>$200,000 in funding eac=
+h for five individuals and/or ideas to create a better, brighter New York C=
+ity.</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/d6pprjy" target=3D"_blank">Data Visualization For Real-w=
+orld Machine Learning</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Julia Silge (Data =
+Scientist, RStudio PBC).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/41ur10l" target=3D"_blank">SQL Streaming Databases</a></=
+b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Frank McSherry (Co=
+-Founder &amp; Chief Scientist, Materialize).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 20</b><br>7=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2zBegtB"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/qsbnu0o" target=3D"_blank">Candid Election - Climate, Ju=
+stice &amp; The Economy</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Andrew Revkin (Fou=
+nding Dir., The Earth Institute @ Columbia), Linette Lopez (Columnist Polit=
+ics &amp; Economy, Business Insider), Rina Shah (Political Advisor, The Lin=
+coln Project), Eliza Orlins (Public Defender, Legal Aid Society &amp; Manha=
+ttan District Attorney Candidate).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858"><b>Wednesday, =
+Oct 21</b></td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>9=
+:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2n3pzFj"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/zimle2w" target=3D"_blank">Global Entrepreneurship Exper=
+ience After School Program</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Francisco D&#39;So=
+uza (Co-Founder, Cognizant), Yancey Strickler (Co-Founder, Kickstarter), Se=
+an O&#39;Sullivan (SOSV Ventures), Wendy Diamond (Women&#39;s Entrepreneurs=
+hip Day Org), Angie Hicks (Founder, Angie&#39;s List).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>9=
+:30am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/gt5ggon" target=3D"_blank">Exploring The Future Of Downt=
+own</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Shaina Horowitz (V=
+P Product &amp; Programs, Newlab), Micha Lasher (CUNY), Jim O&#39;Grady (WN=
+YC), Christine Quinn (CEO, Win), Jessica Walker (CEO, Manhattan Chamber of =
+Commerce).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>1=
+0:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/9s4lkqd" target=3D"_blank">Changing The Financial Landsc=
+ape - Gen Z &amp; Millennial Banking Trends</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Adrienne Yih (MD C=
+onsumer Discretionary Analyst, Barclays), Neel Ganu (Founder, Finch), Stuar=
+t Sopp (CEO, Current), Julie VerHage (Editor-in-Chief, FinTech Today).</fon=
+t></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>1=
+0:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+10<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/rsis3n1" target=3D"_blank">Customer Acquisition &amp; Pe=
+rformance Marketing Advice For Startups</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Gylan Saunders (He=
+ad of Consumer Performance Mktg, Klarna).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>1=
+1:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/cpd0m62" target=3D"_blank">WE Inspire Conference</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Lucy Cooper (Head =
+of Innovation, Accenture) &amp; Zainab Ahmed (Co-Founder/CEO, QuickCount).<=
+/font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>1=
+1:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/w9jpiqs" target=3D"_blank">IoTC Huddles - Connected Tran=
+sportation, Fleet Mgmt &amp; Role Of Data</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b></font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>1=
+1:30am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/wah02c4" target=3D"_blank">Uncertainty Visualization &am=
+p; Bayes</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Matthew Kay (Asst =
+Prof. CS &amp; Communication @ Northwestern University).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>1=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/bl6256r" target=3D"_blank">Leaders Live w/ Narrative I/O=
+</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Nick Jordan (Found=
+er/CEO, Narrative I/O).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>2=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/frhfa99" target=3D"_blank">Taking Over Tech - Empowering=
+ Girls &amp; Womxn Everywhere</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b></font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>2=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2zBegtB"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/5xkeekb" target=3D"_blank">Let There Be Hope - Celebrati=
+ng Social Entrepreneurs</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Chris Gordon (CEO,=
+ Irish Social Enterprise Network), Amr Dawood (Co-Founder, The Good Summit)=
+, Dermot McCarthy (Co-Founder, Under The Rainbow), Vikki Brennan (CEO, Prou=
+dly Made In Africa), Ellie Kisyombe (Co-Founder, Our Table), Donal Traynor =
+(Dir., Community Finance Ireland).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>2=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ntqymim" target=3D"_blank">Where Product Meets Complianc=
+e</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Phil O&#39;Hagan (=
+Product Mgr, Booking.com).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>4=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/tsjcm2w" target=3D"_blank">How To Thrive As A POC Small =
+Biz Owner - The One-Page Business Plan</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Pam Capalad (Found=
+er, Brunch &amp; Budget) &amp; MC Dyalekt (Hip Hop Educator).</font></td></=
+tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>4=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/x1ttiql" target=3D"_blank">MedMo 2021 Vision Challenge</=
+a></b>
+<br><font style=3D"font-size:14px"><b>Online</b></font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>5=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/oqtyc1x" target=3D"_blank">Why You Should Think Like An =
+Editor</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Terek Judi (Produc=
+t Mgr of AR, Google).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/z4a62js" target=3D"_blank">ERA Women Founders Night</a><=
+/b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Chelsea Brownridge=
+ (Co-Founder/CEO, DogSpot), Jessica Peltz-Zatulove (Founding Partner, Hanna=
+h Grey), Aubrey Hubbell (Co-Founder, Hazel), Tanya Perkins (COO, Tembo Heal=
+th).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>7=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2zBegtB"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/fdcof95" target=3D"_blank">Stanford Entrepreneurial Thou=
+ght Leaders Talk w/ Zoom</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Eric Yuan (Founder=
+, Zoom).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 21</b><br>9=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+20<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/os4njq8" target=3D"_blank">Startup Grind w/ Kickstarter<=
+/a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Yancey Strickler (=
+Founder, Kickstarter And Author, This Could Be Our Future: A Manifesto For =
+A More Generous World).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858"><b>Thursday, O=
+ct 22</b></td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>9=
+:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">
+<img src=3D"https://bit.ly/2zBegtB"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/rye2u3t" target=3D"_blank">WRLDCTY</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Bjarke Ingels (Fou=
+nder, BIG), Dan Doctoroff (CEO, Sidewalk Labs), Shin-Pei Tsay (Dir. Policy,=
+ Uber), Laura Cha (Chairman, Hong Kong Exchanges), Fred Olayele (Chief Econ=
+omist, NYC), Chip Conley (ex-Head of Global Strategy, Airbnb), Micah Kotch =
+(MD, URBAN-X by MINI), Andrew Weir (Chairman, KPMG China).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>1=
+0:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+10<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/z1kdw8w" target=3D"_blank">What Founders Need To Know Ab=
+out IP</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b></font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>1=
+0:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/w9nb7c1" target=3D"_blank">In-housing In 2020 &amp; Beyo=
+nd</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Ben Knight (Co-Fou=
+nder, Serpico by Croud), Jerry Buhlmann (Non-Exec Chairman, Croud), Jude Br=
+idge (Managing Partner, Oystercatchers), Branwell Johnson (Dir. Content, Pr=
+opeller).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>1=
+1:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/822wy4l" target=3D"_blank">Rise Presents - FinTech Acros=
+s The Globe</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Pablo Viguera (Co-=
+Founder/Co-CEO, Belvo) &amp; Chioma Ruky Okotcha (Co-Founder, PayHippo).</f=
+ont></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>1=
+1:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/fub7zuc" target=3D"_blank">Building Digital Readiness Fo=
+r A New Era</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b></font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>1=
+2:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ngpz91h" target=3D"_blank">Swissnex Demo Day</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Mathieu Horras (Co=
+-Founder/CEO, ASPIVIX), Volker Bartenbach &amp; Michael Stucky (Co-Founders=
+, Auxivo), Antonia Bolla (Founder, JAMIE &amp; I), Giacomo Valle (MYLEG), N=
+icolas Vachicouras (CEO, Neurosoft Bioelectronics), Harald Studer (CEO, Opt=
+imo Medical), Peter Nestorov (CEO, Scailyte).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>1=
+2:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2zBegtB"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ld2mr4a" target=3D"_blank">Heads Of Operations Conferenc=
+e</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Dan Perkins (Dir. =
+Ops, IBM), Philip Devin (Dir. Ops Strategic Accounts, Oracle), Nikhil Subra=
+manian (Sr Dir. Strategy &amp; Ops Mixed Reality, Microsoft), Arnab Guha (D=
+ir. Business Ops, VMware), Ram Parimi (Head of Strategy &amp; Ops, Google C=
+loud).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>1=
+2:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/15pk573" target=3D"_blank">ESPN Fantasy Football - Trade=
+ Assistant &amp; Player Insights w/ IBM Watson</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Aaron Baughman (De=
+veloper Advocate, IBM) &amp; Micah Forster (S/w Enggr, IBM).</font></td></t=
+r>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>1=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/7r0xj6h" target=3D"_blank">Making Your First Sales Hire<=
+/a></b>
+<br><font style=3D"font-size:14px"><b>Online</b></font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>1=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/7einsa3" target=3D"_blank">Author In Residence w/ Kara G=
+oldin of Hint Water</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Kara Goldin (Found=
+er @ Hint Water &amp; Author of  Undaunted: Overcoming Doubts &amp; Doubter=
+s).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>1=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/6n5aro1" target=3D"_blank">Product Mgmt Live Chat</a></b=
+>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Debapriya Basu (Pr=
+incipal Product Mgr, Zillow).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>2=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/fihy3of" target=3D"_blank">Fraud In 2030</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Maneesh Madan (CEO=
+, InsurAnalytics AI), Vivian Li (Principal, Avanta Ventures), Kamesh Raghav=
+endra (Chief Product Officer, The Hive).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>2=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/uj47920" target=3D"_blank">B2B &amp; B2C Product Launch =
+From 0</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Suyash Tiwari (Sr =
+Product Mgr, Microsoft).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>3=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2zBegtB"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/toch1a2" target=3D"_blank">Newsmakers - AI &amp; Future =
+Of Journalism</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Daniel Levitt (Jou=
+rnalist @ WSJ &amp; Founder @ Inside The Newsroom) &amp; Francesco Marconi =
+(SVP AI @ Newlab &amp; Co-Founder @ Applied XL).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>3=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/2j8ngoo" target=3D"_blank">Founders Take w/ Shareity</a>=
+</b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Ben Hill (Founder,=
+ Shareity).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>4=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2zBegtB"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/6py7zo9" target=3D"_blank">Supply Chain Meetup - Optimiz=
+ing Port Drayage With Technology</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Giovanni Antonucci=
+o (GM, APM Terminals), Gary Kendle (VP Operations, Pacifica Trucks), Sammi =
+Liu (COO, Dray Alliance), Michael Mecca (CEO, PortPro).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>4=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/rxpsyy9" target=3D"_blank">Investor Intros The Unconvent=
+ional Way</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Brian Folmer (Foun=
+der/CEO, FirstLook).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>4=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/l1nspfh" target=3D"_blank">Retail X Series - Building A =
+Curated Marketpace</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Michelle Reeves (C=
+o-Founder/CEO, The Accessory Junkie).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>5=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/dik5s73" target=3D"_blank">PM For Different Stages Of A =
+Company &amp; How To Navigate</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Shashaank Shekhar =
+Singhal (Product Mgr, Uber).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>5=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/f53l7oy" target=3D"_blank">MassChallenge 2020 Awards</a>=
+</b>
+<br><font style=3D"font-size:14px"><b>Online</b></font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>5=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/41koc1g" target=3D"_blank">Diversity In Tech &amp; Finan=
+ce - How To Build A Career As A Minority</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Jon Chu (Chief Pro=
+duct Officer, PrivCo), Betty Ng (Founder/CEO, Inspiring Diversity), Brett J=
+ohnson (Implementation Consultant, LinkedIn).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2n3pzFj"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ptl7zsn" target=3D"_blank">How To Excel As A Data Scient=
+ist In Any Company</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Katie Critelli (Da=
+ta Scientist &amp; Product Mgr, Total Brain).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/88jjqy6" target=3D"_blank">Zahn Innovation Center Firesi=
+de Chat w/ Backstage Capital</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Arlan Hamilton (Fo=
+under, Backstage Capital).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+10<br>
+<img src=3D"https://bit.ly/2n3pzFj"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/vpq228i" target=3D"_blank">Investor Office Hours</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b></font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">
+<img src=3D"https://bit.ly/2n3pzFj"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/djbsvtj" target=3D"_blank">Venture Capital Pitch Night</=
+a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Charmaine Hayden (=
+Partner, Good Soil VC), Eric Bahn (Co-Founder, Hustle Fund), Sarah Leners (=
+Sr Assoc., Bull City Venture Partners).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>7=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/2ml2kmi" target=3D"_blank">Solving Security &amp; Compli=
+ance Needs In Kubernetes</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Colby Dyess (Cloud=
+ Strategy, Tufin) &amp; Johan Tordsson (Founder/CTO, Elastisys).</font></td=
+></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 22</b><br>7=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ehbe851" target=3D"_blank">Analyzing Gender Bias w/ R</a=
+></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Yipeng Lai (Applie=
+d Scientist, StreetEasy).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858"><b>Friday, Oct=
+ 23</b></td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 23</b><br>8=
+:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ljv32gt" target=3D"_blank">CURIOUS Digital &amp; Ecommer=
+ce Marketing Conference</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Seth Dallaire (CRO=
+, Instacart), Yoav Izhar-Prato (CEO, Kenshoo), Elizabeth Mansfield (Global =
+Mktg, Pinterest), Alexis Josephs (VP Partnerships, Walmart Media), Kris McD=
+ermott (Dir. Shopper Mktg, Kimberly-Clark), Nizan Teeni (Head of Performanc=
+e, Dentsu), Frank Kochenash (Wunderman Thompson).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 23</b><br>1=
+0:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">
+<img src=3D"https://bit.ly/2zBegtB"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/wnrm43i" target=3D"_blank">NYU Entrepreneurs Festival</a=
+></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Evan Moore (Founde=
+r @ DoorDash, Vevo &amp; OpenDoor), Andy Kangpan (Two Sigma Ventures), Davi=
+d Shin (Rosecliff Ventures), Molly O&#39;Shea (NYL Ventures), Adrian Grant =
+(The Fund), Paul Kaiser (Blackstone LaunchPad &amp; Techstars), Vanessa Wru=
+ble (Co-Founder, Esusu), Riley Jones (Co-Founder, Bloc).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 23</b><br>2=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/afqv61w" target=3D"_blank">HVTechFest 2020 - Youth Virtu=
+al Hackathon</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b></font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 23</b><br>2=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ic7na26" target=3D"_blank">Transitioning To Product From=
+ Marketing</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Sophie Kahan (Prod=
+uct Mgr, Amazon).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 23</b><br>3=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/t9bkgas" target=3D"_blank">Entrepreneur Chat w/ TerraCyc=
+le &amp; Loop</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Tom Szacky (Founde=
+r/CEO, TerraCycle &amp; Loop).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 23</b><br>4=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/t7z0p7x" target=3D"_blank">Fireside Chat w/ InVision</a>=
+</b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Frank Harris (VP P=
+latform &amp; Growth, InVision).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 23</b><br>5=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ptr1qk0" target=3D"_blank">Common Mistakes When Starting=
+ A/B Testing</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Gina Benedetti (Pr=
+oduct Mgr, Warby Parker).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858"><b>Saturday, O=
+ct 24</b></td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 24</b><br>1=
+1:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/lzff3cz" target=3D"_blank">The Future Of Women At Work H=
+ackathon</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Katie Franco (Exec=
+ Dir., Girl Develop It), Leslie Forde (Founder, Mom&#39;s Hierarchy of Need=
+s), Kandice Harris (Dir., Run for Something).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 24</b><br>2=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/t1h9mam" target=3D"_blank">Coordinate Roadmaps &amp; Wor=
+k w/ Multiple Teams</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Moumita Paul (Prod=
+uct Mgr, Amazon).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 24</b><br>2=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+25<br>
+<img src=3D"https://bit.ly/2i5LGsL"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/vwuy3hr" target=3D"_blank">Bumble Brunchwork</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Priti Joshi (VP St=
+rategy &amp; Operations, Bumble).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858"><b>Sunday, Oct=
+ 25</b></td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Oct 25</b><br>2=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/7li0ael" target=3D"_blank">How To Sell Your Idea Effecti=
+vely As A PM</a></b>
+<br><font style=3D"font-size:14px"><b>Online</b><br>With Rakshit Sinha (Sr =
+Product Mgr, Spotify).</font></td></tr>
+
+
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858">More Upcoming =
+Events</td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr><td colspan=3D"3"><table width=3D"100%"><tbody><tr><td><font style=3D"f=
+ont-size:15px">
+</font></td></tr><tr><td width=3D"59" valign=3D"top"><font style=3D"font-si=
+ze:15px">Oct 26:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/i=
+qqsppu" target=3D"_blank">Founder University</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 26:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/1=
+tjxquj" target=3D"_blank">Fireside Chat w/ Hopin</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 26:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/t=
+wmqzxy" target=3D"_blank">The Importance To Understand Your Product</a></b>=
+ @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 27:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/p=
+ii3mtd" target=3D"_blank">Mentor Makers LIVE</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 27:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/5=
+jx6lgb" target=3D"_blank">Product Mgmt Live Chat</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 27:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/p=
+892440" target=3D"_blank">ERA Accelerator Founders Panel</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 28:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/d=
+tmahzo" target=3D"_blank">Techstars NYC AMA</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 28:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/a=
+50yut6" target=3D"_blank">When Donuts Meet Croissants  - Cultural Differenc=
+es In Business Betn French &amp; Americans</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 28:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/u=
+dbhfa5" target=3D"_blank">Planning During Uncertainty - How To Build An Ann=
+ual Plan For 2021</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 28:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/6=
+32or3x" target=3D"_blank">Funding Hacks - Building A Funnel &amp; Running A=
+ Process</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 28:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/5=
+v5bjfh" target=3D"_blank">Enterprise Tech Meetup - Essential Guide To SaaS =
+Metrics</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 28:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/l=
+tc29on" target=3D"_blank">AMA Live</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 28:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/s=
+a2eonk" target=3D"_blank">Fireside Chat</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 28:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/8=
+etox14" target=3D"_blank">Disney+ Brunchwork</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 28:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/a=
+dok7ih" target=3D"_blank">System Reset - System Malfunction</a></b> @ Onlin=
+e
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 28:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/v=
+rkgkba" target=3D"_blank">How Strong Is Your Machine Learning Model</a></b>=
+ @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 28:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/8=
+kxqeye" target=3D"_blank">Startup Pitch Competition</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 28:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/5=
+gkc9fk" target=3D"_blank">Creating A Brighter Future - STEM, Tech &amp; Com=
+munity</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 28:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/a=
+icnowb" target=3D"_blank">Stanford Entrepreneurial Thought Leaders Talk w/ =
+RUNWAY</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 29:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/5=
+gpl4zu" target=3D"_blank">Retail X Series - Fundraising 101</a></b> @ Onlin=
+e
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 29:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/z=
+cmgjh5" target=3D"_blank">M&amp;A Bootcamp - Ultimate Guide To Mergers &amp=
+; Acquisitions For Startups</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Oct 29:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/f=
+l9vcbc" target=3D"_blank">Virtual Trick or Tequila - Halloween Costume Part=
+y</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Nov 02:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/i=
+7y3gkv" target=3D"_blank">Global Open Innovation Korea Conference</a></b> @=
+ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Nov 04:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/n=
+pxw50b" target=3D"_blank">Founders Leadership Series w/ The RealReal</a></b=
+> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Nov 04:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/f=
+jo6h0w" target=3D"_blank">Journey To Forbes 30 Under 30 - Learning From The=
+ Honorees</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Nov 04:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/2=
+lkfci0" target=3D"_blank">Stanford Entrepreneurial Thought Leaders Talk w/ =
+Lightspeed Ventures</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Nov 05:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/s=
+26snje" target=3D"_blank">Alternative Funding Pathways For Innovators - Sta=
+rtups &amp; Small Business</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Nov 07:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/v=
+7jqxdr" target=3D"_blank">Notion Brunchwork</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Nov 10:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/h=
+j1y7rz" target=3D"_blank">From JPMorgan To Uber - Career Transitions As A W=
+oman Of Color</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Nov 10:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/0=
+77ahud" target=3D"_blank">Headspace Brunchwork</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Nov 11:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/e=
+sjut6v" target=3D"_blank">Stanford Entrepreneurial Thought Leaders Talk w/ =
+Nextdoor</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Nov 12:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/k=
+e0o5na" target=3D"_blank">Venture Capital Pitch Night</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Nov 13:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/p=
+zctj1s" target=3D"_blank">Entrepreneur Chat w/ Boxed</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Nov 17:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/m=
+7yh0i9" target=3D"_blank">TechDay New York</a></b> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Nov 17:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/q=
+4l5gb2" target=3D"_blank">Brunchwork w/ LTSE &amp; FirstMark Capital</a></b=
+> @ Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Dec 02:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/d=
+yxxg9d" target=3D"_blank">Sight Tech Global - Accessibility Tech</a></b> @ =
+Online
+<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top"><font style=3D"font-size:15px">Dec 09:=
+=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/g=
+agg5vo" target=3D"_blank">System Reset - Existential Threats</a></b> @ Onli=
+ne
+<br><br></font></td></tr>
+
+</tbody></table></td></tr>
+
+
+
+</tbody></table></td></tr>
+
+</tbody></table></td></tr>
+</tbody></table></td></tr>
+
+<tr><td align=3D"center"><table width=3D"100%" cellspacing=3D"2" cellpaddin=
+g=3D"2">
+
+<tbody><tr><td align=3D"center"><font style=3D"font-size:13px;color:#666666=
+">
+Add <a href=3D"mailto:newsletter@garysguide.com" target=3D"_blank">newslett=
+er@garysguide.com</a> to your address book to ensure delivery into your Inb=
+ox and not your bulk or junk folders.=C2=A0=C2=A0
+<br><br>
+To change your email address just reply to this email with the new email ad=
+dress.
+<br><br>
+To unsubscribe from the newsletter just reply to this email with the word &=
+quot;unsubscribe&quot; in the title.
+<br><br>
+Have a question, comment or feedback? Email Gary (aka &quot;The Guy with th=
+e Red Tie&quot;) at <a href=3D"mailto:gary@garysguide.com" target=3D"_blank=
+">gary@garysguide.com</a>
+<br><br>
+=C2=A9 2020=C2=A0GarysGuide
+</font></td></tr>
+
+</tbody></table></td></tr>
+
+</tbody></table>
+
+</div>
+
+</div><br clear=3D"all"><div><br></div><span class=3D"gmail_signature_prefi=
+x">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=
+=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div style=
+=3D"font-family:arial,sans-serif;font-size:13.200000762939453px;font-style:=
+normal;font-variant:normal;letter-spacing:normal;line-height:normal;text-al=
+ign:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;wor=
+d-spacing:0px;background-color:rgb(255,255,255)"><font color=3D"#ff6600">Ly=
+dia<b>Stepanek</b></font></div><div style=3D"font-family:arial,sans-serif;f=
+ont-size:13.2000007629395px;font-style:normal;font-variant:normal;font-weig=
+ht:normal;letter-spacing:normal;line-height:normal;text-align:-webkit-auto;=
+text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;bac=
+kground-color:rgb(255,255,255)"><font color=3D"#666666">203.804.9137</font>=
+</div></div></div></div></div></div></div>
+
+--000000000000e4d3ac05fc61c3cf--

@@ -1,0 +1,266 @@
+Return-Path: <fake@email.com>
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id fegpjvia3s75firghmib6uuuhlmdgatahhtujlo1
+ for help@isthisphishy.io;
+ Fri, 02 Jun 2023 13:26:58 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.222.172 as permitted sender) client-ip=209.85.222.172; envelope-from=fake@email.com; helo=mail-qk1-f172.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.222.172 as permitted sender) client-ip=209.85.222.172; envelope-from=fake@email.com; helo=mail-qk1-f172.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFFUFBuemlwODFWRUxRSWVQUGJIbVJwTXdyT1pCZ2RPNGxUTk82ZXh1VTMvZ2FiYXg0aXN2SGhiVHY0SEEvbCtoWVJ2aFVORjhjZm5rZ25rMUtLZDgrWFBQQjVJTnUwcnVHT2ZaY3NjY2RCOEpVUSswZ3RQR2lHSk1UTVRhNzBKbzFKR1hxTzdQejd3M3pHSktBaW95bCtQZDltK29MbWVjT1JaSUtMRU1MNVYvNGdFL0oveGpNaHFRZkhIR2hlcDFJcnl2YkZzNDRlT3hVS0Y5MkZNdlpBd1JrcGpDT25wYi81ZFBqdVVndkRxWmxFeFVjUlFtcTIzNnhzNzNYbitTcGpjK3VRSXVEWk5sWkZEYWNSSlZnd3RzY0lQNGJ0YVJLV21hODdsV0E5OUE9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=bc4CtrEWSByqISejld9SWFXfAeiHaxN9Wd4Pjhg0JZgRYreDvCRkXKAG4ILJBZS+vFzNcRfwhOUHFzALLbccsC9VoTPCB/rK/9dt+VAbW67Dn2UbV+lDZ/P4ZdfIKw//1yBqa8n6J7i3xWKJ2CrPeEhJXuQF5Qz8s3d4IHz+eo4=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1685712419; v=1; bh=eK3FSx2IGOXuSjYbH1fb4EOeh/vTKVb+V1qQ2ExwXxU=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-75b0f2ce4b7so205829685a.2
+        for <help@isthisphishy.io>; Fri, 02 Jun 2023 06:26:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685712417; x=1688304417;
+        h=to:references:message-id:subject:date:mime-version:from
+         :content-transfer-encoding:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LUodDCmPXtchBiNHH5MyU5gFsNGOA+e3leJN4Zowkyo=;
+        b=d6hbWQ7X3qnuOupGH0FO7HInn6jJFDwNwyghYl7GCMaSGe89BIjFD9uBzBxD5noz+o
+         cEPBlmoxAQhSVdno8YCuXiddTFObvLbQndR8htKQ1mfdbA8kYIIFAK0yC1j7PX3vpqfB
+         OV8guMN1mED0jtsRmqZFMo4gHFsBnYUNkegXZLji8mjTnEFX5D6XVN4P1KXlXZoGwkX9
+         QgjquU2Hz7D352V1hYk48fKlgNEonea9/ww5zdbhR41jeH4Bnu8j+5YbAwUaM2S1LWCE
+         eLXfidjRboURnrr1TvunW04fOVBk8Mc4mKqpR6QINaTbTrD7+cHvCmuqhloMIIjMr3Ih
+         Aqug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685712417; x=1688304417;
+        h=to:references:message-id:subject:date:mime-version:from
+         :content-transfer-encoding:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=LUodDCmPXtchBiNHH5MyU5gFsNGOA+e3leJN4Zowkyo=;
+        b=Kz5L7c1qtKrRKpNNbYy+OWig/pUpPdiUWopvdvrUZhuUnFe1BS7wlu67BifKaTToko
+         0KkiqTjuORlgYjhKMKKAre3RYRE3tUfirSAAd4h6qMVRiffuUIi0/CfQtS8yqA2cOTY2
+         Esmj24tOC5IOcGuTznP78ucpGbdhiwmjVJZbSbxXjNWBBPYJmjtnIlmomtFHXHaJNodG
+         IXm1yvavBeDHf3eumGQX1gNF9zCFcpgmsKGS/XCrMmfh9KAP06hXG6wF4yUPnTUiDJGM
+         /kZTXzijyzezRwIxqq02lnWgD6wqb37pARlV2SXPiTX6FGGUYmytefqO8xSW/Wk46BVh
+         Okzw==
+X-Gm-Message-State: AC+VfDxDKvbWYmwHyEjqKADBltdW9GF+KBQqOAGHwLQNV1Z/72QvHays
+	h8QyKEIrhOe6bgR2FO8CjsOCSZaQO4g=
+X-Google-Smtp-Source: ACHHUZ4fVyhOKjDbTDJ98skJ2afWjVXXbPf32EPGwZDItHDPxg9WI/jHY/N6KEzvjmhEl6Sg19LVqQ==
+X-Received: by 2002:a37:4493:0:b0:75b:23a0:d9be with SMTP id r141-20020a374493000000b0075b23a0d9bemr10429128qka.20.1685712416724;
+        Fri, 02 Jun 2023 06:26:56 -0700 (PDT)
+Return-Path: <fake@email.com>
+Received: from smtpclient.apple ([2607:fea8:3162:c800:6499:89bc:f303:6dcd])
+        by smtp.gmail.com with ESMTPSA id x13-20020ae9e90d000000b0075ceca53e84sm640447qkf.15.2023.06.02.06.26.56
+        for <help@isthisphishy.io>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Jun 2023 06:26:56 -0700 (PDT)
+Content-Type: multipart/alternative; boundary=Apple-Mail-FC12E7C6-9035-4120-B13F-03E99A4129ED
+Content-Transfer-Encoding: 7bit
+From: F Lancock <fake@email.com>
+Mime-Version: 1.0 (1.0)
+Date: Fri, 2 Jun 2023 09:26:45 -0400
+Subject: Fwd: Shipment on its way
+Message-Id: <6412D923-C671-4F62-BCD2-6FDFAC17F760@gmail.com>
+References: <AEXVMWEB10uwQmsYwMT00705a45@AEXVMWEB10>
+To: help@isthisphishy.io
+X-Mailer: iPhone Mail (20B110)
+
+
+--Apple-Mail-FC12E7C6-9035-4120-B13F-03E99A4129ED
+Content-Type: text/html;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><meta http-equiv=3D"content-type" content=3D"text/html; charset=3D=
+utf-8"></head><body dir=3D"auto"><br><br><div dir=3D"ltr">Sent from my iPhon=
+e</div><div dir=3D"ltr"><br>Begin forwarded message:<br><br></div><blockquot=
+e type=3D"cite"><div dir=3D"ltr"><b>From:</b> Apple Express Courier &lt;nore=
+ply@appleexpress.com&gt;<br><b>Date:</b> June 2, 2023 at 5:00:04 AM EDT<br><=
+b>To:</b> fake@email.com<br><b>Subject:</b> <b>Shipment on its way</=
+b><br><br></div></blockquote><blockquote type=3D"cite"><div dir=3D"ltr">=EF=BB=
+=BF
+
+
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii">=
+
+<title>Picked up</title>
+<meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D1">=
+
+<style>* { box-sizing: border-box; }
+body { font-family: Arial; margin: 0px; width: 100%; }
+.header { padding: 60px; text-align: center; }
+.navbar { display: flex; justify-content: space-around; }
+.navbar .ln { color: black; padding: 14px 20px; text-decoration: none; text-=
+align: center; width: 90%; }
+.row { display: flex; }
+.footer { padding: 20px; text-align: center; background-color: rgb(221, 221,=
+ 221); }</style>
+
+
+<table width=3D"100%" style=3D"border: none;    border-spacing: 0px;">
+<!-- Logo -->
+<tbody>
+<tr valign=3D"center" style=3D"background-color:black;overflow: auto;text-al=
+ign:center;height: 100%;">
+<td width=3D"30%"><img src=3D"https://goapple.appleexpress.com/images/Applel=
+ogo.jpg" alt=3D"Image" title=3D"Image" style=3D"padding-top: 0%;padding-bott=
+om: 0%;padding-left:3%; margin-bottom: 0%; outline: none;text-decoration: no=
+ne;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !import=
+ant;border: none;height: auto;float: none;width:100%;max-width: 347.2px;" wi=
+dth=3D"347.2" data-unique-identifier=3D"">
+</td>
+<td colspan=3D"2" width=3D"60%" height=3D"auto">
+<p class=3D"lnTP" style=3D"font-size: 18px;  text-align: center;"><strong><s=
+pan style=3D"font-size: 18px; line-height: 19.6px;color: white; ">Hi F L=
+ancock , your shipment with Apple Express is on its way.</span></strong></p>=
+
+</td>
+</tr>
+<!-- track order -->
+<tr>
+<!-- <td colspan =3D "3" style=3D"text-align:center;padding-top:20px;margin-=
+top:7px;width :99.99%;">                  <img                     src=3D"ht=
+tps://goapple.appleexpress.com/images/icons/Track.png"                      a=
+lt=3D"Image" title=3D"Image"                      style=3D"outline: none;tex=
+t-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inli=
+ne-block !important;border: none;height: auto;float: none;width:auto;max-wid=
+th: 29.6px;max-height: 35px;"                      width=3D"39.6" class=3D"v=
+-src-width v-src-max-width"/>          <p>              <span style=3D"font-=
+size: 14px; line-height: 16.8px;width:100%;">                     <a style=3D=
+"color:black;width:100%;" href=3D"https://goapple.appleexpress.com/clientord=
+ertracking.aspx?OrderNo=3D43181775" target=3D"_blank" rel=3D"noopener">Track=
+ your order here</a>                     </span></p>                     <br=
+>   </p>                         </td> -->
+<td width=3D"33.3%"></td>
+<td width=3D"33.3%" style=3D"text-align:center;padding-top:20px;margin-top:7=
+px;"><img src=3D"https://goapple.appleexpress.com/images/icons/Track.png" al=
+t=3D"Image" title=3D"Image" style=3D"outline: none;text-decoration: none;-ms=
+-interpolation-mode: bicubic;clear: both;display: inline-block !important;bo=
+rder: none;height: auto;float: none;width:auto;max-width: 29.6px;max-height:=
+ 35px;" width=3D"39.6" class=3D"v-src-width v-src-max-width" data-unique-ide=
+ntifier=3D"">
+<p><span style=3D"font-size: 14px; line-height: 16.8px;width:100%;"><a style=
+=3D"color:black;width:100%;" href=3D"https://goapple.appleexpress.com/OrderT=
+rackingMultipleDetails.aspx?OrderNo=3D43181775" target=3D"_blank" rel=3D"noo=
+pener">Track your order here</a>
+</span></p>
+<br>
+<p></p>
+</td>
+<td width=3D"33.3%"></td>
+</tr>
+<tr>
+<td width=3D"33.3%" style=3D"text-align:center;padding-top: 3%;"><img src=3D=
+"https://goapple.appleexpress.com/images/icons/OrderNo_Clear_80x80.png" alt=3D=
+"Image" title=3D"Image" style=3D"height: auto;float: none;max-width: 70px;ma=
+x-height: 70px;" data-unique-identifier=3D"">
+</td>
+<td width=3D"33.3%" height=3D"auto" style=3D"text-align:center;padding-top: 3=
+%;"><img src=3D"https://goapple.appleexpress.com/images/icons/Date_Clear_80x=
+80.png" alt=3D"Image" title=3D"Image" style=3D"outline: none;text-decoration=
+: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !im=
+portant;border: none;height: auto;float: none;max-width: 70px;max-height: 70=
+px;" data-unique-identifier=3D"">
+</td>
+<td width=3D"33.3%" height=3D"auto" style=3D"text-align:center;padding-top: 3=
+%;"><img src=3D"https://goapple.appleexpress.com/images/icons/Time_Clear_80x=
+80.png" alt=3D"Image" title=3D"Image" style=3D"outline: none;text-decoration=
+: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !im=
+portant;border: none;height: auto;float: none;max-width: 70px;max-height: 70=
+px;" data-unique-identifier=3D"">
+</td>
+</tr>
+<tr valign=3D"center">
+<td width=3D"33.3%">
+<p style=3D"font-size: 14px; line-height: 140%; text-align: center;"><strong=
+><span style=3D"font-size: 14px; line-height: 19.6px;">Tracking Order Number=
+
+</span></strong></p>
+</td>
+<td width=3D"33.3%" height=3D"auto">
+<p style=3D"font-size: 14px; line-height: 140%; text-align: center;"><strong=
+><span style=3D"line-height: 19.6px; font-size:14px;">Delivery Date
+</span></strong></p>
+</td>
+<td width=3D"33.3%" height=3D"auto">
+<p style=3D"font-size: 14px; line-height: 140%; text-align: center;"><strong=
+><span style=3D"line-height: 19.6px; font-size:14px;">Estimated Delivery Tim=
+e
+</span></strong></p>
+</td>
+</tr>
+<tr valign=3D"center">
+<td width=3D"33.3%">
+<p style=3D"line-height: 140%; text-align: center;"><strong><span style=3D"l=
+ine-height: 19.6px;color: #e03e2d;">43181775</span></strong></p>
+</td>
+<td width=3D"33.3%" height=3D"auto">
+<p style=3D"line-height: 140%; text-align: center;"><strong><span style=3D"l=
+ine-height: 19.6px;color: #e03e2d;">Friday, June 2, 2023
+</span></strong></p>
+</td>
+<td width=3D"33.3%" height=3D"auto">
+<p style=3D" line-height: 140%; text-align: center;"><strong><span style=3D"=
+line-height: 19.6px;color: #e03e2d;">Before 9:00 PM
+</span></strong></p>
+</td>
+</tr>
+<!-- FAQ -->
+<tr>
+<!-- <td  colspan =3D "3"  width =3D "99.9%" height =3D "auto" style=3D"text=
+-align:center;padding-top: 3%">        <div class=3D"ln" style=3D"padding: 0=
+%;">          <img                    src=3D"https://goapple.appleexpress.co=
+m/images/icons/FAQ.png"                     alt=3D"Image" title=3D"Image"   =
+                  style=3D"outline: none;text-decoration: none;-ms-interpola=
+tion-mode: bicubic;clear: both;display: inline-block !important;border: none=
+;height: auto;float: none;width:auto;max-width: 29.6px;max-height: 35px;"   =
+                  width=3D"39.6" class=3D"v-src-width v-src-max-width"/>    =
+   </div><div class=3D"ln" style=3D"padding-bottom: 1%;">         <span styl=
+e=3D"font-size: 14px; line-height: 16.8px;width:100%;">                    <=
+a style=3D"color:black;width:100%;" href=3D"" target=3D"_blank" rel=3D"noope=
+ner">                Questions? Visit our FAQ page                </a>      =
+              </span>                   </div>     </td> -->
+<td width=3D"33.3%"></td>
+<td width=3D"33.3%" height=3D"auto" style=3D"text-align:center;padding-top: 3=
+%"><img src=3D"https://goapple.appleexpress.com/images/icons/FAQ.png" alt=3D=
+"Image" title=3D"Image" style=3D"outline: none;text-decoration: none;-ms-int=
+erpolation-mode: bicubic;clear: both;display: inline-block !important;border=
+: none;height: auto;float: none;width:auto;max-width: 29.6px;max-height: 35p=
+x;" width=3D"39.6" class=3D"v-src-width v-src-max-width" data-unique-identif=
+ier=3D"">
+<p><span style=3D"font-size: 14px; line-height: 16.8px;width:100%;"><a style=
+=3D"color:black;width:100%;" href=3D"https://www.appleexpress.com/zone-parce=
+l-delivery-faq/" target=3D"_blank" rel=3D"noopener">Questions? Visit our FAQ=
+ page
+</a></span></p>
+</td>
+<td width=3D"33.3%"></td>
+</tr>
+<!-- Footer -->
+<tr>
+<td colspan=3D"3" style=3D"background-color:#e5e5e5;text-align:center;paddin=
+g:10px;margin-top:7px;">
+<p style=3D"font-size: 10px; line-height: 140%; text-align: center;">This me=
+ssage has been sent to you by Apple Express Courier Ltd. to notify you of a s=
+cheduled package delivery. This message is intended only for the use of the i=
+ndividual to which it is addressed
+ and may contain information that is confidential or subject to copyright. I=
+f you are not the intended recipient, please notify us immediately and delet=
+e the original message.If you have any questions or comments please contact u=
+s online
+<span style=3D"color: #e03e2d; font-size: 10px; line-height: 14px;">www.appl=
+eexpress.com</span> or call 1-888-94-APPLE(27753)
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+This message (and any associated files) is intended only for the use of the i=
+ndividual to which it is addressed and may contain information that is confi=
+dential, subject to copyright or constitutes a trade secret. If you are not t=
+he intended recipient you are
+ hereby notified that any dissemination, copying or distribution of this mes=
+sage, or files associated with this message, is strictly prohibited. If you h=
+ave received this message in error, please notify us immediately by replying=
+ to the message and deleting
+ it from your computer. Messages sent to and from us may be monitored.
+
+
+</div></blockquote></body></html>=
+
+--Apple-Mail-FC12E7C6-9035-4120-B13F-03E99A4129ED--

@@ -1,0 +1,844 @@
+Delivered-To: fake@email.com
+Received: by 2002:a05:6130:e85:0:0:0:0 with SMTP id cr5csp2666129uab;
+        Wed, 24 May 2023 05:32:24 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6D7lbAvd4g/6p6+DqEHxbDzuN+bKjBm2vaMG7MrhuiJk4gjh8Vnm5ormEZUzKLZtRjpvna
+X-Received: by 2002:a17:902:ea0b:b0:1af:b3b6:4947 with SMTP id s11-20020a170902ea0b00b001afb3b64947mr10279508plg.24.1684931543812;
+        Wed, 24 May 2023 05:32:23 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1684931543; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=msTfNToANZ5SbWUcG94tzaLC0c8Ch9sSCw3/hO7a3TafrCxP/JBsfphcRLVwnaBxEl
+         MZvdDDHnFe3VX7J7SbL+PDAYknWhz0C4h/xQBuLobfU2Rat1sowEO5uNU8ESTAQOiLXz
+         g2APZ+LC0IbBAZwQcX1ZMILmxn8fp0eidSzxAyXczVsKqm7im5Wwz/Tf3l0+IiveynsO
+         lCVQbJvjaQLN7NZXmSBzBFhWSFHEu1T8EI6mkd6yoXCdxlZBp4ihoprmkWPdl5GdZWnW
+         rWgMh3a4d4oraPjreMIvLGkjNv735J80TgVmmayjdto0n0bBcS+RiONEcsCqueuokRO+
+         XoLg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-language:accept-language:in-reply-to
+         :references:message-id:date:thread-index:thread-topic:subject:to
+         :from:dkim-signature;
+        bh=ZFsGZVsMtngDEihRW2gH7LTtU66p2Qn3869envPXkjQ=;
+        b=VSghFYLmHLoAR7KBNgeYFOBnc3eTJL0MDXQ45IBGZ3iI4lj1143HlkvcxQZWTsR5CB
+         EBxxqBanQfkuDH6N6zJawM+ibUBd0JlL8drYUTfyV01+ZVxZUeJHDCs49B3FbrTNtwmW
+         AfpkBxtIGFfQ4HVx0AJNCk5xh6EWsTCBz8KC62oVvTNvKQqynFiGa1CyDSCgzYgW2M5a
+         QQ7hP5r/4dcXZwdlRI9OEhl5w6mIMjUrHdhCCLyr8OF1t3LQstgIv7XJGjGvNHTD5SCW
+         IXNIqVJt+w/qJhxQMnjxDa0Sp7Q/pfN+MWPC6p5JH560tVAm4ffdYgKGcWaY6k+Un8Ds
+         kiXA==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@hotmail.com header.s=selector1 header.b=jUOuyAzG;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of fake@email.com designates 2a01:111:f400:7eb2::80c as permitted sender) smtp.mailfrom=fake@email.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=hotmail.com
+Return-Path: <fake@email.com>
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02olkn2080c.outbound.protection.outlook.com. [2a01:111:f400:7eb2::80c])
+        by mx.google.com with ESMTPS id y15-20020a17090264cf00b001adc1c27d2bsi7849054pli.368.2023.05.24.05.32.23
+        for <fake@email.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 24 May 2023 05:32:23 -0700 (PDT)
+Received-SPF: pass (google.com: domain of fake@email.com designates 2a01:111:f400:7eb2::80c as permitted sender) client-ip=2a01:111:f400:7eb2::80c;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@hotmail.com header.s=selector1 header.b=jUOuyAzG;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of fake@email.com designates 2a01:111:f400:7eb2::80c as permitted sender) smtp.mailfrom=fake@email.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=hotmail.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ICJEpnOSo1s803hLoTCCWTN48b4Q2SM5gBlOjxlfwVlA7UbTc+MEki8o2MBqi0ZVVnNOqG2NiD1k6DfC1oh1cbpEer26sGRI+cOa2zKoQOb/YY0DgoHP2ws4ELM3vOveYBXsnNAXX4Db3RpuOfdr/FvABOqqSJQtdtg0rZ+f1crGS3SAI1noNYkmvEASfgzOg73T8Z6RO2WDsIfSqXc3TPMkHYlmY2Tq7WhXa8d0PkTyww9YndZtVTczaqncJPZnkhcVe9iJ9ImeFDnXZCtggyO68CygLUBRpFjO/tDWFdub0aAv45C6UxYrFw8EMFySF4hgWP4/Kh7CcX25TaPFPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZFsGZVsMtngDEihRW2gH7LTtU66p2Qn3869envPXkjQ=;
+ b=baHdq9daCV6IXw0nmuS4O0QDiwz43qJSO2BUOhtHia9ay7nZIwlxaN+qkim4bGzSJtvJALKiM0KCvg+SMqQ+Im9x3AMcCPA70x7JaeXj9wMSbex8Ap3DESx956pFRAzx3d0P+h+CXiVMeu5ctTj9pgcXvTwv4bPsXl+sxMiy9YOfiTosqWo7SBEneYSEFcErhF6WnVYVadfDq8NS95C5YImJrnHSBkUC2BHEPRz/jp0NbqxTwE9GuJ6Cl7aeZUED71g3WigsrH5kIsUImRvXToShLHTMbbg8k7/hyF1klXOtCurgN/9Jy0fBQ6QKQVTnYZgDVZOSHni75fkf9x9cRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZFsGZVsMtngDEihRW2gH7LTtU66p2Qn3869envPXkjQ=;
+ b=jUOuyAzGZVnwEg+LdvHtjMm1Ami8Lm/iFctmHKx9pyeSIKiGpBgeGk2ZMVphx4RJB9s2t4r/AbAOdHi8VS5CMJo8SBAZ6/jRf4FIYNzVsKS/M2R3ldxDtBK7tClUWii6etdA8Ci3hJQHMqgt9fjrijdtesJdph5yN7YegYKOE0dP3KNej4Gj8oIpAguaiFgaJbXGbSUNxEKQRpqxgn6ksh2yPD7U5PaqZLzlg9GI+XYP1w6IVkoF4AxecugPR8SmoowqvH1YknbFv4ahIu7hyJOwq86tXV27DTMTdMvzwxLH4yffoaUVlqG5PCuSvtlBCBuOao8iXXPW+E43OwpVlw==
+Received: from BL0PR11MB3410.namprd11.prod.outlook.com (2603:10b6:208:33::33)
+ by PH7PR11MB8009.namprd11.prod.outlook.com (2603:10b6:510:248::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.21; Wed, 24 May
+ 2023 12:32:21 +0000
+Received: from BL0PR11MB3410.namprd11.prod.outlook.com
+ ([fe80::44ec:ba87:fa61:a54f]) by BL0PR11MB3410.namprd11.prod.outlook.com
+ ([fe80::44ec:ba87:fa61:a54f%7]) with mapi id 15.20.6411.028; Wed, 24 May 2023
+ 12:32:21 +0000
+From: David M <fake@email.com>
+To: "fake@email.com" <fake@email.com>
+Subject: Fw: You have a message from Kings Park Resort
+Thread-Topic: You have a message from Kings Park Resort
+Thread-Index: AQHZNgpH4x15I2nnwEKupnkJgG3WZ69qC2Mk
+Date: Wed, 24 May 2023 12:32:21 +0000
+Message-ID:
+ <BL0PR11MB3410FA0395836A653A86A7E1B3419@BL0PR11MB3410.namprd11.prod.outlook.com>
+References: <4P6CPJ1SzKzyFQ@mailrouter-201.lon1.prod.booking.com>
+In-Reply-To: <4P6CPJ1SzKzyFQ@mailrouter-201.lon1.prod.booking.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [FQc1kY55kGDZnshw/HbzfiuPUdjjsNhD5boLJTbRxXE=]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BL0PR11MB3410:EE_|PH7PR11MB8009:EE_
+x-ms-office365-filtering-correlation-id: a4de5f72-cb3a-4562-2c8e-08db5c52ebda
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ QTTxuG0H0EAMK8VTQYGc+tx97iCKosuhXnRvBhDvTNDkkGRGjIMh60WkUGeUpBONEcq88eBPSUhfYZUNIEmUSL2pVbzs+tLNPXn43IT3/3pJdsEpx6w3py4O2XW39shKmJJW5cBz4ZA4S9hbiTbiNbbI/zbxdEmcmdE47OdnqPIIFUP9SULkFO7uVjBzZh4HyC+NuCFZuRE9eWTmQb2J9rr3sZChtXZIbog1/sxnvmBAE+XFxTnS+3x2OnOtACvejTYwo4aDYEZ8C4hDvt2DoZ3MHuUtZsXKNjlZtpG5BDZlhpJrQfzEblvMtAalc2OIIwoqjz941DzIKJtRQiTPYPo8Oj9Ly0FkLLEOJnfg16DOWnkWKKyfmi54HhRhaaGumw7J9mN9sOMVAUZVu3VjI4yB5tsdnvj7TLMc9PyyO+T2Ag99xZa43cJB2zhB/Nn1fEm04sqKvzQ9iVKEa8K2K+QiYDi11mfdeaZfnfcYl04o+QszGQv9D7BzIFEkU/Ei0coXrEYfV+OFgdy/r/Czd4niAnZkl3dmeX8x9y39XLQT/9p3HTL1rmcB+UPrM1bB8Z/3q1PERJwmWbKPYuzMbHAuqJbIYBfxTsYJS+ztX1u2YvlxkSy/WSt4kcg5eq6AkfMptSjuyt6KCrUDSNSSaQ==
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?OTwhb6CC7/gXR5pmdqOiOWlIu2XE9ZAKtnhP9rYbAEjRbGNf4Kjhtt27a4?=
+ =?iso-8859-1?Q?7jfu6VHoAq84fGEsxEJyqr6xLFW3rufx8n3NpCgny6wbfHdLSSPkXqUIib?=
+ =?iso-8859-1?Q?25w7kCyzA3RKOYMzggt3AMQDFAqNIk6ZuLuWPDt1fd1++KPciOp7swP1tO?=
+ =?iso-8859-1?Q?UVEGly5RbP/3r1K3Qah8hbtcZGBwXKkqDYVMlgYBUf50qJrD+XSHT/Eutp?=
+ =?iso-8859-1?Q?ZQMdkzO5VZMvb5NXGjSlCUSHZ8XI9pZhKbHv8tdz/3/wC4D48vbSZSucdq?=
+ =?iso-8859-1?Q?JaYbH/dtLaFkBpw4wZJ2y+VzgAxqRxzUkdtNanLJ9sZBA8HI+J+T19QPqa?=
+ =?iso-8859-1?Q?oKZSln9cRuHOQDwEUIjlEH4ms+pEUq8+VprD/Y49UA5CUfWCLEaKNtV8zy?=
+ =?iso-8859-1?Q?t80pGyX/U4sMgTEGKhTwASglTJD6YUZYGcxL/aMLxQvYrEsDEl/pNieCP3?=
+ =?iso-8859-1?Q?KicBlyMGeDp2SIgPzrH/lCQZSfieT3K0KXjJtaHd+7YtHIRM8/rKzqX16E?=
+ =?iso-8859-1?Q?frpM1P7ruLpP0oZCvy5wwgmwpK6vep30Xn0Yp9kaHzPopeJ95MlODeOXWY?=
+ =?iso-8859-1?Q?uiUxBBmL5KZHP5mDYP1VuuhZ+OSk9o2rV5iaVjxupJi8J2tZ5FL+QnJDT1?=
+ =?iso-8859-1?Q?z4Yni7lWdYdexIskFIqeVxS+vg8yHXgBAcMK+BVDCAzBscE/xFKwWyELPy?=
+ =?iso-8859-1?Q?IJAD6dEAEs8kFAmqtNiGVdxLkZrvoR4HOJkBA+Q9Zz5jnMQqO6hC5dklGr?=
+ =?iso-8859-1?Q?YrJyguSwIB5607TCeIFf1+1iYeIfo9S9lQSNeKkmMyIJ/Ee3aTadt7F5Ev?=
+ =?iso-8859-1?Q?hHCxvht2vAJ3CqHDoYyDCctvZJMY2PBMa6HmzogWDSNlZlUmzh8qKYUUzG?=
+ =?iso-8859-1?Q?LR9YKw6i7matEKP8VC8ghFkcOo5DceY3K+cokq8dpluMQ4NRjYWpCJ55Bd?=
+ =?iso-8859-1?Q?656jMJygHVb4fZB1G2Owa2Lx8BxwA/iVI9XH/j+9GetLQIxVrJY8mjFYpk?=
+ =?iso-8859-1?Q?Q+Ktn+Aj+BkZkgIZBzNt/Z7Dko5ENVpykZPV7wIOjNd71NS/6WoHplpIut?=
+ =?iso-8859-1?Q?494j+YBgp7vAxA5mSDfiND2KYR9HaPSAbjRtWiBV1J7Z7qp490JXhjttz3?=
+ =?iso-8859-1?Q?wdBKqCJmQzB7LKSPLp9b9BBBWzxZnkPsbYBDbRP6vn0bUEJ09YfHGECkBK?=
+ =?iso-8859-1?Q?BTv06SeVZ8v/QYskiNJsXehZlOTwlRDBosLeuv+UomVv/19XtTAr2qsY9S?=
+ =?iso-8859-1?Q?nHqj8Cdjo2NlbQmK3UwQ=3D=3D?=
+Content-Type: multipart/related;
+	boundary="_006_BL0PR11MB3410FA0395836A653A86A7E1B3419BL0PR11MB3410namp_";
+	type="multipart/alternative"
+MIME-Version: 1.0
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-e8f36.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB3410.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4de5f72-cb3a-4562-2c8e-08db5c52ebda
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 May 2023 12:32:21.6562
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8009
+
+--_006_BL0PR11MB3410FA0395836A653A86A7E1B3419BL0PR11MB3410namp_
+Content-Type: multipart/alternative;
+	boundary="_000_BL0PR11MB3410FA0395836A653A86A7E1B3419BL0PR11MB3410namp_"
+
+--_000_BL0PR11MB3410FA0395836A653A86A7E1B3419BL0PR11MB3410namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+This was part two if the phishing  scam.
+
+________________________________
+From: Kings Park Resort through Booking.com <3234616457-stvy.maz4.8arc.pmjk=
+@property.booking.com>
+Sent: Wednesday, February 1, 2023 1:56 AM
+To: fake@email.com <fake@email.com>
+Subject: You have a message from Kings Park Resort
+
+##- Please type your reply above this line -##
+[booking.com]
+
+Confirmation number: 3234616457 <https://secure.booking.com/redirect.html?u=
+rl=3DUmFuZG9tSVYkc2RlIyh9YXb8Hhclgg-7E4zNC0XrAXgVIO9Cq8DPB1SfNAVpcctsoEIsXS=
+eWG-myhqfCDnroeaHhjaR5-pi87gMOUDiCmydg2dtzSPWUOStdUvCp5hXpeNcXc0-jO0s&track=
+ing_json=3D52616e646f6d49562473646523287d6160d4b5b6907225a2041f064cb69a1380=
+6871fb4cee007a6bffcc06792bb52c207597a5320bb3d5ac39dc2628bbb0b0a00062302a063=
+59c96309d03a680287cc8f6ffef1a442e8e576cf9c5df9b1283711743eddd4844a775939855=
+8f562643bcee9ba5ebd680e00ec5e4c2b5df781ca09416dc51f9fb911874a6bc4d19329dceb=
+f9846a3133a798f8ebfbe7ac7ebaca3>
+
+You have a new message from Kings Park Resort
+
+Kings Park Resort said:
+
+[cid:7e095f3873ccf55aeb4458950669711c2ded7b2644dd1620d53666f6eff02f90@MIME-=
+Lite-HTML-1.25]
+Thank you for contacting us, Bldan Eccxd
+Hi Sir if u have any queries u can contact our resort number 8940500997.
+Call and confirm your booking before check in.
+Just now
+[cid:f00d2e8c0982e43425f47ae787536e2730208e59958498cdc2cd9b607823f5bd@MIME-=
+Lite-HTML-1.25]      Please respond to the property by replying to this ema=
+il.
+
+Reservation Details
+
+Guest name:
+bldan eccxd
+
+Check-in:
+Wed, May 3, 2023
+
+Check-out:
+Sun, May 7, 2023
+
+Property Name:
+Kings Park Resort <https://secure.booking.com/redirect.html?url=3DUmFuZG9tS=
+VYkc2RlIyh9YXb8Hhclgg-7E4zNC0XrAXgVIO9Cq8DPByN_QS9ADKjv8dQ3R3XEjbROqYIV_CyA=
+97cxUmTadEHczhQBhaCFShsduYPAgLYVpXV19rDxqGBP2RzWUebpTfMMfbrqQ95SkOHe0CoKCiq=
+N7vjyrRFdMePb5wUvYRKH83trmQXCQppZf6Zt-SHINRWGVJnpec71Lpms7Q0FKa7e9N13w5rRs_=
+77zDqipOsZZ5yklbYppw6sQpRq8eLIplFPU0z3gSBXGm7E-QOxBxr8o1Vy1ywSDuSxYTO6VQVsM=
+zW9pSsY4OZM&tracking_json=3D52616e646f6d49562473646523287d6160d4b5b6907225a=
+254b69ab8d73bdee5b66459468709e66bdc657ba10384f6c641c3769f3ef027845010da64c4=
+b5bb050675c2813eddfb0afff99d1aabbea90a74dfe334bd08c8453d67aa341c505f349855f=
+5472a0329f85e33446f92af3c7c90e004f99d5560fec812e03b229136f475353c484c81db28=
+7cd4a3ab030a90d6fad7f68c410fab9fe4766b2b38babbd7>
+
+Booking Number:
+3234616457 <https://secure.booking.com/redirect.html?url=3DUmFuZG9tSVYkc2Rl=
+Iyh9YXb8Hhclgg-7E4zNC0XrAXgVIO9Cq8DPB1SfNAVpcctsoEIsXSeWG-myhqfCDnroeaHhjaR=
+5-pi87gMOUDiCmydg2dtzSPWUOStdUvCp5hXpeNcXc0-jO0s&tracking_json=3D52616e646f=
+6d49562473646523287d6160d4b5b6907225a2041f064cb69a13806871fb4cee007a6bffcc0=
+6792bb52c207597a5320bb3d5ac39dc2628bbb0b0a00062302a06359c96309d03a680287cc8=
+f6ffef1a442e8e576cf9c5df9b1283711743eddd4844a7759398558f562643bcee9ba5ebd68=
+0e00ec5e4c2b5df781ca09416dc51f9fb911874a6bc4d19329dcebf9846a3133a798f8ebfbe=
+7ac7ebaca3>
+
+Total guests:
+2
+
+Total rooms:
+1
+
+=A9 Copyright Booking.com<https://www.booking.com/?source=3Dp2g_email> 2023
+This email was sent by Booking.com<https://www.booking.com/?source=3Dp2g_em=
+ail>
+
+Booking.com will receive and process replies to this email as set forth in =
+the Booking.com Privacy Statement<https://www.booking.com/content/privacy.h=
+tml?label=3Dgen000nr-10EiBteWJvb2tpbmdtZ19yZXF1ZXN0X2NvbmZpcm1hdGlvbiiCAkIC=
+WFhIMVgEcgJ4eIgBAZgBM7gBBcgBBdgBA-gBAfgBAZICAXmoAgE>. The content of the me=
+ssage from Kings Park Resort was not generated by Booking.com, meaning Book=
+ing.com cannot be held accountable for the content of the message.
+
+Why did I receive this message? <https://secure.booking.com/faq.html?faq_it=
+em=3Ditem_communication>
+This message is inappropriate or contains spam <https://secure.booking.com/=
+redirect.html?url=3DUmFuZG9tSVYkc2RlIyh9YXb8Hhclgg-7orsSeFLPBtOp3FqEFmmhivW=
+WjsP4UNnC5XL5TAN0PtyGhiVISd3LZXnDsdTs7cBgGdrwX976P8vEjs5gcDCBKbASU215VDm0Fo=
+DAoAPfNn3HlG7KYiBQXSABExNeP_K6LHIC-xBIU6sadjePdtBlT71jZV7MomPwJOWDgeVdNIxHk=
+aY4mAlZl5sIylmhfgbhVgkPkJGliFD7N24GkcGrvOXlIhF19hHIQkl5hiviT3qCZVdbH94u66ls=
+HMIpj9E2ohZZx_sx7FDTkqCNvR0LD8kQw_sdjZydqBeDpliiu9u_gf7yhMrClfhbqgwFWk47toy=
+BBEjwjjdVDiOxycnVuq9lJl5u8E6rju2riqF6p7l8hdE3VBCgQm1zpnGRHPsdbNa5QiMa2-_bsh=
+c6coqSUjwJjF5L_nvq&tracking_json=3D52616e646f6d49562473646523287d61017ecdc5=
+de7e0c061c69a6a9bd260faafb851ea93a6721458e597d70d05353f253d67ee7f85d6e96822=
+eff6b512fa45c57ae675f541d015e03a82696bde97f71cbbd2223a84d5b622745a36cd8bb9b=
+42c6be002c8a18dcf6>
+
+
+
+--_000_BL0PR11MB3410FA0395836A653A86A7E1B3419BL0PR11MB3410namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+</head>
+<body>
+<div>This was part two if the phishing&nbsp; scam.</div>
+<br>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Kings Park Resort thr=
+ough Booking.com &lt;3234616457-stvy.maz4.8arc.pmjk@property.booking.com&gt=
+;<br>
+<b>Sent:</b> Wednesday, February 1, 2023 1:56 AM<br>
+<b>To:</b> fake@email.com &lt;fake@email.com&gt;<br>
+<b>Subject:</b> You have a message from Kings Park Resort</font>
+<div>&nbsp;</div>
+</div>
+<style type=3D"text/css">
+<!--
+.x_ExternalClass
+	{width:100%}
+.x_ExternalClass, .x_ExternalClass p, .x_ExternalClass span, .x_ExternalCla=
+ss font, .x_ExternalClass td, .x_ExternalClass div
+	{line-height:100%!important}
+div
+	{}
+div
+	{margin:0;
+	padding:0}
+table td
+	{border-collapse:collapse}
+u + .x_body
+	{min-width:420px;
+	margin:0;
+	padding:0}
+p
+	{margin:0;
+	padding:0;
+	margin-bottom:0}
+h1, h2, h3, h4, h5, h6
+	{color:black;
+	line-height:100%}
+a, a:link
+	{color:#0071C2;
+	text-decoration:underline}
+div, table, td, a
+	{}
+table, td
+	{}
+img
+	{}
+img
+	{border:0;
+	outline:none;
+	text-decoration:none}
+.x_hidden
+	{display:none!important}
+*=20
+	{max-width:420px}
+-->
+</style>
+<div class=3D"x_body" leftmargin=3D"0" marginheight=3D"0" marginwidth=3D"0"=
+ topmargin=3D"0" style=3D"background-color:#FFFFFF; font-size:14px; line-he=
+ight:20px; font-weight:400; background-color:#FFFFFF; width:100%">
+<span style=3D"padding:4px; font-size:14px; line-height:20px; font-weight:4=
+00; color:#BDBDBD">##- Please type your reply above this line -##
+</span>
+<table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" wi=
+dth=3D"100%">
+<tbody>
+<tr>
+<td>
+<div class=3D"x_Gmail" style=3D"height:1px!important; max-width:420!importa=
+nt; min-width:420!important; width:420!important">
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" cl=
+ass=3D"x_container-table" lang=3D"container-table" width=3D"420" style=3D"m=
+argin-left:auto; margin-right:auto; max-width:420px; width:420px">
+<tbody>
+<tr>
+<td>
+<table bgcolor=3D"#00224F" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"=
+ width=3D"420" style=3D"width:420px; border-bottom:1px solid #E6E6E6; color=
+:#FFFFFF">
+<tbody>
+<tr>
+<td bgcolor=3D"#00224F" style=3D"padding-left:20px; padding-top:10px; paddi=
+ng-bottom:10px; background-color:#00224F">
+<img alt=3D"booking.com" border=3D"0" width=3D"130" style=3D"display:block;=
+ margin:0; padding:0; width:130px" data-outlook-trace=3D"F:1|T:1" src=3D"ci=
+d:6ef9d112adf64121c2a014b538f8cc4a0c5c2dee97a19294ed118eab56241d1c@MIME-Lit=
+e-HTML-1.25"></td>
+<td style=3D"padding-right:20px; padding-top:10px; padding-bottom:10px; bac=
+kground-color:#00224F">
+<p style=3D"font-size:14px; line-height:20px; font-weight:400; margin:0; pa=
+dding:0; text-align:right; color:#FFFFFF">
+Confirmation number: <a href=3D"https://secure.booking.com/redirect.html?ur=
+l=3DUmFuZG9tSVYkc2RlIyh9YXb8Hhclgg-7E4zNC0XrAXgVIO9Cq8DPB1SfNAVpcctsoEIsXSe=
+WG-myhqfCDnroeaHhjaR5-pi87gMOUDiCmydg2dtzSPWUOStdUvCp5hXpeNcXc0-jO0s&amp;tr=
+acking_json=3D52616e646f6d49562473646523287d6160d4b5b6907225a2041f064cb69a1=
+3806871fb4cee007a6bffcc06792bb52c207597a5320bb3d5ac39dc2628bbb0b0a00062302a=
+06359c96309d03a680287cc8f6ffef1a442e8e576cf9c5df9b1283711743eddd4844a775939=
+8558f562643bcee9ba5ebd680e00ec5e4c2b5df781ca09416dc51f9fb911874a6bc4d19329d=
+cebf9846a3133a798f8ebfbe7ac7ebaca3" style=3D"color:#0071C2; display:inline-=
+block">
+3234616457 </a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" wi=
+dth=3D"420" style=3D"width:420px">
+<tbody>
+<tr>
+<td style=3D"font-size:24px; line-height:32px; font-weight:600; font-weight=
+:700; text-align:center; color:#333333; padding-top:50px; padding-left:80px=
+; padding-right:80px; padding-bottom:50px">
+You have a new message from Kings Park Resort </td>
+</tr>
+</tbody>
+</table>
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tbody>
+<tr>
+<td style=3D"padding-left:20px; padding-bottom:10px; padding-right:20px; te=
+xt-align:left">
+<p style=3D"font-size:16px; line-height:24px; font-weight:500; display:bloc=
+k; margin:0; padding:0; font-weight:600; color:#333333">
+Kings Park Resort said: </p>
+</td>
+</tr>
+</tbody>
+</table>
+<table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" wi=
+dth=3D"420" style=3D"width:420px">
+<tbody>
+<tr>
+<td style=3D"padding-left:10px"><img alt=3D"" width=3D"10" style=3D"display=
+:block; margin:0; padding:0; width:10px" data-outlook-trace=3D"F:1|T:1" src=
+=3D"cid:7e095f3873ccf55aeb4458950669711c2ded7b2644dd1620d53666f6eff02f90@MI=
+ME-Lite-HTML-1.25"></td>
+<td width=3D"100%" style=3D"padding-right:20px; padding-bottom:20px">
+<table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" wi=
+dth=3D"100%">
+<tbody>
+<tr>
+<td bgcolor=3D"#E6E6E6" style=3D"padding:16px; margin:0; background-color:#=
+E6E6E6; font-size:16px; line-height:24px; font-weight:400; color:#000000; b=
+order-top-left-radius:8px; border-top-right-radius:8px; border-bottom-left-=
+radius:8px; border-bottom-right-radius:8px">
+<span>Thank you for contacting us, Bldan Eccxd<br>
+Hi Sir if u have any queries u can contact our resort number 8940500997.<br=
+>
+Call and confirm your booking before check in. </span></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" wi=
+dth=3D"420" style=3D"width:420px">
+<tbody>
+<tr>
+<td width=3D"100%" style=3D"font-size:12px; line-height:18px; font-weight:4=
+00; color:#6B6B6B; padding-right:20px">
+Just now </td>
+</tr>
+</tbody>
+</table>
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tbody>
+<tr>
+<td style=3D"padding-top:10px; padding-left:20px; padding-right:20px; paddi=
+ng-bottom:10px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tbody>
+<tr>
+<td bgcolor=3D"#FAFCFF" style=3D"font-size:12px; line-height:18px; font-wei=
+ght:400; color:#333333; background-color:#FAFCFF; border:1px solid #EBF3FF;=
+ padding:8px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tbody>
+<tr>
+<td style=3D"padding-left:8px; padding-right:8px"><img alt=3D"" width=3D"10=
+" style=3D"display:block; margin:0; padding:0; width:10px" data-outlook-tra=
+ce=3D"F:1|T:1" src=3D"cid:f00d2e8c0982e43425f47ae787536e2730208e59958498cdc=
+2cd9b607823f5bd@MIME-Lite-HTML-1.25"></td>
+<td width=3D"100%">Please respond to the property by replying to this email=
+. </td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"420" style=
+=3D"width:420px; border-top:1px solid #E6E6E6">
+<tbody>
+<tr>
+<td>
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tbody>
+<tr>
+<td style=3D"font-size:14px; line-height:20px; font-weight:400; color:#6B6B=
+6B; padding:20px">
+<p style=3D"font-size:16px; line-height:24px; font-weight:500; margin:0; co=
+lor:#6B6B6B; font-weight:bold">
+Reservation Details </p>
+</td>
+</tr>
+</tbody>
+</table>
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tbody>
+<tr>
+<td style=3D"font-size:14px; line-height:20px; font-weight:400; color:#6B6B=
+6B; padding:0 20px 20px">
+<p style=3D"display:block; margin:0; padding:0">Guest name: <br>
+<span style=3D"display:block; margin:0; padding:0; font-size:16px; line-hei=
+ght:24px; font-weight:500">bldan eccxd
+</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tbody>
+<tr>
+<td style=3D"padding-left:20px; padding-bottom:20px; padding-right:20px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tbody>
+<tr>
+<td width=3D"50%" style=3D"font-size:14px; line-height:20px; font-weight:40=
+0; color:#6B6B6B">
+<p style=3D"display:block; margin:0; padding:0">Check-in: <br>
+<span style=3D"display:block; margin:0; padding:0; font-size:16px; line-hei=
+ght:24px; font-weight:500">Wed, May 3, 2023
+</span></p>
+</td>
+<td width=3D"50%" style=3D"font-size:14px; line-height:20px; font-weight:40=
+0; color:#6B6B6B">
+<p style=3D"display:block; margin:0; padding:0">Check-out: <br>
+<span style=3D"display:block; margin:0; padding:0; font-size:16px; line-hei=
+ght:24px; font-weight:500">Sun, May 7, 2023
+</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tbody>
+<tr>
+<td style=3D"font-size:14px; line-height:20px; font-weight:400; color:#6B6B=
+6B; padding:0 20px 20px">
+<p style=3D"display:block; margin:0; padding:0">Property Name: <br>
+<span style=3D"display:block; margin:0; padding:0; font-size:16px; line-hei=
+ght:24px; font-weight:500"><a href=3D"https://secure.booking.com/redirect.h=
+tml?url=3DUmFuZG9tSVYkc2RlIyh9YXb8Hhclgg-7E4zNC0XrAXgVIO9Cq8DPByN_QS9ADKjv8=
+dQ3R3XEjbROqYIV_CyA97cxUmTadEHczhQBhaCFShsduYPAgLYVpXV19rDxqGBP2RzWUebpTfMM=
+fbrqQ95SkOHe0CoKCiqN7vjyrRFdMePb5wUvYRKH83trmQXCQppZf6Zt-SHINRWGVJnpec71Lpm=
+s7Q0FKa7e9N13w5rRs_77zDqipOsZZ5yklbYppw6sQpRq8eLIplFPU0z3gSBXGm7E-QOxBxr8o1=
+Vy1ywSDuSxYTO6VQVsMzW9pSsY4OZM&amp;tracking_json=3D52616e646f6d495624736465=
+23287d6160d4b5b6907225a254b69ab8d73bdee5b66459468709e66bdc657ba10384f6c641c=
+3769f3ef027845010da64c4b5bb050675c2813eddfb0afff99d1aabbea90a74dfe334bd08c8=
+453d67aa341c505f349855f5472a0329f85e33446f92af3c7c90e004f99d5560fec812e03b2=
+29136f475353c484c81db287cd4a3ab030a90d6fad7f68c410fab9fe4766b2b38babbd7" st=
+yle=3D"font-size:16px; line-height:24px; font-weight:500; color:#0071C2; te=
+xt-decoration:none">Kings
+ Park Resort </a></span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tbody>
+<tr>
+<td style=3D"font-size:14px; line-height:20px; font-weight:400; color:#6B6B=
+6B; padding:0 20px 20px">
+<p style=3D"display:block; margin:0; padding:0">Booking Number: <br>
+<span style=3D"display:block; margin:0; padding:0; font-size:16px; line-hei=
+ght:24px; font-weight:500"><a href=3D"https://secure.booking.com/redirect.h=
+tml?url=3DUmFuZG9tSVYkc2RlIyh9YXb8Hhclgg-7E4zNC0XrAXgVIO9Cq8DPB1SfNAVpcctso=
+EIsXSeWG-myhqfCDnroeaHhjaR5-pi87gMOUDiCmydg2dtzSPWUOStdUvCp5hXpeNcXc0-jO0s&=
+amp;tracking_json=3D52616e646f6d49562473646523287d6160d4b5b6907225a2041f064=
+cb69a13806871fb4cee007a6bffcc06792bb52c207597a5320bb3d5ac39dc2628bbb0b0a000=
+62302a06359c96309d03a680287cc8f6ffef1a442e8e576cf9c5df9b1283711743eddd4844a=
+7759398558f562643bcee9ba5ebd680e00ec5e4c2b5df781ca09416dc51f9fb911874a6bc4d=
+19329dcebf9846a3133a798f8ebfbe7ac7ebaca3" style=3D"font-size:16px; line-hei=
+ght:24px; font-weight:500; color:#0071C2; text-decoration:none">3234616457
+</a></span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tbody>
+<tr>
+<td style=3D"padding-left:20px; padding-bottom:20px; padding-right:20px">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+<tbody>
+<tr>
+<td width=3D"50%" style=3D"font-size:14px; line-height:20px; font-weight:40=
+0; color:#6B6B6B">
+<p style=3D"display:block; margin:0; padding:0">Total guests: <br>
+<span style=3D"display:block; margin:0; padding:0; font-size:16px; line-hei=
+ght:24px; font-weight:500">2
+</span></p>
+</td>
+<td width=3D"50%" style=3D"font-size:14px; line-height:20px; font-weight:40=
+0; color:#6B6B6B">
+<p style=3D"display:block; margin:0; padding:0">Total rooms: <br>
+<span style=3D"display:block; margin:0; padding:0; font-size:16px; line-hei=
+ght:24px; font-weight:500">1
+</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%" styl=
+e=3D"width:420px; color:#000000; border-top:1px solid #E6E6E6">
+<tbody>
+<tr>
+<td align=3D"center" style=3D"padding:20px">
+<p style=3D"display:block; margin:0; padding:0; font-size:12px">=A9 Copyrig=
+ht <a href=3D"https://www.booking.com/?source=3Dp2g_email" style=3D"color:#=
+0071C2">
+Booking.com</a> 2023<br>
+This email was sent by <a href=3D"https://www.booking.com/?source=3Dp2g_ema=
+il" style=3D"color:#0071C2">
+Booking.com</a></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding:30px; text-align:center; font-size:12px">
+<p style=3D"display:block; margin:0; padding:0">Booking.com will receive an=
+d process replies to this email as set forth in the
+<a href=3D"https://www.booking.com/content/privacy.html?label=3Dgen000nr-10=
+EiBteWJvb2tpbmdtZ19yZXF1ZXN0X2NvbmZpcm1hdGlvbiiCAkICWFhIMVgEcgJ4eIgBAZgBM7g=
+BBcgBBdgBA-gBAfgBAZICAXmoAgE" style=3D"color:#0071C2">
+Booking.com Privacy Statement</a>. The content of the message from Kings Pa=
+rk Resort was not generated by Booking.com, meaning Booking.com cannot be h=
+eld accountable for the content of the message.
+</p>
+</td>
+</tr>
+<tr>
+<td style=3D"text-align:center"><a href=3D"https://secure.booking.com/faq.h=
+tml?faq_item=3Ditem_communication" style=3D"color:#0071C2">Why did I receiv=
+e this message?
+</a></td>
+</tr>
+<tr>
+<td style=3D"font-size:12px; text-align:center"><a href=3D"https://secure.b=
+ooking.com/redirect.html?url=3DUmFuZG9tSVYkc2RlIyh9YXb8Hhclgg-7orsSeFLPBtOp=
+3FqEFmmhivWWjsP4UNnC5XL5TAN0PtyGhiVISd3LZXnDsdTs7cBgGdrwX976P8vEjs5gcDCBKbA=
+SU215VDm0FoDAoAPfNn3HlG7KYiBQXSABExNeP_K6LHIC-xBIU6sadjePdtBlT71jZV7MomPwJO=
+WDgeVdNIxHkaY4mAlZl5sIylmhfgbhVgkPkJGliFD7N24GkcGrvOXlIhF19hHIQkl5hiviT3qCZ=
+VdbH94u66lsHMIpj9E2ohZZx_sx7FDTkqCNvR0LD8kQw_sdjZydqBeDpliiu9u_gf7yhMrClfhb=
+qgwFWk47toyBBEjwjjdVDiOxycnVuq9lJl5u8E6rju2riqF6p7l8hdE3VBCgQm1zpnGRHPsdbNa=
+5QiMa2-_bshc6coqSUjwJjF5L_nvq&amp;tracking_json=3D52616e646f6d4956247364652=
+3287d61017ecdc5de7e0c061c69a6a9bd260faafb851ea93a6721458e597d70d05353f253d6=
+7ee7f85d6e96822eff6b512fa45c57ae675f541d015e03a82696bde97f71cbbd2223a84d5b6=
+22745a36cd8bb9b42c6be002c8a18dcf6" style=3D"color:#0071C2">This
+ message is inappropriate or contains spam </a></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<div style=3D"display:none; white-space:nowrap; font:15px courier; line-hei=
+ght:0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
+; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+</div>
+<img height=3D"1" width=3D"1" src=3D"https://secure.booking.com/email_opene=
+d_tracking_pixel?lang=3Den-us&amp;aid=3D304142&amp;token=3D52616e646f6d4956=
+2473646523287d61fd4ea1866396e34368ccd9a3d727bc23a987e5a67b9601c9d0cd4ee9314=
+dd14e16a471faa58bb64ab0bb8f2d13bd5c8416c09dac81fc637872c26d8c7ce87674a538c0=
+29a2bfc9deada1dc857718f96bd2246edfa6066a3fc06fc8f405d683a3c72bee61bb0fe922a=
+4c8f1ba8b1cb5a97c5f0ea1ea05a3c5&amp;type=3Dto_guest_p2g">
+</div>
+</body>
+</html>
+
+--_000_BL0PR11MB3410FA0395836A653A86A7E1B3419BL0PR11MB3410namp_--
+
+--_006_BL0PR11MB3410FA0395836A653A86A7E1B3419BL0PR11MB3410namp_
+Content-Type: image/png; name="ATT00001.png"
+Content-Description: ATT00001.png
+Content-Disposition: inline; filename="ATT00001.png"; size=7016;
+	creation-date="Wed, 01 Feb 2023 06:56:16 GMT";
+	modification-date="Wed, 24 May 2023 12:31:59 GMT"
+Content-ID:
+ <6ef9d112adf64121c2a014b538f8cc4a0c5c2dee97a19294ed118eab56241d1c@MIME-Lite-HTML-1.25>
+Content-Transfer-Encoding: base64
+
+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
+RK5CYII=
+
+--_006_BL0PR11MB3410FA0395836A653A86A7E1B3419BL0PR11MB3410namp_
+Content-Type: image/png; name="ATT00002.png"
+Content-Description: ATT00002.png
+Content-Disposition: inline; filename="ATT00002.png"; size=409;
+	creation-date="Wed, 01 Feb 2023 06:56:16 GMT";
+	modification-date="Wed, 24 May 2023 12:31:59 GMT"
+Content-ID:
+ <7e095f3873ccf55aeb4458950669711c2ded7b2644dd1620d53666f6eff02f90@MIME-Lite-HTML-1.25>
+Content-Transfer-Encoding: base64
+
+iVBORw0KGgoAAAANSUhEUgAAAFAAAAA8CAYAAADxJz2MAAAACXBIWXMAAC4jAAAuIwF4pT92AAAB
+S0lEQVR42u3Tuw3CQBRE0QGRQwnuBJdGSXSA6MQVuAWTgIScrWc/7zMv3M2u5py2bYOu/NZ1nQFM
+Z6U4FO8B4AVguihHUbgbgCeA++9NCywju/zHU8Bystf9nwgXkt2fFlhIVgFJsiJMktUCSbIKSJIV
+YZKsFkiSVUCSbGrCNcimXWAtsikD1iSbinALsmkW2IpsioAtyYYm3INs2AX2IhsyYE+yoQiPIBtm
+gaPIhgg4kqxrwhbIul2gFbIuA1oi64qwRbJuFmiVrIuAlsmaJuyBrNkFeiFrMqAnsqYIeyRrZoFe
+yZoI6JnsUMIRyA5bYBSyQwJGItuVcESy3RYYlWyXgJHJNiWcgWyzBWYh2yRgJrJVCWckW22BWclW
+CZiZLEVYZIkFiiwRUGQPEhZZYoEiSwQU2YOERZZYoMgSAUWWIPyNNwN4K0fxLR8FFPTZL/azgwAA
+AABJRU5ErkJggg==
+
+--_006_BL0PR11MB3410FA0395836A653A86A7E1B3419BL0PR11MB3410namp_
+Content-Type: image/png; name="ATT00003.png"
+Content-Description: ATT00003.png
+Content-Disposition: inline; filename="ATT00003.png"; size=1239;
+	creation-date="Wed, 01 Feb 2023 06:56:16 GMT";
+	modification-date="Wed, 24 May 2023 12:31:59 GMT"
+Content-ID:
+ <f00d2e8c0982e43425f47ae787536e2730208e59958498cdc2cd9b607823f5bd@MIME-Lite-HTML-1.25>
+Content-Transfer-Encoding: base64
+
+iVBORw0KGgoAAAANSUhEUgAAADMAAAAkCAYAAAAkcgIJAAAAAXNSR0IArs4c6QAABJFJREFUWAnV
+WGtoHFUUvufObGpjqpKgidiWWixI1UjB1GKppWIg3Q0Gm6yp9RUV1J/+ER9p0mt28yMgBVFpfUHR
+RtzMpqJNtoWC+aEtiEVrmlrwQagg6A+VYBOT7uwcv4lOnG42uzO7O2EdGO695557zvnuedw7QyLA
+p6Pn+DbB5gFNp10JFfkuQFXzovUgFCg1pk+Y073CMl9iITTO0LXQ8/8Ds0eNrD+bnhmE8VuC2Kh8
+MmW+Sb9z7T0jD8+lxRkheNmB2LaWJcweUqmrZk0+ICze43cDyslfMpiO7pG7ZtOMsOJ1SxlmWRZS
+J/inaDDRIdZ4PLVXMPcAiBa8qYU1FAVmtzq2Lj2eOgwgWwurWD4O3wWgvXv0QTNtnak0IPaWefbM
+EwOfr5r6c+oNgHjEbwKQ1PwuKcqd5GVVp0ptgTfss2O9F/5FPETvE9FXgnhSk+K8tTH8o/EAZRbx
+lUjIC2Y+yb9Jvcgk9sEjnr1YyCYo/UuQOI33M02TRz/ct/MLgC3Ze0uCiaoTa9mcO8wsthUyrtR5
+APkFFfGoEDJpxHaeKBZYTjDR7lSnRdZBweKaUg31ux5AzgqmgVtDKxNK7TD9rL8MTFSN1Vjpmdew
+S11+hATBSyQmEYav1K5uePutp+9Ie9GxACaqjm/mtDmIwL3Jy8Ll4iFB4xwSTw6ryOlCOkkplhNm
+6nmA6CtnkhdS7GceO56Bl7qT8daBfOsId6sjAHJ/PqaKmSNKrNKruw6pHbO5bJKCaDrXREXSmDsv
+mjMfRdW5qlz2SSMWflQSPSsEzeViqDQaM7ewOWnY6ZFtG3AQG/HIqyIkNyPZvs1mqMQxzr77kOe9
+2bYtVDN7Irr/1Er+7Y/9LPiZbMZKG6N0W1KKe4f6Wscc2y4D4xA7ekfbOMPvYlzn0CqyJfH9bfqV
+G53DdVHc2UYn+yIfh0JVjQjBTysShGMUiw0TmemnnGFOzziT/5xBo8/hehFD6IUcut8WufgOzomf
+59eRwFcpXYGr0grIrEZ7HQmuZ6J6tNcjH3JWqqV0AsCvFLpxraFuuZQXjCOgs+dYk8mZQSje4NB8
+tSFq8nKC2//bzotLN1sZsxFVqxE67mYm/OnBvT3Pg/xpx4F6JC+Te31J9zaPYNz6nH5UjTawKdow
+3gWvNecCBjCfAEybZzALwnGjRni8ifdqh1awLQGMW3Z7T2qTYCuOCAm76QjjNIWqa3MWADdjdt/o
+DycQ1Lfj5nAyey7o8XAs/PVwvDUCD2yFN845+ux8Jmu6yTcYW8AH/ZELsjG8HdXuZQgu+PkrMwiQ
+Mj7J/tZTVLMCgP6rtviffWdRYGy77G/4ZDyipJTb4aULZbTVkyjjheap2jX1LQD0nr0AJaI4z7i1
+DcXCJ2VNlR12CTd9Ofr2Rxvull0ANAJ9NxTtGbex9i4NxyO7paTHEcsX3XNB9wGESdceQxybZQHj
+GGzEIodI1zfBS186NLuVml7WnHHLtvuGavkdv7EOlhXMv4J/qFtTb1ebAbxWtuKgxnWrGxK+zxk/
+xkT3pu6xBL8u9aoWQzX/5GdtMbx/A5PkhLYK+qkwAAAAAElFTkSuQmCC
+
+--_006_BL0PR11MB3410FA0395836A653A86A7E1B3419BL0PR11MB3410namp_--

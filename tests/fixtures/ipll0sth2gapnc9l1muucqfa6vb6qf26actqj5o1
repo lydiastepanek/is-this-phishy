@@ -1,0 +1,1206 @@
+Return-Path: <fake@email.com>
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id ipll0sth2gapnc9l1muucqfa6vb6qf26actqj5o1
+ for help@isthisphishy.io;
+ Tue, 02 May 2023 22:59:15 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.222.51 as permitted sender) client-ip=209.85.222.51; envelope-from=fake@email.com; helo=mail-ua1-f51.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.222.51 as permitted sender) client-ip=209.85.222.51; envelope-from=fake@email.com; helo=mail-ua1-f51.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFHOUo5NkNwNEZyWGhCRXI4dVh6NUdTbXJvMUJzUVZWUzk5VWlnWE5SS1hDK0FMUThpQnJTc1V0bmtpcVJ5dzJUcUZvb1h4V25NZFNodXBCQzI5VlN5Z0lkZCtIQlg0QVdzR2UzdThSVERwZ092VkkxR09SM2lnQWdNMmVQUlRBNmV4cnpVdHQrak9Xb0FJaVdpMjBBamNjZDNDMHVUaXNNd3NPbVNLV2NZa2l6T24wY2pzbGVOdkNVSVV4UXhnMUVCTHFjSUlzS1d0blhkbzBwNXpOcmFqM0xhQ2phaFB1eFBYRFl5NkV6RGFtdkw1UGNXL3dHS1hKSDVubUprNnUvSDVXZTZ2dTE5UnhrVW1SYlpYSUpLWjJ3SHB2OGp4dGZSTyt4SFBpR216cnc9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=M21+IscNj/5Y+PpRjagYYYRm9FQtk5FWD1QiHzA+Xvx9/H+3HH7botVbk73Hxgs4VsPKONF8LcbAo1oDkHIrl219RKHW/SbjoGlAZu46BMZuvrAX6azrUbDduOxGg1a9+jJLN8uEpjcfmz5Cn55LJ9T47ws4/9KELgldUg+cg5s=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1683068356; v=1; bh=pA9lXCl4f/dX1vYf3i7V76PqQfN8W8CotDISuygG3YQ=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-77d03730ccbso1170104241.3
+        for <help@isthisphishy.io>; Tue, 02 May 2023 15:59:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683068355; x=1685660355;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EdzNe/zernx71wpTxgcEcsvhAexHLd61I6ow9T7J5H4=;
+        b=fqSRgpyMn0/Qr3U/YxsLQW1n4yo57h1p8Z04pLImPBa6HrYGEHTKYtmYHBCFSLYO9b
+         AdQNfzPj93kkWToUIu+UIL+wm3HDthua5ALbMMWCzB3APa41tQQW+uLsK7sbZkhjj/sf
+         l0sKlRIvtF4phMouVzM2yY0lIERR4L24r3j4Db81DjdJSNWqbSYWCP/OM5SttkBP7gyc
+         qMFpRLgephcQxB9uHqKSyNifPVURlZYk2PjSCECqDAVbWqecRV5RAHGYZvGoYXToZKDT
+         0BxgwSs2fEB3RnOevJyN4KgX1exBo7XQ0cV/wLE9h5/qtyPWDPSKnCX/7lMxwhIs0Xh4
+         adaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683068355; x=1685660355;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EdzNe/zernx71wpTxgcEcsvhAexHLd61I6ow9T7J5H4=;
+        b=hduHXsJHB4rBmQ+DJxl96doygt+MGfR2/IjyDmKVUC18taYW6hL494lR3ekGIF5xJP
+         MTib7c91kxZccgOftnd0XTyQWapLOu55Cy5R5IMIGOqlYKf3wQxG7tUM+F5NI1jI5NNP
+         L48Eoy3lFiHZ0TY2BS+0UDsq1E4Vzzz5wmWA0RranCYdZuh5+HOjX1KJBkmg9xPPncj3
+         z+UqIyPw2CGLyKs+2Gl603I2h4YsZD2FYBclZfmVmfXaZ8A0MtYs33Cti5hrzi9hixQj
+         g93XkuD4ovHu4bf83KSMgpS5Z+ToQuszENcErsiy/XHNm0IrOYoagfXTYXf2ALyBzHRD
+         M3VQ==
+X-Gm-Message-State: AC+VfDzGoBXLV6t02RJ0mEgfR2R+AP7ZIPpCSx553wuXTt/sMxqX+7PG
+	/AIuyFnXlsEsti2pHYnmWi2sfggGWVY63s2QtuLh3Q+/l0s=
+X-Google-Smtp-Source: ACHHUZ6ExZSzRgwqt0SVud3GnuutDU/f/icljtlfiK+48L6qSjbM4wLP90RE/E+HvVVvQNPf1u1kgGwZEzwiuS5agdk=
+X-Received: by 2002:a67:f803:0:b0:430:229e:9386 with SMTP id
+ l3-20020a67f803000000b00430229e9386mr656925vso.6.1683068354394; Tue, 02 May
+ 2023 15:59:14 -0700 (PDT)
+MIME-Version: 1.0
+References: <01000187b4ee1f51-6859cbd1-95dd-4e5f-a7b9-2a81bb996284-000000@email.amazonses.com>
+In-Reply-To: <01000187b4ee1f51-6859cbd1-95dd-4e5f-a7b9-2a81bb996284-000000@email.amazonses.com>
+From: Lydia Stepanek <fake@email.com>
+Date: Tue, 2 May 2023 18:59:02 -0400
+Message-ID: <CADvz_yfVCsvMn+bUuM=9X1mjr6AQRYRdp=3vC8tU1L43w+L-7A@mail.gmail.com>
+Subject: Fwd: EMAIL_SUBJECT
+To: help@isthisphishy.io
+Content-Type: multipart/alternative; boundary="00000000000065801605fabde3d1"
+
+--00000000000065801605fabde3d1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: <help@isthisphishy.io>
+Date: Mon, Apr 24, 2023 at 4:21=E2=80=AFPM
+Subject: EMAIL_SUBJECT
+To: <fake@email.com>
+
+
+Lydia Stepanek sent the following email to help@isthisphishy.io:
+
+
++ 30% full-price styles =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3D=
+E2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D =3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D =3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3D =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D =3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D =3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D =3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D =3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D =3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3D =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D =3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D =3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D =3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D =3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D =3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3D =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D =3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D =3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D =3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D =3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D =3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3D =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D =3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3D
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C + 30% full-price styles View in a web brows=
+er [image:
+LOFT] [image: New Arrivals] [image: Accessories & Shoes] [image:
+Petite] [image:
+Lou & Grey] [image: Sale] [image: Striped Dot Jacquard Babydoll Top] [image=
+:
+Floral Gathered Yoke Ruffle Shell] [image: Scalloped Pointelle Collared
+Cardigan] [image: Ribbed Relaxed V-Neck Pocket Cardigan] [image: Pleated
+Ruffle Sleeve Swing Dress] [image: Dotted Tie Cuff Mixed Media Top] [image:
+Buy Now] [image: Buy Now] [image: New Arrivals] [image: Clothing] [image:
+Accessories & Shoes] [image: Petites] [image: Sale] [image:
+styleREWARDS] [image:
+Find a store] [image: Buy online] [image: Get Texts From Us] [image: Live
+Events] Email Preferences Customer Service Email Us LOFT Credit Card Privac=
+y
+Unsubscribe [image: Follow Us :] [image: Facebook] [image: Twitter] [image:
+Pinterest] [image: Instagram] Sent from LOFT, 7 Times Square, New York, NY
+10036 =3DE2=3D80=3DA1LOFT Cash coupon is valid for only one use. Valid on
+in-stock merc=3D handise only. Not redeemable on Sneak Preview items or
+third-party brands. Not combinable with associate discounts. Combinable
+with coupons and any other store or online offer, unless otherwise stated
+on other offer. Redeem one $25 coupon for each qualifying $75 purchase
+(maximum of 10 coupons per transaction in-store and online). Qualifying
+amount is determined after allowable discounts & rewards and before taxes,
+shipping & handling. Not redeemable for cash (cash value =3D3D $0.00) and m=
+ay
+not be applied to previo=3D us purchases, exchanges, returns, credit card
+payments, Gift Cards and E-Gift Cards. To redeem in stores, coupon must be
+surrendered at time of purchase. To redeem online, use the code provided on
+the coupon. If eligible merchandise is returned, the offer value or a
+portion thereof may be deducted from the refund or merchandise credit and
+may not be reused. Redeem in LOFT stores in the U.S. or at LOFT.com for
+orders shipped within the U.S. May 30-June 11,2023 (until 11:59 p.m. ET
+online). *Valid only as marked on in stock full price category. Excludes
+Sneak Preview, swimwear, and third-party brands as stated. Discount is for
+a limited time and is taken before tax and shipping. International orders
+are ineligible unless otherwise stated. Not redeemable for cash or, except
+as stated in our return policy, adjustments to prior purchases. Not
+combinable with coupons or other discounts unless otherwise stated. Valid
+only at LOFT stores and on LOFT.com. (Ends 9:00 p.m. PT) --=3D20
+Lydia*Stepanek* 203.804.9137 --000000000000e705e805fa1ac12d Content-Type:
+text/html; charset=3D"UTF-8" Content-Transfer-Encoding: quoted-printable
+yo
+
+---------- Forwarded message ---------
+From: *LOFT* <=3D loft@e.loft.com>
+Date: =3D Mon, Apr 24, 2023 at 3:19=3DE2=3D80=3DAFPM
+Subject: Midis, minis, maxis & =3D more=3DE2=3D80=3D94DRESS SEASON IS HERE!
+To: <fake@email.com>
+
+
++ 30% full-pric=3D e styles
+[image: 3D""]
+<=3D /td>
+<=3D tbody>
+
++ 30% full-price styles
+
+web browser
+=3DC2=3DA0
+<=3D /table>
+=3D
+[image: 3D"LOFT"]
+=3D =3DC2=3DA0
+[image: 3D"New] [image: 3D"Accessories] [image: 3D"Petite"] [image:
+3D"Lou] [image:
+3D"Sale"]
+=3DC2=3DA0
+=3DC2=3DA0
+<=3D /tbody>
+[image: 3D""]
+<=3D /table>
+=3D
+[image: 3D""]
+[image: 3D""] =3D
+[image: 3D""] =3D
+=3D [image: 3D""]=3D
+[image: 3D""]
+[image: 3D""] =3D
+=3D [image: 3D""]=3D
+[image: 3D""]
+[image: 3D""]
+[image: 3D"Striped]
+[image: 3D"Floral]
+[image: 3D"Scalloped]
+[image: 3D"Ribbed]
+[image: 3D"Pleated]
+[image: 3D"Dotted]
+=3D [image: 3D"=3D]
+[image: =3D3D""]
+=3D
+[image: 3D""]<=3D /td>
+=3D =3D
+[image: 3D"Buy]<=3D /a>
+=3DC2=3DA0
+=3DC2=3DA0
+
+<=3D table
+id=3D3D"m_2188572500544968078widget_c41327e6db8deb3b39370895a2be2892" b=3D
+gcolor=3D3D"#ffffff" width=3D3D"100%" align=3D3D"center" cellspacing=3D3D"0=
+"
+cellpa=3D dding=3D3D"0" border=3D3D"0"
+style=3D3D"border-collapse:collapse;border-left:1px;=3D border-right:1px">
+<=3D a href=3D3D"http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa8=
+7SWyZIX=3D
+-bPPqJmFIkoKg_WOFbvO8hd-Qc6vcG_k8pCl0fHNZGwIMr-A/3vm/87medHAoRP2RxPqshzkMIw=
+=3D
+/h29/jtrbb58i8uZpkDICbeE8EP96Hjjg77StQ73IUSe8JnU"
+style=3D3D"color:#000001;te=3D xt-decoration:none" target=3D3D"_blank">[ima=
+ge:
+3D"New] <=3D a href=3D3D"http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGz=
+GGX0jXa87SWyZIX=3D
+-bPPob_OJqwdFfv3FjBgmC3WzI5DS6BGZXZVrguFArGfW3QQ/3vm/87medHAoRP2RxPqshzkMIw=
+=3D
+/h30/NygpOpPpZrtGY8iu0HWVKnFYoyyMJtG96AqVAzcy14s
+<http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa87SWyZIX=3D-bPPob=
+_OJqwdFfv3FjBgmC3WzI5DS6BGZXZVrguFArGfW3QQ/3vm/87medHAoRP2RxPqshzkMIw=3D/h3=
+0/NygpOpPpZrtGY8iu0HWVKnFYoyyMJtG96AqVAzcy14s>"
+style=3D3D"color:#000001;te=3D xt-decoration:none" target=3D3D"_blank">[ima=
+ge:
+3D"Clothing"] <=3D a
+href=3D3D"http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa87SWyZIX=
+=3D
+-bPPpUVNbPAPmPsaQotgxkyRKnztGxD4B8W3ETafYO2KtSiQ/3vm/87medHAoRP2RxPqshzkMIw=
+=3D
+/h31/img4m-XpQKpeVHBe0dh_hKLz0fNIVWknkfgegHCpk-E
+<http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa87SWyZIX=3D-bPPpU=
+VNbPAPmPsaQotgxkyRKnztGxD4B8W3ETafYO2KtSiQ/3vm/87medHAoRP2RxPqshzkMIw=3D/h3=
+1/img4m-XpQKpeVHBe0dh_hKLz0fNIVWknkfgegHCpk-E>"
+style=3D3D"color:#000001;te=3D xt-decoration:none" target=3D3D"_blank">[ima=
+ge:
+3D"Accessories] <=3D a
+href=3D3D"http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa87SWyZIX=
+=3D
+-bPPqedyLCOyznj31LwchVnRDuAHrogu0A98is-5zx8f4hDg/3vm/87medHAoRP2RxPqshzkMIw=
+=3D
+/h32/5SbQRAkAi9mP2vEIJMFJEW_oSq_Id7wmfEK5jhA07ec
+<http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa87SWyZIX=3D-bPPqe=
+dyLCOyznj31LwchVnRDuAHrogu0A98is-5zx8f4hDg/3vm/87medHAoRP2RxPqshzkMIw=3D/h3=
+2/5SbQRAkAi9mP2vEIJMFJEW_oSq_Id7wmfEK5jhA07ec>"
+style=3D3D"color:#000001;te=3D xt-decoration:none" target=3D3D"_blank">[ima=
+ge:
+3D"Petites"] <=3D a
+href=3D3D"http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa87SWyZIX=
+=3D
+-bPPqgRuLYisrTYnTrxuujgSyI15daBHsj6nsAy-nSZn1boQ/3vm/87medHAoRP2RxPqshzkMIw=
+=3D
+/h33/g6iCUJ5JVYOY7MB9b6xcEwDd2aope4DmHVmn0Oed-_M
+<http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa87SWyZIX=3D-bPPqg=
+RuLYisrTYnTrxuujgSyI15daBHsj6nsAy-nSZn1boQ/3vm/87medHAoRP2RxPqshzkMIw=3D/h3=
+3/g6iCUJ5JVYOY7MB9b6xcEwDd2aope4DmHVmn0Oed-_M>"
+style=3D3D"color:#000001;te=3D xt-decoration:none" target=3D3D"_blank">[ima=
+ge:
+3D"Sale"]=3D <=3D a
+href=3D3D"http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa87SWyZIX=
+=3D
+-bPPqX2S4MwQZLCq8wDSjV410hGIKbQ5P41_aaAfX0se-Y4A/3vm/87medHAoRP2RxPqshzkMIw=
+=3D
+/h34/e-ncEcs4l6inezP__SqmNqNaKMX_DQ_tAu7WO8g0XW4
+<http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa87SWyZIX=3D-bPPqX=
+2S4MwQZLCq8wDSjV410hGIKbQ5P41_aaAfX0se-Y4A/3vm/87medHAoRP2RxPqshzkMIw=3D/h3=
+4/e-ncEcs4l6inezP__SqmNqNaKMX_DQ_tAu7WO8g0XW4>"
+style=3D3D"color:#000001;te=3D xt-decoration:none" target=3D3D"_blank">[ima=
+ge:
+3D"styleREWARDS"]
+[image: 3D""]
+<=3D tbody>
+[image: 3D"Find] [image: 3D"Buy] =3D [image: 3D"Get] [image: 3D"Live]
+=3D
+=3DC2=3DA0
+
+Email Preferences=3DC2=3DA0 =3DC2=3DA0 =3DC2=3D =3DA0=3DC2=3DA0Customer S=
+=3D ervice=3DC2=3DA0
+=3DC2=3DA0 =3DC2=3DA0=3DC2=3DA0Email Us=3DC2=3DA0 =3DC2=3DA0 =3DC2=3DA0 =3D=
+C2=3DA0=3DC2=3DA0LOF=3D T Credit
+Card=3DC2=3DA0 =3DC2=3DA0 =3DC2=3DA0=3DC2=3DA0Privacy=3DC2=3DA0 =3DC2=3DA0 =
+=3DC2=3DA0=3DC2=3DA0Unsubscribe
+<=3D /a> [image: 3D"Twitter"] [image: 3D"Pinterest"] [image: 3D"Instagram"]
+=3D
+=3D
+
+Sent from LOFT, 7 Times Square, New York, NY 10036
+=3D
+=3D
+=3DC2=3DA0
+
+=3DE2=3D80=3DA1LOFT Cash coupon is valid for o=3D nly one use. Valid on in-=
+stock
+merchandise only. Not redeemable on Sneak Pr=3D eview items or third-party
+brands. Not combinable with associate discounts.=3D Combinable with coupons
+and any other store or online offer, unless otherw=3D ise stated on other
+offer. Redeem one $25 coupon for each qualifying $75 pu=3D rchase (maximum =
+of
+10 coupons per transaction in-store and online). Qualify=3D ing amount is
+determined after allowable discounts & rewards and before=3D taxes, shippin=
+g
+& handling. Not redeemable for cash (cash value =3D3D $0=3D .00) and may no=
+t be
+applied to previous purchases, exchanges, returns, cred=3D it card payments=
+,
+Gift Cards and E-Gift Cards. To redeem in stores, coupon =3D must be
+surrendered at time of purchase. To redeem online, use the code pro=3D vide=
+d
+on the coupon. If eligible merchandise is returned, the offer value o=3D r =
+a
+portion thereof may be deducted from the refund or merchandise credit a=3D =
+nd
+may not be reused. Redeem in LOFT stores in the U.S. or at LOFT.com for =3D
+orders shipped within the U.S. May 30-June 11,2023 (until 11:59 p.m. ET
+onl=3D ine).
+
+*Valid only as marked on in stock full pr=3D ice category. Excludes Sneak
+Preview, swimwear, and third-party brands as s=3D tated. Discount is for a
+limited time and is taken before tax and shipping.=3D International orders
+are ineligible unless otherwise stated. Not redeemabl=3D e for cash or,
+except as stated in our return policy, adjustments to prior =3D purchases.
+Not combinable with coupons or other discounts unless otherwise =3D stated.
+Valid only at LOFT stores and on LOFT.com. (Ends 9:00 p.m. PT)
+
+
+--=20
+Lydia*Stepanek*
+203.804.9137
+--000000000000e705e805fa1ac12d--
+
+
+--=20
+Lydia*Stepanek*
+203.804.9137
+
+--00000000000065801605fabde3d1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">---------- Forwarded message ---------<br>From: <span dir=
+=3D"auto">&lt;<a href=3D"mailto:help@isthisphishy.io">help@isthisphishy.io<=
+/a>&gt;</span><br>Date: Mon, Apr 24, 2023 at 4:21=E2=80=AFPM<br>Subject: EM=
+AIL_SUBJECT<br>To:  &lt;<a href=3D"mailto:fake@email.com">lydia.s=
+tepanek@gmail.com</a>&gt;<br></div><br><br><div>Lydia Stepanek <u></u> sent=
+ the following email to <a href=3D"mailto:help@isthisphishy.io" target=3D"_=
+blank">help@isthisphishy.io</a>:</div><br><br>+ 30% full-price styles
+ =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =
+=3DE2=3D80=3D8C  =3DE2=3D80=3D8C =3DE2=3D80=3D
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3D
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C  =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C  =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C  =3DE2=3D80=3D8C =3DE=
+2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+ =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C  =3DE2=3D80=3D8C =3DE2=3D80=3D8C=
+ =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3D
+=3DE2=3D80=3D8C  =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C  =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D
+=3D8C =3DE2=3D80=3D8C  =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE=
+2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+ =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C  =3DE2=3D
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C  =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3D
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+ =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =
+=3DE2=3D80=3D8C  =3DE2=3D80=3D8C =3DE2=3D80=3D
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+ =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C  =3DE2=3D8=
+0=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C  =3DE2=3D80=3D8C =3DE=
+2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3D
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D
+=3D80=3D8C =3DE2=3D80=3D8C  =3DE2=3D80=3D8C =3DE2=3D80=3D8C
+=3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C  =3DE2=3D80=3D8C=
+ =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D
+=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3DE2=
+=3D80=3D8C =3DE2=3D80=3D8C =3DE2=3D80=3D8C =3D
+=3DE2=3D80=3D8C
+ =3DE2=3D80=3D8C
+
++ 30% full-price styles
+<u></u>
+
+View in a web browser
+<u></u>
+
+[image: LOFT]
+<u></u>
+
+[image: New Arrivals]
+<u></u>
+[image:
+Accessories &amp; Shoes]
+<u></u>
+[image:
+Petite]
+<u></u>
+[image:
+Lou &amp; Grey]
+<u></u>
+[image:
+Sale]
+<u></u>
+
+
+<u></u>
+<u></u>
+<u></u>
+<u></u>
+<u></u>
+<u></u>
+<u></u>
+<u></u>
+<u></u>
+<u></u>
+[image: Striped Dot Jacquard Babydoll Top]
+<u></u>
+[image: Floral Gathered Yoke Ruffle Shell]
+<u></u>
+[image: Scalloped Pointelle Collared Cardigan]
+<u></u>
+[image: Ribbed Relaxed V-Neck Pocket Cardigan]
+<u></u>
+[image: Pleated Ruffle Sleeve Swing Dress]
+<u></u>
+[image: Dotted Tie Cuff Mixed Media Top]
+<u></u>
+<u></u>
+<u></u>
+<u></u>
+[image: Buy Now]
+<u></u>
+[image: Buy Now]
+<u></u>
+
+
+[image: New Arrivals]
+<u></u>
+[image:
+Clothing]
+<u></u>
+[image:
+Accessories &amp; Shoes]
+<u></u>
+[image:
+Petites]
+<u></u>
+[image:
+Sale]
+<u></u>
+[image:
+styleREWARDS]
+<u></u>
+<u></u>
+[image: Find a store]
+<u></u>
+[image:
+Buy online]
+<u></u>
+[image:
+Get Texts From Us]
+<u></u>
+[image:
+Live Events]
+<u></u>
+
+
+<u></u>Email
+Preferences
+<u></u>
+Customer Service
+<u></u>
+Email Us <u></u>        LOFT Credit Card
+<u></u>
+Privacy
+<u></u>
+Unsubscribe
+<u></u>
+[image: Follow Us :] [image: Facebook]
+<u></u>
+[image:
+Twitter]
+<u></u>
+[image:
+Pinterest]
+<u></u>
+[image:
+Instagram]
+<u></u>
+
+Sent from LOFT, 7 Times Square, New York, NY 10036
+
+
+=3DE2=3D80=3DA1LOFT Cash coupon is valid for only one use. Valid on in-stoc=
+k merc=3D
+handise
+only. Not redeemable on Sneak Preview items or third-party brands. Not
+combinable with associate discounts. Combinable with coupons and any other
+store or online offer, unless otherwise stated on other offer. Redeem one
+$25 coupon for each qualifying $75 purchase (maximum of 10 coupons per
+transaction in-store and online). Qualifying amount is determined after
+allowable discounts &amp; rewards and before taxes, shipping &amp; handling=
+. Not
+redeemable for cash (cash value =3D3D $0.00) and may not be applied to prev=
+io=3D
+us
+purchases, exchanges, returns, credit card payments, Gift Cards and E-Gift
+Cards. To redeem in stores, coupon must be surrendered at time of purchase.
+To redeem online, use the code provided on the coupon. If eligible
+merchandise is returned, the offer value or a portion thereof may be
+deducted from the refund or merchandise credit and may not be reused.
+Redeem in LOFT stores in the U.S. or at LOFT.com for orders shipped within
+the U.S. May 30-June 11,2023 (until 11:59 p.m. ET online).
+
+*Valid only as marked on in stock full price category. Excludes Sneak
+Preview, swimwear, and third-party brands as stated. Discount is for a
+limited time and is taken before tax and shipping. International orders are
+ineligible unless otherwise stated. Not redeemable for cash or, except as
+stated in our return policy, adjustments to prior purchases. Not combinable
+with coupons or other discounts unless otherwise stated. Valid only at LOFT
+stores and on LOFT.com. (Ends 9:00 p.m. PT)
+
+
+--=3D20
+Lydia*Stepanek*
+203.804.9137
+
+--000000000000e705e805fa1ac12d
+Content-Type: text/html; charset=3D&quot;UTF-8&quot;
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"3D&quot;ltr&quot;">yo<br><br><div><div dir=3D"3D&quot;ltr&quot;=
+">---------- Forwarded message ---------<br>From: <strong dir=3D"3D&quot;au=
+to&quot;">LOFT</strong> <span dir=3D"3D&quot;auto&quot;">&lt;=3D
+<a>loft@e.loft.com</a>&gt;</span><br>Date: =3D
+Mon, Apr 24, 2023 at 3:19=3DE2=3D80=3DAFPM<br>Subject: Midis, minis, maxis =
+&amp; =3D
+more=3DE2=3D80=3D94DRESS SEASON IS HERE!<br>To:  &lt;<a>fake@gmai=
+l.com</a>&gt;<br></div><br><br><div><u></u>
+
+
+
+
+
+
+ <div>
+<div> + 30% full-pric=3D
+e styles </div>  <div>
+ <div id=3D"m_2605121972820585583D&quot;m_2188572500544968078bluecore-pixel=
+&quot;"><div><img alt=3D"3D&quot;&quot;" width=3D"3D&quot;1&quot;" height=
+=3D"3D&quot;1&quot;" border=3D"3D&quot;0&quot;"></div></div> <table id=3D"m=
+_2605121972820585583D&quot;m_2188572500544968078wr=3D" width=3D"3D&quot;100=
+%&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" bo=
+rder=3D"3D&quot;0=3D"><tbody><tr><td><table id=3D"m_2605121972820585583D&qu=
+ot;m_218857250054=3D" width=3D"3D&quot;600&quot;" align=3D"3D&quot;center&q=
+uot;" cellspacing=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;"><tbody><tr=
+><td><u></u> <span> <table width=3D"3D&quot;100%&quot;" align=3D"3D&quot;ce=
+nter&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;" bgco=
+lor=3D"3D&quot;#ffffff&quot;"> <tbody><tr> <td align=3D"3D&quot;center&quot=
+;" valign=3D"3D&quot;middle&quot;" width=3D"3D&quot;1&quot;" height=3D"3D&q=
+uot;1&quot;" bgcolor=3D"3D&quot;#ffffff&quot;">  <img width=3D"3D&quot;1&qu=
+ot;" height=3D"3D&quot;auto&quot;" border=3D"3D&quot;0&quot;">  &lt;=3D
+/td&gt; </td></tr> </tbody></table> </span> <span> <table bgcolor=3D"3D&quo=
+t;#ffffff&quot;" id=3D"m_2605121972820585583D&quot;m_2188572500544968078wid=
+get_493d05dd0d8=3D" width=3D"3D&quot;100%&quot;" align=3D"3D&quot;center&qu=
+ot;" cellspacing=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;"> <tbody><tr=
+><td><u></u> <table width=3D"3D&quot;100%&quot;" align=3D"3D&quot;center&qu=
+ot;" cellspacing=3D"=3D3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" bor=
+der=3D"3D&quot;0&quot;"><tbody><tr><td> &lt;=3D
+tbody&gt;</td></tr><tr> <td align=3D"3D&quot;center&quot;"> <p align=3D"3D&=
+quot;left&quot;"><span><a> + 30% full-price styles</a> </span> </p> </td> <=
+td align=3D"3D&quot;center&quot;"> <p align=3D"3D&quot;right&quot;"><u></u>=
+<span rel=3D"3D&quot;noopener&quot;"><u></u>web browser</span> </p></td></t=
+r></tbody></table></td></tr></tbody></table></span> <u></u>  </td> </tr> </=
+tbody></table> </td> </tr> </tbody></table> <u></u><table><tbody><tr><td he=
+ight=3D"3D&quot;5&quot;">=3DC2=3DA0</td></tr></tbody><tbody><tr><td>&lt;=3D
+/table&gt;
+ <span>  </span> <table bgcolor=3D"3D&quot;#ffff=3D" id=3D"m_26051219728205=
+85583D&quot;m_2188572500544968078widget_bc1bfb896103d19551e0713696a3e4be&qu=
+ot;" align=3D"3D&quot;center&quot;" cellspacing=3D"3D&quot;0&quot;" cellpad=
+ding=3D"3D&quot;0&quot;" border=3D"3D&quot;0=3D"><tbody><tr><td><table widt=
+h=3D"3D&quot;600&quot;" align=3D"3D&quot;center&quot;" cellspacing=3D"3D&qu=
+ot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"=3D3D&quot;0&quot;"><=
+tbody><tr><td>=3D
+</td></tr></tbody><tbody><tr><td><table width=3D"3D&quot;100%&quot;" align=
+=3D"3D&quot;center&quot;" cellspacing=3D"3D&quot;0=3D" cellpadding=3D"3D&qu=
+ot;0&quot;" border=3D"3D&quot;0&quot;"><tbody><tr><td align=3D"3D&quot;cent=
+er&quot;"><a><img alt=3D"3D&quot;LOFT&quot;" border=3D"3D&quot;0&quot;" wid=
+th=3D"3D&quot;102&quot;" height=3D"3D&quot;auto&quot;"></a></td></tr></tbod=
+y></table><u></u></td></tr></tbody></table></td></tr></tbody></table>
+ <table bgcolor=3D"3D&quot;#ffffff&quot;" width=3D"3D&quot;600=3D" align=3D=
+"3D&quot;center&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&qu=
+ot;0&quot;" border=3D"3D&quot;0&quot;">
+<tbody><tr><td height=3D"3D&quot;10&quot;" bgcolor=3D"3D&quot;#ffffff&quot;=
+">=3D
+=3DC2=3DA0</td></tr>
+<tr><td><table width=3D"3D&quot;600&quot;" align=3D"3D&quot;center&quot;=3D=
+" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D=
+"3D&quot;0&quot;"><tbody><tr><td><table id=3D"m_2605121972820585583D&quot;m=
+_2188572500544968078navigation&quot;" width=3D"3D&quot;10=3D" align=3D"3D&q=
+uot;left&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&qu=
+ot;" border=3D"3D&quot;0&quot;"><tbody><tr><td><table align=3D"3D&quot;cent=
+er&quot;" cellspacing=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;" width=
+=3D"3D&quot;100%&quot;"><tbody><tr>
+<td align=3D"3D&quot;center&quot;" width=3D"3D&quot;11=3D" valign=3D"3D&quo=
+t;middle&quot;" bgcolor=3D"3D&quot;#ffffff&quot;"><a><img alt=3D"3D&quot;Ne=
+w" width=3D"3D&quot;113&quot;" align=3D"3D&quot;center&quot;" height=3D"3D&=
+quot;auto&quot;"></a></td>
+<td align=3D"3D&quot;center&quot;" width=3D"3D&quot;163&quot;" valign=3D"3D=
+&quot;middle&quot;" bgcolor=3D"3D&quot;#ffffff&quot;"><a><img alt=3D"3D&quo=
+t;Accessories" align=3D"3D&quot;center&quot;" height=3D"3D&quot;auto&quot;"=
+></a></td>
+<td align=3D"3D&quot;center&quot;" width=3D"3D&quot;69&quot;" valign=3D"3D&=
+quot;middle&quot;" bgcolor=3D"3D&quot;#ffffff&quot;"><a><img alt=3D"3D&quot=
+;Petite&quot;" width=3D"3D&quot;69&quot;" align=3D"3D&quot;center=3D" heigh=
+t=3D"3D&quot;auto&quot;"></a></td>
+<td align=3D"3D&quot;center&quot;" width=3D"3D&quot;93&quot;" valign=3D"3D&=
+quot;middle&quot;" bgcolor=3D"3D&quot;#ffffff&quot;"><a><img alt=3D"3D&quot=
+;Lou" width=3D"3D&quot;93=3D" align=3D"3D&quot;center&quot;" height=3D"3D=
+=3D"></a></td>
+<td align=3D"3D&quot;center&quot;" width=3D"3D&quot;34&quot;" valign=3D"3D&=
+quot;middle&quot;" bgcolor=3D"3D&quot;#ffffff&quot;=3D"><img alt=3D"3D&quot=
+;Sale&quot;" width=3D"3D&quot;34&quot;" height=3D"3D&quot;aut=3D"></td>
+</tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table><u=
+></u></td></tr>
+<tr><td height=3D"3D&quot;5&quot;" bgcolor=3D"3D&quot;#ffffff&quot;">=3DC2=
+=3DA0<u></u></td></tr>
+</tbody></table>
+ <table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_2605121972820585583D=3D" =
+width=3D"3D&quot;600=3D" align=3D"3D&quot;center&quot;" cellspacing=3D"3D&q=
+uot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;"><tb=
+ody><tr><td align=3D"3D&quot;cen=3D"><table width=3D"3D&quot;100%&quot;" al=
+ign=3D"3D&quot;center&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&q=
+uot;0&quot;"><tbody><tr><td height=3D"3D&quot;1&quot;">=3DC2=3DA0</td></tr>=
+<tr><td>&lt;=3D
+/tbody&gt;</td></tr></tbody></table></td></tr></tbody></table>
+  <span> </span>  <span>  <table bgcolor=3D"=3D3D&quot;#ffffff&quot;" id=3D=
+"m_2605121972820585583D&quot;m_2188572500544968078widget_a9677335af9c241a3e=
+f1a8274800=3D" width=3D"3D&quot;600&quot;" align=3D"3D&quot;center&quot;" c=
+ellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;"><tbody><tr><=
+td><table width=3D"3D&quot;600&quot;" align=3D"3D&quot;center&quot;" cellsp=
+acing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot=
+;0&quot;"><tbody><tr><td><table width=3D"3D&quot;100%&quot;" align=3D"3D&qu=
+ot;center&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;"=
+><tbody><tr><td align=3D"3D&quot;center&quot;"><a><img alt=3D"3D&quot;&quot=
+;" border=3D"3D&quot;0&quot;" width=3D"3D&quot;600&quot;" height=3D"3D&quot=
+;auto&quot;"></a></td></tr></tbody><tbody><tr><td>&lt;=3D
+/table&gt;</td></tr></tbody></table></td></tr></tbody></table></td></tr></t=
+body></table>
+ </span> <table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_26051219728205855=
+8=3D3D&quot;m_2188572500544968078widget_d47074f3b70ab4587884810dca31327b&qu=
+ot;" width=3D"3D&quot;=3D" align=3D"3D&quot;center&quot;" cellspacing=3D"3D=
+&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;"><=
+tbody><tr><td><table width=3D"=3D3D&quot;600&quot;" align=3D"3D&quot;center=
+&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" bor=
+der=3D"3D&quot;0&quot;"><tbody><tr><td>=3D
+</td></tr><tr><td><table width=3D"3D&quot;100%&quot;" align=3D"3D&quot;cent=
+er&quot;" cellspacing=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;"><tbody=
+><tr><td align=3D"3D&quot;center&quot;"><a><img alt=3D"3D&quot;&quot;" bord=
+er=3D"3D&quot;0&quot;" width=3D"3D&quot;600&quot;" height=3D"3D&quot;auto&q=
+uot;"></a></td></tr></tbody><tbody><tr><td><u></u></td></tr></tbody></table=
+></td></tr></tbody></table></td></tr></tbody></table>
+<table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_2605121972820585583D&quot;=
+m_21885=3D" width=3D"3D&quot;600&quot;" align=3D"=3D3D&quot;center&quot;" c=
+ellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D=
+&quot;0&quot;"><tbody><tr><td><table width=3D"3D&quot;600&quot;" cellspacin=
+g=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&q=
+uot;"><tbody><tr><td><table width=3D"3D&quot;100%&quot;" align=3D"3D&quot;c=
+enter&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;=
+=3D" border=3D"3D&quot;0&quot;"><tbody><tr><td align=3D"3D&quot;center&quot=
+;"><a><img alt=3D"3D&quot;&quot;" border=3D"3D&quot;0&quot;" width=3D"3D&qu=
+ot;600&quot;" height=3D"3D&quot;auto&quot;"></a></td></tr></tbody></table><=
+/td><td>=3D
+</td></tr></tbody></table></td></tr></tbody></table>
+<table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_2605121972820585583D&quot;=
+m_21885=3D" width=3D"3D&quot;600&quot;" align=3D"=3D3D&quot;center&quot;" c=
+ellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D=
+&quot;0&quot;"><tbody><tr><td><table width=3D"3D&quot;600&quot;" cellspacin=
+g=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&q=
+uot;"><tbody><tr><td><table width=3D"3D&quot;100%&quot;" align=3D"3D&quot;c=
+enter&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;=
+=3D" border=3D"3D&quot;0&quot;"><tbody><tr><td align=3D"3D&quot;center&quot=
+;"><a><img alt=3D"3D&quot;&quot;" border=3D"3D&quot;0&quot;" width=3D"3D&qu=
+ot;600&quot;" height=3D"3D&quot;auto&quot;"></a></td></tr></tbody></table><=
+/td><td>=3D
+</td></tr></tbody></table></td></tr></tbody></table>
+<table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_2605121972820585583D&quot;=
+m_2188572500544968078widget_982365b0928366=3D" width=3D"3D&quot;600&quot;" =
+align=3D"3D&quot;center&quot;" cellpadding=3D"3D&quot;0&quot;"><tbody><tr><=
+td><table width=3D"3D&quot;600&quot;" align=3D"3D&quot;center&quot;" cellpa=
+dding=3D"3D&quot;=3D"><tbody><tr>
+<td width=3D"3D&quot;300&quot;"><table align=3D"3D&quot;center&quot;" cells=
+pacing=3D"3D&quot;0&quot;"><tbody><tr><td>=3D
+</td><td align=3D"3D&quot;center&quot;" width=3D"3D&quot;300&quot;"><a><img=
+ src=3D"http://3D=3D" alt=3D"3D&quot;&quot;" width=3D"3D&quot;300&quot;" he=
+ight=3D"3D&quot;auto&quot;">=3D
+</a></td></tr></tbody></table></td>
+<td width=3D"3D&quot;300&quot;"><table align=3D"3D&quot;center&quot;" cells=
+pacing=3D"3D&quot;0&quot;"><tbody><tr><td><u></u><a><img alt=3D"3D&quot;&qu=
+ot;" width=3D"3D&quot;300&quot;" height=3D"3D&quot;aut=3D"></a></td></tr></=
+tbody></table></td></tr></tbody></table></td>
+</tr></tbody></table></td></tr></tbody></table>
+<table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_2605121972820585583D&quot;=
+m_21885=3D" width=3D"3D&quot;600&quot;" align=3D"=3D3D&quot;center&quot;" c=
+ellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D=
+&quot;0&quot;"><tbody><tr><td><table width=3D"3D&quot;600&quot;" cellspacin=
+g=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&q=
+uot;"><tbody><tr><td><table width=3D"3D&quot;100%&quot;" align=3D"3D&quot;c=
+enter&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;=
+=3D" border=3D"3D&quot;0&quot;"><tbody><tr><td align=3D"3D&quot;center&quot=
+;"><a><img alt=3D"3D&quot;&quot;" border=3D"3D&quot;0&quot;" width=3D"3D&qu=
+ot;600&quot;" height=3D"3D&quot;auto&quot;"></a></td></tr></tbody></table><=
+/td><td>=3D
+</td></tr></tbody></table></td></tr></tbody></table>
+<table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_2605121972820585583D&quot;=
+m_2188572500544968078widget_cd4333ef58ae80=3D" width=3D"3D&quot;600&quot;" =
+align=3D"3D&quot;center&quot;" cellpadding=3D"3D&quot;0&quot;"><tbody><tr><=
+td><table width=3D"3D&quot;600&quot;" align=3D"3D&quot;center&quot;" cellpa=
+dding=3D"3D&quot;=3D"><tbody><tr>
+<td width=3D"3D&quot;300&quot;"><table align=3D"3D&quot;center&quot;" cells=
+pacing=3D"3D&quot;0&quot;"><tbody><tr><td>=3D
+</td><td align=3D"3D&quot;center&quot;" width=3D"3D&quot;300&quot;"><a><img=
+ src=3D"http://3D=3D" alt=3D"3D&quot;&quot;" width=3D"3D&quot;300&quot;" he=
+ight=3D"3D&quot;auto&quot;">=3D
+</a></td></tr></tbody></table></td>
+<td width=3D"3D&quot;300&quot;"><table align=3D"3D&quot;center&quot;" cells=
+pacing=3D"3D&quot;0&quot;"><tbody><tr><td><u></u><a><img alt=3D"3D&quot;&qu=
+ot;" width=3D"3D&quot;300&quot;" height=3D"3D&quot;aut=3D"></a></td></tr></=
+tbody></table></td></tr></tbody></table></td>
+</tr></tbody></table>
+<table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_2605121972820585583D&quot;=
+m_21885=3D" width=3D"3D&quot;600&quot;" align=3D"=3D3D&quot;center&quot;" c=
+ellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D=
+&quot;0&quot;"><tbody><tr><td><table width=3D"3D&quot;600&quot;" cellspacin=
+g=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&q=
+uot;"><tbody><tr><td><table width=3D"3D&quot;100%&quot;" align=3D"3D&quot;c=
+enter&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;=
+=3D" border=3D"3D&quot;0&quot;"><tbody><tr><td align=3D"3D&quot;center&quot=
+;"><a><img alt=3D"3D&quot;&quot;" border=3D"3D&quot;0&quot;" width=3D"3D&qu=
+ot;600&quot;" height=3D"3D&quot;auto&quot;"></a></td></tr></tbody></table><=
+/td><td><u></u></td></tr></tbody></table></td></tr></tbody></table>
+<table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_2605121972820585583D&quot;=
+m_2188572500544968078widget_663921cdf972bf=3D" width=3D"3D&quot;600&quot;" =
+align=3D"3D&quot;center&quot;"><tbody><tr><td>
+<table align=3D"3D&quot;left&quot;" cellpadding=3D"3D&quot;0&quot;"><tbody>=
+<tr><td><table align=3D"3D&quot;center&quot;" width=3D"3D&quot;288&quot;" c=
+ellspacing=3D"=3D3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D=
+"3D&quot;0&quot;">
+<tbody><tr><td align=3D"3D&quot;center&quot;"><a><img width=3D"3D=3D" alt=
+=3D"3D&quot;Striped" height=3D"3D&quot;auto&quot;"></a></td></tr>
+<tr><td><table align=3D"3D&quot;center&quot;" width=3D"3D&quot;288&quot;"><=
+/table></td></tr>
+</tbody></table></td></tr></tbody></table>
+<table align=3D"3D&quot;left&quot;" cellpadding=3D"3D&quot;0&quot;"><tbody>=
+<tr><td><table align=3D"3D&quot;center&quot;" width=3D"3D&quot;288&quot;" c=
+ellspacing=3D"=3D3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D=
+"3D&quot;0&quot;">
+<tbody><tr><td align=3D"3D&quot;center&quot;"><a><img width=3D"3D=3D" alt=
+=3D"3D&quot;Floral" height=3D"3D&quot;auto&quot;"></a></td></tr>
+<tr><td><table align=3D"3D&quot;center&quot;" width=3D"3D&quot;288&quot;"><=
+/table></td></tr>
+</tbody></table></td></tr></tbody></table>
+<table align=3D"3D&quot;left&quot;" cellpadding=3D"3D&quot;0&quot;"><tbody>=
+<tr><td><table align=3D"3D&quot;center&quot;" width=3D"3D&quot;288&quot;" c=
+ellspacing=3D"=3D3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D=
+"3D&quot;0&quot;">
+<tbody><tr><td align=3D"3D&quot;center&quot;"><a><img width=3D"3D=3D" alt=
+=3D"3D&quot;Scalloped" height=3D"3D&quot;auto&quot;"></a></td></tr>
+<tr><td><table align=3D"3D&quot;center&quot;" width=3D"3D&quot;288&quot;"><=
+/table></td></tr>
+</tbody></table></td></tr></tbody></table>
+<table align=3D"3D&quot;left&quot;" cellpadding=3D"3D&quot;0&quot;"><tbody>=
+<tr><td><table align=3D"3D&quot;center&quot;" width=3D"3D&quot;288&quot;" c=
+ellspacing=3D"=3D3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D=
+"3D&quot;0&quot;">
+<tbody><tr><td align=3D"3D&quot;center&quot;"><a><img width=3D"3D=3D" alt=
+=3D"3D&quot;Ribbed" height=3D"3D&quot;auto&quot;"></a></td></tr>
+<tr><td><table align=3D"3D&quot;center&quot;" width=3D"3D&quot;288&quot;"><=
+/table></td></tr>
+</tbody></table></td></tr></tbody></table>
+<table align=3D"3D&quot;left&quot;" cellpadding=3D"3D&quot;0&quot;"><tbody>=
+<tr><td><table align=3D"3D&quot;center&quot;" width=3D"3D&quot;288&quot;" c=
+ellspacing=3D"=3D3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D=
+"3D&quot;0&quot;">
+<tbody><tr><td align=3D"3D&quot;center&quot;"><a><img width=3D"3D=3D" alt=
+=3D"3D&quot;Pleated" height=3D"3D&quot;auto&quot;"></a></td></tr>
+<tr><td><table align=3D"3D&quot;center&quot;" width=3D"3D&quot;288&quot;"><=
+/table></td></tr>
+</tbody></table></td></tr></tbody></table>
+<table align=3D"3D&quot;left&quot;" cellpadding=3D"3D&quot;0&quot;"><tbody>=
+<tr><td><table align=3D"3D&quot;center&quot;" width=3D"3D&quot;288&quot;" c=
+ellspacing=3D"=3D3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D=
+"3D&quot;0&quot;">
+<tbody><tr><td align=3D"3D&quot;center&quot;"><a><img width=3D"3D=3D" alt=
+=3D"3D&quot;Dotted" media=3D"" height=3D"3D&quot;auto&quot;"></a></td></tr>
+<tr><td><table align=3D"3D&quot;center&quot;" width=3D"3D&quot;288&quot;"><=
+/table></td></tr>
+</tbody></table></td></tr></tbody></table>
+</td></tr></tbody></table>
+<table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_2605121972820585583D&quot;=
+m_2188572500544968078widget_977ab86dd7c9cf=3D" width=3D"3D&quot;600&quot;" =
+align=3D"3D&quot;center&quot;" cellpadding=3D"3D&quot;0&quot;"><tbody><tr><=
+td><table width=3D"3D&quot;600&quot;" align=3D"3D&quot;center&quot;" cellpa=
+dding=3D"=3D3D&quot;0&quot;"><tbody><tr>
+<td width=3D"3D&quot;300&quot;"><table align=3D"3D&quot;center&quot;" cells=
+pacing=3D"3D&quot;0&quot;"><tbody><tr><td>=3D
+</td><td align=3D"3D&quot;center&quot;" width=3D"3D&quot;300&quot;"><a><img=
+ src=3D"http://3D=3D" alt=3D"3D&quot;=3D" width=3D"3D&quot;300&quot;" heigh=
+t=3D"3D&quot;auto&quot;"></a></td></tr><tr><td><u></u></td></tr></tbody></t=
+able></td>
+<td width=3D"3D&quot;300&quot;"><table align=3D"3D&quot;center&quot;" cells=
+pacing=3D"3D&quot;0&quot;"><tbody><tr><td><u></u><a><img alt=3D"=3D3D&quot;=
+&quot;" width=3D"3D&quot;300&quot;" height=3D"3D&quot;auto&quot;"></a></td>=
+</tr></tbody></table></td>
+</tr></tbody></table></td></tr></tbody></table>
+ <span>  <table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_26051219728205855=
+8=3D3D&quot;m_2188572500544968078widget_1567259c5fa414fe8a8756388a586961&qu=
+ot;" width=3D"3D&quot;=3D" align=3D"3D&quot;center&quot;" cellspacing=3D"3D=
+&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;"><=
+tbody><tr><td><table width=3D"=3D3D&quot;600&quot;" align=3D"3D&quot;center=
+&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" bor=
+der=3D"3D&quot;0&quot;"><tbody><tr><td>=3D
+</td></tr><tr><td><table width=3D"3D&quot;100%&quot;" align=3D"3D&quot;cent=
+er&quot;" cellspacing=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;"><tbody=
+><tr><td align=3D"3D&quot;center&quot;"><a><img alt=3D"3D&quot;&quot;" bord=
+er=3D"3D&quot;0&quot;" width=3D"3D&quot;600&quot;" height=3D"3D&quot;auto&q=
+uot;"></a></td></tr></tbody></table>&lt;=3D
+/td&gt;</td></tr></tbody></table></td></tr></tbody></table>
+ <table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_2605121972820585583D&quot=
+;m_2188572500544968078widget_47a877a504bf4=3D" width=3D"3D&quot;600&quot;" =
+align=3D"3D&quot;center&quot;" cellpadding=3D"3D&quot;0&quot;"><tbody><tr><=
+td><table width=3D"3D&quot;600&quot;" align=3D"3D&quot;center&quot;" cellpa=
+dding=3D"3D&quot;=3D"><tbody><tr>
+<td width=3D"3D&quot;300&quot;"><table align=3D"3D&quot;center&quot;" cells=
+pacing=3D"3D&quot;0&quot;"><tbody><tr><td>=3D
+</td><td align=3D"3D&quot;center&quot;" width=3D"3D&quot;300&quot;"><a><img=
+ src=3D"http://3D=3D" width=3D"3D&quot;300&quot;" height=3D"3D&quot;auto&qu=
+ot;"></a>=3D
+</td></tr></tbody></table></td>
+<td width=3D"3D&quot;300&quot;"><table align=3D"3D&quot;center&quot;" cells=
+pacing=3D"3D&quot;0&quot;"><tbody><tr><td><u></u><a><img alt=3D"3D&quot;Buy=
+" width=3D"3D&quot;300&quot;" height=3D"3D&quot;auto&quot;">&lt;=3D
+/a&gt;</a></td></tr></tbody></table></td></tr></tbody></table></td>
+</tr></tbody></table>
+ </span> <table bgcolor=3D"3D&quot;#fffff=3D" id=3D"m_2605121972820585583D&=
+quot;m_2188572500544968078widget_b6d8027542116a8ac94f64e52bc2816c&quot;" al=
+ign=3D"3D&quot;center&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D=
+"3D&quot;0&quot;" border=3D"3D&quot;0&quot;=3D"><tbody><tr><td align=3D"=3D=
+3D&quot;center&quot;"><table width=3D"3D&quot;100%&quot;" align=3D"3D&quot;=
+center&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"=3D3D&quot;0&q=
+uot;" border=3D"3D&quot;0&quot;"><tbody><tr><td>=3DC2=3DA0</td></tr></tbody=
+></table></td></tr><tr><td><u></u></td></tr></tbody></table>
+ <table bgcolor=3D"3D&quot;#ffffff&quot;" width=3D"=3D3D&quot;600&quot;" al=
+ign=3D"3D&quot;center&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D=
+"3D&quot;0&quot;" border=3D"3D&quot;0&quot;"><tbody><tr><td height=3D"3D&qu=
+ot;20&quot;">=3DC2=3DA0</td></tr><tr><td><u></u></td></tr></tbody></table>
+ <div>&lt;=3D
+table id=3D3D&quot;m_2188572500544968078widget_c41327e6db8deb3b39370895a2be=
+2892&quot; b=3D
+gcolor=3D3D&quot;#ffffff&quot; width=3D3D&quot;100%&quot; align=3D3D&quot;c=
+enter&quot; cellspacing=3D3D&quot;0&quot; cellpa=3D
+dding=3D3D&quot;0&quot; border=3D3D&quot;0&quot; style=3D3D&quot;border-col=
+lapse:collapse;border-left:1px;=3D
+border-right:1px&quot;&gt;<table><tbody><tr><td><table cellspacing=3D"3D&qu=
+ot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;" widt=
+h=3D"3D&quot;100%&quot;"><tbody><tr><td><u></u>
+</td><td align=3D"3D&quot;center&quot;" width=3D"3D&quot;320&quot;" valign=
+=3D"3D&quot;middle&quot;" bgcolor=3D"3D&quot;#ffffff&quot;">&lt;=3D
+a href=3D3D&quot;<a href=3D"http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLus=
+wGzGGX0jXa87SWyZIX=3D
+-bPPqJmFIkoKg_WOFbvO8hd-Qc6vcG_k8pCl0fHNZGwIMr-A/3vm/87medHAoRP2RxPqshzkMIw=
+=3D
+/h29/jtrbb58i8uZpkDICbeE8EP96Hjjg77StQ73IUSe8JnU">http://trk.e.loft.com/ss/=
+c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa87SWyZIX=3D
+-bPPqJmFIkoKg_WOFbvO8hd-Qc6vcG_k8pCl0fHNZGwIMr-A/3vm/87medHAoRP2RxPqshzkMIw=
+=3D
+/h29/jtrbb58i8uZpkDICbeE8EP96Hjjg77StQ73IUSe8JnU</a>&quot; style=3D3D&quot;=
+color:#000001;te=3D
+xt-decoration:none&quot; target=3D3D&quot;_blank&quot;&gt;<img alt=3D"3D&qu=
+ot;New" width=3D"3D&quot;0&quot;" align=3D"3D&quot;center&quot;" height=3D"=
+=3D3D&quot;auto&quot;"></td>
+<td align=3D"3D&quot;center&quot;" width=3D"3D&quot;320&quot;" valign=3D"3D=
+&quot;middle&quot;" bgcolor=3D"3D&quot;#ffffff&quot;">&lt;=3D
+a href=3D3D&quot;<a href=3D"http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLus=
+wGzGGX0jXa87SWyZIX=3D-bPPob_OJqwdFfv3FjBgmC3WzI5DS6BGZXZVrguFArGfW3QQ/3vm/8=
+7medHAoRP2RxPqshzkMIw=3D/h30/NygpOpPpZrtGY8iu0HWVKnFYoyyMJtG96AqVAzcy14s" t=
+arget=3D"_blank">http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa8=
+7SWyZIX=3D
+-bPPob_OJqwdFfv3FjBgmC3WzI5DS6BGZXZVrguFArGfW3QQ/3vm/87medHAoRP2RxPqshzkMIw=
+=3D
+/h30/NygpOpPpZrtGY8iu0HWVKnFYoyyMJtG96AqVAzcy14s</a>&quot; style=3D3D&quot;=
+color:#000001;te=3D
+xt-decoration:none&quot; target=3D3D&quot;_blank&quot;&gt;<img alt=3D"3D&qu=
+ot;Clothing&quot;" width=3D"3D&quot;0&quot;" align=3D"3D&quot;center&quot;"=
+ height=3D"3D&quot;au=3D"></td>
+<td align=3D"3D&quot;center&quot;" width=3D"3D&quot;320&quot;" valign=3D"3D=
+&quot;middle&quot;" bgcolor=3D"3D&quot;#ffffff&quot;">&lt;=3D
+a href=3D3D&quot;<a href=3D"http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLus=
+wGzGGX0jXa87SWyZIX=3D-bPPpUVNbPAPmPsaQotgxkyRKnztGxD4B8W3ETafYO2KtSiQ/3vm/8=
+7medHAoRP2RxPqshzkMIw=3D/h31/img4m-XpQKpeVHBe0dh_hKLz0fNIVWknkfgegHCpk-E" t=
+arget=3D"_blank">http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa8=
+7SWyZIX=3D
+-bPPpUVNbPAPmPsaQotgxkyRKnztGxD4B8W3ETafYO2KtSiQ/3vm/87medHAoRP2RxPqshzkMIw=
+=3D
+/h31/img4m-XpQKpeVHBe0dh_hKLz0fNIVWknkfgegHCpk-E</a>&quot; style=3D3D&quot;=
+color:#000001;te=3D
+xt-decoration:none&quot; target=3D3D&quot;_blank&quot;&gt;<img alt=3D"3D&qu=
+ot;Accessories" width=3D"3D&quot;0&quot;" align=3D"=3D3D&quot;center&quot;"=
+ height=3D"3D&quot;auto&quot;"></td>
+<td align=3D"3D&quot;center&quot;" width=3D"3D&quot;320&quot;" valign=3D"3D=
+&quot;middle&quot;" bgcolor=3D"3D&quot;#ffffff&quot;">&lt;=3D
+a href=3D3D&quot;<a href=3D"http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLus=
+wGzGGX0jXa87SWyZIX=3D-bPPqedyLCOyznj31LwchVnRDuAHrogu0A98is-5zx8f4hDg/3vm/8=
+7medHAoRP2RxPqshzkMIw=3D/h32/5SbQRAkAi9mP2vEIJMFJEW_oSq_Id7wmfEK5jhA07ec" t=
+arget=3D"_blank">http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa8=
+7SWyZIX=3D
+-bPPqedyLCOyznj31LwchVnRDuAHrogu0A98is-5zx8f4hDg/3vm/87medHAoRP2RxPqshzkMIw=
+=3D
+/h32/5SbQRAkAi9mP2vEIJMFJEW_oSq_Id7wmfEK5jhA07ec</a>&quot; style=3D3D&quot;=
+color:#000001;te=3D
+xt-decoration:none&quot; target=3D3D&quot;_blank&quot;&gt;<img alt=3D"3D&qu=
+ot;Petites&quot;" width=3D"3D&quot;0&quot;" align=3D"3D&quot;center&quot;" =
+height=3D"3D&quot;au=3D"></td>
+<td align=3D"3D&quot;center&quot;" width=3D"3D&quot;320&quot;" valign=3D"3D=
+&quot;middle&quot;" bgcolor=3D"3D&quot;#ffffff&quot;">&lt;=3D
+a href=3D3D&quot;<a href=3D"http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLus=
+wGzGGX0jXa87SWyZIX=3D-bPPqgRuLYisrTYnTrxuujgSyI15daBHsj6nsAy-nSZn1boQ/3vm/8=
+7medHAoRP2RxPqshzkMIw=3D/h33/g6iCUJ5JVYOY7MB9b6xcEwDd2aope4DmHVmn0Oed-_M" t=
+arget=3D"_blank">http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa8=
+7SWyZIX=3D
+-bPPqgRuLYisrTYnTrxuujgSyI15daBHsj6nsAy-nSZn1boQ/3vm/87medHAoRP2RxPqshzkMIw=
+=3D
+/h33/g6iCUJ5JVYOY7MB9b6xcEwDd2aope4DmHVmn0Oed-_M</a>&quot; style=3D3D&quot;=
+color:#000001;te=3D
+xt-decoration:none&quot; target=3D3D&quot;_blank&quot;&gt;<img alt=3D"3D&qu=
+ot;Sale&quot;" width=3D"3D&quot;0&quot;" align=3D"3D&quot;center&quot;" hei=
+ght=3D"3D&quot;auto&quot;">=3D
+</td>
+<td align=3D"3D&quot;center&quot;" width=3D"3D&quot;320&quot;" valign=3D"3D=
+&quot;middle&quot;" bgcolor=3D"3D&quot;#ffffff&quot;">&lt;=3D
+a href=3D3D&quot;<a href=3D"http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLus=
+wGzGGX0jXa87SWyZIX=3D-bPPqX2S4MwQZLCq8wDSjV410hGIKbQ5P41_aaAfX0se-Y4A/3vm/8=
+7medHAoRP2RxPqshzkMIw=3D/h34/e-ncEcs4l6inezP__SqmNqNaKMX_DQ_tAu7WO8g0XW4" t=
+arget=3D"_blank">http://trk.e.loft.com/ss/c/QGeMhX6toQUbCOxfWLuswGzGGX0jXa8=
+7SWyZIX=3D
+-bPPqX2S4MwQZLCq8wDSjV410hGIKbQ5P41_aaAfX0se-Y4A/3vm/87medHAoRP2RxPqshzkMIw=
+=3D
+/h34/e-ncEcs4l6inezP__SqmNqNaKMX_DQ_tAu7WO8g0XW4</a>&quot; style=3D3D&quot;=
+color:#000001;te=3D
+xt-decoration:none&quot; target=3D3D&quot;_blank&quot;&gt;<img alt=3D"3D&qu=
+ot;styleREWARDS&quot;" width=3D"3D&quot;0&quot;" align=3D"3D&quot;=3D"></td=
+>
+</tr></tbody></table></td></tr></tbody></table></div>
+ <table bgcolor=3D"3D&quot;#fffFFF&quot;" id=3D"m_2605121972820585583D&quot=
+;m_2188=3D" width=3D"3D&quot;600&quot;" align=3D"=3D3D&quot;center&quot;" c=
+ellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D=
+&quot;0&quot;"><tbody><tr><td><table width=3D"3D&quot;600&quot;" cellspacin=
+g=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&q=
+uot;"><tbody><tr><td><table width=3D"3D&quot;100%&quot;" align=3D"3D&quot;c=
+enter&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0=3D" b=
+order=3D"3D&quot;0&quot;"><tbody><tr><td align=3D"3D&quot;center&quot;"><a>=
+<img alt=3D"3D&quot;&quot;" border=3D"3D&quot;0&quot;" width=3D"=3D3D&quot;=
+500&quot;" height=3D"3D&quot;auto&quot;"></a></td></tr></tbody></table></td=
+></tr></tbody><tbody><tr><td><u></u></td></tr></tbody></table></td></tr></t=
+body></table>
+ <span>  <table width=3D"3D&quot;100%&quot;" border=3D"3D&quot;0&quot;" cel=
+lspacing=3D"3D&quot;0&quot;" cellpadding=3D"=3D3D&quot;0&quot;"> <tbody><tr=
+> <td valign=3D"3D&quot;top&quot;"> <table width=3D"3D&quot;100%&quot;" bor=
+der=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" align=3D"3D&quot;ce=
+nter&quot;"> <tbody><tr> <td align=3D"3D&quot;center&quot;"> <table align=
+=3D"3D&quot;center&quot;" border=3D"3D&quot;=3D" cellspacing=3D"3D&quot;0&q=
+uot;" cellpadding=3D"3D&quot;0&quot;" width=3D"3D&quot;100%&quot;"> <tbody>=
+<tr> <td align=3D"3D&quot;center&quot;" valign=3D"3D&quot;top&quot;"> <tabl=
+e width=3D"3D&quot;100%&quot;" align=3D"3D&quot;center&quot;" cellpadding=
+=3D"=3D3D&quot;0&quot;" cellspacing=3D"3D&quot;0&quot;" border=3D"3D&quot;0=
+&quot;"><tbody><tr><td> &lt;=3D
+tbody&gt;</td></tr><tr> <td width=3D"3D&quot;10&quot;"></td> <td> <a><img a=
+lt=3D"3D&quot;Find" width=3D"3D&quot;150&quot;" height=3D"3D&quot;auto&quot=
+;"></a> </td> <td width=3D"3D&quot;5&quot;"></td> <td align=3D"3D&quot;top&=
+quot;"> <a><img alt=3D"3D&quot;Buy" width=3D"3D&quot;150&quot;"></a> </td> =
+<td width=3D"3D&quot;5&quot;">=3D
+</td> <td align=3D"3D&quot;top&quot;"> <a><img alt=3D"3D&quot;Get" text=3D"=
+s" width=3D"3D&quot;150&quot;" height=3D"3D&quot;auto&quot;"></a> </td> <td=
+><u></u> <a><img alt=3D"3D&quot;Live" width=3D"3D&quot;150&quot;" height=3D=
+"3D&quot;auto&quot;"></a> </td> <td width=3D"3D&quot;20&quot;=3D"></td> </t=
+r> </tbody></table></td></tr></tbody></table> </td> </tr></tbody></table> <=
+/td> </tr> </tbody></table>   </span> <table bgcolor=3D"3D&quot;#ffff=3D" i=
+d=3D"m_2605121972820585583D&quot;m_2188572500544968078widget_f960066138ebca=
+b9ba9846d509355fa3&quot;" align=3D"3D&quot;center&quot;" cellspacing=3D"3D&=
+quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0=3D"><tbod=
+y><tr><td align=3D"=3D3D&quot;center&quot;"><table width=3D"3D&quot;100%&qu=
+ot;" align=3D"3D&quot;center&quot;" cellpadding=3D"3D&quot;0&quot;" border=
+=3D"3D&quot;0&quot;"><tbody><tr><td>=3D
+</td></tr></tbody><tbody><tr><td height=3D"3D&quot;1&quot;">=3DC2=3DA0</td>=
+</tr></tbody><tbody><tr><td><u></u></td></tr></tbody></table></td></tr></tb=
+ody></table>
+ <table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_2605121972820585583D&quot=
+;m_2188=3D" width=3D"3D&quot;600&quot;" align=3D"=3D3D&quot;center&quot;" c=
+ellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D=
+&quot;0&quot;"><tbody><tr><td><table width=3D"3D&quot;600&quot;" cellspacin=
+g=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&q=
+uot;"><tbody><tr><td><table width=3D"3D&quot;100%&quot;" align=3D"3D&quot;c=
+enter&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;=
+" border=3D"3D&quot;0&quot;"><tbody><tr><td align=3D"3D&quot;center&quot;">=
+<p align=3D"3D&quot;center&quot;"><span><span><a rel=3D"3D&quot;noopener=3D=
+"></a><span><a rel=3D"3D&quot;noopener&quot;">Email Preferences</a>=3DC2=3D=
+A0 =3DC2=3DA0 =3DC2=3D
+=3DA0=3DC2=3DA0<a rel=3D"3D&quot;noopener&quot;">Customer S=3D
+ervice</a>=3DC2=3DA0 =3DC2=3DA0 =3DC2=3DA0=3DC2=3DA0<a rel=3D"3D&quot;noope=
+ner&quot;">Email Us</a>=3DC2=3DA0 =3DC2=3DA0 =3DC2=3DA0 =3DC2=3DA0=3DC2=3DA=
+0</span><span><a rel=3D"3D&quot;noopener&quot;">LOF=3D
+T Credit Card</a>=3DC2=3DA0 =3DC2=3DA0 =3DC2=3DA0=3DC2=3DA0<a rel=3D"3D&quo=
+t;noop=3D">Privacy</a>=3DC2=3DA0 =3DC2=3DA0 =3DC2=3DA0=3DC2=3DA0<a rel=3D"3=
+D&quot;noopener&quot;">Unsubscribe</a></span></span> <u></u></span></p></td=
+></tr></tbody></table></td></tr></tbody></table></td></tr><tr><td><u></u></=
+td></tr></tbody></table>
+ <span> <table bgcolor=3D"3D&quot;#ffffff&quot;" width=3D"=3D3D&quot;100%&q=
+uot;" align=3D"3D&quot;center&quot;" cellspacing=3D"3D&quot;0&quot;" cellpa=
+dding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;=3D"> <tbody><tr> <td> <=
+table id=3D"m_2605121972820585583D&quot;m_218857250=3D" align=3D"3D&quot;ce=
+nter&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;"=
+> <tbody><tr> <td align=3D"3D&quot;cente=3D" valign=3D"3D&quot;middle&quot;=
+" width=3D"3D&quot;105&quot;"> <u></u> </td> <td width=3D"3D&quot;20&quot;"=
+> </td> <td valign=3D"3D&quot;middle&quot;" width=3D"3D&quot;32&quot;"> <a =
+alt=3D"3D&quot;Facebook&quot;" width=3D"3D&quot;22&quot;" border=3D"3D&quot=
+;0&quot;" height=3D"3D&quot;auto&quot;"> &lt;=3D
+/a&gt; </a></td> <td align=3D"3D&quot;center&quot;" valign=3D"3D&quot;middl=
+e&quot;" width=3D"3D&quot;32&quot;"> <a> <img alt=3D"3D&quot;Twitter&quot;"=
+ width=3D"3D&quot;22&quot;" border=3D"3D&quot;0&quot;"> </a> </td> <td alig=
+n=3D"3D&quot;center&quot;" valign=3D"3D&quot;middle&quot;" width=3D"3D&quot=
+;32=3D"> <a> <img alt=3D"3D&quot;Pinterest&quot;" width=3D"3D&quot;22&quot;=
+" border=3D"3D&quot;0&quot;" height=3D"3D&quot;auto&quot;"> </a> </td> <td =
+align=3D"3D&quot;center&quot;" valign=3D"3D&quot;mi=3D" width=3D"3D&quot;32=
+&quot;"> <a> <img alt=3D"3D&quot;Instagram&quot;" width=3D"3D&quot;22&quot;=
+" border=3D"=3D3D&quot;0&quot;" height=3D"3D&quot;auto&quot;"> </a> </td> <=
+/tr> </tbody><tbody><tr><td>=3D
+</td></tr></tbody></table> </td> </tr> </tbody></table> </span> <table bgco=
+lor=3D"3D&quot;#ffffff&quot;" id=3D"m_2605121972820585583D&quot;m_218857250=
+0544968078widget_2b5df7a2=3D" width=3D"3D&quot;600&quot;" align=3D"3D&quot;=
+center&quot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot=
+;" border=3D"3D&quot;0&quot;"><tbody><tr><td><u></u></td><td><table width=
+=3D"3D&quot;600&quot;" align=3D"3D&quot;left&quot;" cellspacing=3D"3D&quot;=
+0&quot;=3D" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;"><tbo=
+dy><tr><td>=3D
+<table width=3D"3D&quot;100%&quot;" align=3D"3D=3D" cellspacing=3D"3D&quot;=
+0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;"><tbody>=
+<tr><td align=3D"3D&quot;cent=3D"><p align=3D"3D&quot;cente=3D"><span><u></=
+u> Sent from LOFT, 7 Times Square, New York, NY 10036 </span> </p></td></tr=
+></tbody></table></td></tr></tbody></table></td></tr></tbody><tbody><tr><td=
+>=3D
+</td></tr></tbody></table>
+ <table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_2605121972820585583D=3D" =
+width=3D"3D&quot;600=3D" align=3D"3D&quot;center&quot;" cellspacing=3D"3D&q=
+uot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;"><tb=
+ody><tr><td align=3D"3D&quot;cen=3D"><table width=3D"3D&quot;100%&quot;" al=
+ign=3D"3D&quot;center&quot;" cellspacing=3D"3D&quot;0=3D" cellpadding=3D"3D=
+&quot;0&quot;" border=3D"3D&quot;0&quot;"><tbody><tr><td>=3D
+</td></tr><tr><td height=3D"3D&quot;1&quot;">=3DC2=3DA0</td></tr></tbody></=
+table><u></u></td></tr></tbody></table>
+  <span> </span>  <span>  <table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_=
+2605121972820585583D&quot;m_2188572500544968078widget_6677de729885fcf623d2a=
+845b457=3D" width=3D"3D&quot;600&quot;" align=3D"3D&quot;center&quot;" cell=
+spacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;"><tbody><tr><td>=
+<table width=3D"3D&quot;600&quot;" align=3D"3D&quot;left&quot;" cellspacing=
+=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&qu=
+ot;"><tbody><tr><td><table width=3D"3D&quot;100%&quot;" align=3D"3D&quot;ce=
+nter&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;"><tbo=
+dy><tr><td align=3D"3D&quot;center&quot;"><p align=3D"3D&quot;left&quot;"><=
+span>=3DE2=3D80=3DA1LOFT Cash coupon is valid for o=3D
+nly one use. Valid on in-stock merchandise only. Not redeemable on Sneak Pr=
+=3D
+eview items or third-party brands. Not combinable with associate discounts.=
+=3D
+ Combinable with coupons and any other store or online offer, unless otherw=
+=3D
+ise stated on other offer. Redeem one $25 coupon for each qualifying $75 pu=
+=3D
+rchase (maximum of 10 coupons per transaction in-store and online). Qualify=
+=3D
+ing amount is determined after allowable discounts &amp; rewards and before=
+=3D
+ taxes, shipping &amp; handling. Not redeemable for cash (cash value =3D3D =
+$0=3D
+.00) and may not be applied to previous purchases, exchanges, returns, cred=
+=3D
+it card payments, Gift Cards and E-Gift Cards. To redeem in stores, coupon =
+=3D
+must be surrendered at time of purchase. To redeem online, use the code pro=
+=3D
+vided on the coupon. If eligible merchandise is returned, the offer value o=
+=3D
+r a portion thereof may be deducted from the refund or merchandise credit a=
+=3D
+nd may not be reused. Redeem in LOFT stores in the U.S. or at LOFT.com for =
+=3D
+orders shipped within the U.S. May 30-June 11,2023 (until 11:59 p.m. ET onl=
+=3D
+ine).</span></p></td></tr></tbody></table></td></tr></tbody></table></td><t=
+d><u></u></td></tr></tbody></table>
+ </span> <table bgcolor=3D"3D&quot;#ffffff&quot;" id=3D"m_26051219728205855=
+8=3D3D&quot;m_2188572500544968078widget_7ba1f395e8a24bee00e11c11da716656&qu=
+ot;" width=3D"3D&quot;=3D" align=3D"3D&quot;center&quot;" cellspacing=3D"3D=
+&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" border=3D"3D&quot;0&quot;"><=
+tbody><tr><td><table width=3D"=3D3D&quot;600&quot;" align=3D"3D&quot;left&q=
+uot;" cellspacing=3D"3D&quot;0&quot;" cellpadding=3D"3D&quot;0&quot;" borde=
+r=3D"3D&quot;0&quot;"><tbody><tr><td><u></u></td><td><table width=3D"3D&quo=
+t;100%&quot;" align=3D"3D&quot;center&quot;" cellspacing=3D"3D&quot;0&quot;=
+" border=3D"3D&quot;0&quot;"><tbody><tr><td align=3D"3D&quot;center&quot;">=
+<p align=3D"3D&quot;left&quot;"><span>*Valid only as marked on in stock ful=
+l pr=3D
+ice category. Excludes Sneak Preview, swimwear, and third-party brands as s=
+=3D
+tated. Discount is for a limited time and is taken before tax and shipping.=
+=3D
+ International orders are ineligible unless otherwise stated. Not redeemabl=
+=3D
+e for cash or, except as stated in our return policy, adjustments to prior =
+=3D
+purchases. Not combinable with coupons or other discounts unless otherwise =
+=3D
+stated. Valid only at LOFT stores and on LOFT.com. (Ends 9:00 p.m. PT)<u></=
+u></span></p></td></tr></tbody></table></td></tr></tbody></table></td></tr>=
+</tbody></table>
+
+
+</div>
+
+</div></div><br clear=3D"3D&quot;all&quot;"><div><br></div><span>-- </span>=
+<br><div dir=3D"3D&quot;ltr&quot;"><div dir=3D"3D&quot;ltr&quot;"><div><div=
+ dir=3D"3D&quot;ltr&quot;"><div><div><font color=3D"3D&quot;#ff660=3D">Lydi=
+a<b>Stepanek</b></font></div><div><font color=3D"3D&quot;#666666&quot;">203=
+.804.9137<u></u></font></div></div></div></div></div></div></div>
+
+--000000000000e705e805fa1ac12d--
+</div></div><br clear=3D"all"><div><br></div><span class=3D"gmail_signature=
+_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature" data-smar=
+tmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div =
+style=3D"font-family:arial,sans-serif;font-size:13.200000762939453px;font-s=
+tyle:normal;font-variant:normal;letter-spacing:normal;line-height:normal;te=
+xt-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:norma=
+l;word-spacing:0px;background-color:rgb(255,255,255)"><font color=3D"#ff660=
+0">Lydia<b>Stepanek</b></font></div><div style=3D"font-family:arial,sans-se=
+rif;font-size:13.2000007629395px;font-style:normal;font-variant:normal;font=
+-weight:normal;letter-spacing:normal;line-height:normal;text-align:-webkit-=
+auto;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0p=
+x;background-color:rgb(255,255,255)"><font color=3D"#666666">203.804.9137</=
+font></div></div></div></div></div></div></div>
+
+--00000000000065801605fabde3d1--

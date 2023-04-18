@@ -1,0 +1,1187 @@
+Return-Path: <fake@email.com>
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id 6qli6rdtol5pnf2gbpju3q03pgmpdh0p7hcsnt81
+ for help@isthisphishy.io;
+ Tue, 02 May 2023 15:30:32 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.222.45 as permitted sender) client-ip=209.85.222.45; envelope-from=fake@email.com; helo=mail-ua1-f45.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.222.45 as permitted sender) client-ip=209.85.222.45; envelope-from=fake@email.com; helo=mail-ua1-f45.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFFRFg4SVhQcFhuTnhYMU55SDNnMzRlVWdzd2lhYkgwQkpGWlFQUy9IVmFMcXl2YWJKdkQ3K2hmUVdzeS81dHUrSzdZVkJVS3BvVGhxZXBUOXh2dkRQVG80TkVYelBEZlhtYXdUYWpMNGNRRjROUTRyRkZMNXN6WkpBVjNWdi9tRXJwVFdYUE8rM2tnbXE3TkRKZWpFZk5Cb0o2ZkFvR2JyRDJHVnZFck1mOTlNdGk3dVVuYU1TSDRQTGd1d3pLdTdNV0ovNTRHTzJUUEtSN1Q1SjdrWFRKTS9GNU50V3pvZGFncXpabHljNHNCSEhrYWZ5Z2JQWmtiWUhjek9QRFhxZURrajZ1MHY0azU2YTVtaVlqb09aU1lhODZWY29WclBVVnZQOG92R3hyREE9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=Me0q/C9hVzN9IMplnGgQ0+Vyv7CAmK4+YaueezLmpRTPDxaTUwauPjCBDzGOLqvEqyO1DDTNkdr3t0Rp+roJLrw2eFQpqGkKZ0+jjt0MijbevZ6gVqpZ+1D7vBWBujkgBEdi50yc7rWqzIallQY+Lazjp4JIN4AaNNQ+EmfNuKs=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1683041433; v=1; bh=vxWC2OGNHiQ2bdNbHp0u7dFL6yEV7StvffMIzZW9C9g=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-76d846a4b85so1178628241.1
+        for <help@isthisphishy.io>; Tue, 02 May 2023 08:30:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683041431; x=1685633431;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BTU/zFBOWDn22Ymx/YOff1SAiffgCnoGFFDGmP277r4=;
+        b=ZdnsPVNmt3qlmcDEihYip5m5vv8bM/CouvcMhBKAhVeK2UCJdlHefhoh4fsLlPmVdP
+         XICVSMO26oyN0P3Qq4t1++WwSojOhcsp6sx3pd18E7Nob3c5BxUA+7ZseTKA3jlsNKgf
+         go9pvKnBKmk1jbQpCHCjxWWu1yglNG8gc3L3flgF476z+e52e3ps3LRVr+pxIK72Q7iV
+         I6SsIt02MZH4zuyMzVHWYTfEbY5hDQFAZ8beE8LJlHWv8oslafQBAO6C7rJd2kA0oEMS
+         bk5OwhfaYGVhxRnY6gTDa8NgVOUUth+4YA/NQWlm3SY9UwXOPdekLL8ywRYQHJq+lXRF
+         JvBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683041431; x=1685633431;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BTU/zFBOWDn22Ymx/YOff1SAiffgCnoGFFDGmP277r4=;
+        b=ltllUrQ+ZWm6xhEMqBWX00AUtu1oX/BFKPbi4U+kX2OSC++oHpxDaVtRmaVEVe8g6m
+         SoN9m/i3mhtVukDQPchZ2DITH/h8Q5mR8ZUApZKPvquANngTQFUTtggl3VFHjDS7/XM2
+         3SPY+elhb6wmtIOXkSQ2ImSH8r/2lAmCZTTfNHSkKx/0g9+HsCIkHuUgoiSmh4uJnexv
+         0yb9JE1XNxRMWFYlozrBprmMCu2etW7s386bs+XJNpnRvJMKygLsNgkzrpu29Uf6y3th
+         L4oTtQrXvRlztl00J+o8u00vJvtyfWGPj1DZE3jAPW++tEt0yKy6M1N0j9f/KStYQ3wb
+         iDAQ==
+X-Gm-Message-State: AC+VfDy0KQnWzHmsN5DNs4FFIgCSvrdis5hteEca3ZgEqqhzStljFSs+
+	5YJP38GE5W6H9emrqdaVSR/pV0VUpW3F1f2Pdsw4iHxCSf8=
+X-Google-Smtp-Source: ACHHUZ4IFkIQkJO5XPSjCByX4wSoI4xiND+umrUnWzNyGMo3FYdWxLcP5Mc69ZRREp/CSsXnOQP58tKXlfpzeYafhfo=
+X-Received: by 2002:a67:ea98:0:b0:42f:eace:9685 with SMTP id
+ f24-20020a67ea98000000b0042feace9685mr119433vso.35.1683041431209; Tue, 02 May
+ 2023 08:30:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <HP2v600000187dd120c1d9dac00f4bbcf76f8024@e.chase.com>
+In-Reply-To: <HP2v600000187dd120c1d9dac00f4bbcf76f8024@e.chase.com>
+From: Lydia Stepanek <fake@email.com>
+Date: Tue, 2 May 2023 11:30:19 -0400
+Message-ID: <CADvz_ycBRYnDaQK+zg+WJam55sJiOS8Z8KGczJW-oSzM_S1weA@mail.gmail.com>
+Subject: Fwd: Lydia, share Sapphire Preferred and earn up to 75,000 Bonus Points
+To: help@isthisphishy.io
+Content-Type: multipart/alternative; boundary="000000000000a657c605fab79e9c"
+
+--000000000000a657c605fab79e9c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: Chase Sapphire Preferred=C2=AE <Chase@e.chase.com>
+Date: Tue, May 2, 2023 at 11:26=E2=80=AFAM
+Subject: Lydia, share Sapphire Preferred and earn up to 75,000 Bonus Points
+To: <fake@email.com>
+
+
+That=E2=80=99s over $900 towards travel when you redeem through Chase Ultim=
+ate
+Rewards=C2=AE.
+=E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=
+=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=
+=8C =E2=80=8C =E2=80=8C =E2=80=8C  =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =
+=E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=
+=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C
+=E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=
+=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=8C =E2=80=
+=8C =E2=80=8C =E2=80=8C =E2=80=8C
+That=E2=80=99s over $900 towards travel when you redeem through Chase Ultim=
+ate
+Rewards=C2=AE.
+That=E2=80=99s over $900 towards travel when you redeem through Chase Ultim=
+ate
+Rewards=C2=AE.
+
+[image: Chase Logo]
+[image: Chase Sapphire Preferred Visa Signature credit card]
+Refer   > Reward   > Repeat
+Earn up to *75,000 bonus points* per year by referring friends for the
+Chase Sapphire Preferred=C2=AE credit card.
+
+That's *15,000 bonus points* for each friend who gets approved.
+
+75,000 bonus points is worth over $900 towards travel when you redeem
+through Chase Ultimate Rewards.
+
+Share Now!
+Copy and share this unique URL with friends through text or social media.
+https://www.referyourchasecard.com/6m/E9B85S3SGC
+<https://e.chase.com/T/v600000187dd120c1d9dac00f4bbcf76f8/3375e03ac6db49100=
+000021ef3a0bcc2/3375e03a-c6db-4910-a0ec-c50aabeeedf5?__F__=3Dv0fUYvjHMDjRPM=
+Sh3tviDHXIoXcPxvDgUUCCPvXMWoX_0JoZLAZABQF5mpMDVYup6cUHCziGgRJ2s2PlL0RJkYfKO=
+ZiICqM_JgZydDfCMIdMIrrZ6A8sOcsryJ4IZm5TRCO6qkN-cjeKZPSei4wQ_PY0yeMaT_A5lMUw=
+PIartenKvfp07yZU5SSRqQsz5aNPr7FQGK1UO87aHlpDV3cbOwMlc36PQo-tlpJO6fDa41XJIxR=
+w3VZLM_Ip4t_sjpMUegcZWaYQG3rBm7JDEMFDQ0Bz37uT9DQpCw2ufpRuzwg3QNaUWVAJ_SYta1=
+TUHsK5rk>
+Just make sure they use this link to apply so you can earn a bonus. By
+sending this link through text message, you confirm that you have consent
+to send text messages to each recipient.
+Check out your card benefits as a
+Chase Sapphire Preferred cardmember
+[image: $50]
+Annual Ultimate Rewards=C2=AE Hotel Creditreference to footnote1
+border line
+[image: 5X]
+points on travel purchased through Chasereference to footnote1
+*Here's How It Works*
+You can earn up to 75,000 bonus points
+each calendar year. That's 15,000 bonus points for each friend who gets
+approved for the card, up to 5, per year.reference to footnote2
+border line
+Your friend will get 80,000 bonus points
+after they spend $4,000 in the first three months their account is open.
+To get started, please choose "Start referring" below, or copy and share
+your unique URL with friends by text or social media.
+Start referringopens in a new window
+<https://e.chase.com/T/v600000187dd120c1d9dac00f4bbcf76f8/3375e03ac6db49100=
+000021ef3a0bcc3/3375e03a-c6db-4910-a0ec-c50aabeeedf5?__F__=3Dv0fUYvjHMDjRPM=
+Sh3tviDHXIoXcPxvDgUUCCPvXMWoX_0JoZLAZABQF1wkk_CxjfXWbcNKuNifiRybGOWHQV_Ewf8=
+3z-rWvNptsMTltbxzZNfs5ta-QdAzqqZZjWyP_z06K62egPLDnLK8ieCGZuU0QjuqpDfnI3imT0=
+nouMEPz2NMnjGk_wOZTFMDyGq7Xpyr36dO8mVOUkkakLM-WjT6-xUBitVDvO2h5aQ1d3GzsDJXN=
+-j0KPrZaSTunw2uNVySMUcN1WSzPyKeLf7I6TFHoAlsbunqSU5r6DR_B68xRcvJetZpJcBu-oY3=
+p3i667uJ3xloBrrWGVnWtU1B7Cua5A=3D=3D>
+Este programa de Referir a un Amigo (Refer-A-Friend) y el proceso de
+referencia est=C3=A1 disponible s=C3=B3lo en ingl=C3=A9s. Si tiene alguna p=
+regunta, por
+favor llame al n=C3=BAmero indicado en el reverso de su tarjeta.
+Email Security Information:
+Email intended for: Lydia Stepanek
+For your account(s) ending in: 5479
+
+If you have concerns about the authenticity of this message, please visit
+chase.com/CustomerServiceopens in a new window
+<https://e.chase.com/T/v600000187dd120c1d9dac00f4bbcf76f8/3375e03ac6db49100=
+000021ef3a0bcc4/3375e03a-c6db-4910-a0ec-c50aabeeedf5?__F__=3Dv0fUYvjHMDjRPM=
+Sh3tviDHXIoXcPxvDgUUCCPvXMWoX_0JoZLAZABQF1wkk_CxjfXW1q-2GU9gjXSTbvrVeWYUv73=
+uafuSbLkDyLc01I83fr5pzsLuXV8nVNoZYclI02MgSfFlFWIf8YV6RUZKoo5jzuUodSy7glDOdo=
+xQu-wwzeZznmjEYqEUri4FLktZZhOjOjmWcWh13XZxtzHKsIlxDkK7MsF2bWFo6M41uqYKZe8su=
+Haajpx5-pRC5sLQvv_KIfKNrkbGSdh-4RmBVtWdOsAiJ_CGz0CoLEGEFYmoI2buVK7Ghg2dWngT=
+FPteb5_t>
+for options on how to contact us.
+
+TERMS AND CONDITIONS
+
+Footnote1 See your Rewards Program Agreement and product brochure, as
+applicable, for more details.
+
+Footnote2 You can receive 15,000 bonus points for each friend you refer
+through this Refer-A-Friend offer (up to 5), who is approved for the card.
+Maximum bonus points accumulation for this offer is 75,000 bonus points. *W=
+e
+may provide you with future opportunities to earn bonus points by referring
+your friends to Chase Sapphire Preferred. You may earn bonus points up to
+the stated maximum for each offer, however, please note that if you take
+advantage of multiple opportunities within one calendar year that the
+maximum number of bonus points that can be awarded from all referral offers
+is 75,000 per calendar year.* In the event the bonus points you earn from
+all referral offers exceeds the 75,000 per calendar year limit, you may be
+awarded a partial amount to keep your total bonus at 75,000 bonus points.
+For example if you have already accumulated 70,000 bonus point from
+refer-a-friend offers that calendar year and the maximum is 75,000 bonus
+point per calendar year, then the next award will be 5,000 even if the
+offer states 15,000. The value of this offer or program may result in
+miscellaneous income received from Chase and we may be required to send
+you, and file with the IRS, a Form 1099-MISC (Miscellaneous Income) or Form
+1042-S (Foreign Person=E2=80=99s U.S. Source Income Subject to Withholding)=
+ for the
+year in which you participate and are awarded the benefits of the
+offer/program. You are responsible for any tax liability related to
+participating in the offer/program. Please consult your personal tax
+advisor if you have any questions about how this could affect your taxes.
+This offer is subject to change and may be cancelled at any time without
+notice. To be eligible for this bonus offer, account must be open and not
+in default at the time of fulfillment. Please allow up to 8 weeks after
+each new cardmember=E2=80=99s approval for bonus points to post to your acc=
+ount.
+Your bonus will appear on your statement as =E2=80=9CRefer-A-Friend bonus.=
+=E2=80=9D You are
+not eligible for a referral bonus if you use your own referral URL to apply
+for a different card.
+
+Due to the confidential nature of the credit approval process, we cannot
+disclose information on who has applied, nor will you be notified whether
+we approve or decline any application(s) from the individual(s) you refer.
+
+Chase employees are not eligible to refer friends for this promotional
+offer.
+
+The Contactless Symbol and Contactless Indicator are trademarks owned by
+and used with the permission of EMVCo, LLC.
+ABOUT THIS MESSAGE
+
+This promotional email was sent to you to provide information about
+products, services, or special offers that may be of interest to you.
+
+You can unsubscribeopens in a new window
+<https://e.chase.com/U/v600000187dd120c1d9dac00f4bbcf76f8/3375e03ac6db49100=
+000021ef3a0bcc5>
+from future promotional emails from the JPMorgan Chase & Co. family of
+companies including =E2=80=9Cpoints, perks and prizes=E2=80=9D such as this=
+ or submit your
+request in writing to Chase Privacy Operations, P.O. Box 734007, Dallas, TX
+75373-4007. It takes up to 10 business days to process your request. You=E2=
+=80=99ll
+continue to receive Chase service emails.
+
+This email was sent from an unmonitored mailbox. Go to
+chase.com/CustomerServiceopens in a new window
+<https://e.chase.com/T/v600000187dd120c1d9dac00f4bbcf76f8/3375e03ac6db49100=
+000021ef3a0bcc6/3375e03a-c6db-4910-a0ec-c50aabeeedf5?__F__=3Dv0fUYvjHMDjRPM=
+Sh3tviDHXIoXcPxvDgUUCCPvXMWoX_0JoZLAZABQF1wkk_CxjfXW1q-2GU9gjXSTbvrVeWYUv73=
+uafuSbLkDyLc01I83fr5pzsLuXV8nVNoZYclI02MgSfFlFWIf8YV6RUZKoo5jzuUodSy7glDOdo=
+xQu-wwzeZznmjEYqEUri4FLktZZhOjOjmWcWh13XZxtzHKsIlxDkK7MsF2bWFo6M41uqYKZe8su=
+Haajpx5-pRC5sLQvv_KyBt_DseraTheXaaPWxDdylUiDWMkzYRPxV6IGiSrMfOO0QWySKNbn3gT=
+FPteb5_t>
+for options on how to contact us.
+
+Your privacy is important to us. See our online Security Centeropens in a
+new window
+<https://e.chase.com/T/v600000187dd120c1d9dac00f4bbcf76f8/3375e03ac6db49100=
+000021ef3a0bcc7/3375e03a-c6db-4910-a0ec-c50aabeeedf5?__F__=3Dv0fUYvjHMDjRPM=
+Sh3tviDHXIoXcPxvDgUUCCPvXMWoX_0JoZLAZABQF1wkk_CxjfXW1q-2GU9gjXSYD44WwyUkZ3E=
+s3jwfkUJSuTCCoPri5KGIgli50qwRsSutnoDyw5yyvInghmblNEI7qqQ35yN4pk9J6LjBD89jTJ=
+4xpP8DmUxTA8hqu16cq9-nTvJlTlJJGpCzPlo0-vsVAYrVQ7ztoeWkNXdxs7AyVzfo9Cj62Wkk7=
+p8NrjVckjFHDdVksz8ini3-yOkxR6CPL9x474iGlOVY2L9yxxXYxceeAQrd_dtIEVJGKorCaxRO=
+iRIRsqv41rVNQewrmuQ=3D>
+to learn how to protect your information.
+
+JPMorgan Chase Bank, N.A. Member FDIC
+
+=C2=A9 2023 JPMorgan Chase & Co. EM13053
+
+
+
+--=20
+Lydia*Stepanek*
+203.804.9137
+
+--000000000000a657c605fab79e9c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">---------- Forwarded message ---------<br>From: <strong cla=
+ss=3D"gmail_sendername" dir=3D"auto">Chase Sapphire Preferred=C2=AE</strong=
+> <span dir=3D"auto">&lt;<a href=3D"mailto:Chase@e.chase.com">Chase@e.chase=
+.com</a>&gt;</span><br>Date: Tue, May 2, 2023 at 11:26=E2=80=AFAM<br>Subjec=
+t: Lydia, share Sapphire Preferred and earn up to 75,000 Bonus Points<br>To=
+:  &lt;<a href=3D"mailto:fake@email.com">fake@email.com=
+</a>&gt;<br></div><br><br><div class=3D"msg6135600223236071512">
+
+<u></u>
+
+=20
+   =20
+   =20
+   =20
+   =20
+   =20
+   =20
+   =20
+   =20
+   =20
+   =20
+   =20
+   =20
+   =20
+
+<div width=3D"100%" style=3D"margin:0;background-color:#ffffff">
+    <div style=3D"display:none;font-size:1px;line-height:1px;max-height:0px=
+;max-width:0px;opacity:0;overflow:hidden;font-family:Arial,Helvetica,sans-s=
+erif">
+        That=E2=80=99s over $900 towards travel when you redeem through Cha=
+se Ultimate Rewards=C2=AE.=20
+    </div>
+    <div style=3D"display:none;font-size:1px;line-height:1px;max-height:0px=
+;max-width:0px;opacity:0;overflow:hidden;font-family:Arial,Helvetica,sans-s=
+erif">
+        =E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=
+=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=
+=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=
+=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0
+        =E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=
+=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=
+=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=
+=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0
+        =E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=
+=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=
+=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=
+=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0=E2=80=8C=C2=A0
+    </div>
+   =20
+    <table role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" border=
+=3D"0" style=3D"max-width:600px;background-color:#ffffff;margin:0 auto" cla=
+ss=3D"m_6135600223236071512email-container">
+        <tbody><tr class=3D"m_6135600223236071512show-on-wide" style=3D"dis=
+play:none">
+            <td align=3D"center" valign=3D"top" style=3D"padding:11px 5px 1=
+1px 5px">
+                <table role=3D"presentation" border=3D"0" cellpadding=3D"0"=
+ cellspacing=3D"0" style=3D"width:95%">
+                    <tbody><tr>
+                        <td width=3D"50%" align=3D"left" style=3D"font-fami=
+ly:Arial,Helvetica,sans-serif;font-size:12px;color:#000000;width:54%">
+                            That=E2=80=99s over $900 towards travel when yo=
+u redeem through Chase Ultimate Rewards<span style=3D"font-size:70%;line-he=
+ight:0;vertical-align:5px">=C2=AE</span>.
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+        <tr class=3D"m_6135600223236071512hide-on-wide">
+            <td align=3D"center" valign=3D"middle" style=3D"padding:15px 15=
+px 15px 5px;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#00=
+0000">
+                That=E2=80=99s over $900 towards travel when you redeem thr=
+ough Chase Ultimate Rewards<span style=3D"font-size:70%;line-height:0;verti=
+cal-align:5px">=C2=AE</span>.
+            </td>
+        </tr>
+        <tr>
+            <td dir=3D"ltr" valign=3D"middle" background=3D"http://placehol=
+d.it/600x380/545454/545454" style=3D"text-align:center;background-image:url=
+(&#39;https://ci3.googleusercontent.com/proxy/VZwVvrdkgPavX5jq8MDESovKuOPam=
+-Cz9l33zwTdFRF_pPDKQlIxRKMb_wDhrwYVj9AdbBXGjTAcM-JK-MVUGWbBT5y1-X5n5qyHvGnW=
+Sj7r_EIYAEeY4CT34-YueDKrd3xRSdAQQh-9JGrY_aqGF5mfOGuwA-h7qYOGVcrA7Wh0Yy7PNGe=
+B78PmYuaT4GE_6_zB8Vmq1_tEIUIpbN3qePd3R2WePB--bzpP6QfF-g=3Ds0-d-e1-ft#https:=
+//images.harmony.epsilon.com/ContentHandler/images/262e305a-f2fe-4ea8-afc0-=
+bc8ee2e33717/RAFECM/CS0212078_EM13053_IMAGES/EM13053_33872A_Background.jpg&=
+#39;);background-color:#545454;background-position:center center!important;=
+background-size:cover!important">
+               =20
+                <div>
+                    <table role=3D"presentation" cellpadding=3D"0" cellspac=
+ing=3D"0" border=3D"0" style=3D"width:100%">
+                        <tbody><tr>
+                            <td align=3D"center" valign=3D"middle" style=3D=
+"text-align:center;vertical-align:middle;padding:15px 0 5px 0">
+                                <img src=3D"https://images.harmony.epsilon.=
+com/ContentHandler/images/262e305a-f2fe-4ea8-afc0-bc8ee2e33717/RAFECM/CS021=
+2078_EM13053_IMAGES/EM13053_33872A_chaseLogo.png" width=3D"110" height=3D"2=
+1" alt=3D"Chase Logo" border=3D"0" class=3D"m_6135600223236071512logo-cente=
+r" style=3D"width:110px;height:21px;display:block;margin:auto;font-family:A=
+rial,Helvetica,sans-serif;font-size:12px;font-weight:normal;color:#ffffff">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align=3D"center" valign=3D"middle" style=3D=
+"text-align:center;vertical-align:middle;padding:0 0 5px 0">
+                                <table role=3D"presentation" cellpadding=3D=
+"0" cellspacing=3D"0" border=3D"0" style=3D"width:100%">
+                                    <tbody><tr>
+                                       =20
+                                       =20
+                                        <th dir=3D"ltr" class=3D"m_61356002=
+23236071512unstack-column-on-wide m_6135600223236071512cta-col-left" width=
+=3D"100%" align=3D"center" valign=3D"middle" style=3D"display:block;width:1=
+00%;max-width:100%;vertical-align:middle;font-weight:normal;text-align:cent=
+er">
+                                           =20
+                                            <table align=3D"center" role=3D=
+"presentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" style=3D"wi=
+dth:100%">
+                                                <tbody><tr>
+                                                   =20
+                                                   =20
+                                                    <td align=3D"center" va=
+lign=3D"middle" style=3D"text-align:center;vertical-align:middle;padding:0 =
+10px 10px 10px">
+                                                       =20
+                                                        <img src=3D"https:/=
+/images.harmony.epsilon.com/ContentHandler/images/262e305a-f2fe-4ea8-afc0-b=
+c8ee2e33717/RAFECM/CS0212078_EM13053_IMAGES/EM13053_33872A_sapphire_pref_ca=
+rd.png" width=3D"195" height=3D"123" alt=3D"Chase Sapphire Preferred Visa S=
+ignature credit card" border=3D"0" style=3D"width:195px;height:123px;displa=
+y:block;margin:auto;font-family:Arial,Helvetica,sans-serif;font-size:18px;f=
+ont-weight:normal;color:#ffffff">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class=3D"m_61356002=
+23236071512centericons" align=3D"center" valign=3D"middle" style=3D"text-al=
+ign:center;vertical-align:middle;padding:5px 0px 10px 0px">
+                                                        <table align=3D"cen=
+ter" role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0"=
+ style=3D"margin:0 auto">
+                                                            <tbody><tr clas=
+s=3D"m_6135600223236071512hide-on-narrow">
+                                                                <td align=
+=3D"center" valign=3D"middle" style=3D"text-align:center;vertical-align:mid=
+dle">
+                                                                    <img sr=
+c=3D"https://images.harmony.epsilon.com/ContentHandler/images/262e305a-f2fe=
+-4ea8-afc0-bc8ee2e33717/RAFECM/CS0212078_EM13053_IMAGES/EM13053_33872A_Refe=
+r_icon.png" width=3D"20" height=3D"26" alt=3D"" border=3D"0" style=3D"width=
+:20px;height:26px;display:block;margin:auto;font-family:Arial,Helvetica,san=
+s-serif;font-size:12px;font-weight:normal;color:#ffffff">
+                                                                </td>
+                                                                <td align=
+=3D"center" valign=3D"middle" style=3D"text-align:center;vertical-align:mid=
+dle">
+                                                                    <img sr=
+c=3D"https://images.harmony.epsilon.com/ContentHandler/images/262e305a-f2fe=
+-4ea8-afc0-bc8ee2e33717/RAFECM/CS0212078_EM13053_IMAGES/EM13053_33872A_Arro=
+w.png" width=3D"7" height=3D"10" alt=3D"" border=3D"0" style=3D"width:7px;h=
+eight:10px;display:block;margin:auto;font-family:Arial,Helvetica,sans-serif=
+;font-size:12px;font-weight:normal;color:#ffffff">
+                                                                </td>
+                                                                <td align=
+=3D"center" valign=3D"middle" style=3D"text-align:center;vertical-align:mid=
+dle">
+                                                                    <img sr=
+c=3D"https://images.harmony.epsilon.com/ContentHandler/images/262e305a-f2fe=
+-4ea8-afc0-bc8ee2e33717/RAFECM/CS0212078_EM13053_IMAGES/EM13053_33872A_Rewa=
+rd_icon.png" width=3D"15" height=3D"26" alt=3D"" border=3D"0" style=3D"widt=
+h:15px;height:26px;display:block;margin:auto;font-family:Arial,Helvetica,sa=
+ns-serif;font-size:12px;font-weight:normal;color:#ffffff">
+                                                                </td>
+                                                                <td align=
+=3D"center" valign=3D"middle" style=3D"text-align:center;vertical-align:mid=
+dle">
+                                                                    <img sr=
+c=3D"https://images.harmony.epsilon.com/ContentHandler/images/262e305a-f2fe=
+-4ea8-afc0-bc8ee2e33717/RAFECM/CS0212078_EM13053_IMAGES/EM13053_33872A_Arro=
+w.png" width=3D"7" height=3D"10" alt=3D"" border=3D"0" style=3D"width:7px;h=
+eight:10px;display:block;margin:auto;font-family:Arial,Helvetica,sans-serif=
+;font-size:12px;font-weight:normal;color:#ffffff">
+                                                                </td>
+                                                                <td align=
+=3D"center" valign=3D"middle" style=3D"text-align:center;vertical-align:mid=
+dle">
+                                                                    <img sr=
+c=3D"https://images.harmony.epsilon.com/ContentHandler/images/262e305a-f2fe=
+-4ea8-afc0-bc8ee2e33717/RAFECM/CS0212078_EM13053_IMAGES/EM13053_33872A_Repe=
+at_icon.png" width=3D"25" height=3D"26" alt=3D"" border=3D"0" style=3D"widt=
+h:25px;height:26px;display:block;margin:auto;font-family:Arial,Helvetica,sa=
+ns-serif;font-size:12px;font-weight:normal;color:#ffffff">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align=
+=3D"center" class=3D"m_6135600223236071512cta-item" valign=3D"middle" style=
+=3D"font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:norma=
+l;color:#ffffff;text-align:center;vertical-align:middle;padding:5px 5px 0 5=
+px;white-space:nowrap">
+                                                                    Refer
+                                                                </td>
+                                                                <td align=
+=3D"center" valign=3D"middle" style=3D"font-family:Arial,Helvetica,sans-ser=
+if;font-size:12px;font-weight:normal;color:#ffffff;text-align:center;vertic=
+al-align:middle;width:36px;padding:5px 0 0 0">
+                                                                    <span c=
+lass=3D"m_6135600223236071512hide-on-narrow">=C2=A0</span>
+                                                                   =20
+                                                                    <span c=
+lass=3D"m_6135600223236071512show-inline-on-narrow" style=3D"display:none;f=
+ont-size:18px;line-height:18px;font-weight:700">&gt;</span>
+                                                                   =20
+                                                                </td>
+                                                                <td align=
+=3D"center" class=3D"m_6135600223236071512cta-item" valign=3D"middle" style=
+=3D"font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:norma=
+l;color:#ffffff;text-align:center;vertical-align:middle;padding:5px 5px 0 5=
+px;white-space:nowrap">
+                                                                    Reward
+                                                                </td>
+                                                                <td align=
+=3D"center" valign=3D"middle" style=3D"font-family:Arial,Helvetica,sans-ser=
+if;font-size:12px;font-weight:normal;color:#ffffff;text-align:center;vertic=
+al-align:middle;width:36px;padding:5px 0 0 0">
+                                                                    <span c=
+lass=3D"m_6135600223236071512hide-on-narrow">=C2=A0</span>
+                                                                   =20
+                                                                    <span c=
+lass=3D"m_6135600223236071512show-inline-on-narrow" style=3D"display:none;f=
+ont-size:18px;line-height:18px;font-weight:700">&gt;</span>
+                                                                   =20
+                                                                </td>
+                                                                <td align=
+=3D"center" class=3D"m_6135600223236071512cta-item" valign=3D"middle" style=
+=3D"font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:norma=
+l;color:#ffffff;text-align:center;vertical-align:middle;padding:5px 5px 0 5=
+px;white-space:nowrap">
+                                                                    Repeat
+                                                                </td>
+                                                            </tr>
+                                                        </tbody></table>
+                                                    </td>
+                                                </tr>
+                                            </tbody></table>
+                                        </th>
+                                       =20
+                                       =20
+                                        <th dir=3D"ltr" class=3D"m_61356002=
+23236071512unstack-column-on-wide m_6135600223236071512cta-col-right" width=
+=3D"100%" align=3D"center" valign=3D"top" style=3D"display:block;width:100%=
+;max-width:100%;vertical-align:top;font-weight:normal;text-align:center">
+                                           =20
+                                            <table align=3D"center" role=3D=
+"presentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" style=3D"wi=
+dth:100%">
+                                                <tbody><tr>
+                                                    <td align=3D"center" cl=
+ass=3D"m_6135600223236071512cta-padding m_6135600223236071512cta-lead" styl=
+e=3D"font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:norm=
+al;line-height:18px;color:#ffffff;text-align:center;padding:20px 5px 5px 5p=
+x">
+                                                        Earn up to <b>75,00=
+0 bonus points</b> per year by referring friends for the Chase Sapphire Pre=
+ferred<span style=3D"font-size:70%;line-height:0;vertical-align:5px">=C2=AE=
+</span> credit card.<br><br>
+                                                        That&#39;s <b>15,00=
+0 bonus points</b> for each friend who gets approved.<br><br>
+                                                        75,000 bonus points=
+ is worth over $900 towards travel when you redeem through Chase Ultimate R=
+ewards.<br><br>
+                                                    </td>
+                                                </tr>
+                                            </tbody></table>
+                                        </th>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align=3D"center" valign=3D"bottom" style=3D=
+"text-align:center;padding:0 0 0 0;vertical-align:bottom">
+                                <table role=3D"presentation" cellpadding=3D=
+"0" cellspacing=3D"0" border=3D"0" width=3D"90%" style=3D"width:90%!importa=
+nt;margin:0 auto;background-color:#ebebeb">
+                                    <tbody><tr>
+                                        <td align=3D"center" style=3D"paddi=
+ng:0 10px">
+                                            <table align=3D"center" role=3D=
+"presentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" style=3D"wi=
+dth:100%">
+                                                <tbody><tr>
+                                                    <td valign=3D"middle" s=
+tyle=3D"padding:15px 0 5px 0;font-family:&#39;Open Sans&#39;,sans-serif;fon=
+t-weight:bold;font-size:20px;text-align:center;color:#0c8735">
+                                                        Share Now!
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td valign=3D"middle" b=
+order=3D"0" style=3D"padding:5px 0 7px 0;font-family:Arial,Helvetica,sans-s=
+erif;font-size:15px;text-align:center;color:#000000;line-height:20px;border=
+-collapse:collapse">
+                                                        Copy and share this=
+ unique URL with friends through text or social media.
+                                                    </td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </div>
+               =20
+            </td>
+        </tr>
+        <tr>
+            <td align=3D"center" valign=3D"middle" style=3D"text-align:cent=
+er;vertical-align:middle;padding:0 0 0 0">
+                <table role=3D"presentation" cellpadding=3D"0" cellspacing=
+=3D"0" border=3D"0" width=3D"90%" style=3D"width:90%!important;margin:0 aut=
+o;background-color:#ebebeb">
+                    <tbody><tr>
+                        <td align=3D"center" style=3D"padding:20px 15px 10p=
+x 20px;vertical-align:top">
+                            <table align=3D"center" role=3D"presentation" c=
+ellspacing=3D"0" cellpadding=3D"0" border=3D"0" style=3D"width:100%;margin:=
+0 auto;border:2px solid #6a6a6a;border-style:dashed;table-layout:fixed">
+                                <tbody><tr>
+                                   =20
+                                   =20
+                                    <td valign=3D"middle" style=3D"padding:=
+8px;background:#ffffff;font-family:&#39;Open Sans&#39;,sans-serif;font-size=
+:18px;line-height:125%;color:#0970ab;text-decoration:none;word-wrap:break-w=
+ord;text-align:center">
+                                       =20
+                                        <a href=3D"https://e.chase.com/T/v6=
+00000187dd120c1d9dac00f4bbcf76f8/3375e03ac6db49100000021ef3a0bcc2/3375e03a-=
+c6db-4910-a0ec-c50aabeeedf5?__F__=3Dv0fUYvjHMDjRPMSh3tviDHXIoXcPxvDgUUCCPvX=
+MWoX_0JoZLAZABQF5mpMDVYup6cUHCziGgRJ2s2PlL0RJkYfKOZiICqM_JgZydDfCMIdMIrrZ6A=
+8sOcsryJ4IZm5TRCO6qkN-cjeKZPSei4wQ_PY0yeMaT_A5lMUwPIartenKvfp07yZU5SSRqQsz5=
+aNPr7FQGK1UO87aHlpDV3cbOwMlc36PQo-tlpJO6fDa41XJIxRw3VZLM_Ip4t_sjpMUegcZWaYQ=
+G3rBm7JDEMFDQ0Bz37uT9DQpCw2ufpRuzwg3QNaUWVAJ_SYta1TUHsK5rk" aria-label=3D"t=
+o personalized URL on referyourchasecard.com opens in a new window" style=
+=3D"color:#0970ab;text-decoration:none" target=3D"_blank">https://www.refer=
+yourchasecard.com/6m/E9B85S3SGC</a>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align=3D"center" style=3D"padding:0;vertical-al=
+ign:top">
+                            <table align=3D"center" role=3D"presentation" c=
+ellspacing=3D"0" cellpadding=3D"0" border=3D"0" width=3D"80%" style=3D"widt=
+h:80%!important;margin:0 auto">
+                                <tbody><tr>
+                                    <td valign=3D"middle" style=3D"padding:=
+10px 0;font-family:Arial,sans-serif;font-size:13px;text-align:center;color:=
+#000000">
+                                        Just make sure they use this link t=
+o apply so you can earn a bonus. <span style=3D"white-space:nowrap">By send=
+ing</span> this link through text message, you confirm that you have consen=
+t to send text messages to each recipient.
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align=3D"center" valign=3D"top" style=3D"paddin=
+g:0;vertical-align:top;text-align:center;background-color:#ffffff">
+                            <img src=3D"https://images.harmony.epsilon.com/=
+ContentHandler/images/262e305a-f2fe-4ea8-afc0-bc8ee2e33717/RAFECM/CS0212078=
+_EM13053_IMAGES/EM13053_33872A_shadow-dt.jpg" alt=3D"" width=3D"540" height=
+=3D"20" aria-hidden=3D"true" border=3D"0" style=3D"width:100%;height:20px;c=
+olor:#e2e2e2;margin:0 auto;text-align:center">
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor=3D"#ffffff" dir=3D"ltr" align=3D"center" valign=3D"=
+top" style=3D"padding:15px 15px 0 15px">
+                <table align=3D"center" role=3D"presentation" cellspacing=
+=3D"0" cellpadding=3D"0" border=3D"0" style=3D"width:90%;margin:0 auto">
+                    <tbody><tr>
+                        <td align=3D"center" class=3D"m_6135600223236071512=
+stack-column-center m_6135600223236071512section-header" valign=3D"middle" =
+style=3D"text-align:center;vertical-align:middle;font-family:Arial,Helvetic=
+a,sans-serif;font-size:18px;font-weight:400;color:#000000;padding:10px 0px;=
+font-weight:700">
+                            Check out your card benefits as a<br class=3D"m=
+_6135600223236071512hide-on-narrow" style=3D"display:block"> Chase Sapphire=
+ Preferred cardmember
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+        <tr>
+            <td align=3D"center" valign=3D"middle" style=3D"text-align:cent=
+er;vertical-align:middle;padding:10px 0 5px 0">
+                <table role=3D"presentation" cellpadding=3D"0" cellspacing=
+=3D"0" border=3D"0" style=3D"width:100%">
+                    <tbody><tr>
+                       =20
+                       =20
+                        <th dir=3D"ltr" class=3D"m_6135600223236071512unsta=
+ck-column-on-wide m_6135600223236071512right-border-on-wide" width=3D"100%"=
+ align=3D"center" valign=3D"middle" style=3D"display:block;width:100%;max-w=
+idth:100%;vertical-align:middle;font-weight:normal;text-align:center;border=
+-right:0px">
+                           =20
+                            <table align=3D"center" role=3D"presentation" c=
+ellspacing=3D"0" cellpadding=3D"0" border=3D"0" style=3D"width:100%">
+                                <tbody><tr>
+                                   =20
+                                   =20
+                                    <td align=3D"center" valign=3D"middle" =
+style=3D"text-align:center;vertical-align:middle;padding:0 10px 10px 10px">
+                                       =20
+                                        <img src=3D"https://images.harmony.=
+epsilon.com/ContentHandler/images/262e305a-f2fe-4ea8-afc0-bc8ee2e33717/RAFE=
+CM/CS0212078_EM13053_IMAGES/EM13053_33872A_50_dollar.png" width=3D"87" heig=
+ht=3D"47" alt=3D"$50" border=3D"0" style=3D"width:87px;height:47px;display:=
+block;margin:auto;font-family:Arial,Helvetica,sans-serif;font-size:18px;fon=
+t-weight:normal;color:#ffffff">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=3D"m_6135600223236071512cente=
+ricons" align=3D"center" valign=3D"middle" style=3D"text-align:center;verti=
+cal-align:middle;padding:5px 0px 10px 0px">
+                                        <table align=3D"center" role=3D"pre=
+sentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" style=3D"margin=
+:0 auto">
+                                            <tbody><tr>
+                                                <td align=3D"center" valign=
+=3D"middle" style=3D"font-family:Arial,Helvetica,sans-serif;font-size:18px;=
+font-weight:normal;color:#000000;text-align:center;vertical-align:middle;pa=
+dding:5px 5px 0 5px;font-weight:400">
+                                                    Annual Ultimate Rewards=
+<span style=3D"font-size:70%;line-height:0;vertical-align:5px">=C2=AE</span=
+> <span style=3D"white-space:nowrap">Hotel Credit<span style=3D"font-size:0=
+px;line-height:0px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;f=
+ont-family:Arial,Helvetica,sans-serif">reference to footnote</span><sup sty=
+le=3D"font-size:60%;line-height:0;vertical-align:7px">1</sup></span>
+                                                </td>
+                                            </tr>
+                                        </tbody></table>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </th>
+                       =20
+                        <th class=3D"m_6135600223236071512hide-on-wide" ali=
+gn=3D"center" valign=3D"top" style=3D"display:block;width:100%;max-width:10=
+0%;vertical-align:top;font-weight:normal;text-align:center">
+                            <div style=3D"width:50px;margin:15px auto 15px =
+auto;border:0;border-top:1px solid #767676;display:block;height:1px"><span =
+style=3D"font-size:0px;line-height:0px;max-height:0px;max-width:0px;opacity=
+:0;overflow:hidden;font-family:Arial,Helvetica,sans-serif">border line</spa=
+n></div>
+                        </th>
+                       =20
+                       =20
+                       =20
+                        <th dir=3D"ltr" class=3D"m_6135600223236071512unsta=
+ck-column-on-wide" width=3D"100%" align=3D"center" valign=3D"middle" style=
+=3D"display:block;width:100%;max-width:100%;vertical-align:middle;font-weig=
+ht:normal;text-align:center">
+                           =20
+                            <table align=3D"center" role=3D"presentation" c=
+ellspacing=3D"0" cellpadding=3D"0" border=3D"0" style=3D"width:100%">
+                                <tbody><tr>
+                                   =20
+                                   =20
+                                    <td align=3D"center" valign=3D"middle" =
+style=3D"text-align:center;vertical-align:middle;padding:0 10px 10px 10px">
+                                       =20
+                                        <img src=3D"https://images.harmony.=
+epsilon.com/ContentHandler/images/262e305a-f2fe-4ea8-afc0-bc8ee2e33717/RAFE=
+CM/CS0212078_EM13053_IMAGES/EM13053_33872A_5X.png" width=3D"80" height=3D"4=
+7" alt=3D"5X" border=3D"0" style=3D"width:80px;height:47px;display:block;ma=
+rgin:auto;font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight=
+:normal;color:#ffffff">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=3D"m_6135600223236071512no-pa=
+dding-on-narrow m_6135600223236071512section-subheader" align=3D"center" va=
+lign=3D"middle" style=3D"text-align:center;vertical-align:middle;padding:5p=
+x 0px 10px 0px">
+                                        <table align=3D"center" role=3D"pre=
+sentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" style=3D"margin=
+:0 auto">
+                                            <tbody><tr>
+                                                <td align=3D"center" valign=
+=3D"middle" style=3D"font-family:Arial,Helvetica,sans-serif;font-size:18px;=
+font-weight:normal;color:#000000;text-align:center;vertical-align:middle;pa=
+dding:5px 5px 0 5px;font-weight:400">
+                                                    points on travel purcha=
+sed <span style=3D"white-space:nowrap">through Chase<span style=3D"font-siz=
+e:0px;line-height:0px;max-height:0px;max-width:0px;opacity:0;overflow:hidde=
+n;font-family:Arial,Helvetica,sans-serif">reference to footnote</span><sup =
+style=3D"font-size:60%;line-height:0;vertical-align:7px">1</sup></span>
+                                                </td>
+                                            </tr>
+                                        </tbody></table>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </th>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor=3D"#ffffff" dir=3D"ltr" align=3D"center" valign=3D"=
+top" style=3D"padding:15px 15px 0 15px">
+                <table align=3D"center" role=3D"presentation" cellspacing=
+=3D"0" cellpadding=3D"0" border=3D"0" style=3D"width:90%;margin:0 auto">
+                    <tbody><tr>
+                        <td align=3D"center" class=3D"m_6135600223236071512=
+stack-column-center m_6135600223236071512section-header" valign=3D"middle" =
+style=3D"text-align:center;vertical-align:middle;font-family:Arial,Helvetic=
+a,sans-serif;font-size:21px;font-weight:400;color:#000000;padding:10px 0px"=
+>
+                            <strong>Here&#39;s How It Works</strong>
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor=3D"#ffffff" dir=3D"ltr" align=3D"center" valign=3D"=
+top" style=3D"padding:20px 15px 0 15px">
+                <table align=3D"center" class=3D"m_6135600223236071512stack=
+-column" role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" border=
+=3D"0" style=3D"width:90%">
+                    <tbody><tr>
+                       =20
+                       =20
+                        <th class=3D"m_6135600223236071512unstack-column-on=
+-wide m_6135600223236071512right-border-on-wide m_6135600223236071512width-=
+50-on-wide" width=3D"100%" align=3D"center" valign=3D"top" style=3D"display=
+:block;width:100%;max-width:100%;vertical-align:top;font-weight:normal;text=
+-align:center;border-right:0px">
+                           =20
+                            <table align=3D"center" role=3D"presentation" c=
+ellspacing=3D"0" cellpadding=3D"0" border=3D"0" style=3D"width:95%">
+                                <tbody><tr>
+                                    <td align=3D"center" class=3D"m_6135600=
+223236071512no-padding-on-narrow m_6135600223236071512section-subheader" va=
+lign=3D"top" style=3D"text-align:center;vertical-align:top;font-family:Aria=
+l,Helvetica,sans-serif;font-size:16px;font-weight:700;color:#000000;padding=
+:5px 10px 5px 10px">
+                                        You can earn up to 75,000 bonus poi=
+nts
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align=3D"center" class=3D"m_6135600=
+223236071512no-padding-on-narrow m_6135600223236071512section-text" valign=
+=3D"top" style=3D"text-align:center;vertical-align:top;font-family:Arial,He=
+lvetica,sans-serif;font-size:12px;font-weight:400;color:#000000;padding:5px=
+ 10px 5px 10px">
+                                        each calendar year. That&#39;s 15,0=
+00 bonus points for each friend who gets approved for the card, up to 5, <s=
+pan style=3D"white-space:nowrap">per year.<span style=3D"font-size:0px;line=
+-height:0px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font-fam=
+ily:Arial,Helvetica,sans-serif">reference to footnote</span><sup style=3D"f=
+ont-size:70%;line-height:0;vertical-align:3px">2</sup></span>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </th>
+                       =20
+                        <th class=3D"m_6135600223236071512hide-on-wide" ali=
+gn=3D"center" valign=3D"top" style=3D"display:block;width:100%;max-width:10=
+0%;vertical-align:top;font-weight:normal;text-align:center">
+                            <div style=3D"width:50px;margin:15px auto 15px =
+auto;border:0;border-top:1px solid #767676;display:block;height:1px"><span =
+style=3D"font-size:0px;line-height:0px;max-height:0px;max-width:0px;opacity=
+:0;overflow:hidden;font-family:Arial,Helvetica,sans-serif">border line</spa=
+n></div>
+                        </th>
+                       =20
+                       =20
+                       =20
+                        <th class=3D"m_6135600223236071512unstack-column-on=
+-wide m_6135600223236071512width-50-on-wide" width=3D"100%" align=3D"center=
+" valign=3D"top" style=3D"display:block;width:100%;max-width:100%;vertical-=
+align:top;font-weight:normal;text-align:center">
+                           =20
+                            <table align=3D"center" role=3D"presentation" c=
+ellspacing=3D"0" cellpadding=3D"0" border=3D"0" style=3D"width:95%">
+
+                                <tbody><tr>
+                                    <td align=3D"center" class=3D"m_6135600=
+223236071512no-padding-on-narrow m_6135600223236071512section-subheader" va=
+lign=3D"top" style=3D"text-align:center;vertical-align:top;font-family:Aria=
+l,Helvetica,sans-serif;font-size:16px;font-weight:700;color:#000000;padding=
+:5px 10px 5px 10px">
+                                        Your friend will get 80,000 <span s=
+tyle=3D"white-space:nowrap">bonus points</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align=3D"center" class=3D"m_6135600=
+223236071512no-padding-on-narrow m_6135600223236071512section-text" valign=
+=3D"top" style=3D"text-align:center;vertical-align:top;font-family:Arial,He=
+lvetica,sans-serif;font-size:12px;font-weight:400;color:#000000;padding:5px=
+ 10px 5px 10px">
+                                        after they spend $4,000 in the firs=
+t three months their account is open.
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </th>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor=3D"#ffffff" dir=3D"ltr" align=3D"center" valign=3D"=
+top" style=3D"padding:30px 15px 0 15px">
+                <table align=3D"center" role=3D"presentation" cellspacing=
+=3D"0" cellpadding=3D"0" border=3D"0" style=3D"width:90%;margin:0 auto">
+                    <tbody><tr>
+                        <td align=3D"center" class=3D"m_6135600223236071512=
+section-text" valign=3D"middle" style=3D"text-align:center;vertical-align:m=
+iddle;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:400=
+;color:#000000">
+                            To get started, please choose &quot;Start refer=
+ring&quot; below, or copy and share your unique URL with friends by text or=
+ social media.
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor=3D"#ffffff" dir=3D"ltr" align=3D"center" valign=3D"=
+top" style=3D"padding:20px 15px 0 15px">
+                <table align=3D"center" class=3D"m_6135600223236071512butto=
+n-table-primary" role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" =
+border=3D"0" style=3D"background:#16893f;min-width:201px;margin:0 auto">
+                    <tbody><tr>
+                        <td class=3D"m_6135600223236071512button-td" style=
+=3D"text-align:center;white-space:nowrap">
+                            <a class=3D"m_6135600223236071512button-a m_613=
+5600223236071512button-a-primary" href=3D"https://e.chase.com/T/v600000187d=
+d120c1d9dac00f4bbcf76f8/3375e03ac6db49100000021ef3a0bcc3/3375e03a-c6db-4910=
+-a0ec-c50aabeeedf5?__F__=3Dv0fUYvjHMDjRPMSh3tviDHXIoXcPxvDgUUCCPvXMWoX_0JoZ=
+LAZABQF1wkk_CxjfXWbcNKuNifiRybGOWHQV_Ewf83z-rWvNptsMTltbxzZNfs5ta-QdAzqqZZj=
+WyP_z06K62egPLDnLK8ieCGZuU0QjuqpDfnI3imT0nouMEPz2NMnjGk_wOZTFMDyGq7Xpyr36dO=
+8mVOUkkakLM-WjT6-xUBitVDvO2h5aQ1d3GzsDJXN-j0KPrZaSTunw2uNVySMUcN1WSzPyKeLf7=
+I6TFHoAlsbunqSU5r6DR_B68xRcvJetZpJcBu-oY3p3i667uJ3xloBrrWGVnWtU1B7Cua5A=3D=
+=3D" style=3D"background:#16893f;border:1px solid #16893f;font-family:Arial=
+,Helvetica,sans-serif;font-size:19px;font-weight:700;line-height:19px;text-=
+decoration:none;padding:7px 15px;display:block" target=3D"_blank"><span cla=
+ss=3D"m_6135600223236071512button-link" style=3D"color:#ffffff;white-space:=
+nowrap">Start referring<span style=3D"font-size:0px;line-height:0px;max-hei=
+ght:0px;max-width:0px;opacity:0;overflow:hidden;font-family:Arial,Helvetica=
+,sans-serif">opens in a new window</span></span></a>
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor=3D"#ffffff" dir=3D"ltr" align=3D"center" valign=3D"=
+top" style=3D"padding:35px 15px 20px 15px">
+                <table align=3D"center" role=3D"presentation" cellspacing=
+=3D"0" cellpadding=3D"0" border=3D"0" style=3D"width:90%;margin:0 auto">
+                    <tbody><tr>
+                        <td lang=3D"es" align=3D"center" valign=3D"middle" =
+style=3D"text-align:center;vertical-align:middle;font-family:Arial,Helvetic=
+a,sans-serif;font-size:12px;font-weight:400;color:#000000">
+                            Este programa de Referir a un Amigo (Refer-A-Fr=
+iend) y el proceso de referencia est=C3=A1 disponible s=C3=B3lo en ingl=C3=
+=A9s. Si tiene alguna pregunta, por favor llame al n=C3=BAmero indicado en =
+el reverso de su tarjeta.
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor=3D"#ffffff" dir=3D"ltr" align=3D"center" style=3D"p=
+adding:20px 5px 0 5px">
+                <table role=3D"presentation" align=3D"center" cellspacing=
+=3D"0" cellpadding=3D"0" border=3D"0" width=3D"90%" style=3D"border:1px sol=
+id #2664b9;width:90%!important;max-width:500px;background-color:#2664b9">
+                    <tbody><tr>
+                        <td align=3D"center" valign=3D"middle" style=3D"fon=
+t-family:Arial,Helvetica,sans-serif;font-size:12px;color:#ffffff;padding:10=
+px;vertical-align:top">
+                            <a name=3D"m_6135600223236071512_email_security=
+"></a>
+                            <span style=3D"font-weight:700">Email Security =
+Information:</span>
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor=3D"#ffffff" dir=3D"ltr" align=3D"center" style=3D"p=
+adding:0 5px 0 5px">
+                <table role=3D"presentation" align=3D"center" cellspacing=
+=3D"0" cellpadding=3D"0" border=3D"0" width=3D"90%" style=3D"border:1px sol=
+id #004680;width:90%!important;max-width:500px">
+                    <tbody><tr>
+                        <td align=3D"center" valign=3D"middle" style=3D"pad=
+ding:5px 10px 5px 10px;font-family:Arial,Helvetica,sans-serif;font-size:12p=
+x;text-align:center;vertical-align:middle">
+                            <span style=3D"font-weight:700">Email intended =
+for: Lydia Stepanek</span><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align=3D"center" valign=3D"middle" style=3D"pad=
+ding:0 10px 5px 10px;font-family:Arial,Helvetica,sans-serif;font-size:12px;=
+text-align:center;vertical-align:middle">
+                            <span style=3D"font-weight:700">For your accoun=
+t(s) ending in: 5479</span><br><br>
+                            If you have concerns about the authenticity of =
+this message, please visit <a href=3D"https://e.chase.com/T/v600000187dd120=
+c1d9dac00f4bbcf76f8/3375e03ac6db49100000021ef3a0bcc4/3375e03a-c6db-4910-a0e=
+c-c50aabeeedf5?__F__=3Dv0fUYvjHMDjRPMSh3tviDHXIoXcPxvDgUUCCPvXMWoX_0JoZLAZA=
+BQF1wkk_CxjfXW1q-2GU9gjXSTbvrVeWYUv73uafuSbLkDyLc01I83fr5pzsLuXV8nVNoZYclI0=
+2MgSfFlFWIf8YV6RUZKoo5jzuUodSy7glDOdoxQu-wwzeZznmjEYqEUri4FLktZZhOjOjmWcWh1=
+3XZxtzHKsIlxDkK7MsF2bWFo6M41uqYKZe8suHaajpx5-pRC5sLQvv_KIfKNrkbGSdh-4RmBVtW=
+dOsAiJ_CGz0CoLEGEFYmoI2buVK7Ghg2dWngTFPteb5_t" style=3D"color:#0970ab;font-=
+family:Arial,Helvetica,sans-serif;text-decoration:underline" target=3D"_bla=
+nk">chase.com/CustomerService<span style=3D"font-size:0px;line-height:0px;m=
+ax-height:0px;max-width:0px;opacity:0;overflow:hidden;font-family:Arial,Hel=
+vetica,sans-serif">opens in a new window</span></a> for options on how to c=
+ontact us.<br><br>
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor=3D"#ffffff" dir=3D"ltr" align=3D"center" style=3D"p=
+adding:20px 5px 20px 5px">
+                <table role=3D"presentation" align=3D"center" cellspacing=
+=3D"0" cellpadding=3D"0" border=3D"0" width=3D"90%" style=3D"width:90%;max-=
+width:500px">
+                    <tbody><tr>
+                        <td style=3D"font-family:Arial,Helvetica,sans-serif=
+;color:#4c4c4c;font-size:12px">
+                            <span style=3D"font-weight:700">TERMS AND CONDI=
+TIONS</span><br><br>
+                            <a name=3D"m_6135600223236071512_FN1"></a><span=
+ style=3D"font-size:0px;line-height:0px;max-height:0px;max-width:0px;opacit=
+y:0;overflow:hidden;font-family:Arial,Helvetica,sans-serif">Footnote</span>=
+<sup style=3D"font-size:70%;line-height:0;vertical-align:3px">1</sup> See y=
+our Rewards Program Agreement and product brochure, as applicable, for more=
+ details.<br><br>
+                            <a name=3D"m_6135600223236071512_FN2"></a><span=
+ style=3D"font-size:0px;line-height:0px;max-height:0px;max-width:0px;opacit=
+y:0;overflow:hidden;font-family:Arial,Helvetica,sans-serif">Footnote</span>=
+<sup style=3D"font-size:70%;line-height:0;vertical-align:3px">2</sup> You c=
+an receive 15,000 bonus points for each friend you refer through this Refer=
+-A-Friend offer (up to 5), who is approved for the card. Maximum bonus poin=
+ts accumulation for this offer is 75,000 bonus points. <b>We may provide yo=
+u with future opportunities to earn bonus points by referring your friends =
+to Chase Sapphire Preferred. You may earn bonus points up to the stated max=
+imum for each offer, however, please note that if you take advantage of mul=
+tiple opportunities within one calendar year that the maximum number of bon=
+us points that can be awarded from all referral offers is 75,000 per calend=
+ar year.</b> In the event the bonus points you earn from all referral offer=
+s exceeds the 75,000 per calendar year limit, you may be awarded a partial =
+amount to keep your total bonus at 75,000 bonus points. For example if you =
+have already accumulated 70,000 bonus point from refer-a-friend offers that=
+ calendar year and the maximum is 75,000 bonus point per calendar year, the=
+n the next award will be 5,000 even if the offer states 15,000. The value o=
+f this offer or program may result in miscellaneous income received from Ch=
+ase and we may be required to send you, and file with the IRS, a Form 1099-=
+MISC (Miscellaneous Income) or Form 1042-S (Foreign Person=E2=80=99s U.S. S=
+ource Income Subject to Withholding) for the year
+                            in which you participate and are awarded the be=
+nefits of the offer/program. You are responsible for any tax liability rela=
+ted to participating in the offer/program. Please consult your personal tax=
+ advisor if you have any questions about how this could affect your taxes. =
+This offer is subject to change and may be cancelled at any time without no=
+tice. To be eligible for this bonus offer, account must be open and not in =
+default at the time of fulfillment. Please allow up to 8 weeks after each n=
+ew cardmember=E2=80=99s approval for bonus points to post to your account. =
+Your bonus will appear on your statement as =E2=80=9CRefer-A-Friend bonus.=
+=E2=80=9D You are not eligible for a referral bonus if you use your own ref=
+erral URL to apply for a different card.<br><br>
+
+                            Due to the confidential nature of the credit ap=
+proval process, we cannot disclose information on who has applied, nor will=
+ you be notified whether we approve or decline any application(s) from the =
+individual(s) you refer.<br><br>
+
+                            Chase employees are not eligible to refer frien=
+ds for this promotional offer.<br><br>
+
+                            The Contactless Symbol and Contactless Indicato=
+r are trademarks owned by and used with the permission of EMVCo, LLC.
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+        <tr>
+            <td style=3D"font-family:Arial,Helvetica,sans-serif;color:#4c4c=
+4c;font-size:12px">
+                <table role=3D"presentation" align=3D"center" cellspacing=
+=3D"0" cellpadding=3D"0" border=3D"0" width=3D"90%" style=3D"width:90%;max-=
+width:500px;margin:0 auto">
+                    <tbody><tr>
+                        <td style=3D"font-family:Arial,Helvetica,sans-serif=
+;color:#4c4c4c;font-size:12px">
+                            <span style=3D"font-weight:700">ABOUT THIS MESS=
+AGE</span><br><br>
+                            This promotional email was sent to you to provi=
+de information about products, services, or special offers that may be of i=
+nterest to you.<br><br>
+
+                            You can <a href=3D"https://e.chase.com/U/v60000=
+0187dd120c1d9dac00f4bbcf76f8/3375e03ac6db49100000021ef3a0bcc5" style=3D"fon=
+t-family:Arial,Helvetica,sans-serif;font-size:12px;color:#0970ab;text-decor=
+ation:underline" target=3D"_blank">unsubscribe<span style=3D"font-size:0px;=
+line-height:0px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font=
+-family:Arial,Helvetica,sans-serif">opens in a new window</span></a> from f=
+uture promotional emails from the JPMorgan Chase &amp; Co. family of compan=
+ies including =E2=80=9Cpoints, perks and prizes=E2=80=9D such as this or su=
+bmit your request in writing to Chase Privacy Operations, P.O. Box 734007, =
+Dallas, TX 75373-4007. It takes up to 10 business days to process your requ=
+est. You=E2=80=99ll continue to receive Chase service emails.<br><br>
+
+                            This email was sent from an unmonitored mailbox=
+. Go to <a href=3D"https://e.chase.com/T/v600000187dd120c1d9dac00f4bbcf76f8=
+/3375e03ac6db49100000021ef3a0bcc6/3375e03a-c6db-4910-a0ec-c50aabeeedf5?__F_=
+_=3Dv0fUYvjHMDjRPMSh3tviDHXIoXcPxvDgUUCCPvXMWoX_0JoZLAZABQF1wkk_CxjfXW1q-2G=
+U9gjXSTbvrVeWYUv73uafuSbLkDyLc01I83fr5pzsLuXV8nVNoZYclI02MgSfFlFWIf8YV6RUZK=
+oo5jzuUodSy7glDOdoxQu-wwzeZznmjEYqEUri4FLktZZhOjOjmWcWh13XZxtzHKsIlxDkK7MsF=
+2bWFo6M41uqYKZe8suHaajpx5-pRC5sLQvv_KyBt_DseraTheXaaPWxDdylUiDWMkzYRPxV6IGi=
+SrMfOO0QWySKNbn3gTFPteb5_t" style=3D"font-family:Arial,Helvetica,sans-serif=
+;font-size:12px;color:#0970ab;text-decoration:underline" target=3D"_blank">=
+chase.com/CustomerService<span style=3D"font-size:0px;line-height:0px;max-h=
+eight:0px;max-width:0px;opacity:0;overflow:hidden;font-family:Arial,Helveti=
+ca,sans-serif">opens in a new window</span></a> for options on how to conta=
+ct us.<br><br>
+
+                            Your privacy is important to us. See our online=
+ <a href=3D"https://e.chase.com/T/v600000187dd120c1d9dac00f4bbcf76f8/3375e0=
+3ac6db49100000021ef3a0bcc7/3375e03a-c6db-4910-a0ec-c50aabeeedf5?__F__=3Dv0f=
+UYvjHMDjRPMSh3tviDHXIoXcPxvDgUUCCPvXMWoX_0JoZLAZABQF1wkk_CxjfXW1q-2GU9gjXSY=
+D44WwyUkZ3Es3jwfkUJSuTCCoPri5KGIgli50qwRsSutnoDyw5yyvInghmblNEI7qqQ35yN4pk9=
+J6LjBD89jTJ4xpP8DmUxTA8hqu16cq9-nTvJlTlJJGpCzPlo0-vsVAYrVQ7ztoeWkNXdxs7AyVz=
+fo9Cj62Wkk7p8NrjVckjFHDdVksz8ini3-yOkxR6CPL9x474iGlOVY2L9yxxXYxceeAQrd_dtIE=
+VJGKorCaxROiRIRsqv41rVNQewrmuQ=3D" style=3D"font-family:Arial,Helvetica,san=
+s-serif;font-size:12px;color:#0970ab;text-decoration:underline" target=3D"_=
+blank">Security Center<span style=3D"font-size:0px;line-height:0px;max-heig=
+ht:0px;max-width:0px;opacity:0;overflow:hidden;font-family:Arial,Helvetica,=
+sans-serif">opens in a new window</span></a> to learn how to protect your i=
+nformation.<br><br>
+
+                            JPMorgan Chase Bank, N.A. Member FDIC<br><br>
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor=3D"#ffffff" dir=3D"ltr" align=3D"center" width=3D"1=
+00%" style=3D"padding:0 10px 0 10px">
+               =20
+               =20
+               =20
+                <table role=3D"presentation" cellspacing=3D"0" cellpadding=
+=3D"0" border=3D"0" style=3D"width:95%;max-width:500px">
+                   =20
+                    <tbody>
+                        <tr>
+                            <td width=3D"70%" align=3D"left" style=3D"max-w=
+idth:70%;min-width:70%;width:70%!important;font-family:&#39;Open Sans&#39;,=
+Arial,Helvetica,sans-serif;color:#4c4c4c;font-size:12px">
+                                =C2=A9 2023 JPMorgan Chase &amp; Co.
+                            </td>
+                            <td width=3D"30%" align=3D"right" style=3D"max-=
+width:30%;min-width:30%;width:30%!important;font-family:&#39;Open Sans&#39;=
+,Arial,Helvetica,sans-serif;color:#4c4c4c;font-size:12px">
+                                EM13053
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td aria-hidden=3D"true" height=3D"40" style=3D"height:40px;fon=
+t-size:2px;line-height:1">
+                =C2=A0
+            </td>
+        </tr>
+    </tbody></table>
+   =20
+
+<img src=3D"https://e.chase.com/O/v600000187dd120c1d9dac00f4bbcf76f8/3375e0=
+3ac6db491000004c5a42963aa1" style=3D"display:none;max-height:0px;font-size:=
+0px;overflow:hidden"></div>
+
+</div></div><br clear=3D"all"><div><br></div><span class=3D"gmail_signature=
+_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature" data-smar=
+tmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div =
+style=3D"font-family:arial,sans-serif;font-size:13.200000762939453px;font-s=
+tyle:normal;font-variant:normal;letter-spacing:normal;line-height:normal;te=
+xt-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:norma=
+l;word-spacing:0px;background-color:rgb(255,255,255)"><font color=3D"#ff660=
+0">Lydia<b>Stepanek</b></font></div><div style=3D"font-family:arial,sans-se=
+rif;font-size:13.2000007629395px;font-style:normal;font-variant:normal;font=
+-weight:normal;letter-spacing:normal;line-height:normal;text-align:-webkit-=
+auto;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0p=
+x;background-color:rgb(255,255,255)"><font color=3D"#666666">203.804.9137</=
+font></div></div></div></div></div></div></div>
+
+--000000000000a657c605fab79e9c--

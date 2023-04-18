@@ -1,0 +1,1513 @@
+Return-Path: <fake@email.com>
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id tuhd2lnrke9vg6jrlmm5uk59k10vlagspmviq4o1
+ for help@isthisphishy.io;
+ Wed, 03 May 2023 02:42:53 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.221.171 as permitted sender) client-ip=209.85.221.171; envelope-from=fake@email.com; helo=mail-vk1-f171.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.221.171 as permitted sender) client-ip=209.85.221.171; envelope-from=fake@email.com; helo=mail-vk1-f171.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFFRkFFY0tIZS9TcDdyQURLT0VWQzhlcE90UXJSQzNFZmpMSkw3bTJ0NkJ2RXRWeGU5Sm5xWFZ2S0trNnppZ2NZdGtXTjJaMUIzb3haajRhbzFrblNHeXNHQ0xpWWRadDBsL3VnbHg5TnRVOE9mZThDSldMcjV6Q3BncGRGRkRKaGZXcmp0c1hoKzJaNGZJVjdlY2I0Y09LcGVmUFRkQW5WS2VneUl4WWtRWGUwVUQrWW52OXAvaC9CVEZuQTVzdERwd2pqK1lDYnZELzU5YnErM3ZpM3FMR3BQeGdCSGI0TGFGbis1THlZL1g3NjZOV1F0QTkvT3VSaGE0dEFOeWM1eEtVUjlCSjVXL2hYeVZCdzdKN29OSlpBcWFRUmZUSW1HY01XOTZnZzlvUVE9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=goWiRj1E5/MJtvlZx22MQ/7YFNpxOzpPaNT7F7jB48HA57nW/bx0GrGL6RxyfHPI/Mqo/CRsxEgjcczuDrA8lQPTnP0w6D4TQ1acTAlHguvwvjfpfCz8BgAac4nN7H0+TTB7fRh6RdXCSUH9J+4mLzJrt+rK4xEtWdzVa+rhxKI=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1683081774; v=1; bh=NMe0NPk19yMDCZqB1NyHnbDMKUK8z7VCO+7CoDPe97U=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-44062aa1b5bso1399819e0c.1
+        for <help@isthisphishy.io>; Tue, 02 May 2023 19:42:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683081772; x=1685673772;
+        h=message-id:date:to:subject:from:references:in-reply-to:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7aFvgsItXS8kOuyXYkwLaSUxWuyePti7Ro1pdwELXdU=;
+        b=iLnH+V70V8CCjGPRS+PbQu7q0Oe7HuetWclGddTQ7zMe9SL5MmN7utq6ptQ9shxSOr
+         TXd1EoU4cvXV48Ad0jvvBLn4Llw1pikYMVCtN0kYscDACWIFo4ei6dDsFcPSVei4WJ4m
+         E4RLoxqA7kE6e0wrtI9ZAC3SqWNzBEpKcJtsG424ExKT5IU+C6LuaRKnHtaeX0mAQ9DG
+         AyC5IV0usZa/I1Oo9rxY4BqyawAgw9JdrFEHByxp9qzWyxlDXbxTSa6uBz7vVA3s7BfA
+         VJvXp5XrDHifimvjHVeAO+K4aXBpd72M6IXZNNteyPXDsufpxOPbAGjHjrFjJ4b5Juy+
+         uEBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683081772; x=1685673772;
+        h=message-id:date:to:subject:from:references:in-reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7aFvgsItXS8kOuyXYkwLaSUxWuyePti7Ro1pdwELXdU=;
+        b=fmZ2O5qWePTS96nu93MBN8Ewwo8mgm902QPnM74Qh4pDWnriPvMC6X8U7O/d0UKEpT
+         wy7jxIO6j+1nABDVfwcZTMQUIdAv6FA8maX+Q+3VO/wWYIybrsWMtaUzXs9MsGDxng4q
+         b8rXZd0AKMlWuy1pal96D9CVkDR0gDf5Gk4fY0GZzDJB7JdA2cJCj1HYLYQQErqbZuhl
+         aPvn1DBCtx3a+FSryzYJWxDuvePoL4HRiwpBWto7WjV2yK38RrxkuVPsmBbdeZa8QgGY
+         7B0G8fm4yPrJRbXI6R17ejImKI+cs35n1IdSGrwU/250+Q62zbsrwoE1Fmce+A2gY43g
+         ndZQ==
+X-Gm-Message-State: AC+VfDz90E618B7rrosAT/JzB7pNiFhix/CtBfP+0F5trNSwzwm0Pqd6
+	fV6njRjHJ8By21ms3HXv4jLJRKj5DYJazg==
+X-Google-Smtp-Source: ACHHUZ75KGAdXKSxcbzKMwg+LoQ8cVKauXexMG8pqRi3laAlFIAYVi+R9JOk79VthBBoj7CVLRJpEw==
+X-Received: by 2002:a1f:c155:0:b0:443:6ac8:bad7 with SMTP id r82-20020a1fc155000000b004436ac8bad7mr5787984vkf.0.1683081771554;
+        Tue, 02 May 2023 19:42:51 -0700 (PDT)
+Return-Path: <fake@email.com>
+Received: from localhost (0.92.231.35.bc.googleusercontent.com. [35.231.92.0])
+        by smtp.gmail.com with UTF8SMTPSA id b13-20020a1fb20d000000b00439e5038f45sm5725898vkf.9.2023.05.02.19.42.51
+        for <help@isthisphishy.io>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 May 2023 19:42:51 -0700 (PDT)
+Mime-Version: 1.0
+X-Mailer: Superhuman Desktop (2023-05-03T00:26:12Z)
+In-Reply-To: <F8.60.48986.05D71546@ki.mta1vrest.cc.prd.sparkpost>
+References: <F8.60.48986.05D71546@ki.mta1vrest.cc.prd.sparkpost>
+From: "Amir Sharif" <fake@email.com>
+Subject: Fwd: Your guide to New York City
+To: help@isthisphishy.io
+X-Superhuman-ID: lh73f1c8.edfa6ef7-bd71-4b98-b0e5-21e618112ee4
+X-Superhuman-Draft-ID: draft0054727f95db6886
+Date: Wed, 03 May 2023 02:42:50 +0000
+Message-ID: <lh73ezek.f4543d69-1cff-4b32-8b08-0ba39fd28046@we.are.superhuman.com>
+Content-Type: multipart/alternative;
+ boundary=92c5330fc1c3fe5b61bc3af6b68cbff176b48c30833a2ca849db73775012
+
+--92c5330fc1c3fe5b61bc3af6b68cbff176b48c30833a2ca849db73775012
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+
+---------- Forwarded message ----------
+From: Tock NYC <guides@marketing.exploretock.com>
+Date: Tuesday, May 2 2023 at 2:14 PM PDT
+Subject: Your guide to New York City
+To: fake@email.com
+
+Restaurants, pop-ups, events, & more.
+
+( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e49=
+81&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwIoyW3vXmA=
+V1NJzexjrLBD91iK2Czm6C_hfexupbXoEadH2_1tC0nX5Nz725v5_70h3wEGTiDRdo_f0-wf23j=
+3hugArEHfeB01EC3ejxDfb8BFAe5dUg3rORvHP4xJyjLsGfB03ZDfiTqk9b36U3gTxUp_ZP7WdI=
+p6YwFJ0yQrACmPiAdoSj-blVIKiuALgLpoBYTYisIzD3au9A2-2zWa4CErWeoVrPtTuSdU8bkM2=
+4WCCfSOn07uLWU1OJQ1DhdQTcbCU-cfBaUbxmxHDC3wW_3kRvSDUDMevMvrJ1XZzAU )
+
+( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e49=
+81&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwIoyW3vXmA=
+V1NJzexjrLBD91iK2Czm6C_hfexupbXoEadH2_1tC0nX5Nz725v5_70h3wEGTiDRdo_f0-wf23j=
+3hugArEHfeB01EC3ejxDfb8BFAe5dUg3rORvHP4xJyjLsGfB03ZDfiTqk9b36U3gTxXrRcD5UGS=
+l8c04dluIYWS9tOrza_U81VMYEbV-zAnuTkvDYJ2bIFLsizwAcX41LBZ-kHPsXuQ7d222MU-Xnk=
+reVteZN_nXnfhU4UYc5juebazhFO9tOg4-mj7g3vD-cPjLa906S4NN6EzWlhbF-QXS )
+
+( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e49=
+81&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m=
+070y82sIP6o2yOcp63Gx9bMCVixB7w5WtY2FwWLFQRvr7Ni3B00gLgw3A1oVumfwbcxlDxrEExK=
+iUKnwkRCwvWWnu2Tiqv0O6rgH64M_pITbffY4YInGfnz8ijWP0NRye1Y4J6w8D3kFZdhHPbAdiI=
+u4-LLaokS-3eoxoqeUWO-JTrK3E8-vdAQzhhIaHTf3sVcty7m2sC1OTa9dNZC49jlqfTJqJbZGu=
+jY4ofwYhhi38ObLuzimCE57g1PhX3fHqyl37jaFJGwxNc4VUYht43RsNBq_-w8woiGx8GikPCiR=
+PabDtS7kXWlQg%3D%3D )
+
+New =C2=B7 Reservations
+
+------------------------------
+Farm. One ( http://farm.one/ )
+------------------------------
+
+Brooklyn
+--------
+
+Visit this one-of-a-kind hydroponic farm in Prospect Heights for a tour and=
+ tasting of rare herbs, microgreens, and edible flowers.
+
+Book Now ( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea=
+886639e4981&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHw=
+ImXMRtB-m070y82sIP6o2yOcp63Gx9bMCVixB7w5WtY2FwWLFQRvr7Ni3B00gLgw3A1oVumfwbc=
+xlDxrEExKiUKnwkRCwvWWnu2Tiqv0O6rgH64M_pITbffY4YInGfnz8ijWP0NRye1Y4J6w8D3kFZ=
+dT3DGXHt4Fk9OpujVRefHsOZXOyGWzmEe51iEXBxgyvmfwz1SogZzGDrHUG_rAFZsq7wVFCJdtY=
+NUCL-fcjkcUorOe-oqEK5Q0q93UlblNmRs3lJcocwxkiUnQdzJF2QzBiDSz_ILPKXDOfR-FNZPu=
+DaAVJJO-_M86G8l26jU0sg%3D%3D )
+
+( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e49=
+81&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m=
+070y82sIP6o2yN75iI1omTi1fH-SF2cXQOafK8MD_Q5vELlnXueC0h9uMiNqBa59D2Apngf3iKW=
+YDy-lbPh_b42ujUmNgimZJfw-XFG9Z_eyuWDwy3QzQDXt4knEE9r7FuJaF3BtzRONo2axEx5b0O=
+7_5E6bdr7LzprPGfZeeS6xyJ8DvkwSnsV3PSB5QOZqtABnUO5o28XmLG2uehUr4Q0Ljp9e5VmhS=
+lwm2GqNXz-Ccb19b1jE-LGJPO_zAa5ERxuUQtqjEfw2gK-6kG2Cmei9SgbDnNqOgVkWE1X2M0kb=
+_9pqT88XPhndER-GDyS2pFpKTur3vDl11I%3D )
+
+Reservations =C2=B7 Events
+
+--------------
+Brandy Library
+--------------
+
+Tribeca
+-------
+
+Celebrate *Cinco de Mayo* with a premium agave tasting. The evening will be=
+gin with passed appetizers and a welcome drink.
+
+Book Now ( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea=
+886639e4981&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHw=
+ImXMRtB-m070y82sIP6o2yN75iI1omTi1fH-SF2cXQOafK8MD_Q5vELlnXueC0h9uMiNqBa59D2=
+Apngf3iKWYDy-lbPh_b42ujUmNgimZJfw-XFG9Z_eyuWDwy3QzQDXt4knEE9r7FuJaF3BtzRONo=
+2axEx5b0O7_5E6bdr7LzprWdJYnI0HG_pvVLNTkhA2Ck5do8BJo91r0hRJ4w1TmihU2TyKC-kzZ=
+JsdQx88Otx4cXlYebC_hHFxdc7daS1dn0BqdGSRpaAWTPcLcI36Uto4OS1ezcXc6ixpeq7dTomB=
+V-wUiLec3Q-7yuCTrx_rG9gyP8xKVRZnCSTEIAkc3bk%3D )
+
+( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e49=
+81&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m=
+070y82sIP6o2yMB5GYIvNJYtsxG3boin5GimoF25pM90_I5_QJz70nKl-dnBmIqtPFtnXD-VkO_=
+4d0EIYgfD1Qtr1jZuuUfoDyRqFwuv59t_GvMYh7f5VvQ1e5cb6_tVguUFYZ529y-tCA_bdeDW2C=
+TMX0Dh7cbQjRNvLaWwXakzwIwYdiMNwV_uebhi71Oc078pWTKpi9JOzJo8BbsCslcpw6_S_RHRG=
+laqBkuu2NXr8MpIzVt2vJLbK-GfAnTn-wq4E8I08GtDAYoK-h1c1xY8WWI8ASIp0J3m-RhidaRn=
+1LnYV7ddxRHAA%3D%3D )
+
+Reservations =C2=B7 Pickup
+
+-------
+Aquavit
+-------
+
+Midtown
+-------
+
+Seasonal Nordic cuisine since 1987. Snag a reservation for the 3-course *Mo=
+ther=E2=80=99s Day* brunch.
+
+Book Now ( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea=
+886639e4981&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHw=
+ImXMRtB-m070y82sIP6o2yMB5GYIvNJYtsxG3boin5GimoF25pM90_I5_QJz70nKl-dnBmIqtPF=
+tnXD-VkO_4d0EIYgfD1Qtr1jZuuUfoDyRqFwuv59t_GvMYh7f5VvQ1e5cb6_tVguUFYZ529y-tC=
+BBJR71Yp3xci51dABKMQF9c0iFwypstHlce49KATptgpWoccuesT0YK63fBS-xGlaRZBbBmXcZ5=
+aKKSbapIJAFAkDFDxCciWh3PbYKFi_OeHXycJjlnmJT5Q4Oxv4IQ_iNzWqr-tBGkPaNqvOJwW4I=
+1Mg1jLpobFpkvfcFcKExLA%3D%3D )
+
+( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e49=
+81&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m=
+070y82sIP6o2yPf3TLvuwRcyejevO99gkmNNIrYGCpCcAJYxkhyZJhD123pqGrFG3UJRnOXVTFJ=
+TmBfkTZJk60arG7QPbwOin8BKBvzPGlNS6snL8vPZ-p1UA2iDH1FobNJ3A_TaFLBSBEM_AeI7Ox=
+BWW_GjdtKe9570QO8EpK9CL4aAMxqU3Npo1RL8TzQ-_RQJaC-btk2LhKmUrQMQJJZ7w_nTkJfCE=
+cAmc-1rGywzrMog9qFVP5-0WI2n64aJxWGDdAAKmD8dd4VXyrJEp0GXtwiwTmrB4tW )
+
+Reservations
+
+------
+Per Se
+------
+
+Midtown West
+------------
+
+Per Se=E2=80=99s luxurious *Mother=E2=80=99s Day* menu will feature champag=
+ne, caviar, foie gras, and a special parting gift.
+
+Book Now ( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea=
+886639e4981&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHw=
+ImXMRtB-m070y82sIP6o2yPf3TLvuwRcyejevO99gkmNNIrYGCpCcAJYxkhyZJhD123pqGrFG3U=
+JRnOXVTFJTmBfkTZJk60arG7QPbwOin8BKBvzPGlNS6snL8vPZ-p1UA2iDH1FobNJ3A_TaFLBSB=
+HHCJdiql1Xqm_qJ2H9weuaKEN1EcMhApiUfXdqBNo8S1u4KSHK2MBqfBHy3NbBo2RKkdyzztasA=
+6C-6sXivxFbE4jAHvHMeQWeAdkdoNYLpONMAA6EqUrNJU9hm-finIymaj-zgOUJ8fzyLmNSSMmz=
+ )
+
+( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e49=
+81&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m=
+070y82sIP6o2yOy-7k6UXOhPh5m9bbXBkemCZ08r_hhhe5bVOwV9sMUtnT2Iz814XrWRiGWXi0X=
+BGSoeRXgb6w-zIAKmc-yj3o-iq2BX_XkeVVp1wCmY2tOi6838XdIeUk_jnRFy2L14M_-McjdnC5=
+SQYonZcbgCjHtS2D7-JFFCHODKS8JpMPcxDDJHj4p2u3UIneLZ076_M4RXxjxx2OZ0NOOHcothW=
+QYWpzpYY8FThNn6iayS2qdrXWaxwXitGfmq7kQWO2dJDfueEiEVRQPiiGZfuPVlAX6UHFdbHt76=
+OmxiiduYLyKeg%3D%3D )
+
+Reservations
+
+----------
+Thai Diner
+----------
+
+Nolita
+------
+
+A Thai love letter to the classic American diner. House specialities includ=
+e lobster omelets and hoi frites.
+
+Book Now ( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea=
+886639e4981&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHw=
+ImXMRtB-m070y82sIP6o2yOy-7k6UXOhPh5m9bbXBkemCZ08r_hhhe5bVOwV9sMUtnT2Iz814Xr=
+WRiGWXi0XBGSoeRXgb6w-zIAKmc-yj3o-iq2BX_XkeVVp1wCmY2tOi6838XdIeUk_jnRFy2L14M=
+-hBym9JPQETEJhPb0jcmCax53c6PV5lwmsybeD2M1Kld-Kfct0iSBXIfIXV5N-exdxBEXPyFoey=
+NfNQzxDGXvA8l8sTlt7au_W4RDdv8akUqA9ORCXP_SyDNj8Br8KCBgYAcKw8F9jmk9GnI40NYEE=
+_qoKZ2JKNUcDC8vALNPHPA%3D%3D )
+
+( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e49=
+81&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m=
+070y82sIP6o2yNBCHZr2dPaq1dk8a8Mg11PyrREBgPbquYYpVslEfmvTyRVfs_GKkZMWgmeAKsc=
+8usR78LJlcrcNuVqLdfZUGQZ1QqbEr9fjkplPh6txwgwPUrighSbeMvIvkT6F9bQP5LDVfKnMUN=
+_nPuBAULmEbMrMHBwPGpY79fAX-yOsXj6sxhmQLijom_PiIy61wIUBlCKsaDTagrAn73Trd5ZlW=
+uZvMMRYX8cioAJuqawXaqCJfZIqhl_msAhpKnnOsmpHilyimHFbwVjGGgBUKg62zZcdZKTdtZD4=
+dB1d4KaV885CQ%3D%3D )
+
+Reservations
+
+-------
+Tsukimi
+-------
+
+East Village
+------------
+
+Tsukimi translates to =E2=80=98moon viewing=E2=80=99 and refers to the mid-=
+autumn harvest festival honoring the moon at its brightest.
+
+Book Now ( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea=
+886639e4981&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHw=
+ImXMRtB-m070y82sIP6o2yNBCHZr2dPaq1dk8a8Mg11PyrREBgPbquYYpVslEfmvTyRVfs_GKkZ=
+MWgmeAKsc8usR78LJlcrcNuVqLdfZUGQZ1QqbEr9fjkplPh6txwgwPUrighSbeMvIvkT6F9bQP5=
+Iin6DtxorPURlLKaTAXp_UYOD9HhXmc2bzdavTxy9380ByUmdUYONe6UM58HNzMKNYjNSgbcxgQ=
+0daJkvYy9lViRmQJbhK94C-MYHH39vemJmjTMT1mu1GymwllRZ-6AanFma_MZ_wSvV55FbvYnZP=
+MrubSLWvft7Omzcoo5MJmA%3D%3D )
+
+( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e49=
+81&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m=
+070y82sIP6o2yNZaA-U5B20RrLFL4-wtW7xUpauPD-GLtTr2LA5Yu18gbuMQEbGTORlZzsFXqgR=
+zv6q9iCjq2zADAQUMRclpiONM6vhG54wBVnygWaXf9EGW-bbK0XN3CAfGLFHwWnhgWe2nGs1Orf=
+3HT0kRk2GjjyHu58r45Yw6v_Z7bYc4dXMSX1K2Kt-2URN2luun0fT4-57tA45Ccbd5fmBMdtUeX=
+yNZVOTuL8q_ivgPqgTopX7kOVGyono-zNdNLwcU2U04XUlI1Nf8e8l9oXltxopql5DdGrKGdmkT=
+VbjbrSbAkg4nw%3D%3D )
+
+( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e49=
+81&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m=
+070y82sIP6o2yNZaA-U5B20RrLFL4-wtW7xUpauPD-GLtTr2LA5Yu18gbuMQEbGTORlZzsFXqgR=
+zv6q9iCjq2zADAQUMRclpiONM6vhG54wBVnygWaXf9EGW-bbK0XN3CAfGLFHwWnhgWe2nGs1Orf=
+3HT0kRk2GjjyHRpdNyX8Y4bj1out9gt44AsZ42SJPEUuAt-ivdKJsxmFkKkod8C-b7Yx9h1aADf=
+Tz_Lwg2E4UvUgkc09GOxRwlV42mCZpZ7xLrgK9JxNjPgSLw2KfyNd0FClL6_0eajqv2fLLA6kEO=
+I8wdKB9_fDvYg%3D%3D )
+
+( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e49=
+81&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m=
+070y82sIP6o2yPf29AfBnCSUHrEkcWXlTVHhfItyx27hPtBqhWhr0qwmzCUdvq6yzT-p8nd-sgQ=
+Ciren_Q1YaIhIZJL1q6bQQdU41QlsG_3qxUhzF4R-_NO6GVvxHYqlMhI2QMEQCzChEJY1H5uNkB=
+b4QzZA1Qxbr65Hxf6jVlI84grVEhQoGr0mqNGQHRw9AFpsh6fiyjAyo7E4liuE2AYSLDXuMUSCL=
+6a10hqFGYxVRm43xgBKk7qP9QIDfjpWPuKUI7Q86DoezAMP2vorQ7BlBn8KTgf_2vyFQxqJCFW8=
+4EOcxY5utOYZQ%3D%3D )
+
+Reservations
+
+---------
+Ms. Kim's
+---------
+
+NoMad
+-----
+
+Karaoke, anyone? Ms. Kim=E2=80=99s has private rooms, cocktails, and delici=
+ous Korean bites.
+
+Book Now ( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea=
+886639e4981&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHw=
+ImXMRtB-m070y82sIP6o2yPf29AfBnCSUHrEkcWXlTVHhfItyx27hPtBqhWhr0qwmzCUdvq6yzT=
+-p8nd-sgQCiren_Q1YaIhIZJL1q6bQQdU41QlsG_3qxUhzF4R-_NO6GVvxHYqlMhI2QMEQCzChE=
+JfwTdQvr3OHzadiUdGbwm_ghyXJuxD-wlbQeYTgBNOhQ3f7SxdKxE-VHEj1hZCoVEzowyUFVfBL=
+ZuhoNmrWXqw6fy2yi9PPxjW5hK1SNwpN-Dw7NRLQD3LvgMyeg48seiLT03bK-5XqisSaNa3uO0-=
+pXRspZbFi6WDvUMa7wrp3w%3D%3D )
+
+( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e49=
+81&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m=
+070y82sIP6o2yMMu66SuQ2wi0fSsB9o0XePFGX8BHQeCtCKK0AHW8vmuRJjskpYEDzb1BPyTQGC=
+-RyJo7J-DRbzlod_8zOGvxaIyMa8kHPiXOMp2kG1VkuVwVXFG3w2zZ0COtFm59mVYKfnSGApRD7=
+HFzhF-MjUE6tYyP__1WBKZ6vVOtEdWuXJZe-zUxN1r5ZDIUOcWegU7YggRIsbsEyyIPffD7QAbS=
+I5vRYY8xOMIxATwUji22MgGGC-qOgHDCoS1TG96TDWEuHlDnlS_7eW0xFiRADuzniJlDiQBAJFO=
+q8HUi8P3Hmn3Q%3D%3D )
+
+Reservations
+
+------------
+Caf=C3=A9 Carlyle
+------------
+
+Lenox Hill
+----------
+
+Originally opened in 1955, Caf=C3=A9 Carlyle offers a classic cabaret exper=
+ience with incredible talent.
+
+Book Now ( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea=
+886639e4981&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHw=
+ImXMRtB-m070y82sIP6o2yMMu66SuQ2wi0fSsB9o0XePFGX8BHQeCtCKK0AHW8vmuRJjskpYEDz=
+b1BPyTQGC-RyJo7J-DRbzlod_8zOGvxaIyMa8kHPiXOMp2kG1VkuVwVXFG3w2zZ0COtFm59mVYK=
+fnSGApRD7HFzhF-MjUE6tYPOV9-xyidRbnw6SX_p8k7M71gf8BnPS87K-5896MTf8QADB5y9P_b=
+pAsMNgVTBWxJUuVKUGFDMd8MqhoEs__crQWPd19FJkwBx91XpwZQ7zwInsiyVmGrqZK-WEIFJNf=
+WfPsDp3uj_bGeAdcaNgVHw%3D%3D )
+
+( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e49=
+81&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m=
+070y82sIP6o2yM4TiDQ4wrmTOPdLQUb8h_K4WbSUqi0dSR8xL_xLHPWD2raRkF6j7dTC-o_b3ZX=
+4pDHig_jcdJE6B9KeXC5C1Pwy9BvSCIrExXB_d6qpOsZyiQNLypLqRlO-2Cm5_7Kh1M9Bv2UXfs=
+_sS0dPDlKFUNgjFBtvzfkjd5MsxYp82PNMhIfR7d_0MdsqeOQgcAIiVtBAnWISeaHGA9WRh3hW9=
+QFQQue21wRUIbE0VotX5sMuYpAh-M5RYYAc_70eXPXLJcPpIwsMb6pbq5CR2FEXvfgHVJKBIjmJ=
+RNb1lbi1cfMPg%3D%3D )
+
+Reservations =C2=B7 Pickup
+
+---------
+Il Fresco
+---------
+
+Orangeburg
+----------
+
+Home-style Italian fare served out of a restored 1728 farmhouse in Orangebu=
+rg.
+
+Book Now ( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea=
+886639e4981&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHw=
+ImXMRtB-m070y82sIP6o2yM4TiDQ4wrmTOPdLQUb8h_K4WbSUqi0dSR8xL_xLHPWD2raRkF6j7d=
+TC-o_b3ZX4pDHig_jcdJE6B9KeXC5C1Pwy9BvSCIrExXB_d6qpOsZyiQNLypLqRlO-2Cm5_7Kh1=
+MViQ3xsjrF8VDL__TtoyuDYVvpJUPv1b6Et9405KmKt4WPXA6JLWCtlvwYkhDEjG1fdCSyiKBrT=
+NP8MOlTB-rRt-P0KgRGWfrGuoRXsPvWUmbU8te842QO-EHW0u8wbQGZ4GI3nyYUWi_P3WzV0p46=
+llPMfpRHFLV9095mDeoNKw%3D%3D )
+
+( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e49=
+81&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m=
+070y82sIP6o2yNQ05RCFC5NrpplgBdE2HQhxqsF-3etB6219C1TD_XMqO6JwwIsj5I9EyLRw96E=
+zEJQgL32QBNLyGKqL8f3VTwWYaeLkF7hHgG-ENQ9ZlRV87zP0GMAArIuoaRW-Aw28mM_CyObksY=
+DJk37foOlBRYkrknU7BMjQ5O1uaqRqxXOo4am0pTrxxpgF8OTeyjoYsRA-F_4OOdlvTvHHSBFad=
+rtGxBeVvXbh9G2ILyD4G8MsxolpVE_vT4W5PronIrJ1Ege0VguGYn2FDiDrWBxI_F7l-0Vwb__6=
+YRqbhHvxtU5aA%3D%3D )
+
+Pickup
+
+--------------------
+Mercado Little Spain
+--------------------
+
+Chelsea
+-------
+
+Pre-order a *Mother=E2=80=99s Day* gift basket filled with Spanish chocolat=
+es, olive oil potato chips, and Torta Ines Rosales.
+
+Order Now ( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982e=
+a886639e4981&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPH=
+wImXMRtB-m070y82sIP6o2yNQ05RCFC5NrpplgBdE2HQhxqsF-3etB6219C1TD_XMqO6JwwIsj5=
+I9EyLRw96EzEJQgL32QBNLyGKqL8f3VTwWYaeLkF7hHgG-ENQ9ZlRV87zP0GMAArIuoaRW-Aw28=
+mM_CyObksYDJk37foOlBRYkFJXz_cQa1e1OKajMOSwME3hQGCjdU3TYFrMtzWu7XiLNACA_25Up=
+7teZYGOqKWLOWN8m4QUW8XkTWjdaolcxAHO3JNTDOghKH3muaslxGw5l2wV7dpnLZHpPwX7E0bB=
+iZVplRHQgZRImN5QgaxBQ8g%3D%3D )
+
+( https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e49=
+81&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m=
+070y82sIP6o2yOPk2zNy0q8auT9NXHLXUf2ebP4AhFJ7xavR_0zfQHR_Fyw66VDb3wtUJGZLKAK=
+vOfs1jQ0IhnlpLuIZfsXvVXWDXO6Ef0XeZ1veiZtWVuAXQFzIshke2haLVbrSbyeDg2OoUkcSHP=
+36ArmfbaDHmkyGxFy6cg7ao_WqMoqshfgqjVmunBpcWcRlrYUS2KZ4humRmq9Ky9IFO6iqkPKL0=
+NCt-Mm1DuG3_5zOj5BJ9uG64E6YbJEiaUlwbCX8B3fud3GTAGUgwsTlbhqZLrqY70W )
+
+320 N Sangamon St, Chicago, IL. 60607
+Copyright =C2=A9 Tock LLC - All rights reserved
+
+View in browser ( https://links.exploretock.com/e/evib?_t=3Db259af95b91a4db=
+e982ea886639e4981&_m=3Dd84b275ff19e49c4a2306b861b986423&_e=3DYFcExMKfCPyxAq=
+xO0niFzP7TKYG1JlZxW0KL7MVwg_21O_4TxfPdPXuhaiutwdV1 ) Privacy policy ( https=
+://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e4981&_m=
+=3Dd84b275ff19e49c4a2306b861b986423&_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y8=
+2sIP6o2yMl9EczaD23264qYQkWCJADWAh8T3gZKfIwUpr1LxsooaA3PbssXYIHVK9RmKSaAz3el=
+mFrRStiKeJOUc1i6Q5n-r04YVJf-hCYoeASEIt7U4bN8CCsFpbCMaKhprih6sqXJLCXI6Sj2UMX=
+ieOCeGbisijctRZeDt2uAJZhxKdiARcugME2Qx8q0cLy4hrtvKjkCve_DWzth5YPlVzFdnQsWHZ=
+ZFVl8XStcb8R0AEf0RLisEwf_pVBnF9WzI42Shuc2HIJdkdqn85NXMbHz1zrQVAugfy8r12umoJ=
+WIJYnZLQ%3D%3D ) Manage preferences ( https://links.exploretock.com/e/eh?_t=
+=3Db259af95b91a4dbe982ea886639e4981&_m=3Dd84b275ff19e49c4a2306b861b986423&_=
+e=3DGzHUe2aAQDbXZKm3CPHwIi0r5KQCBuf2SaqB-mS3UGQ5zPhfKSEDyXjd5lwW_9pghw5VjXn=
+EgjQRO_--IGZ52OvqKbZLkIHZ4imj4O3jg3Ykqk2WapMYIfEgFTzx1mFUiwZ5TUhpX_QEAPPj3v=
+pgVvBJWW2eJwk3nLDXgm5aX3Cer52T_0zjW3jtQgCZRAnmCmgHno4m1zmSDF8ucxn-BQBdNXtwy=
+-2Y4r7SmGQ3O6KSW410TkfNk4q5YWr8g_RnR4A0eTMEA4EqQK-tiSGtlyc4Vky_AYMEuenS4a9k=
+MI7UNgEHQRATvh5G9_s12DF8lDCUdzAxyUfW0Rqw2qizCfQAd-DNeeCRJUN-TLVSl95B1poq8sv=
+LQLXD5q9Phowua98eAf5ZV_Syrjk0RcJ94tEshAKDXBaqamz7uY3QO37zLCwZ94GBXVz93ML_6d=
+AsRsOegZ6CPVh8qc2ie2qFjA%3D%3D ) Unsubscribe ( https://links.exploretock.co=
+m/e/eh?_t=3Db259af95b91a4dbe982ea886639e4981&_m=3Dd84b275ff19e49c4a2306b861=
+b986423&_e=3DGzHUe2aAQDbXZKm3CPHwIi0r5KQCBuf2SaqB-mS3UGQ5zPhfKSEDyXjd5lwW_9=
+pghw5VjXnEgjQRO_--IGZ52OvqKbZLkIHZ4imj4O3jg3Ykqk2WapMYIfEgFTzx1mFUiwZ5TUhpX=
+_QEAPPj3vpgVvBJWW2eJwk3nLDXgm5aX3Cer52T_0zjW3jtQgCZRAnmCmgHno4m1zmSDF8ucxn-=
+BQBdNXtwy-2Y4r7SmGQ3O6KSW410TkfNk4q5YWr8g_RnR4A0eTMEA4EqQK-tiSGtlyc4Vky_AYM=
+EuenS4a9kMI7UNgEHQRATvh5G9_s12DF8lDCUdzAxyUfW0Rqw2qizCfQAd-DNeeCRJUN-TLVSl9=
+5B1poq8svLQLXD5q9Phowua98eAf5ZV_Syrjk0RcJ94tEshAKDXBaqamz7uY3QO37zLCwZ94GBX=
+Vz93ML_6dAsRsOegZ6CPVh8qc2ie2qFjA%3D%3D )
+
+1683062096407
+--92c5330fc1c3fe5b61bc3af6b68cbff176b48c30833a2ca849db73775012
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+<html><head></head><body><div><div><div><div class=3D""><br/></div></div><d=
+iv><div style=3D"display: none; border: 0px; width: 0px; height: 0px; overf=
+low: hidden; visibility: hidden;"><img src=3D"https://r.superhuman.com/gQE8=
+S_6YsyQzDG3DAlWlWksY9EDZvZhldqm9M6YblG8grMXmMjH4pCQZ1l14ZsXs44Ywh17-Iei9_dp=
+xnD6_43KrayunyGfP-Q0rXzkI_k5qLsS5ctLj8xz0fHmNspKw0z_1ong1-nu_nWsrw1E7kni95M=
+Z1YMLWM9VQ1ZL5M50LZJWh_Je05Q.gif" alt=3D" " width=3D"1" height=3D"0" style=
+=3D"display: none; border: 0px; width: 0px; height: 0px; overflow: hidden; =
+visibility: hidden;"/><!--                                                 =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+ --></div><br/><div class=3D"gmail_signature"></div></div><br/><div><div><d=
+iv>---------- Forwarded message ----------<br/>From: Tock NYC &lt;guides@ma=
+rketing.exploretock.com&gt;<br/>Date: <time datetime=3D"2023-05-02T21:14:56=
+.000Z" class=3D"DateTime">Tuesday, May 2 2023 at 2:14 PM PDT</time><br/>Sub=
+ject: Your guide to New York City<br/>To: fake@email.com<br/></div><=
+br/><div><div class=3D"gmail_quote sh-color sh-original-color-carbon sh-mod=
+ified-inline" style=3D"margin: 0px; padding: 0px; text-size-adjust: 100%; -=
+webkit-font-smoothing: antialiased; font-family: &#34;Clarkson Medium&#34;,=
+ Helvetica, Arial, sans-serif; word-spacing: normal; background-color: rgb(=
+244, 244, 244); --sh-original-color:rgb(0, 0, 0); color: rgb(0, 0, 0); back=
+ground-image: none;" id=3D"">
+
+<span style=3D"color: transparent; visibility: hidden; display: none; opaci=
+ty: 0; height: 0px; width: 0px; font-size: 0px; --sh-original-color:rgba(0,=
+ 0, 0, 0);" class=3D"sh-color sh-original-color-carbon sh-modified-inline">=
+Restaurants, pop-ups, events, &amp; more.</span> <div style=3D"background-c=
+olor: rgb(244, 244, 244); --sh-original-color:rgb(0, 0, 0);" class=3D"sh-co=
+lor sh-original-color-carbon sh-modified-inline">   <div style=3D"backgroun=
+d: rgb(255, 255, 255); margin: 0px auto; max-width: 600px; --sh-original-co=
+lor:rgb(0, 0, 0);" class=3D"sh-color sh-original-color-carbon sh-modified-i=
+nline"> <table style=3D"background: rgb(255, 255, 255); width: 100%; --sh-o=
+riginal-color:rgb(0, 0, 0);" role=3D"presentation" cellspacing=3D"0" cellpa=
+dding=3D"0" border=3D"0" align=3D"center" class=3D"sh-color sh-original-col=
+or-carbon sh-modified-inline"> <tbody class=3D"sh-color sh-original-color-c=
+arbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <tr =
+class=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--s=
+h-original-color:rgb(0, 0, 0);"> <td style=3D"direction: ltr; font-size: 0p=
+x; padding: 0px; text-align: center; --sh-original-color:rgb(0, 0, 0);" cla=
+ss=3D"sh-color sh-original-color-carbon sh-modified-inline">  <div style=3D=
+"font-size: 0px; text-align: left; direction: ltr; display: inline-block; v=
+ertical-align: top; width: 100%; --sh-original-color:rgb(0, 0, 0);" class=
+=3D"mj-column-per-100 mj-outlook-group-fix sh-color sh-original-color-carbo=
+n sh-modified-inline"> <table width=3D"100%" style=3D"vertical-align: top; =
+--sh-original-color:rgb(0, 0, 0);" role=3D"presentation" cellspacing=3D"0" =
+cellpadding=3D"0" border=3D"0" class=3D"sh-color sh-original-color-carbon s=
+h-modified-inline"> <tbody class=3D"sh-color sh-original-color-carbon sh-mo=
+dified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <tr class=3D"sh=
+-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-original-=
+color:rgb(0, 0, 0);"> <td style=3D"font-size: 0px; padding: 0px 0px 24px; w=
+ord-break: break-word; --sh-original-color:rgb(0, 0, 0);" class=3D"hideOnDe=
+sktop sh-color sh-original-color-carbon sh-modified-inline" align=3D"center=
+"> <table class=3D"mj-full-width-mobile sh-color sh-original-color-carbon s=
+h-modified-inline" style=3D"border-collapse: collapse; border-spacing: 0px;=
+ --sh-original-color:rgb(0, 0, 0);" role=3D"presentation" cellspacing=3D"0"=
+ cellpadding=3D"0" border=3D"0"> <tbody class=3D"sh-color sh-original-color=
+-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <t=
+r class=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"-=
+-sh-original-color:rgb(0, 0, 0);"> <td width=3D"600" class=3D"mj-full-width=
+-mobile sh-color sh-original-color-carbon sh-modified-inline" style=3D"widt=
+h: 600px; --sh-original-color:rgb(0, 0, 0);"> <a href=3D"https://links.expl=
+oretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275f=
+f19e49c4a2306b861b986423&amp;_e=3DGzHUe2aAQDbXZKm3CPHwIoyW3vXmAV1NJzexjrLBD=
+91iK2Czm6C_hfexupbXoEadH2_1tC0nX5Nz725v5_70h3wEGTiDRdo_f0-wf23j3hugArEHfeB0=
+1EC3ejxDfb8BFAe5dUg3rORvHP4xJyjLsGfB03ZDfiTqk9b36U3gTxUp_ZP7WdIp6YwFJ0yQrAC=
+mPiAdoSj-blVIKiuALgLpoBYTYisIzD3au9A2-2zWa4CErWeoVrPtTuSdU8bkM24WCCfSOn07uL=
+WU1OJQ1DhdQTcbCU-cfBaUbxmxHDC3wW_3kRvSDUDMevMvrJ1XZzAU" target=3D"_blank" r=
+el=3D"noopener noreferrer" class=3D"sh-preserve-color"> <img width=3D"600" =
+style=3D"border:none;display:block;outline:none;text-decoration:none;height=
+:auto;width:100%;font-size:13px;" src=3D"https://storage.googleapis.com/toc=
+k-public-assets/exploretock-join/images/email-projects/guides/city/header/n=
+ew-york-city-header-mobile.png" height=3D"auto" alt=3D"- Dining, Drinking, =
+Exploring, Doing - Tock Logo - Delicious starts here."/> </a> </td> </tr> <=
+/tbody> </table> </td> </tr> <tr class=3D"sh-color sh-original-color-carbon=
+ sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=
+=3D"font-size: 0px; padding: 0px 0px 24px; word-break: break-word; --sh-ori=
+ginal-color:rgb(0, 0, 0);" class=3D"hideOnMobile sh-color sh-original-color=
+-carbon sh-modified-inline" align=3D"center"> <table style=3D"border-collap=
+se: collapse; border-spacing: 0px; --sh-original-color:rgb(0, 0, 0);" role=
+=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" class=3D=
+"sh-color sh-original-color-carbon sh-modified-inline"> <tbody class=3D"sh-=
+color sh-original-color-carbon sh-modified-inline" style=3D"--sh-original-c=
+olor:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-original-color-carbon sh-modi=
+fied-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=3D"widt=
+h: 600px; --sh-original-color:rgb(0, 0, 0);" class=3D"sh-color sh-original-=
+color-carbon sh-modified-inline"> <a href=3D"https://links.exploretock.com/=
+u/click?_t=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275ff19e49c4a230=
+6b861b986423&amp;_e=3DGzHUe2aAQDbXZKm3CPHwIoyW3vXmAV1NJzexjrLBD91iK2Czm6C_h=
+fexupbXoEadH2_1tC0nX5Nz725v5_70h3wEGTiDRdo_f0-wf23j3hugArEHfeB01EC3ejxDfb8B=
+FAe5dUg3rORvHP4xJyjLsGfB03ZDfiTqk9b36U3gTxXrRcD5UGSl8c04dluIYWS9tOrza_U81VM=
+YEbV-zAnuTkvDYJ2bIFLsizwAcX41LBZ-kHPsXuQ7d222MU-XnkreVteZN_nXnfhU4UYc5jueba=
+zhFO9tOg4-mj7g3vD-cPjLa906S4NN6EzWlhbF-QXS" target=3D"_blank" rel=3D"noopen=
+er noreferrer" class=3D"sh-preserve-color"> <img width=3D"600" style=3D"bor=
+der:none;display:block;outline:none;text-decoration:none;height:auto;width:=
+100%;font-size:13px;" src=3D"https://storage.googleapis.com/tock-public-ass=
+ets/exploretock-join/images/email-projects/guides/city/header/new-york-city=
+-header-desktop.png" height=3D"auto" alt=3D"- Dining, Drinking, Exploring, =
+Doing - Tock Logo - Delicious starts here."/> </a> </td> </tr> </tbody> </t=
+able> </td> </tr> </tbody> </table> </div>  </td> </tr> </tbody> </table> <=
+/div>    <div style=3D"background: rgb(255, 255, 255); margin: 0px auto; ma=
+x-width: 600px; --sh-original-color:rgb(0, 0, 0);" class=3D"col-padding-bot=
+tom sh-color sh-original-color-carbon sh-modified-inline"> <table bgcolor=
+=3D"#ffffff" width=3D"100%" style=3D"border-collapse: collapse; background:=
+ rgb(255, 255, 255); width: 100%; --sh-original-color:rgb(0, 0, 0);" role=
+=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" align=3D=
+"center" class=3D"sh-color sh-original-color-carbon sh-modified-inline"> <t=
+body class=3D"sh-color sh-original-color-carbon sh-modified-inline" style=
+=3D"--sh-original-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-original-c=
+olor-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"=
+> <td align=3D"center" style=3D"border-collapse: collapse; direction: ltr; =
+font-size: 0px; padding: 0px; text-align: center; --sh-original-color:rgb(0=
+, 0, 0);" class=3D"sh-color sh-original-color-carbon sh-modified-inline">  =
+<div style=3D"font-size: 0px; text-align: left; direction: ltr; display: in=
+line-block; vertical-align: top; width: 100%; --sh-original-color:rgb(0, 0,=
+ 0);" class=3D"mj-column-per-50 mj-outlook-group-fix sh-color sh-original-c=
+olor-carbon sh-modified-inline"> <table valign=3D"top" width=3D"100%" style=
+=3D"border-collapse: collapse; vertical-align: top; --sh-original-color:rgb=
+(0, 0, 0);" role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" borde=
+r=3D"0" class=3D"sh-color sh-original-color-carbon sh-modified-inline"> <tb=
+ody class=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D=
+"--sh-original-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-original-colo=
+r-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <=
+td style=3D"border-collapse: collapse; font-size: 0px; padding: 0px 12px 16=
+px 24px; word-break: break-word; --sh-original-color:rgb(0, 0, 0);" class=
+=3D"card-image sh-color sh-original-color-carbon sh-modified-inline" align=
+=3D"left"> <table class=3D"mj-full-width-mobile sh-color sh-original-color-=
+carbon sh-modified-inline" style=3D"border-collapse: collapse; border-spaci=
+ng: 0px; --sh-original-color:rgb(0, 0, 0);" role=3D"presentation" cellspaci=
+ng=3D"0" cellpadding=3D"0" border=3D"0"> <tbody class=3D"sh-color sh-origin=
+al-color-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, =
+0);"> <tr class=3D"sh-color sh-original-color-carbon sh-modified-inline" st=
+yle=3D"--sh-original-color:rgb(0, 0, 0);"> <td width=3D"264" class=3D"mj-fu=
+ll-width-mobile sh-color sh-original-color-carbon sh-modified-inline" style=
+=3D"border-collapse: collapse; width: 264px; --sh-original-color:rgb(0, 0, =
+0);"> <a href=3D"https://links.exploretock.com/u/click?_t=3Db259af95b91a4db=
+e982ea886639e4981&amp;_m=3Dd84b275ff19e49c4a2306b861b986423&amp;_e=3DGzHUe2=
+aAQDbXZKm3CPHwImXMRtB-m070y82sIP6o2yOcp63Gx9bMCVixB7w5WtY2FwWLFQRvr7Ni3B00g=
+Lgw3A1oVumfwbcxlDxrEExKiUKnwkRCwvWWnu2Tiqv0O6rgH64M_pITbffY4YInGfnz8ijWP0NR=
+ye1Y4J6w8D3kFZdhHPbAdiIu4-LLaokS-3eoxoqeUWO-JTrK3E8-vdAQzhhIaHTf3sVcty7m2sC=
+1OTa9dNZC49jlqfTJqJbZGujY4ofwYhhi38ObLuzimCE57g1PhX3fHqyl37jaFJGwxNc4VUYht4=
+3RsNBq_-w8woiGx8GikPCiRPabDtS7kXWlQg%3D%3D" target=3D"_blank" rel=3D"noopen=
+er noreferrer" class=3D"sh-preserve-color"> <img width=3D"264" style=3D"lin=
+e-height: 100%; -ms-interpolation-mode: bicubic; border: none; display: blo=
+ck; outline: none; text-decoration: none; height: auto; width: 100%; font-s=
+ize: 13px;" height=3D"auto" alt=3D"" src=3D"https://tock.wpenginepowered.co=
+m/wp-content/uploads/2023/04/Farm.One_tock-page_approved.jpg"/> </a> </td> =
+</tr> </tbody> </table> </td> </tr> <tr class=3D"sh-color sh-original-color=
+-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <t=
+d style=3D"border-collapse: collapse; font-size: 0px; padding: 0px 12px 20p=
+x 24px; word-break: break-word; --sh-original-color:rgb(0, 0, 0);" class=3D=
+"card-text sh-color sh-original-color-carbon sh-modified-inline" align=3D"l=
+eft"> <div style=3D"font-family: &#34;Clarkson Medium&#34;, sans-serif; fon=
+t-size: 13px; line-height: 1; text-align: left; color: rgb(0, 0, 0); --sh-o=
+riginal-color:rgb(0, 0, 0);" class=3D"sh-color sh-original-color-carbon sh-=
+modified-inline"> <div style=3D"font-family: &#34;Clarkson Book&#34;, Helve=
+tica, Arial, sans-serif; font-size: 12px; color: rgb(102, 102, 102); text-t=
+ransform: uppercase; --sh-original-color:rgb(102, 102, 102);" class=3D"offe=
+rings sh-color sh-original-color-snow sh-original-color-carbon sh-modified-=
+inline"> New =C2=B7 Reservations </div> <h2 style=3D"font-family: &#34;Clar=
+kson Bold&#34;, Helvetica, Arial, sans-serif; font-size: 20px; line-height:=
+ 120%; margin: 10px 0px 6px; --sh-original-color:rgb(0, 0, 0);" class=3D"cu=
+stomer-name sh-color sh-original-color-carbon sh-modified-inline"><a target=
+=3D"_blank" rel=3D"noopener noreferrer" href=3D"http://farm.one/" class=3D"=
+sh-preserve-color">Farm.<wbr/>One</a></h2> <h3 style=3D"font-weight: normal=
+; font-size: 17px; line-height: 120%; color: rgb(102, 102, 102); margin: 0p=
+x; --sh-original-color:rgb(102, 102, 102);" class=3D"neighborhood sh-color =
+sh-original-color-snow sh-original-color-carbon sh-modified-inline">Brookly=
+n</h3> <div class=3D"description sh-color sh-original-color-carbon sh-modif=
+ied-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <p class=3D"sh-col=
+or sh-original-color-carbon sh-modified-inline" style=3D"--sh-original-colo=
+r:rgb(0, 0, 0);">Visit this one-of-a-kind hydroponic farm in Prospect Heigh=
+ts for a tour and tasting of rare herbs, microgreens, and edible flowers.</=
+p> </div> <a style=3D"color: #344ef4; padding: 10px 0; font-size: 18px; dis=
+play: inline-block;" rel=3D"noopener noreferrer" href=3D"https://links.expl=
+oretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275f=
+f19e49c4a2306b861b986423&amp;_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y82sIP6o2=
+yOcp63Gx9bMCVixB7w5WtY2FwWLFQRvr7Ni3B00gLgw3A1oVumfwbcxlDxrEExKiUKnwkRCwvWW=
+nu2Tiqv0O6rgH64M_pITbffY4YInGfnz8ijWP0NRye1Y4J6w8D3kFZdT3DGXHt4Fk9OpujVRefH=
+sOZXOyGWzmEe51iEXBxgyvmfwz1SogZzGDrHUG_rAFZsq7wVFCJdtYNUCL-fcjkcUorOe-oqEK5=
+Q0q93UlblNmRs3lJcocwxkiUnQdzJF2QzBiDSz_ILPKXDOfR-FNZPuDaAVJJO-_M86G8l26jU0s=
+g%3D%3D" class=3D"link sh-preserve-color" target=3D"_blank">Book Now</a> </=
+div> </td> </tr> </tbody> </table> </div>  <div style=3D"font-size: 0px; te=
+xt-align: left; direction: ltr; display: inline-block; vertical-align: top;=
+ width: 100%; --sh-original-color:rgb(0, 0, 0);" class=3D"mj-column-per-50 =
+mj-outlook-group-fix sh-color sh-original-color-carbon sh-modified-inline">=
+ <table valign=3D"top" width=3D"100%" style=3D"border-collapse: collapse; v=
+ertical-align: top; --sh-original-color:rgb(0, 0, 0);" role=3D"presentation=
+" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" class=3D"sh-color sh-ori=
+ginal-color-carbon sh-modified-inline"> <tbody class=3D"sh-color sh-origina=
+l-color-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0=
+);"> <tr class=3D"sh-color sh-original-color-carbon sh-modified-inline" sty=
+le=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=3D"border-collapse: col=
+lapse; font-size: 0px; padding: 0px 24px 16px 12px; word-break: break-word;=
+ --sh-original-color:rgb(0, 0, 0);" class=3D"card-image sh-color sh-origina=
+l-color-carbon sh-modified-inline" align=3D"left"> <table class=3D"mj-full-=
+width-mobile sh-color sh-original-color-carbon sh-modified-inline" style=3D=
+"border-collapse: collapse; border-spacing: 0px; --sh-original-color:rgb(0,=
+ 0, 0);" role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" border=
+=3D"0"> <tbody class=3D"sh-color sh-original-color-carbon sh-modified-inlin=
+e" style=3D"--sh-original-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-or=
+iginal-color-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0,=
+ 0, 0);"> <td width=3D"264" class=3D"mj-full-width-mobile sh-color sh-origi=
+nal-color-carbon sh-modified-inline" style=3D"border-collapse: collapse; wi=
+dth: 264px; --sh-original-color:rgb(0, 0, 0);"> <a rel=3D"noopener noreferr=
+er" href=3D"https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982e=
+a886639e4981&amp;_m=3Dd84b275ff19e49c4a2306b861b986423&amp;_e=3DGzHUe2aAQDb=
+XZKm3CPHwImXMRtB-m070y82sIP6o2yN75iI1omTi1fH-SF2cXQOafK8MD_Q5vELlnXueC0h9uM=
+iNqBa59D2Apngf3iKWYDy-lbPh_b42ujUmNgimZJfw-XFG9Z_eyuWDwy3QzQDXt4knEE9r7FuJa=
+F3BtzRONo2axEx5b0O7_5E6bdr7LzprPGfZeeS6xyJ8DvkwSnsV3PSB5QOZqtABnUO5o28XmLG2=
+uehUr4Q0Ljp9e5VmhSlwm2GqNXz-Ccb19b1jE-LGJPO_zAa5ERxuUQtqjEfw2gK-6kG2Cmei9Sg=
+bDnNqOgVkWE1X2M0kb_9pqT88XPhndER-GDyS2pFpKTur3vDl11I%3D" target=3D"_blank" =
+class=3D"sh-preserve-color"> <img width=3D"264" style=3D"line-height: 100%;=
+ -ms-interpolation-mode: bicubic; border: none; display: block; outline: no=
+ne; text-decoration: none; height: auto; width: 100%; font-size: 13px;" hei=
+ght=3D"auto" alt=3D"" src=3D"https://tock.wpenginepowered.com/wp-content/up=
+loads/2023/03/Brandy-Library_tock-page_approved.jpg"/> </a> </td> </tr> </t=
+body> </table> </td> </tr> <tr class=3D"sh-color sh-original-color-carbon s=
+h-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=
+=3D"border-collapse: collapse; font-size: 0px; padding: 0px 24px 20px 12px;=
+ word-break: break-word; --sh-original-color:rgb(0, 0, 0);" class=3D"card-t=
+ext sh-color sh-original-color-carbon sh-modified-inline" align=3D"left"> <=
+div style=3D"font-family: &#34;Clarkson Medium&#34;, sans-serif; font-size:=
+ 13px; line-height: 1; text-align: left; color: rgb(0, 0, 0); --sh-original=
+-color:rgb(0, 0, 0);" class=3D"sh-color sh-original-color-carbon sh-modifie=
+d-inline"> <div style=3D"font-family: &#34;Clarkson Book&#34;, Helvetica, A=
+rial, sans-serif; font-size: 12px; color: rgb(102, 102, 102); text-transfor=
+m: uppercase; --sh-original-color:rgb(102, 102, 102);" class=3D"offerings s=
+h-color sh-original-color-snow sh-original-color-carbon sh-modified-inline"=
+> Reservations =C2=B7 Events </div> <h2 style=3D"font-family: &#34;Clarkson=
+ Bold&#34;, Helvetica, Arial, sans-serif; font-size: 20px; line-height: 120=
+%; margin: 10px 0px 6px; --sh-original-color:rgb(0, 0, 0);" class=3D"custom=
+er-name sh-color sh-original-color-carbon sh-modified-inline">Brandy Librar=
+y</h2> <h3 style=3D"font-weight: normal; font-size: 17px; line-height: 120%=
+; color: rgb(102, 102, 102); margin: 0px; --sh-original-color:rgb(102, 102,=
+ 102);" class=3D"neighborhood sh-color sh-original-color-snow sh-original-c=
+olor-carbon sh-modified-inline">Tribeca</h3> <div class=3D"description sh-c=
+olor sh-original-color-carbon sh-modified-inline" style=3D"--sh-original-co=
+lor:rgb(0, 0, 0);"> <p class=3D"sh-color sh-original-color-carbon sh-modifi=
+ed-inline" style=3D"--sh-original-color:rgb(0, 0, 0);">Celebrate<strong cla=
+ss=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-o=
+riginal-color:rgb(0, 0, 0);"> Cinco de Mayo</strong> with a premium agave t=
+asting. The evening will begin with passed appetizers and a welcome drink.<=
+/p> </div> <a style=3D"color: #344ef4; padding: 10px 0; font-size: 18px; di=
+splay: inline-block;" rel=3D"noopener noreferrer" href=3D"https://links.exp=
+loretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275=
+ff19e49c4a2306b861b986423&amp;_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y82sIP6o=
+2yN75iI1omTi1fH-SF2cXQOafK8MD_Q5vELlnXueC0h9uMiNqBa59D2Apngf3iKWYDy-lbPh_b4=
+2ujUmNgimZJfw-XFG9Z_eyuWDwy3QzQDXt4knEE9r7FuJaF3BtzRONo2axEx5b0O7_5E6bdr7Lz=
+prWdJYnI0HG_pvVLNTkhA2Ck5do8BJo91r0hRJ4w1TmihU2TyKC-kzZJsdQx88Otx4cXlYebC_h=
+HFxdc7daS1dn0BqdGSRpaAWTPcLcI36Uto4OS1ezcXc6ixpeq7dTomBV-wUiLec3Q-7yuCTrx_r=
+G9gyP8xKVRZnCSTEIAkc3bk%3D" class=3D"link sh-preserve-color" target=3D"_bla=
+nk">Book Now</a> </div> </td> </tr> </tbody> </table> </div>  </td> </tr> <=
+/tbody> </table> </div>  <div style=3D"background: rgb(255, 255, 255); marg=
+in: 0px auto; max-width: 600px; --sh-original-color:rgb(0, 0, 0);" class=3D=
+"col-padding-bottom sh-color sh-original-color-carbon sh-modified-inline"> =
+<table bgcolor=3D"#ffffff" width=3D"100%" style=3D"border-collapse: collaps=
+e; background: rgb(255, 255, 255); width: 100%; --sh-original-color:rgb(0, =
+0, 0);" role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" border=3D=
+"0" align=3D"center" class=3D"sh-color sh-original-color-carbon sh-modified=
+-inline"> <tbody class=3D"sh-color sh-original-color-carbon sh-modified-inl=
+ine" style=3D"--sh-original-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-=
+original-color-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(=
+0, 0, 0);"> <td align=3D"center" style=3D"border-collapse: collapse; direct=
+ion: ltr; font-size: 0px; padding: 0px; text-align: center; --sh-original-c=
+olor:rgb(0, 0, 0);" class=3D"sh-color sh-original-color-carbon sh-modified-=
+inline">  <div style=3D"font-size: 0px; text-align: left; direction: ltr; d=
+isplay: inline-block; vertical-align: top; width: 100%; --sh-original-color=
+:rgb(0, 0, 0);" class=3D"mj-column-per-50 mj-outlook-group-fix sh-color sh-=
+original-color-carbon sh-modified-inline"> <table valign=3D"top" width=3D"1=
+00%" style=3D"border-collapse: collapse; vertical-align: top; --sh-original=
+-color:rgb(0, 0, 0);" role=3D"presentation" cellspacing=3D"0" cellpadding=
+=3D"0" border=3D"0" class=3D"sh-color sh-original-color-carbon sh-modified-=
+inline"> <tbody class=3D"sh-color sh-original-color-carbon sh-modified-inli=
+ne" style=3D"--sh-original-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-o=
+riginal-color-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0=
+, 0, 0);"> <td style=3D"border-collapse: collapse; font-size: 0px; padding:=
+ 0px 12px 16px 24px; word-break: break-word; --sh-original-color:rgb(0, 0, =
+0);" class=3D"card-image sh-color sh-original-color-carbon sh-modified-inli=
+ne" align=3D"left"> <table class=3D"mj-full-width-mobile sh-color sh-origin=
+al-color-carbon sh-modified-inline" style=3D"border-collapse: collapse; bor=
+der-spacing: 0px; --sh-original-color:rgb(0, 0, 0);" role=3D"presentation" =
+cellspacing=3D"0" cellpadding=3D"0" border=3D"0"> <tbody class=3D"sh-color =
+sh-original-color-carbon sh-modified-inline" style=3D"--sh-original-color:r=
+gb(0, 0, 0);"> <tr class=3D"sh-color sh-original-color-carbon sh-modified-i=
+nline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td width=3D"264" class=
+=3D"mj-full-width-mobile sh-color sh-original-color-carbon sh-modified-inli=
+ne" style=3D"border-collapse: collapse; width: 264px; --sh-original-color:r=
+gb(0, 0, 0);"> <a href=3D"https://links.exploretock.com/u/click?_t=3Db259af=
+95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275ff19e49c4a2306b861b986423&amp;_e=
+=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y82sIP6o2yMB5GYIvNJYtsxG3boin5GimoF25pM9=
+0_I5_QJz70nKl-dnBmIqtPFtnXD-VkO_4d0EIYgfD1Qtr1jZuuUfoDyRqFwuv59t_GvMYh7f5Vv=
+Q1e5cb6_tVguUFYZ529y-tCA_bdeDW2CTMX0Dh7cbQjRNvLaWwXakzwIwYdiMNwV_uebhi71Oc0=
+78pWTKpi9JOzJo8BbsCslcpw6_S_RHRGlaqBkuu2NXr8MpIzVt2vJLbK-GfAnTn-wq4E8I08GtD=
+AYoK-h1c1xY8WWI8ASIp0J3m-RhidaRn1LnYV7ddxRHAA%3D%3D" target=3D"_blank" rel=
+=3D"noopener noreferrer" class=3D"sh-preserve-color"> <img width=3D"264" st=
+yle=3D"line-height: 100%; -ms-interpolation-mode: bicubic; border: none; di=
+splay: block; outline: none; text-decoration: none; height: auto; width: 10=
+0%; font-size: 13px;" src=3D"https://tock.wpenginepowered.com/wp-content/up=
+loads/2022/12/Aquavit_tock-page_approved-1.jpg" height=3D"auto" alt=3D""/> =
+</a> </td> </tr> </tbody> </table> </td> </tr> <tr class=3D"sh-color sh-ori=
+ginal-color-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, =
+0, 0);"> <td style=3D"border-collapse: collapse; font-size: 0px; padding: 0=
+px 12px 20px 24px; word-break: break-word; --sh-original-color:rgb(0, 0, 0)=
+;" class=3D"card-text sh-color sh-original-color-carbon sh-modified-inline"=
+ align=3D"left"> <div style=3D"font-family: &#34;Clarkson Medium&#34;, sans=
+-serif; font-size: 13px; line-height: 1; text-align: left; color: rgb(0, 0,=
+ 0); --sh-original-color:rgb(0, 0, 0);" class=3D"sh-color sh-original-color=
+-carbon sh-modified-inline"> <div style=3D"font-family: &#34;Clarkson Book&=
+#34;, Helvetica, Arial, sans-serif; font-size: 12px; color: rgb(102, 102, 1=
+02); text-transform: uppercase; --sh-original-color:rgb(102, 102, 102);" cl=
+ass=3D"offerings sh-color sh-original-color-snow sh-original-color-carbon s=
+h-modified-inline"> Reservations =C2=B7 Pickup </div> <h2 style=3D"font-fam=
+ily: &#34;Clarkson Bold&#34;, Helvetica, Arial, sans-serif; font-size: 20px=
+; line-height: 120%; margin: 10px 0px 6px; --sh-original-color:rgb(0, 0, 0)=
+;" class=3D"customer-name sh-color sh-original-color-carbon sh-modified-inl=
+ine">Aquavit</h2> <h3 style=3D"font-weight: normal; font-size: 17px; line-h=
+eight: 120%; color: rgb(102, 102, 102); margin: 0px; --sh-original-color:rg=
+b(102, 102, 102);" class=3D"neighborhood sh-color sh-original-color-snow sh=
+-original-color-carbon sh-modified-inline">Midtown</h3> <div class=3D"descr=
+iption sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-=
+original-color:rgb(0, 0, 0);"> <p class=3D"sh-color sh-original-color-carbo=
+n sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);">Seasonal =
+Nordic cuisine since 1987. Snag a reservation for the 3-course <strong clas=
+s=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-or=
+iginal-color:rgb(0, 0, 0);">Mother=E2=80=99s Day=C2=A0</strong>brunch.</p> =
+</div> <a style=3D"color: #344ef4; padding: 10px 0; font-size: 18px; displa=
+y: inline-block;" rel=3D"noopener noreferrer" href=3D"https://links.explore=
+tock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275ff19=
+e49c4a2306b861b986423&amp;_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y82sIP6o2yMB=
+5GYIvNJYtsxG3boin5GimoF25pM90_I5_QJz70nKl-dnBmIqtPFtnXD-VkO_4d0EIYgfD1Qtr1j=
+ZuuUfoDyRqFwuv59t_GvMYh7f5VvQ1e5cb6_tVguUFYZ529y-tCBBJR71Yp3xci51dABKMQF9c0=
+iFwypstHlce49KATptgpWoccuesT0YK63fBS-xGlaRZBbBmXcZ5aKKSbapIJAFAkDFDxCciWh3P=
+bYKFi_OeHXycJjlnmJT5Q4Oxv4IQ_iNzWqr-tBGkPaNqvOJwW4I1Mg1jLpobFpkvfcFcKExLA%3=
+D%3D" class=3D"link sh-preserve-color" target=3D"_blank">Book Now</a> </div=
+> </td> </tr> </tbody> </table> </div>  <div style=3D"font-size: 0px; text-=
+align: left; direction: ltr; display: inline-block; vertical-align: top; wi=
+dth: 100%; --sh-original-color:rgb(0, 0, 0);" class=3D"mj-column-per-50 mj-=
+outlook-group-fix sh-color sh-original-color-carbon sh-modified-inline"> <t=
+able valign=3D"top" width=3D"100%" style=3D"border-collapse: collapse; vert=
+ical-align: top; --sh-original-color:rgb(0, 0, 0);" role=3D"presentation" c=
+ellspacing=3D"0" cellpadding=3D"0" border=3D"0" class=3D"sh-color sh-origin=
+al-color-carbon sh-modified-inline"> <tbody class=3D"sh-color sh-original-c=
+olor-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"=
+> <tr class=3D"sh-color sh-original-color-carbon sh-modified-inline" style=
+=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=3D"border-collapse: colla=
+pse; font-size: 0px; padding: 0px 24px 16px 12px; word-break: break-word; -=
+-sh-original-color:rgb(0, 0, 0);" class=3D"card-image sh-color sh-original-=
+color-carbon sh-modified-inline" align=3D"left"> <table class=3D"mj-full-wi=
+dth-mobile sh-color sh-original-color-carbon sh-modified-inline" style=3D"b=
+order-collapse: collapse; border-spacing: 0px; --sh-original-color:rgb(0, 0=
+, 0);" role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"=
+0"> <tbody class=3D"sh-color sh-original-color-carbon sh-modified-inline" s=
+tyle=3D"--sh-original-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-origin=
+al-color-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, =
+0);"> <td width=3D"264" class=3D"mj-full-width-mobile sh-color sh-original-=
+color-carbon sh-modified-inline" style=3D"border-collapse: collapse; width:=
+ 264px; --sh-original-color:rgb(0, 0, 0);"> <a href=3D"https://links.explor=
+etock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275ff1=
+9e49c4a2306b861b986423&amp;_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y82sIP6o2yP=
+f3TLvuwRcyejevO99gkmNNIrYGCpCcAJYxkhyZJhD123pqGrFG3UJRnOXVTFJTmBfkTZJk60arG=
+7QPbwOin8BKBvzPGlNS6snL8vPZ-p1UA2iDH1FobNJ3A_TaFLBSBEM_AeI7OxBWW_GjdtKe9570=
+QO8EpK9CL4aAMxqU3Npo1RL8TzQ-_RQJaC-btk2LhKmUrQMQJJZ7w_nTkJfCEcAmc-1rGywzrMo=
+g9qFVP5-0WI2n64aJxWGDdAAKmD8dd4VXyrJEp0GXtwiwTmrB4tW" target=3D"_blank" rel=
+=3D"noopener noreferrer" class=3D"sh-preserve-color"> <img width=3D"264" st=
+yle=3D"line-height: 100%; -ms-interpolation-mode: bicubic; border: none; di=
+splay: block; outline: none; text-decoration: none; height: auto; width: 10=
+0%; font-size: 13px;" src=3D"https://tock.wpenginepowered.com/wp-content/up=
+loads/2022/12/per-se_tock-page_approved.jpg" height=3D"auto" alt=3D""/> </a=
+> </td> </tr> </tbody> </table> </td> </tr> <tr class=3D"sh-color sh-origin=
+al-color-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, =
+0);"> <td style=3D"border-collapse: collapse; font-size: 0px; padding: 0px =
+24px 20px 12px; word-break: break-word; --sh-original-color:rgb(0, 0, 0);" =
+class=3D"card-text sh-color sh-original-color-carbon sh-modified-inline" al=
+ign=3D"left"> <div style=3D"font-family: &#34;Clarkson Medium&#34;, sans-se=
+rif; font-size: 13px; line-height: 1; text-align: left; color: rgb(0, 0, 0)=
+; --sh-original-color:rgb(0, 0, 0);" class=3D"sh-color sh-original-color-ca=
+rbon sh-modified-inline"> <div style=3D"font-family: &#34;Clarkson Book&#34=
+;, Helvetica, Arial, sans-serif; font-size: 12px; color: rgb(102, 102, 102)=
+; text-transform: uppercase; --sh-original-color:rgb(102, 102, 102);" class=
+=3D"offerings sh-color sh-original-color-snow sh-original-color-carbon sh-m=
+odified-inline"> Reservations </div> <h2 style=3D"font-family: &#34;Clarkso=
+n Bold&#34;, Helvetica, Arial, sans-serif; font-size: 20px; line-height: 12=
+0%; margin: 10px 0px 6px; --sh-original-color:rgb(0, 0, 0);" class=3D"custo=
+mer-name sh-color sh-original-color-carbon sh-modified-inline">Per Se</h2> =
+<h3 style=3D"font-weight: normal; font-size: 17px; line-height: 120%; color=
+: rgb(102, 102, 102); margin: 0px; --sh-original-color:rgb(102, 102, 102);"=
+ class=3D"neighborhood sh-color sh-original-color-snow sh-original-color-ca=
+rbon sh-modified-inline">Midtown West</h3> <div class=3D"description sh-col=
+or sh-original-color-carbon sh-modified-inline" style=3D"--sh-original-colo=
+r:rgb(0, 0, 0);"> <p class=3D"sh-color sh-original-color-carbon sh-modified=
+-inline" style=3D"--sh-original-color:rgb(0, 0, 0);">Per Se=E2=80=99s luxur=
+ious<strong class=3D"sh-color sh-original-color-carbon sh-modified-inline" =
+style=3D"--sh-original-color:rgb(0, 0, 0);">=C2=A0Mother=E2=80=99s Day</str=
+ong> menu will feature champagne, caviar, foie gras, and a special parting =
+gift.</p> </div> <a style=3D"color: #344ef4; padding: 10px 0; font-size: 18=
+px; display: inline-block;" rel=3D"noopener noreferrer" href=3D"https://lin=
+ks.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd=
+84b275ff19e49c4a2306b861b986423&amp;_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y8=
+2sIP6o2yPf3TLvuwRcyejevO99gkmNNIrYGCpCcAJYxkhyZJhD123pqGrFG3UJRnOXVTFJTmBfk=
+TZJk60arG7QPbwOin8BKBvzPGlNS6snL8vPZ-p1UA2iDH1FobNJ3A_TaFLBSBHHCJdiql1Xqm_q=
+J2H9weuaKEN1EcMhApiUfXdqBNo8S1u4KSHK2MBqfBHy3NbBo2RKkdyzztasA6C-6sXivxFbE4j=
+AHvHMeQWeAdkdoNYLpONMAA6EqUrNJU9hm-finIymaj-zgOUJ8fzyLmNSSMmz" class=3D"lin=
+k sh-preserve-color" target=3D"_blank">Book Now</a> </div> </td> </tr> </tb=
+ody> </table> </div>  </td> </tr> </tbody> </table> </div>  <div style=3D"b=
+ackground: rgb(255, 255, 255); margin: 0px auto; max-width: 600px; --sh-ori=
+ginal-color:rgb(0, 0, 0);" class=3D"col-padding-bottom sh-color sh-original=
+-color-carbon sh-modified-inline"> <table bgcolor=3D"#ffffff" width=3D"100%=
+" style=3D"border-collapse: collapse; background: rgb(255, 255, 255); width=
+: 100%; --sh-original-color:rgb(0, 0, 0);" role=3D"presentation" cellspacin=
+g=3D"0" cellpadding=3D"0" border=3D"0" align=3D"center" class=3D"sh-color s=
+h-original-color-carbon sh-modified-inline"> <tbody class=3D"sh-color sh-or=
+iginal-color-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0,=
+ 0, 0);"> <tr class=3D"sh-color sh-original-color-carbon sh-modified-inline=
+" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td align=3D"center" style=
+=3D"border-collapse: collapse; direction: ltr; font-size: 0px; padding: 0px=
+; text-align: center; --sh-original-color:rgb(0, 0, 0);" class=3D"sh-color =
+sh-original-color-carbon sh-modified-inline">  <div style=3D"font-size: 0px=
+; text-align: left; direction: ltr; display: inline-block; vertical-align: =
+top; width: 100%; --sh-original-color:rgb(0, 0, 0);" class=3D"mj-column-per=
+-50 mj-outlook-group-fix sh-color sh-original-color-carbon sh-modified-inli=
+ne"> <table valign=3D"top" width=3D"100%" style=3D"border-collapse: collaps=
+e; vertical-align: top; --sh-original-color:rgb(0, 0, 0);" role=3D"presenta=
+tion" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" class=3D"sh-color sh=
+-original-color-carbon sh-modified-inline"> <tbody class=3D"sh-color sh-ori=
+ginal-color-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, =
+0, 0);"> <tr class=3D"sh-color sh-original-color-carbon sh-modified-inline"=
+ style=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=3D"border-collapse:=
+ collapse; font-size: 0px; padding: 0px 12px 16px 24px; word-break: break-w=
+ord; --sh-original-color:rgb(0, 0, 0);" class=3D"card-image sh-color sh-ori=
+ginal-color-carbon sh-modified-inline" align=3D"left"> <table class=3D"mj-f=
+ull-width-mobile sh-color sh-original-color-carbon sh-modified-inline" styl=
+e=3D"border-collapse: collapse; border-spacing: 0px; --sh-original-color:rg=
+b(0, 0, 0);" role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" bord=
+er=3D"0"> <tbody class=3D"sh-color sh-original-color-carbon sh-modified-inl=
+ine" style=3D"--sh-original-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-=
+original-color-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(=
+0, 0, 0);"> <td width=3D"264" class=3D"mj-full-width-mobile sh-color sh-ori=
+ginal-color-carbon sh-modified-inline" style=3D"border-collapse: collapse; =
+width: 264px; --sh-original-color:rgb(0, 0, 0);"> <a href=3D"https://links.=
+exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b=
+275ff19e49c4a2306b861b986423&amp;_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y82sI=
+P6o2yOy-7k6UXOhPh5m9bbXBkemCZ08r_hhhe5bVOwV9sMUtnT2Iz814XrWRiGWXi0XBGSoeRXg=
+b6w-zIAKmc-yj3o-iq2BX_XkeVVp1wCmY2tOi6838XdIeUk_jnRFy2L14M_-McjdnC5SQYonZcb=
+gCjHtS2D7-JFFCHODKS8JpMPcxDDJHj4p2u3UIneLZ076_M4RXxjxx2OZ0NOOHcothWQYWpzpYY=
+8FThNn6iayS2qdrXWaxwXitGfmq7kQWO2dJDfueEiEVRQPiiGZfuPVlAX6UHFdbHt76OmxiiduY=
+LyKeg%3D%3D" target=3D"_blank" rel=3D"noopener noreferrer" class=3D"sh-pres=
+erve-color"> <img width=3D"264" style=3D"line-height: 100%; -ms-interpolati=
+on-mode: bicubic; border: none; display: block; outline: none; text-decorat=
+ion: none; height: auto; width: 100%; font-size: 13px;" src=3D"https://tock=
+.wpenginepowered.com/wp-content/uploads/2023/03/Thai-Diner_tock-page_approv=
+ed-2.jpg" height=3D"auto" alt=3D""/> </a> </td> </tr> </tbody> </table> </t=
+d> </tr> <tr class=3D"sh-color sh-original-color-carbon sh-modified-inline"=
+ style=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=3D"border-collapse:=
+ collapse; font-size: 0px; padding: 0px 12px 20px 24px; word-break: break-w=
+ord; --sh-original-color:rgb(0, 0, 0);" class=3D"card-text sh-color sh-orig=
+inal-color-carbon sh-modified-inline" align=3D"left"> <div style=3D"font-fa=
+mily: &#34;Clarkson Medium&#34;, sans-serif; font-size: 13px; line-height: =
+1; text-align: left; color: rgb(0, 0, 0); --sh-original-color:rgb(0, 0, 0);=
+" class=3D"sh-color sh-original-color-carbon sh-modified-inline"> <div styl=
+e=3D"font-family: &#34;Clarkson Book&#34;, Helvetica, Arial, sans-serif; fo=
+nt-size: 12px; color: rgb(102, 102, 102); text-transform: uppercase; --sh-o=
+riginal-color:rgb(102, 102, 102);" class=3D"offerings sh-color sh-original-=
+color-snow sh-original-color-carbon sh-modified-inline"> Reservations </div=
+> <h2 style=3D"font-family: &#34;Clarkson Bold&#34;, Helvetica, Arial, sans=
+-serif; font-size: 20px; line-height: 120%; margin: 10px 0px 6px; --sh-orig=
+inal-color:rgb(0, 0, 0);" class=3D"customer-name sh-color sh-original-color=
+-carbon sh-modified-inline">Thai Diner</h2> <h3 style=3D"font-weight: norma=
+l; font-size: 17px; line-height: 120%; color: rgb(102, 102, 102); margin: 0=
+px; --sh-original-color:rgb(102, 102, 102);" class=3D"neighborhood sh-color=
+ sh-original-color-snow sh-original-color-carbon sh-modified-inline">Nolita=
+</h3> <div class=3D"description sh-color sh-original-color-carbon sh-modifi=
+ed-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <p class=3D"sh-colo=
+r sh-original-color-carbon sh-modified-inline" style=3D"--sh-original-color=
+:rgb(0, 0, 0);">A Thai love letter to the classic American diner. House spe=
+cialities include lobster omelets and hoi frites.</p> </div> <a style=3D"co=
+lor: #344ef4; padding: 10px 0; font-size: 18px; display: inline-block;" rel=
+=3D"noopener noreferrer" href=3D"https://links.exploretock.com/u/click?_t=
+=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275ff19e49c4a2306b861b9864=
+23&amp;_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y82sIP6o2yOy-7k6UXOhPh5m9bbXBke=
+mCZ08r_hhhe5bVOwV9sMUtnT2Iz814XrWRiGWXi0XBGSoeRXgb6w-zIAKmc-yj3o-iq2BX_XkeV=
+Vp1wCmY2tOi6838XdIeUk_jnRFy2L14M-hBym9JPQETEJhPb0jcmCax53c6PV5lwmsybeD2M1Kl=
+d-Kfct0iSBXIfIXV5N-exdxBEXPyFoeyNfNQzxDGXvA8l8sTlt7au_W4RDdv8akUqA9ORCXP_Sy=
+DNj8Br8KCBgYAcKw8F9jmk9GnI40NYEE_qoKZ2JKNUcDC8vALNPHPA%3D%3D" class=3D"link=
+ sh-preserve-color" target=3D"_blank">Book Now</a> </div> </td> </tr> </tbo=
+dy> </table> </div>  <div style=3D"font-size: 0px; text-align: left; direct=
+ion: ltr; display: inline-block; vertical-align: top; width: 100%; --sh-ori=
+ginal-color:rgb(0, 0, 0);" class=3D"mj-column-per-50 mj-outlook-group-fix s=
+h-color sh-original-color-carbon sh-modified-inline"> <table valign=3D"top"=
+ width=3D"100%" style=3D"border-collapse: collapse; vertical-align: top; --=
+sh-original-color:rgb(0, 0, 0);" role=3D"presentation" cellspacing=3D"0" ce=
+llpadding=3D"0" border=3D"0" class=3D"sh-color sh-original-color-carbon sh-=
+modified-inline"> <tbody class=3D"sh-color sh-original-color-carbon sh-modi=
+fied-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <tr class=3D"sh-c=
+olor sh-original-color-carbon sh-modified-inline" style=3D"--sh-original-co=
+lor:rgb(0, 0, 0);"> <td style=3D"border-collapse: collapse; font-size: 0px;=
+ padding: 0px 24px 16px 12px; word-break: break-word; --sh-original-color:r=
+gb(0, 0, 0);" class=3D"card-image sh-color sh-original-color-carbon sh-modi=
+fied-inline" align=3D"left"> <table class=3D"mj-full-width-mobile sh-color =
+sh-original-color-carbon sh-modified-inline" style=3D"border-collapse: coll=
+apse; border-spacing: 0px; --sh-original-color:rgb(0, 0, 0);" role=3D"prese=
+ntation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0"> <tbody class=3D"=
+sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-origina=
+l-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-original-color-carbon sh-m=
+odified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td width=3D"2=
+64" class=3D"mj-full-width-mobile sh-color sh-original-color-carbon sh-modi=
+fied-inline" style=3D"border-collapse: collapse; width: 264px; --sh-origina=
+l-color:rgb(0, 0, 0);"> <a href=3D"https://links.exploretock.com/u/click?_t=
+=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275ff19e49c4a2306b861b9864=
+23&amp;_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y82sIP6o2yNBCHZr2dPaq1dk8a8Mg11=
+PyrREBgPbquYYpVslEfmvTyRVfs_GKkZMWgmeAKsc8usR78LJlcrcNuVqLdfZUGQZ1QqbEr9fjk=
+plPh6txwgwPUrighSbeMvIvkT6F9bQP5LDVfKnMUN_nPuBAULmEbMrMHBwPGpY79fAX-yOsXj6s=
+xhmQLijom_PiIy61wIUBlCKsaDTagrAn73Trd5ZlWuZvMMRYX8cioAJuqawXaqCJfZIqhl_msAh=
+pKnnOsmpHilyimHFbwVjGGgBUKg62zZcdZKTdtZD4dB1d4KaV885CQ%3D%3D" target=3D"_bl=
+ank" rel=3D"noopener noreferrer" class=3D"sh-preserve-color"> <img width=3D=
+"264" style=3D"line-height: 100%; -ms-interpolation-mode: bicubic; border: =
+none; display: block; outline: none; text-decoration: none; height: auto; w=
+idth: 100%; font-size: 13px;" src=3D"https://tock.wpenginepowered.com/wp-co=
+ntent/uploads/2023/04/tsukimi_provided-4-14-23_approved.jpg" height=3D"auto=
+" alt=3D""/> </a> </td> </tr> </tbody> </table> </td> </tr> <tr class=3D"sh=
+-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-original-=
+color:rgb(0, 0, 0);"> <td style=3D"border-collapse: collapse; font-size: 0p=
+x; padding: 0px 24px 20px 12px; word-break: break-word; --sh-original-color=
+:rgb(0, 0, 0);" class=3D"card-text sh-color sh-original-color-carbon sh-mod=
+ified-inline" align=3D"left"> <div style=3D"font-family: &#34;Clarkson Medi=
+um&#34;, sans-serif; font-size: 13px; line-height: 1; text-align: left; col=
+or: rgb(0, 0, 0); --sh-original-color:rgb(0, 0, 0);" class=3D"sh-color sh-o=
+riginal-color-carbon sh-modified-inline"> <div style=3D"font-family: &#34;C=
+larkson Book&#34;, Helvetica, Arial, sans-serif; font-size: 12px; color: rg=
+b(102, 102, 102); text-transform: uppercase; --sh-original-color:rgb(102, 1=
+02, 102);" class=3D"offerings sh-color sh-original-color-snow sh-original-c=
+olor-carbon sh-modified-inline"> Reservations </div> <h2 style=3D"font-fami=
+ly: &#34;Clarkson Bold&#34;, Helvetica, Arial, sans-serif; font-size: 20px;=
+ line-height: 120%; margin: 10px 0px 6px; --sh-original-color:rgb(0, 0, 0);=
+" class=3D"customer-name sh-color sh-original-color-carbon sh-modified-inli=
+ne">Tsukimi</h2> <h3 style=3D"font-weight: normal; font-size: 17px; line-he=
+ight: 120%; color: rgb(102, 102, 102); margin: 0px; --sh-original-color:rgb=
+(102, 102, 102);" class=3D"neighborhood sh-color sh-original-color-snow sh-=
+original-color-carbon sh-modified-inline">East Village</h3> <div class=3D"d=
+escription sh-color sh-original-color-carbon sh-modified-inline" style=3D"-=
+-sh-original-color:rgb(0, 0, 0);"> <p class=3D"sh-color sh-original-color-c=
+arbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);">Tsuki=
+mi translates to =E2=80=98moon viewing=E2=80=99 and refers to the mid-autum=
+n harvest festival honoring the moon at its brightest.</p> </div> <a style=
+=3D"color: #344ef4; padding: 10px 0; font-size: 18px; display: inline-block=
+;" rel=3D"noopener noreferrer" href=3D"https://links.exploretock.com/u/clic=
+k?_t=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275ff19e49c4a2306b861b=
+986423&amp;_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y82sIP6o2yNBCHZr2dPaq1dk8a8=
+Mg11PyrREBgPbquYYpVslEfmvTyRVfs_GKkZMWgmeAKsc8usR78LJlcrcNuVqLdfZUGQZ1QqbEr=
+9fjkplPh6txwgwPUrighSbeMvIvkT6F9bQP5Iin6DtxorPURlLKaTAXp_UYOD9HhXmc2bzdavTx=
+y9380ByUmdUYONe6UM58HNzMKNYjNSgbcxgQ0daJkvYy9lViRmQJbhK94C-MYHH39vemJmjTMT1=
+mu1GymwllRZ-6AanFma_MZ_wSvV55FbvYnZPMrubSLWvft7Omzcoo5MJmA%3D%3D" class=3D"=
+link sh-preserve-color" target=3D"_blank">Book Now</a> </div> </td> </tr> <=
+/tbody> </table> </div>  </td> </tr> </tbody> </table> </div>   <div style=
+=3D"background: rgb(255, 255, 255); margin: 0px auto; max-width: 600px; --s=
+h-original-color:rgb(0, 0, 0);" class=3D"col-padding-bottom sh-color sh-ori=
+ginal-color-carbon sh-modified-inline"> <table style=3D"background: rgb(255=
+, 255, 255); width: 100%; --sh-original-color:rgb(0, 0, 0);" role=3D"presen=
+tation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" align=3D"center" c=
+lass=3D"sh-color sh-original-color-carbon sh-modified-inline"> <tbody class=
+=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-ori=
+ginal-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-original-color-carbon =
+sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=
+=3D"direction: ltr; font-size: 0px; padding: 0px; text-align: center; --sh-=
+original-color:rgb(0, 0, 0);" class=3D"sh-color sh-original-color-carbon sh=
+-modified-inline">  <div style=3D"font-size: 0px; text-align: left; directi=
+on: ltr; display: inline-block; vertical-align: top; width: 100%; --sh-orig=
+inal-color:rgb(0, 0, 0);" class=3D"mj-column-per-100 mj-outlook-group-fix s=
+h-color sh-original-color-carbon sh-modified-inline"> <table width=3D"100%"=
+ style=3D"vertical-align: top; --sh-original-color:rgb(0, 0, 0);" role=3D"p=
+resentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" class=3D"sh-c=
+olor sh-original-color-carbon sh-modified-inline"> <tbody class=3D"sh-color=
+ sh-original-color-carbon sh-modified-inline" style=3D"--sh-original-color:=
+rgb(0, 0, 0);"> <tr class=3D"sh-color sh-original-color-carbon sh-modified-=
+inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=3D"font-size=
+: 0px; padding: 0px 24px 36px; word-break: break-word; --sh-original-color:=
+rgb(0, 0, 0);" class=3D"hideOnDesktop sh-color sh-original-color-carbon sh-=
+modified-inline" align=3D"left"> <table class=3D"mj-full-width-mobile sh-co=
+lor sh-original-color-carbon sh-modified-inline" style=3D"border-collapse: =
+collapse; border-spacing: 0px; --sh-original-color:rgb(0, 0, 0);" role=3D"p=
+resentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0"> <tbody class=
+=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-ori=
+ginal-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-original-color-carbon =
+sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td width=
+=3D"552" class=3D"mj-full-width-mobile sh-color sh-original-color-carbon sh=
+-modified-inline" style=3D"width: 552px; --sh-original-color:rgb(0, 0, 0);"=
+> <a href=3D"https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982=
+ea886639e4981&amp;_m=3Dd84b275ff19e49c4a2306b861b986423&amp;_e=3DGzHUe2aAQD=
+bXZKm3CPHwImXMRtB-m070y82sIP6o2yNZaA-U5B20RrLFL4-wtW7xUpauPD-GLtTr2LA5Yu18g=
+buMQEbGTORlZzsFXqgRzv6q9iCjq2zADAQUMRclpiONM6vhG54wBVnygWaXf9EGW-bbK0XN3CAf=
+GLFHwWnhgWe2nGs1Orf3HT0kRk2GjjyHu58r45Yw6v_Z7bYc4dXMSX1K2Kt-2URN2luun0fT4-5=
+7tA45Ccbd5fmBMdtUeXyNZVOTuL8q_ivgPqgTopX7kOVGyono-zNdNLwcU2U04XUlI1Nf8e8l9o=
+Xltxopql5DdGrKGdmkTVbjbrSbAkg4nw%3D%3D" target=3D"_blank" rel=3D"noopener n=
+oreferrer" class=3D"sh-preserve-color"> <img width=3D"552" style=3D"border:=
+none;display:block;outline:none;text-decoration:none;height:auto;width:100%=
+;font-size:13px;" src=3D"https://storage.googleapis.com/tock-public-assets/=
+exploretock-join/images/email-projects/widgets/mothers-day/mothers-day-widg=
+et-mobile.png" height=3D"auto" alt=3D"Cheers to Mom - From chef counter sea=
+ts to scratch-made treats, Tock has Mother&#39;s Day handled. Find a delici=
+ous way to celebrate. Explore now button link"/> </a> </td> </tr> </tbody> =
+</table> </td> </tr> <tr class=3D"sh-color sh-original-color-carbon sh-modi=
+fied-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=3D"font=
+-size: 0px; padding: 0px 24px 12px; word-break: break-word; --sh-original-c=
+olor:rgb(0, 0, 0);" class=3D"hideOnMobile sh-color sh-original-color-carbon=
+ sh-modified-inline" align=3D"left"> <table class=3D"mj-full-width-mobile s=
+h-color sh-original-color-carbon sh-modified-inline" style=3D"border-collap=
+se: collapse; border-spacing: 0px; --sh-original-color:rgb(0, 0, 0);" role=
+=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0"> <tbody =
+class=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--s=
+h-original-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-original-color-ca=
+rbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td c=
+lass=3D"mj-full-width-mobile sh-color sh-original-color-carbon sh-modified-=
+inline" style=3D"width: 552px; --sh-original-color:rgb(0, 0, 0);"> <a href=
+=3D"https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e=
+4981&amp;_m=3Dd84b275ff19e49c4a2306b861b986423&amp;_e=3DGzHUe2aAQDbXZKm3CPH=
+wImXMRtB-m070y82sIP6o2yNZaA-U5B20RrLFL4-wtW7xUpauPD-GLtTr2LA5Yu18gbuMQEbGTO=
+RlZzsFXqgRzv6q9iCjq2zADAQUMRclpiONM6vhG54wBVnygWaXf9EGW-bbK0XN3CAfGLFHwWnhg=
+We2nGs1Orf3HT0kRk2GjjyHRpdNyX8Y4bj1out9gt44AsZ42SJPEUuAt-ivdKJsxmFkKkod8C-b=
+7Yx9h1aADfTz_Lwg2E4UvUgkc09GOxRwlV42mCZpZ7xLrgK9JxNjPgSLw2KfyNd0FClL6_0eajq=
+v2fLLA6kEOI8wdKB9_fDvYg%3D%3D" target=3D"_blank" rel=3D"noopener noreferrer=
+" class=3D"sh-preserve-color"> <img width=3D"552" style=3D"border:none;disp=
+lay:block;outline:none;text-decoration:none;height:auto;width:100%;font-siz=
+e:13px;" src=3D"https://storage.googleapis.com/tock-public-assets/exploreto=
+ck-join/images/email-projects/widgets/mothers-day/mothers-day-widget-deskto=
+p.png" height=3D"auto" alt=3D"Cheers to Mom - From chef counter seats to sc=
+ratch-made treats, Tock has Mother&#39;s Day handled. Find a delicious way =
+to celebrate. Explore now button link"/> </a> </td> </tr> </tbody> </table>=
+ </td> </tr> </tbody> </table> </div>  </td> </tr> </tbody> </table> </div>=
+    <div style=3D"background: rgb(255, 255, 255); margin: 0px auto; max-wid=
+th: 600px; --sh-original-color:rgb(0, 0, 0);" class=3D"col-padding-bottom s=
+h-color sh-original-color-carbon sh-modified-inline"> <table bgcolor=3D"#ff=
+ffff" width=3D"100%" style=3D"border-collapse: collapse; background: rgb(25=
+5, 255, 255); width: 100%; --sh-original-color:rgb(0, 0, 0);" role=3D"prese=
+ntation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" align=3D"center" =
+class=3D"sh-color sh-original-color-carbon sh-modified-inline"> <tbody clas=
+s=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-or=
+iginal-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-original-color-carbon=
+ sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td align=
+=3D"center" style=3D"border-collapse: collapse; direction: ltr; font-size: =
+0px; padding: 0px; text-align: center; --sh-original-color:rgb(0, 0, 0);" c=
+lass=3D"sh-color sh-original-color-carbon sh-modified-inline">  <div style=
+=3D"font-size: 0px; text-align: left; direction: ltr; display: inline-block=
+; vertical-align: top; width: 100%; --sh-original-color:rgb(0, 0, 0);" clas=
+s=3D"mj-column-per-50 mj-outlook-group-fix sh-color sh-original-color-carbo=
+n sh-modified-inline"> <table valign=3D"top" width=3D"100%" style=3D"border=
+-collapse: collapse; vertical-align: top; --sh-original-color:rgb(0, 0, 0);=
+" role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" cl=
+ass=3D"sh-color sh-original-color-carbon sh-modified-inline"> <tbody class=
+=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-ori=
+ginal-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-original-color-carbon =
+sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=
+=3D"border-collapse: collapse; font-size: 0px; padding: 0px 12px 16px 24px;=
+ word-break: break-word; --sh-original-color:rgb(0, 0, 0);" class=3D"card-i=
+mage sh-color sh-original-color-carbon sh-modified-inline" align=3D"left"> =
+<table class=3D"mj-full-width-mobile sh-color sh-original-color-carbon sh-m=
+odified-inline" style=3D"border-collapse: collapse; border-spacing: 0px; --=
+sh-original-color:rgb(0, 0, 0);" role=3D"presentation" cellspacing=3D"0" ce=
+llpadding=3D"0" border=3D"0"> <tbody class=3D"sh-color sh-original-color-ca=
+rbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <tr c=
+lass=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh=
+-original-color:rgb(0, 0, 0);"> <td width=3D"264" class=3D"mj-full-width-mo=
+bile sh-color sh-original-color-carbon sh-modified-inline" style=3D"border-=
+collapse: collapse; width: 264px; --sh-original-color:rgb(0, 0, 0);"> <a hr=
+ef=3D"https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea88663=
+9e4981&amp;_m=3Dd84b275ff19e49c4a2306b861b986423&amp;_e=3DGzHUe2aAQDbXZKm3C=
+PHwImXMRtB-m070y82sIP6o2yPf29AfBnCSUHrEkcWXlTVHhfItyx27hPtBqhWhr0qwmzCUdvq6=
+yzT-p8nd-sgQCiren_Q1YaIhIZJL1q6bQQdU41QlsG_3qxUhzF4R-_NO6GVvxHYqlMhI2QMEQCz=
+ChEJY1H5uNkBb4QzZA1Qxbr65Hxf6jVlI84grVEhQoGr0mqNGQHRw9AFpsh6fiyjAyo7E4liuE2=
+AYSLDXuMUSCL6a10hqFGYxVRm43xgBKk7qP9QIDfjpWPuKUI7Q86DoezAMP2vorQ7BlBn8KTgf_=
+2vyFQxqJCFW84EOcxY5utOYZQ%3D%3D" target=3D"_blank" rel=3D"noopener noreferr=
+er" class=3D"sh-preserve-color"> <img width=3D"264" style=3D"line-height: 1=
+00%; -ms-interpolation-mode: bicubic; border: none; display: block; outline=
+: none; text-decoration: none; height: auto; width: 100%; font-size: 13px;"=
+ src=3D"https://tock.wpenginepowered.com/wp-content/uploads/2023/02/ms-kims=
+_tock-page_approved-1.jpg" height=3D"auto" alt=3D""/> </a> </td> </tr> </tb=
+ody> </table> </td> </tr> <tr class=3D"sh-color sh-original-color-carbon sh=
+-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=3D=
+"border-collapse: collapse; font-size: 0px; padding: 0px 12px 20px 24px; wo=
+rd-break: break-word; --sh-original-color:rgb(0, 0, 0);" class=3D"card-text=
+ sh-color sh-original-color-carbon sh-modified-inline" align=3D"left"> <div=
+ style=3D"font-family: &#34;Clarkson Medium&#34;, sans-serif; font-size: 13=
+px; line-height: 1; text-align: left; color: rgb(0, 0, 0); --sh-original-co=
+lor:rgb(0, 0, 0);" class=3D"sh-color sh-original-color-carbon sh-modified-i=
+nline"> <div style=3D"font-family: &#34;Clarkson Book&#34;, Helvetica, Aria=
+l, sans-serif; font-size: 12px; color: rgb(102, 102, 102); text-transform: =
+uppercase; --sh-original-color:rgb(102, 102, 102);" class=3D"offerings sh-c=
+olor sh-original-color-snow sh-original-color-carbon sh-modified-inline"> R=
+eservations </div> <h2 style=3D"font-family: &#34;Clarkson Bold&#34;, Helve=
+tica, Arial, sans-serif; font-size: 20px; line-height: 120%; margin: 10px 0=
+px 6px; --sh-original-color:rgb(0, 0, 0);" class=3D"customer-name sh-color =
+sh-original-color-carbon sh-modified-inline">Ms. Kim&#39;s</h2> <h3 style=
+=3D"font-weight: normal; font-size: 17px; line-height: 120%; color: rgb(102=
+, 102, 102); margin: 0px; --sh-original-color:rgb(102, 102, 102);" class=3D=
+"neighborhood sh-color sh-original-color-snow sh-original-color-carbon sh-m=
+odified-inline">NoMad</h3> <div class=3D"description sh-color sh-original-c=
+olor-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"=
+> <p class=3D"sh-color sh-original-color-carbon sh-modified-inline" style=
+=3D"--sh-original-color:rgb(0, 0, 0);">Karaoke, anyone? Ms. Kim=E2=80=99s h=
+as private rooms, cocktails, and delicious Korean bites.</p> </div> <a styl=
+e=3D"color: #344ef4; padding: 10px 0; font-size: 18px; display: inline-bloc=
+k;" rel=3D"noopener noreferrer" href=3D"https://links.exploretock.com/u/cli=
+ck?_t=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275ff19e49c4a2306b861=
+b986423&amp;_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y82sIP6o2yPf29AfBnCSUHrEkc=
+WXlTVHhfItyx27hPtBqhWhr0qwmzCUdvq6yzT-p8nd-sgQCiren_Q1YaIhIZJL1q6bQQdU41Qls=
+G_3qxUhzF4R-_NO6GVvxHYqlMhI2QMEQCzChEJfwTdQvr3OHzadiUdGbwm_ghyXJuxD-wlbQeYT=
+gBNOhQ3f7SxdKxE-VHEj1hZCoVEzowyUFVfBLZuhoNmrWXqw6fy2yi9PPxjW5hK1SNwpN-Dw7NR=
+LQD3LvgMyeg48seiLT03bK-5XqisSaNa3uO0-pXRspZbFi6WDvUMa7wrp3w%3D%3D" class=3D=
+"link sh-preserve-color" target=3D"_blank">Book Now</a> </div> </td> </tr> =
+</tbody> </table> </div>  <div style=3D"font-size: 0px; text-align: left; d=
+irection: ltr; display: inline-block; vertical-align: top; width: 100%; --s=
+h-original-color:rgb(0, 0, 0);" class=3D"mj-column-per-50 mj-outlook-group-=
+fix sh-color sh-original-color-carbon sh-modified-inline"> <table valign=3D=
+"top" width=3D"100%" style=3D"border-collapse: collapse; vertical-align: to=
+p; --sh-original-color:rgb(0, 0, 0);" role=3D"presentation" cellspacing=3D"=
+0" cellpadding=3D"0" border=3D"0" class=3D"sh-color sh-original-color-carbo=
+n sh-modified-inline"> <tbody class=3D"sh-color sh-original-color-carbon sh=
+-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <tr class=3D=
+"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-origin=
+al-color:rgb(0, 0, 0);"> <td style=3D"border-collapse: collapse; font-size:=
+ 0px; padding: 0px 24px 16px 12px; word-break: break-word; --sh-original-co=
+lor:rgb(0, 0, 0);" class=3D"card-image sh-color sh-original-color-carbon sh=
+-modified-inline" align=3D"left"> <table class=3D"mj-full-width-mobile sh-c=
+olor sh-original-color-carbon sh-modified-inline" style=3D"border-collapse:=
+ collapse; border-spacing: 0px; --sh-original-color:rgb(0, 0, 0);" role=3D"=
+presentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0"> <tbody clas=
+s=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-or=
+iginal-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-original-color-carbon=
+ sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td width=
+=3D"264" class=3D"mj-full-width-mobile sh-color sh-original-color-carbon sh=
+-modified-inline" style=3D"border-collapse: collapse; width: 264px; --sh-or=
+iginal-color:rgb(0, 0, 0);"> <a href=3D"https://links.exploretock.com/u/cli=
+ck?_t=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275ff19e49c4a2306b861=
+b986423&amp;_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y82sIP6o2yMMu66SuQ2wi0fSsB=
+9o0XePFGX8BHQeCtCKK0AHW8vmuRJjskpYEDzb1BPyTQGC-RyJo7J-DRbzlod_8zOGvxaIyMa8k=
+HPiXOMp2kG1VkuVwVXFG3w2zZ0COtFm59mVYKfnSGApRD7HFzhF-MjUE6tYyP__1WBKZ6vVOtEd=
+WuXJZe-zUxN1r5ZDIUOcWegU7YggRIsbsEyyIPffD7QAbSI5vRYY8xOMIxATwUji22MgGGC-qOg=
+HDCoS1TG96TDWEuHlDnlS_7eW0xFiRADuzniJlDiQBAJFOq8HUi8P3Hmn3Q%3D%3D" target=
+=3D"_blank" rel=3D"noopener noreferrer" class=3D"sh-preserve-color"> <img w=
+idth=3D"264" style=3D"line-height: 100%; -ms-interpolation-mode: bicubic; b=
+order: none; display: block; outline: none; text-decoration: none; height: =
+auto; width: 100%; font-size: 13px;" src=3D"https://tock.wpenginepowered.co=
+m/wp-content/uploads/2023/04/Cafe-Carlyle_tock-page_approved.jpg" height=3D=
+"auto" alt=3D""/> </a> </td> </tr> </tbody> </table> </td> </tr> <tr class=
+=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-ori=
+ginal-color:rgb(0, 0, 0);"> <td style=3D"border-collapse: collapse; font-si=
+ze: 0px; padding: 0px 24px 20px 12px; word-break: break-word; --sh-original=
+-color:rgb(0, 0, 0);" class=3D"card-text sh-color sh-original-color-carbon =
+sh-modified-inline" align=3D"left"> <div style=3D"font-family: &#34;Clarkso=
+n Medium&#34;, sans-serif; font-size: 13px; line-height: 1; text-align: lef=
+t; color: rgb(0, 0, 0); --sh-original-color:rgb(0, 0, 0);" class=3D"sh-colo=
+r sh-original-color-carbon sh-modified-inline"> <div style=3D"font-family: =
+&#34;Clarkson Book&#34;, Helvetica, Arial, sans-serif; font-size: 12px; col=
+or: rgb(102, 102, 102); text-transform: uppercase; --sh-original-color:rgb(=
+102, 102, 102);" class=3D"offerings sh-color sh-original-color-snow sh-orig=
+inal-color-carbon sh-modified-inline"> Reservations </div> <h2 style=3D"fon=
+t-family: &#34;Clarkson Bold&#34;, Helvetica, Arial, sans-serif; font-size:=
+ 20px; line-height: 120%; margin: 10px 0px 6px; --sh-original-color:rgb(0, =
+0, 0);" class=3D"customer-name sh-color sh-original-color-carbon sh-modifie=
+d-inline">Caf=C3=A9 Carlyle</h2> <h3 style=3D"font-weight: normal; font-siz=
+e: 17px; line-height: 120%; color: rgb(102, 102, 102); margin: 0px; --sh-or=
+iginal-color:rgb(102, 102, 102);" class=3D"neighborhood sh-color sh-origina=
+l-color-snow sh-original-color-carbon sh-modified-inline">Lenox Hill</h3> <=
+div class=3D"description sh-color sh-original-color-carbon sh-modified-inli=
+ne" style=3D"--sh-original-color:rgb(0, 0, 0);"> <p class=3D"sh-color sh-or=
+iginal-color-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0,=
+ 0, 0);">Originally opened in 1955, Caf=C3=A9 Carlyle offers a classic caba=
+ret experience with incredible talent.</p> </div> <a style=3D"color: #344ef=
+4; padding: 10px 0; font-size: 18px; display: inline-block;" rel=3D"noopene=
+r noreferrer" href=3D"https://links.exploretock.com/u/click?_t=3Db259af95b9=
+1a4dbe982ea886639e4981&amp;_m=3Dd84b275ff19e49c4a2306b861b986423&amp;_e=3DG=
+zHUe2aAQDbXZKm3CPHwImXMRtB-m070y82sIP6o2yMMu66SuQ2wi0fSsB9o0XePFGX8BHQeCtCK=
+K0AHW8vmuRJjskpYEDzb1BPyTQGC-RyJo7J-DRbzlod_8zOGvxaIyMa8kHPiXOMp2kG1VkuVwVX=
+FG3w2zZ0COtFm59mVYKfnSGApRD7HFzhF-MjUE6tYPOV9-xyidRbnw6SX_p8k7M71gf8BnPS87K=
+-5896MTf8QADB5y9P_bpAsMNgVTBWxJUuVKUGFDMd8MqhoEs__crQWPd19FJkwBx91XpwZQ7zwI=
+nsiyVmGrqZK-WEIFJNfWfPsDp3uj_bGeAdcaNgVHw%3D%3D" class=3D"link sh-preserve-=
+color" target=3D"_blank">Book Now</a> </div> </td> </tr> </tbody> </table> =
+</div>  </td> </tr> </tbody> </table> </div>  <div style=3D"background: rgb=
+(255, 255, 255); margin: 0px auto; max-width: 600px; --sh-original-color:rg=
+b(0, 0, 0);" class=3D"col-padding-bottom sh-color sh-original-color-carbon =
+sh-modified-inline"> <table bgcolor=3D"#ffffff" width=3D"100%" style=3D"bor=
+der-collapse: collapse; background: rgb(255, 255, 255); width: 100%; --sh-o=
+riginal-color:rgb(0, 0, 0);" role=3D"presentation" cellspacing=3D"0" cellpa=
+dding=3D"0" border=3D"0" align=3D"center" class=3D"sh-color sh-original-col=
+or-carbon sh-modified-inline"> <tbody class=3D"sh-color sh-original-color-c=
+arbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <tr =
+class=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--s=
+h-original-color:rgb(0, 0, 0);"> <td align=3D"center" style=3D"border-colla=
+pse: collapse; direction: ltr; font-size: 0px; padding: 0px; text-align: ce=
+nter; --sh-original-color:rgb(0, 0, 0);" class=3D"sh-color sh-original-colo=
+r-carbon sh-modified-inline">  <div style=3D"font-size: 0px; text-align: le=
+ft; direction: ltr; display: inline-block; vertical-align: top; width: 100%=
+; --sh-original-color:rgb(0, 0, 0);" class=3D"mj-column-per-50 mj-outlook-g=
+roup-fix sh-color sh-original-color-carbon sh-modified-inline"> <table vali=
+gn=3D"top" width=3D"100%" style=3D"border-collapse: collapse; vertical-alig=
+n: top; --sh-original-color:rgb(0, 0, 0);" role=3D"presentation" cellspacin=
+g=3D"0" cellpadding=3D"0" border=3D"0" class=3D"sh-color sh-original-color-=
+carbon sh-modified-inline"> <tbody class=3D"sh-color sh-original-color-carb=
+on sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <tr cla=
+ss=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-o=
+riginal-color:rgb(0, 0, 0);"> <td style=3D"border-collapse: collapse; font-=
+size: 0px; padding: 0px 12px 16px 24px; word-break: break-word; --sh-origin=
+al-color:rgb(0, 0, 0);" class=3D"card-image sh-color sh-original-color-carb=
+on sh-modified-inline" align=3D"left"> <table class=3D"mj-full-width-mobile=
+ sh-color sh-original-color-carbon sh-modified-inline" style=3D"border-coll=
+apse: collapse; border-spacing: 0px; --sh-original-color:rgb(0, 0, 0);" rol=
+e=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0"> <tbody=
+ class=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--=
+sh-original-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-original-color-c=
+arbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td =
+width=3D"264" class=3D"mj-full-width-mobile sh-color sh-original-color-carb=
+on sh-modified-inline" style=3D"border-collapse: collapse; width: 264px; --=
+sh-original-color:rgb(0, 0, 0);"> <a href=3D"https://links.exploretock.com/=
+u/click?_t=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275ff19e49c4a230=
+6b861b986423&amp;_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y82sIP6o2yM4TiDQ4wrmT=
+OPdLQUb8h_K4WbSUqi0dSR8xL_xLHPWD2raRkF6j7dTC-o_b3ZX4pDHig_jcdJE6B9KeXC5C1Pw=
+y9BvSCIrExXB_d6qpOsZyiQNLypLqRlO-2Cm5_7Kh1M9Bv2UXfs_sS0dPDlKFUNgjFBtvzfkjd5=
+MsxYp82PNMhIfR7d_0MdsqeOQgcAIiVtBAnWISeaHGA9WRh3hW9QFQQue21wRUIbE0VotX5sMuY=
+pAh-M5RYYAc_70eXPXLJcPpIwsMb6pbq5CR2FEXvfgHVJKBIjmJRNb1lbi1cfMPg%3D%3D" tar=
+get=3D"_blank" rel=3D"noopener noreferrer" class=3D"sh-preserve-color"> <im=
+g width=3D"264" style=3D"line-height: 100%; -ms-interpolation-mode: bicubic=
+; border: none; display: block; outline: none; text-decoration: none; heigh=
+t: auto; width: 100%; font-size: 13px;" src=3D"https://tock.wpenginepowered=
+.com/wp-content/uploads/2022/12/il-fresco_tock-page_approved.jpg" height=3D=
+"auto" alt=3D""/> </a> </td> </tr> </tbody> </table> </td> </tr> <tr class=
+=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-ori=
+ginal-color:rgb(0, 0, 0);"> <td style=3D"border-collapse: collapse; font-si=
+ze: 0px; padding: 0px 12px 20px 24px; word-break: break-word; --sh-original=
+-color:rgb(0, 0, 0);" class=3D"card-text sh-color sh-original-color-carbon =
+sh-modified-inline" align=3D"left"> <div style=3D"font-family: &#34;Clarkso=
+n Medium&#34;, sans-serif; font-size: 13px; line-height: 1; text-align: lef=
+t; color: rgb(0, 0, 0); --sh-original-color:rgb(0, 0, 0);" class=3D"sh-colo=
+r sh-original-color-carbon sh-modified-inline"> <div style=3D"font-family: =
+&#34;Clarkson Book&#34;, Helvetica, Arial, sans-serif; font-size: 12px; col=
+or: rgb(102, 102, 102); text-transform: uppercase; --sh-original-color:rgb(=
+102, 102, 102);" class=3D"offerings sh-color sh-original-color-snow sh-orig=
+inal-color-carbon sh-modified-inline"> Reservations =C2=B7 Pickup </div> <h=
+2 style=3D"font-family: &#34;Clarkson Bold&#34;, Helvetica, Arial, sans-ser=
+if; font-size: 20px; line-height: 120%; margin: 10px 0px 6px; --sh-original=
+-color:rgb(0, 0, 0);" class=3D"customer-name sh-color sh-original-color-car=
+bon sh-modified-inline">Il Fresco</h2> <h3 style=3D"font-weight: normal; fo=
+nt-size: 17px; line-height: 120%; color: rgb(102, 102, 102); margin: 0px; -=
+-sh-original-color:rgb(102, 102, 102);" class=3D"neighborhood sh-color sh-o=
+riginal-color-snow sh-original-color-carbon sh-modified-inline">Orangeburg<=
+/h3> <div class=3D"description sh-color sh-original-color-carbon sh-modifie=
+d-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <p class=3D"sh-color=
+ sh-original-color-carbon sh-modified-inline" style=3D"--sh-original-color:=
+rgb(0, 0, 0);">Home-style Italian fare served out of a restored 1728 farmho=
+use in Orangeburg.</p> </div> <a style=3D"color: #344ef4; padding: 10px 0; =
+font-size: 18px; display: inline-block;" rel=3D"noopener noreferrer" href=
+=3D"https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e=
+4981&amp;_m=3Dd84b275ff19e49c4a2306b861b986423&amp;_e=3DGzHUe2aAQDbXZKm3CPH=
+wImXMRtB-m070y82sIP6o2yM4TiDQ4wrmTOPdLQUb8h_K4WbSUqi0dSR8xL_xLHPWD2raRkF6j7=
+dTC-o_b3ZX4pDHig_jcdJE6B9KeXC5C1Pwy9BvSCIrExXB_d6qpOsZyiQNLypLqRlO-2Cm5_7Kh=
+1MViQ3xsjrF8VDL__TtoyuDYVvpJUPv1b6Et9405KmKt4WPXA6JLWCtlvwYkhDEjG1fdCSyiKBr=
+TNP8MOlTB-rRt-P0KgRGWfrGuoRXsPvWUmbU8te842QO-EHW0u8wbQGZ4GI3nyYUWi_P3WzV0p4=
+6llPMfpRHFLV9095mDeoNKw%3D%3D" class=3D"link sh-preserve-color" target=3D"_=
+blank">Book Now</a> </div> </td> </tr> </tbody> </table> </div>  <div style=
+=3D"font-size: 0px; text-align: left; direction: ltr; display: inline-block=
+; vertical-align: top; width: 100%; --sh-original-color:rgb(0, 0, 0);" clas=
+s=3D"mj-column-per-50 mj-outlook-group-fix sh-color sh-original-color-carbo=
+n sh-modified-inline"> <table valign=3D"top" width=3D"100%" style=3D"border=
+-collapse: collapse; vertical-align: top; --sh-original-color:rgb(0, 0, 0);=
+" role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" cl=
+ass=3D"sh-color sh-original-color-carbon sh-modified-inline"> <tbody class=
+=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-ori=
+ginal-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-original-color-carbon =
+sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=
+=3D"border-collapse: collapse; font-size: 0px; padding: 0px 24px 16px 12px;=
+ word-break: break-word; --sh-original-color:rgb(0, 0, 0);" class=3D"card-i=
+mage sh-color sh-original-color-carbon sh-modified-inline" align=3D"left"> =
+<table class=3D"mj-full-width-mobile sh-color sh-original-color-carbon sh-m=
+odified-inline" style=3D"border-collapse: collapse; border-spacing: 0px; --=
+sh-original-color:rgb(0, 0, 0);" role=3D"presentation" cellspacing=3D"0" ce=
+llpadding=3D"0" border=3D"0"> <tbody class=3D"sh-color sh-original-color-ca=
+rbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <tr c=
+lass=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh=
+-original-color:rgb(0, 0, 0);"> <td width=3D"264" class=3D"mj-full-width-mo=
+bile sh-color sh-original-color-carbon sh-modified-inline" style=3D"border-=
+collapse: collapse; width: 264px; --sh-original-color:rgb(0, 0, 0);"> <a hr=
+ef=3D"https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea88663=
+9e4981&amp;_m=3Dd84b275ff19e49c4a2306b861b986423&amp;_e=3DGzHUe2aAQDbXZKm3C=
+PHwImXMRtB-m070y82sIP6o2yNQ05RCFC5NrpplgBdE2HQhxqsF-3etB6219C1TD_XMqO6JwwIs=
+j5I9EyLRw96EzEJQgL32QBNLyGKqL8f3VTwWYaeLkF7hHgG-ENQ9ZlRV87zP0GMAArIuoaRW-Aw=
+28mM_CyObksYDJk37foOlBRYkrknU7BMjQ5O1uaqRqxXOo4am0pTrxxpgF8OTeyjoYsRA-F_4OO=
+dlvTvHHSBFadrtGxBeVvXbh9G2ILyD4G8MsxolpVE_vT4W5PronIrJ1Ege0VguGYn2FDiDrWBxI=
+_F7l-0Vwb__6YRqbhHvxtU5aA%3D%3D" target=3D"_blank" rel=3D"noopener noreferr=
+er" class=3D"sh-preserve-color"> <img width=3D"264" style=3D"line-height: 1=
+00%; -ms-interpolation-mode: bicubic; border: none; display: block; outline=
+: none; text-decoration: none; height: auto; width: 100%; font-size: 13px;"=
+ src=3D"https://tock.wpenginepowered.com/wp-content/uploads/2023/05/Mercado=
+-Little-Spain_tock-page_approved.jpg" height=3D"auto" alt=3D""/> </a> </td>=
+ </tr> </tbody> </table> </td> </tr> <tr class=3D"sh-color sh-original-colo=
+r-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <=
+td style=3D"border-collapse: collapse; font-size: 0px; padding: 0px 24px 20=
+px 12px; word-break: break-word; --sh-original-color:rgb(0, 0, 0);" class=
+=3D"card-text sh-color sh-original-color-carbon sh-modified-inline" align=
+=3D"left"> <div style=3D"font-family: &#34;Clarkson Medium&#34;, sans-serif=
+; font-size: 13px; line-height: 1; text-align: left; color: rgb(0, 0, 0); -=
+-sh-original-color:rgb(0, 0, 0);" class=3D"sh-color sh-original-color-carbo=
+n sh-modified-inline"> <div style=3D"font-family: &#34;Clarkson Book&#34;, =
+Helvetica, Arial, sans-serif; font-size: 12px; color: rgb(102, 102, 102); t=
+ext-transform: uppercase; --sh-original-color:rgb(102, 102, 102);" class=3D=
+"offerings sh-color sh-original-color-snow sh-original-color-carbon sh-modi=
+fied-inline"> Pickup </div> <h2 style=3D"font-family: &#34;Clarkson Bold&#3=
+4;, Helvetica, Arial, sans-serif; font-size: 20px; line-height: 120%; margi=
+n: 10px 0px 6px; --sh-original-color:rgb(0, 0, 0);" class=3D"customer-name =
+sh-color sh-original-color-carbon sh-modified-inline">Mercado Little Spain<=
+/h2> <h3 style=3D"font-weight: normal; font-size: 17px; line-height: 120%; =
+color: rgb(102, 102, 102); margin: 0px; --sh-original-color:rgb(102, 102, 1=
+02);" class=3D"neighborhood sh-color sh-original-color-snow sh-original-col=
+or-carbon sh-modified-inline">Chelsea</h3> <div class=3D"description sh-col=
+or sh-original-color-carbon sh-modified-inline" style=3D"--sh-original-colo=
+r:rgb(0, 0, 0);"> <p class=3D"sh-color sh-original-color-carbon sh-modified=
+-inline" style=3D"--sh-original-color:rgb(0, 0, 0);">Pre-order a <strong cl=
+ass=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-=
+original-color:rgb(0, 0, 0);">Mother=E2=80=99s Day</strong> gift basket fil=
+led with Spanish chocolates, olive oil potato chips, and Torta Ines Rosales=
+.</p> </div> <a style=3D"color: #344ef4; padding: 10px 0; font-size: 18px; =
+display: inline-block;" rel=3D"noopener noreferrer" href=3D"https://links.e=
+xploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b2=
+75ff19e49c4a2306b861b986423&amp;_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y82sIP=
+6o2yNQ05RCFC5NrpplgBdE2HQhxqsF-3etB6219C1TD_XMqO6JwwIsj5I9EyLRw96EzEJQgL32Q=
+BNLyGKqL8f3VTwWYaeLkF7hHgG-ENQ9ZlRV87zP0GMAArIuoaRW-Aw28mM_CyObksYDJk37foOl=
+BRYkFJXz_cQa1e1OKajMOSwME3hQGCjdU3TYFrMtzWu7XiLNACA_25Up7teZYGOqKWLOWN8m4QU=
+W8XkTWjdaolcxAHO3JNTDOghKH3muaslxGw5l2wV7dpnLZHpPwX7E0bBiZVplRHQgZRImN5Qgax=
+BQ8g%3D%3D" class=3D"link sh-preserve-color" target=3D"_blank">Order Now</a=
+> </div> </td> </tr> </tbody> </table> </div>  </td> </tr> </tbody> </table=
+> </div>   <style>@media screen and (max-width: 480px) {
+  .display-block-mobile { display: block; }
+}</style>  <div style=3D"background: rgb(255, 255, 255); margin: 0px auto; =
+max-width: 600px; --sh-original-color:rgb(0, 0, 0);" class=3D"sh-color sh-o=
+riginal-color-carbon sh-modified-inline"> <table style=3D"background: rgb(2=
+55, 255, 255); width: 100%; --sh-original-color:rgb(0, 0, 0);" role=3D"pres=
+entation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" align=3D"center"=
+ class=3D"sh-color sh-original-color-carbon sh-modified-inline"> <tbody cla=
+ss=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-o=
+riginal-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-original-color-carbo=
+n sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td styl=
+e=3D"direction: ltr; font-size: 0px; padding: 48px 0px 0px; text-align: lef=
+t; --sh-original-color:rgb(0, 0, 0);" class=3D"sh-color sh-original-color-c=
+arbon sh-modified-inline">  <div style=3D"font-size: 0px; text-align: left;=
+ direction: ltr; display: inline-block; vertical-align: top; width: 100%; -=
+-sh-original-color:rgb(0, 0, 0);" class=3D"mj-column-per-100 mj-outlook-gro=
+up-fix sh-color sh-original-color-carbon sh-modified-inline"> <table width=
+=3D"100%" style=3D"vertical-align: top; --sh-original-color:rgb(0, 0, 0);" =
+role=3D"presentation" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" clas=
+s=3D"sh-color sh-original-color-carbon sh-modified-inline"> <tbody class=3D=
+"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--sh-origin=
+al-color:rgb(0, 0, 0);"> <tr class=3D"sh-color sh-original-color-carbon sh-=
+modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=3D"=
+font-size: 0px; padding: 0px 18px; word-break: break-word; --sh-original-co=
+lor:rgb(0, 0, 0);" align=3D"left" class=3D"sh-color sh-original-color-carbo=
+n sh-modified-inline"> <table style=3D"border-collapse: collapse; border-sp=
+acing: 0px; --sh-original-color:rgb(0, 0, 0);" role=3D"presentation" cellsp=
+acing=3D"0" cellpadding=3D"0" border=3D"0" class=3D"sh-color sh-original-co=
+lor-carbon sh-modified-inline"> <tbody class=3D"sh-color sh-original-color-=
+carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <tr=
+ class=3D"sh-color sh-original-color-carbon sh-modified-inline" style=3D"--=
+sh-original-color:rgb(0, 0, 0);"> <td style=3D"width: 30px; --sh-original-c=
+olor:rgb(0, 0, 0);" class=3D"sh-color sh-original-color-carbon sh-modified-=
+inline"> <a title=3D"Tock Logo icon" href=3D"https://links.exploretock.com/=
+u/click?_t=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275ff19e49c4a230=
+6b861b986423&amp;_e=3DGzHUe2aAQDbXZKm3CPHwImXMRtB-m070y82sIP6o2yOPk2zNy0q8a=
+uT9NXHLXUf2ebP4AhFJ7xavR_0zfQHR_Fyw66VDb3wtUJGZLKAKvOfs1jQ0IhnlpLuIZfsXvVXW=
+DXO6Ef0XeZ1veiZtWVuAXQFzIshke2haLVbrSbyeDg2OoUkcSHP36ArmfbaDHmkyGxFy6cg7ao_=
+WqMoqshfgqjVmunBpcWcRlrYUS2KZ4humRmq9Ky9IFO6iqkPKL0NCt-Mm1DuG3_5zOj5BJ9uG64=
+E6YbJEiaUlwbCX8B3fud3GTAGUgwsTlbhqZLrqY70W" target=3D"_blank" rel=3D"noopen=
+er noreferrer" class=3D"sh-preserve-color"> <img src=3D"https://storage.goo=
+gleapis.com/tock-public-assets/exploretock-join/images/logos/tock-logo-blac=
+k-on-white-pill.png" alt=3D"Tock logo icon" height=3D"29.47" width=3D"78" c=
+lass=3D"sh-im-maintain-aspect-ratio"/> </a> </td> </tr> </tbody> </table> <=
+/td> </tr> <tr class=3D"sh-color sh-original-color-carbon sh-modified-inlin=
+e" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=3D"font-size: 0px=
+; padding: 20px 24px 0px; word-break: break-word; --sh-original-color:rgb(0=
+, 0, 0);" align=3D"left" class=3D"sh-color sh-original-color-carbon sh-modi=
+fied-inline"> <div style=3D"font-family: &#34;Clarkson Medium&#34;, Arial, =
+sans-serif; font-size: 12px; line-height: 22px; text-align: left; color: rg=
+b(0, 0, 0); --sh-original-color:rgb(0, 0, 0);" class=3D"sh-color sh-origina=
+l-color-carbon sh-modified-inline"> <p style=3D"line-height: 14.4px; text-a=
+lign: left; margin: 10px 0px; font-size: 12px; font-family: &#34;Clarkson M=
+edium&#34;, Helvetica, Arial, sans-serif; --sh-original-color:rgb(0, 0, 0);=
+" class=3D"footerParagraph sh-color sh-original-color-carbon sh-modified-in=
+line">320 N Sangamon St, Chicago, IL. 60607<br/>Copyright <img src=3D"https=
+://emojis.superhuman.com/00A9.png" alt=3D"=C2=A9" title=3D"=C2=A9" style=3D=
+"height: 15px !important; width: 15px !important; vertical-align: text-bott=
+om !important;" height=3D"15" width=3D"15"/> Tock LLC - All rights reserved=
+</p> </div> </td> </tr> <tr class=3D"sh-color sh-original-color-carbon sh-m=
+odified-inline" style=3D"--sh-original-color:rgb(0, 0, 0);"> <td style=3D"f=
+ont-size: 0px; padding: 20px 24px 42px; word-break: break-word; --sh-origin=
+al-color:rgb(0, 0, 0);" align=3D"left" class=3D"sh-color sh-original-color-=
+carbon sh-modified-inline"> <div style=3D"font-family: &#34;Clarkson Medium=
+&#34;, Arial, sans-serif; font-size: 12px; line-height: 22px; text-align: l=
+eft; color: rgb(0, 0, 0); --sh-original-color:rgb(0, 0, 0);" class=3D"sh-co=
+lor sh-original-color-carbon sh-modified-inline"> <p style=3D"line-height: =
+14.4px; text-align: left; margin: 10px 0px; font-size: 12px; color: rgb(0, =
+0, 0); font-family: &#34;Clarkson Medium&#34;, Helvetica, Arial, sans-serif=
+; --sh-original-color:rgb(0, 0, 0);" class=3D"sh-color sh-original-color-ca=
+rbon sh-modified-inline"> <a href=3D"https://links.exploretock.com/e/evib?_=
+t=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275ff19e49c4a2306b861b986=
+423&amp;_e=3DYFcExMKfCPyxAqxO0niFzP7TKYG1JlZxW0KL7MVwg_21O_4TxfPdPXuhaiutwd=
+V1" class=3D"utilityLink sh-preserve-color sh-color sh-original-color-carbo=
+n sh-modified-inline" style=3D"color: rgb(0, 0, 0) !important; --sh-origina=
+l-color:rgb(0, 0, 0);" target=3D"_blank" rel=3D"noopener noreferrer">View i=
+n browser</a> <span class=3D"sh-color sh-original-color-carbon sh-modified-=
+inline" style=3D"--sh-original-color:rgb(0, 0, 0);">=C2=A0=C2=A0</span> <a =
+href=3D"https://links.exploretock.com/u/click?_t=3Db259af95b91a4dbe982ea886=
+639e4981&amp;_m=3Dd84b275ff19e49c4a2306b861b986423&amp;_e=3DGzHUe2aAQDbXZKm=
+3CPHwImXMRtB-m070y82sIP6o2yMl9EczaD23264qYQkWCJADWAh8T3gZKfIwUpr1LxsooaA3Pb=
+ssXYIHVK9RmKSaAz3elmFrRStiKeJOUc1i6Q5n-r04YVJf-hCYoeASEIt7U4bN8CCsFpbCMaKhp=
+rih6sqXJLCXI6Sj2UMXieOCeGbisijctRZeDt2uAJZhxKdiARcugME2Qx8q0cLy4hrtvKjkCve_=
+DWzth5YPlVzFdnQsWHZZFVl8XStcb8R0AEf0RLisEwf_pVBnF9WzI42Shuc2HIJdkdqn85NXMbH=
+z1zrQVAugfy8r12umoJWIJYnZLQ%3D%3D" class=3D"utilityLink sh-preserve-color s=
+h-color sh-original-color-carbon sh-modified-inline" style=3D"color: rgb(0,=
+ 0, 0) !important; --sh-original-color:rgb(0, 0, 0);" target=3D"_blank" rel=
+=3D"noopener noreferrer">Privacy policy</a> <span class=3D"sh-color sh-orig=
+inal-color-carbon sh-modified-inline" style=3D"--sh-original-color:rgb(0, 0=
+, 0);">=C2=A0=C2=A0</span> <a href=3D"https://links.exploretock.com/e/eh?_t=
+=3Db259af95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275ff19e49c4a2306b861b9864=
+23&amp;_e=3DGzHUe2aAQDbXZKm3CPHwIi0r5KQCBuf2SaqB-mS3UGQ5zPhfKSEDyXjd5lwW_9p=
+ghw5VjXnEgjQRO_--IGZ52OvqKbZLkIHZ4imj4O3jg3Ykqk2WapMYIfEgFTzx1mFUiwZ5TUhpX_=
+QEAPPj3vpgVvBJWW2eJwk3nLDXgm5aX3Cer52T_0zjW3jtQgCZRAnmCmgHno4m1zmSDF8ucxn-B=
+QBdNXtwy-2Y4r7SmGQ3O6KSW410TkfNk4q5YWr8g_RnR4A0eTMEA4EqQK-tiSGtlyc4Vky_AYME=
+uenS4a9kMI7UNgEHQRATvh5G9_s12DF8lDCUdzAxyUfW0Rqw2qizCfQAd-DNeeCRJUN-TLVSl95=
+B1poq8svLQLXD5q9Phowua98eAf5ZV_Syrjk0RcJ94tEshAKDXBaqamz7uY3QO37zLCwZ94GBXV=
+z93ML_6dAsRsOegZ6CPVh8qc2ie2qFjA%3D%3D" class=3D"utilityLink sh-preserve-co=
+lor sh-color sh-original-color-carbon sh-modified-inline" style=3D"color: r=
+gb(0, 0, 0) !important; --sh-original-color:rgb(0, 0, 0);" target=3D"_blank=
+" rel=3D"noopener noreferrer">Manage preferences</a> <span class=3D"sh-colo=
+r sh-original-color-carbon sh-modified-inline" style=3D"--sh-original-color=
+:rgb(0, 0, 0);">=C2=A0=C2=A0</span><span class=3D"display-block-mobile sh-c=
+olor sh-original-color-carbon sh-modified-inline" style=3D"--sh-original-co=
+lor:rgb(0, 0, 0);"><a href=3D"https://links.exploretock.com/e/eh?_t=3Db259a=
+f95b91a4dbe982ea886639e4981&amp;_m=3Dd84b275ff19e49c4a2306b861b986423&amp;_=
+e=3DGzHUe2aAQDbXZKm3CPHwIi0r5KQCBuf2SaqB-mS3UGQ5zPhfKSEDyXjd5lwW_9pghw5VjXn=
+EgjQRO_--IGZ52OvqKbZLkIHZ4imj4O3jg3Ykqk2WapMYIfEgFTzx1mFUiwZ5TUhpX_QEAPPj3v=
+pgVvBJWW2eJwk3nLDXgm5aX3Cer52T_0zjW3jtQgCZRAnmCmgHno4m1zmSDF8ucxn-BQBdNXtwy=
+-2Y4r7SmGQ3O6KSW410TkfNk4q5YWr8g_RnR4A0eTMEA4EqQK-tiSGtlyc4Vky_AYMEuenS4a9k=
+MI7UNgEHQRATvh5G9_s12DF8lDCUdzAxyUfW0Rqw2qizCfQAd-DNeeCRJUN-TLVSl95B1poq8sv=
+LQLXD5q9Phowua98eAf5ZV_Syrjk0RcJ94tEshAKDXBaqamz7uY3QO37zLCwZ94GBXVz93ML_6d=
+AsRsOegZ6CPVh8qc2ie2qFjA%3D%3D" class=3D"utilityLink sh-preserve-color sh-c=
+olor sh-original-color-carbon sh-modified-inline" style=3D"color: rgb(0, 0,=
+ 0) !important; --sh-original-color:rgb(0, 0, 0);" target=3D"_blank" rel=3D=
+"noopener noreferrer">Unsubscribe </a></span> </p> </div> </td> </tr> </tbo=
+dy> </table> </div>  </td> </tr> </tbody> </table> </div> </div> <div style=
+=3D"font-size: 0px; opacity: 0; display: none !important; --sh-original-col=
+or:rgb(0, 0, 0);" class=3D"sh-color sh-original-color-carbon sh-modified-in=
+line">1683062096407</div>=20
+</div></div></div></div><br/></div></div></body></html>
+--92c5330fc1c3fe5b61bc3af6b68cbff176b48c30833a2ca849db73775012--

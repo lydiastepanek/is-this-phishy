@@ -1,0 +1,367 @@
+Return-Path: <fake@email.com>
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id 6qcv8kddmb51ut2otin8q2thvgeqdhb7ak191bg1
+ for help@isthisphishy.io;
+ Fri, 05 May 2023 14:55:25 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.222.47 as permitted sender) client-ip=209.85.222.47; envelope-from=fake@email.com; helo=mail-ua1-f47.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.222.47 as permitted sender) client-ip=209.85.222.47; envelope-from=fake@email.com; helo=mail-ua1-f47.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFIZ1hnU0ZaVUdqOFJXbHRNa0o5R0kzdHhXeEpYNDV2N1gzWTYzYktXWVFiNmcwckU5RThvWmhsc2RSd2o3d2JsTUdhQXBUVFVPK0VES0ZUcXhSVXBQbkNzb1lCcnRpUlRyc3BJaWVHZ2ZEOFVqTklMbjh2bEJUVEptdjlDc1hVUzJpNFRLT0NPMzVocnRyZjJkMmtGR1h0MWR5b051N2FQdDAxOTZmWGR3bUZtTkxvcWYzQi9aOHl4eXo2R21pMERoTUlzWlROVzV0NXhZOVVna2hXbFVRUE1QbkVodzdiWmJCUDl0cXVXdmZaYzh4ODdiVFp6NzVxL2gxYVoxNXhWMGZrV1p3dDN1eUlvZGI2RVRWLzg3N09XU1hCSFcyNjVXK05NanQwaGpNZmc9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=bHmeMM73aEuXoY0IGGD5rIKrG45RDdBL2H6Jwrp6UfYIOrUky7pLlnqTSupMp8WCoSy+qztUTDapUIQPBVsCVBtLxcYEi5A5P79gJzRIyJrIaGrf4/siU6BPxhkQEguMPjIIctThjxPd98xp9rQI8KWsdILOdTt9hvtjV3uD0ao=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1683298526; v=1; bh=MU/aVfKHeBaXCW6INNcCmf+/PBX5lRLvNQV3ZHTgOnQ=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-77d049b9040so14441540241.1
+        for <help@isthisphishy.io>; Fri, 05 May 2023 07:55:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683298524; x=1685890524;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5MtoF3Uap8lJ6yGXeCHYC92H/Vov42E9CUihCS+mNao=;
+        b=q+xwmeqKSDIg6vv9/CdVHu8dekn3bfPRhWhr8D9uGeDTeG1FbmwRiFeZEEgklvrgdw
+         gUbffYBdtnE5r9ovRKgaaWDw0/OzZZqnHbKQHQzODAB5exIPGKvarBrkJa672j+FZjss
+         GFXSMUVnTGfokK0GP072wFN3bxEvZS0q2TFw4VYqUjQ1A7xCYB6tsqWoTZP7Xk+lERVM
+         NfQXZrzbaDm/emi4XIyXV2O6CwlKeASbKmJ4pbEoShpT120nkBitUSbjYJ9g4ma/2Myn
+         MAp5Askizc/2VgicfyO3z9CCcDZhbX8gIgVhEHQDIYgHE6jObK8ADoY1b+8yEqy0mDre
+         XjOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683298524; x=1685890524;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5MtoF3Uap8lJ6yGXeCHYC92H/Vov42E9CUihCS+mNao=;
+        b=IedsQOFAC40MFFEKq0FDP9QFSdZvOXzjAXshkF1/ylylWcBQHFj5LW/oYb3lEFx0JB
+         UaXV7nsjOIQQvlayhsw1rh9MoDeJ+3veFZhf6+7cjbTlE1pcMcAViiElZpeehxW+S/9R
+         DPfkoOBDIGYoY1OmHYQiXvwSzCozHYx01yJlUW+S+/7RyoKQHaozCQgtsdjoqBlGVBhh
+         aHfBdzarRT/aylb5T1brrX5mbnhxXjyvz6C+SjuYNhzpWfvLbszM3PeTIVdxx0FL6H1D
+         uDUFlP0DHvUDtmWAl3/CtN2FG8FXqaDRWc5iYlpViufjz5ewoKCAdALSM4F/ddo5gfE6
+         ygjg==
+X-Gm-Message-State: AC+VfDwXuy0pDmrN6a10UqdRLZKZbgxDSV4RWUDZL6H/YsZGRnx8hHM2
+	lGEsLc3X609YWiOp2UXBa2aCWHLy/1p76B+Bech2zTsoG9E=
+X-Google-Smtp-Source: ACHHUZ62m4yXgd9SpAqBeMUERj8OOHgA/yssmztl50VSoJSwft7b66bl6vEGdjE3iXnioR+eYL171er1vsx62PC0Xwk=
+X-Received: by 2002:a67:e346:0:b0:434:6f8f:59b with SMTP id
+ s6-20020a67e346000000b004346f8f059bmr836147vsm.0.1683298524487; Fri, 05 May
+ 2023 07:55:24 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230502173852.17747.43203.4286ea48db65417b95ec64e4393b14cd@www.yelp.com>
+In-Reply-To: <20230502173852.17747.43203.4286ea48db65417b95ec64e4393b14cd@www.yelp.com>
+From: Lydia Stepanek <fake@email.com>
+Date: Fri, 5 May 2023 10:55:12 -0400
+Message-ID: <CADvz_ydBBVqAY1ODvveJGBtamHjJ7tNGOGf98vjZ_8AHPOc6xA@mail.gmail.com>
+Subject: Fwd: Your Yelp password has been changed!
+To: help@isthisphishy.io
+Content-Type: multipart/alternative; boundary="0000000000009a64ab05faf37ae6"
+
+--0000000000009a64ab05faf37ae6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: Yelp <no-reply@yelp.com>
+Date: Tue, May 2, 2023 at 1:38=E2=80=AFPM
+Subject: Your Yelp password has been changed!
+To: Lydia S. <fake@email.com>
+
+
+[image: Yelp burst]
+
+Hi Lydia,
+Your password has been changed!
+
+*When*: May 2, 2023, 10:38:52 am
+
+*Location*: New York City, NY
+
+If this wasn=E2=80=99t you, please reset your password immediately.
+Reset Password
+<https://www.yelp.com/forgot/reset/redirect/MriNove-f4PRabHOpY7OJA?ytl_=3D4=
+286ea48db65417b95ec64e4393b14cd&utm_medium=3Demail&utm_source=3Dpassword_re=
+set_notify&utm_campaign=3DMay-02-2023>
+To change your notification settings, click here
+<https://www.yelp.com/bn/DjfEucTPFe60272uLPD8vIZerYcbw85gwDtMwjUmYbhmjnn3_9=
+IF708F1YH9UgKL/?utm_content=3Dsettings&ytl_=3D4286ea48db65417b95ec64e4393b1=
+4cd&utm_medium=3Demail&utm_source=3Dpassword_reset_notify&utm_campaign=3DMa=
+y-02-2023>
+=C2=A9 2023 | Yelp Inc., 350 Mission Street, San Francisco, CA 94105, U.S.A=
+. |
+www.yelp.com
+
+
+--=20
+Lydia*Stepanek*
+203.804.9137
+
+--0000000000009a64ab05faf37ae6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">---------- Forwarded message ---------<br>From: <strong cla=
+ss=3D"gmail_sendername" dir=3D"auto">Yelp</strong> <span dir=3D"auto">&lt;<=
+a href=3D"mailto:no-reply@yelp.com">no-reply@yelp.com</a>&gt;</span><br>Dat=
+e: Tue, May 2, 2023 at 1:38=E2=80=AFPM<br>Subject: Your Yelp password has b=
+een changed!<br>To: Lydia S. &lt;<a href=3D"mailto:fake@email.com=
+">fake@email.com</a>&gt;<br></div><br><br><div class=3D"msg-64775=
+22866776347334">
+       =20
+           =20
+           =20
+           =20
+       =20
+
+        <div bgcolor=3D"#f5f5f5" style=3D"margin:0;padding:0;background-col=
+or:#f5f5f5">
+            <img src=3D"https://www.yelp.com/tracking/track.gif?ytl_=3D4286=
+ea48db65417b95ec64e4393b14cd&amp;utm_medium=3Demail&amp;utm_source=3Dpasswo=
+rd_reset_notify&amp;utm_campaign=3DMay-02-2023" width=3D"0" height=3D"0" al=
+ign=3D"right">
+                <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" sty=
+le=3D"background-color:#f5f5f5" width=3D"100%">
+                    <tbody><tr>
+                        <td align=3D"center" style=3D"border-collapse:colla=
+pse">
+                            <div style=3D"max-width:620px;min-width:320px;m=
+argin:0 auto">
+                                <table cellpadding=3D"0" cellspacing=3D"0" =
+align=3D"center" bgcolor=3D"#f5f5f5" width=3D"100%" style=3D"width:100%;bac=
+kground-color:#f5f5f5">
+                                    <tbody><tr>
+                                        <td style=3D"border-collapse:collap=
+se">
+                                                        <table align=3D"cen=
+ter" style=3D"max-width:620px;min-width:320px;margin:0 auto">
+        <tbody><tr>
+            <td style=3D"text-align:center;padding:15px 0 15px 0">
+                <img src=3D"https://s3-media0.fl.yelpcdn.com/assets/srv0/ye=
+lp_styleguide/630b5a71b305/assets/img/logos/logo_desktop_xlarge@2x.png" alt=
+=3D"Yelp burst" height=3D"80" width=3D"160">
+            </td>
+        </tr>
+    </tbody></table>
+
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                            <td width=3D"100%" bgcolor=3D"#=
+ffffff" style=3D"border-radius:3px 3px 0 0;background-color:#ffffff;border-=
+collapse:collapse">
+        <div style=3D"overflow:hidden;border-radius:3px 3px 0 0;border:1px =
+solid #e6e6e6;background-color:#ffffff;width:100%">
+                        <table border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" width=3D"100%">
+        <tbody><tr>
+            <td>
+                <img src=3D"https://s3-media0.fl.yelpcdn.com/assets/srv0/ye=
+lp_email_assets/50776355faf9/assets/img/password_reset_notify_header.png" h=
+eight=3D"auto" width=3D"100%" style=3D"display:block;max-width:620px">
+            </td>
+        </tr>
+    </tbody></table>
+
+        <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><tbody><tr>=
+<td height=3D"18"></td></tr></tbody></table>
+
+
+
+       =20
+       =20
+
+    <table width=3D"100%" style=3D"border-spacing:0;text-align:center;font-=
+size:30px;line-height:36px;margin:0;font-weight:bold">
+        <tbody><tr><td class=3D"m_-6477522866776347334text" style=3D"border=
+-collapse:collapse;padding:6px 40px 6px 40px;font-family:Helvetica Neue,Ari=
+al,sans-serif">
+                Hi Lydia,<br>
+
+        </td></tr>
+    </tbody></table>
+
+
+
+       =20
+       =20
+
+    <table width=3D"100%" style=3D"border-spacing:0;text-align:center;font-=
+size:24px;line-height:27px;margin:0;font-weight:bold">
+        <tbody><tr><td class=3D"m_-6477522866776347334text" style=3D"border=
+-collapse:collapse;padding:6px 40px 6px 40px;font-family:Helvetica Neue,Ari=
+al,sans-serif">
+                Your password has been changed!<br>
+
+        </td></tr>
+    </tbody></table>
+
+
+
+   =20
+
+
+    <table width=3D"100%" style=3D"border-spacing:0">
+        <tbody><tr><td class=3D"m_-6477522866776347334text" style=3D"border=
+-collapse:collapse;padding:6px 40px 6px 40px;font-family:Helvetica Neue,Ari=
+al,sans-serif">
+        <p style=3D"text-align:left;font-size:16px">
+            <b>When</b>: May 2, 2023, 10:38:52 am
+        </p>
+            <p style=3D"text-align:left;font-size:16px">
+                <b>Location</b>: New York City, NY
+            </p>
+        </td></tr>
+    </tbody></table>
+
+
+       =20
+
+    <table width=3D"100%" style=3D"border-spacing:0">
+        <tbody><tr><td class=3D"m_-6477522866776347334text" style=3D"border=
+-collapse:collapse;padding:6px 40px 6px 40px;font-family:Helvetica Neue,Ari=
+al,sans-serif">
+           =20
+    <p style=3D"text-align:left;font-size:16px;line-height:24px;margin:0">
+            If this wasn=E2=80=99t you, please reset your password immediat=
+ely.
+            <br>
+    </p>
+
+        </td></tr>
+    </tbody></table>
+
+
+
+   =20
+       =20
+
+       =20
+
+
+
+
+    <table width=3D"100%" style=3D"border-spacing:0">
+        <tbody><tr><td class=3D"m_-6477522866776347334text" style=3D"border=
+-collapse:collapse;padding:12px 40px 12px 40px;font-family:Helvetica Neue,A=
+rial,sans-serif">
+            <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=
+=3D"100%">
+                <tbody><tr>
+                    <td align=3D"center">
+                       =20
+   =20
+
+       =20
+    <a href=3D"https://www.yelp.com/forgot/reset/redirect/MriNove-f4PRabHOp=
+Y7OJA?ytl_=3D4286ea48db65417b95ec64e4393b14cd&amp;utm_medium=3Demail&amp;ut=
+m_source=3Dpassword_reset_notify&amp;utm_campaign=3DMay-02-2023" style=3D"d=
+isplay:inline-block;padding:12px 28px;text-align:center;text-decoration:non=
+e;border:1px solid #a50508;font-family:Helvetica Neue,Arial,sans-serif;font=
+-size:16px;font-weight:bold;color:white;border-radius:3px;width:initial;whi=
+te-space:nowrap;background:#d91213;background-image:linear-gradient(#d90007=
+,#d32323)" target=3D"_blank">
+        Reset Password
+    </a>
+
+   =20
+
+                    </td>
+                </tr>
+            </tbody></table>
+        </td></tr>
+    </tbody></table>
+
+
+        <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><tbody><tr>=
+<td height=3D"18"></td></tr></tbody></table>
+
+
+        </div>
+    </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td style=3D"border-collapse:collap=
+se">
+
+
+    <table width=3D"100%" style=3D"border-spacing:0">
+        <tbody><tr><td class=3D"m_-6477522866776347334text" style=3D"border=
+-collapse:collapse;padding:40px 40px 40px 40px;font-family:Helvetica Neue,A=
+rial,sans-serif">
+                                                <table border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" width=3D"100%">
+                                                    <tbody><tr>
+                                                        <td class=3D"m_-647=
+7522866776347334text" align=3D"center" style=3D"border-collapse:collapse;te=
+xt-align:center">
+                                                                        <di=
+v style=3D"color:#585850" class=3D"m_-6477522866776347334apple-links-stylef=
+ix">
+
+                    To change your notification settings, <a href=3D"https:=
+//www.yelp.com/bn/DjfEucTPFe60272uLPD8vIZerYcbw85gwDtMwjUmYbhmjnn3_9IF708F1=
+YH9UgKL/?utm_content=3Dsettings&amp;ytl_=3D4286ea48db65417b95ec64e4393b14cd=
+&amp;utm_medium=3Demail&amp;utm_source=3Dpassword_reset_notify&amp;utm_camp=
+aign=3DMay-02-2023" style=3D"color:#585850" target=3D"_blank">click here</a=
+>
+            <br>
+    </div>
+
+                <table cellspacing=3D"0" cellpadding=3D"0" border=3D"0"><tb=
+ody><tr><td height=3D"1"></td></tr></tbody></table>
+
+
+    <div style=3D"color:#585850" class=3D"m_-6477522866776347334apple-links=
+-no-underline">
+        =C2=A9 2023 | Yelp Inc., 350 Mission Street, San Francisco, CA 9410=
+5, U.S.A. | <a href=3D"http://www.yelp.com" target=3D"_blank">www.yelp.com<=
+/a>
+    </div>
+
+        <table cellspacing=3D"0" cellpadding=3D"0" border=3D"0"><tbody><tr>=
+<td height=3D"24"></td></tr></tbody></table>
+
+
+    <img alt=3D"" height=3D"42" src=3D"https://yelp-images.s3.amazonaws.com=
+/assets/email/burst-gray.png" style=3D"border:none" width=3D"33">
+
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody></table>
+        </td></tr>
+    </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody></table>
+           =20
+        <img src=3D"https://u6746021.ct.sendgrid.net/wf/open?upn=3DOPnExslu=
+qapguVV9uD5q4Rwh3H0CSwkRx-2F974E-2BsvlQY8qAi4vxGPOFO-2BnNw840-2FBcLzGkdBDf-=
+2FWC9ihaPFDVjdzhREQ01SiNIiV4re-2F5vCLMn6JSm4tVssLh8UFPnFVh-2BFXP9YyX70PIWfO=
+Srx0bbTfCcZ5wBrWBZGOXHrvGa9yZw-2BNVnNw6r-2F3KB9Rkd2ZSFFe7DVWfk0-2BtgYloa82-=
+2BhSF3IbXUoqbQ7B6-2BWcSdtRSsOioTZKI0mhghQqc0-2Bo1Sp-2BM1tWa3Irf-2FaZsHbljbZ=
+9Q3FoEhWFp9gq5VtgmI0xpz83PrTQtqlYGa4DPhFIXhjNPisekel3YuaZ24bBi0kjuO009gSvJm=
+fdyo6oFAFhzvgWRBZP-2BbcX-2F7bO9ZTjCKo2NSXmdqljUAOjurIHIGrGPKaGkRRhOEawDI4Ph=
+rNHlYOYZXjsOfthSHRx-2FECmDKmflTDoOF7rfNconVmCYlQ-3D-3D" alt=3D"" width=3D"1=
+" height=3D"1" border=3D"0" style=3D"height:1px!important;width:1px!importa=
+nt;border-width:0!important;margin-top:0!important;margin-bottom:0!importan=
+t;margin-right:0!important;margin-left:0!important;padding-top:0!important;=
+padding-bottom:0!important;padding-right:0!important;padding-left:0!importa=
+nt"></div>
+    </div></div><br clear=3D"all"><div><br></div><span class=3D"gmail_signa=
+ture_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature" data-=
+smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><=
+div style=3D"font-family:arial,sans-serif;font-size:13.200000762939453px;fo=
+nt-style:normal;font-variant:normal;letter-spacing:normal;line-height:norma=
+l;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:n=
+ormal;word-spacing:0px;background-color:rgb(255,255,255)"><font color=3D"#f=
+f6600">Lydia<b>Stepanek</b></font></div><div style=3D"font-family:arial,san=
+s-serif;font-size:13.2000007629395px;font-style:normal;font-variant:normal;=
+font-weight:normal;letter-spacing:normal;line-height:normal;text-align:-web=
+kit-auto;text-indent:0px;text-transform:none;white-space:normal;word-spacin=
+g:0px;background-color:rgb(255,255,255)"><font color=3D"#666666">203.804.91=
+37</font></div></div></div></div></div></div></div>
+
+--0000000000009a64ab05faf37ae6--

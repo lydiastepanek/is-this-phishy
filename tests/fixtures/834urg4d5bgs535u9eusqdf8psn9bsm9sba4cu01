@@ -1,0 +1,3056 @@
+Return-Path: <fake@email.com>
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id 834urg4d5bgs535u9eusqdf8psn9bsm9sba4cu01
+ for help@isthisphishy.io;
+ Thu, 04 May 2023 22:44:30 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.217.46 as permitted sender) client-ip=209.85.217.46; envelope-from=fake@email.com; helo=mail-vs1-f46.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.217.46 as permitted sender) client-ip=209.85.217.46; envelope-from=fake@email.com; helo=mail-vs1-f46.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFFbUVOVGRxeGxjSkxENUhpdEhOamQvK2FuRFo5aHZ4OFhHdGUwL0gvZlFzUXMxYXBvaG9CZ21TVytjR1RpbGJBdFpWbzhwaTNWcDJlVVY3SmdoTVQwa25FajNMRUgzUW84RmxvenJFOHUxZVVaclRWbGRFTE1BNXM3RUN2cE1KTDl5R0tXTkM1R3oxZVZ3VC9VMDZDeEhVQXAraVZNUFQvQlJaK0xpcXdqbUd0cnlPbDA4eHZwenNxbmJ6cEVkT28wTkFUT2xKNTJlQmhiN0lpNzdTSFhCR0xQbjZ0dVRLVzBaVTViVS9FZVVWU3VJd1k2aTVXdlB6dGRaeS9LZlMxMkRSRjJRMWk0cU1EeUM4cjdvNW9tWDQwVWl1WDFjZ1JzQWdLZ0o0MnhNM2c9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=KYgxxAh7I6kV6guF0w5fbjbZ3u5jJBdwl+Kskxk2eT2gHgA8SxfS3g0Gfm4MLrMjKVMKrxnJTwX03DMwgaegQuDzSk8z9v70zuE7ASSwsd7pFlUZGFfVxhSdvflnJ5H35W6oO44vwsKQFjqthSRQ05xoJsCRAn9lhBi2xSz5V00=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1683240271; v=1; bh=Vph+KhcNoGdRj4NMyrfrgQfEo2grAj09Px9nXVrSKIg=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-42e3647a43bso360599137.3
+        for <help@isthisphishy.io>; Thu, 04 May 2023 15:44:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683240270; x=1685832270;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JpE4LXNpKp/+54Ak+oAt0a6lexgF9uzV1mAv55vtXvM=;
+        b=DW0GQOeXo8UDf7XC2vFC+OXVkIt7mPUBvO6qBdLwPrTWO20A3K+PpUp4EyCfXRArlo
+         4uto87eWravKPkyJRMXvh3T/3Wh4On3NGmNIs3WsHeMEv+OWrlxoKv5zQtkeALq6fBEO
+         pOpUDtcrAb27XJjq+SVTIUE6/DtfgV6JgG0gV28FILcSVG8n2vXK87HLMBQJVdeR8fED
+         soTAXp6QhxWmVJCN/jq+/u8KtsXdy4zRBvf2ebiD/gW5yEQBVZtLyRDXYWU5zCgpFy5X
+         yn9sIsMRwVdH8HzfG3M9NR4UG4UW7GtZGyAC9fnNT2gVyAEqOqjWpoqpEXxs2w54erH0
+         5A9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683240270; x=1685832270;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JpE4LXNpKp/+54Ak+oAt0a6lexgF9uzV1mAv55vtXvM=;
+        b=UMhMILtlY90J0P3pOr9JZiQ6BnluTc3GHXJDtbEYtXSA36LOEOp5qVBVUAWg0MZXk8
+         d+QFRBzJBuwGH3Nkb3ZM1Soy9SdhwX3wzjdvsEPXw7Z5gj6ve9GewplpOONRdCuQNJT+
+         Fu/fN0Ao6tKsHDKWY4BBUwrlfS67X2IbPbcXb1aQBC0CjMkEh/cbfZvQ3Ad1rd5rgIRV
+         sKuDNUtxZ1GwvgXrmLhEJfwbhLn/Hm7LmfvbrkWdLntt6NHYgrHJPj9NMjxfJXOaiDEK
+         jsicxCSjCmSaiyk0AV2OV8VxlfSgGaemYpCl0CrRRBBXwAcxHuCeLtlC7tGC1umTa71R
+         QKUg==
+X-Gm-Message-State: AC+VfDwA4sPypgNfaHvYUbXbSPhWP2DIioSDv3aMbYAYm/LlSJG4DCt8
+	fERM2Cd2ECQEWBCaRJcnOU3+N1EbMTy99gZ+Har/jSanPJA=
+X-Google-Smtp-Source: ACHHUZ5+ygQAeiWl3vU1zrUFoDN2YR4kxskT9Z+fHJ0DlsBW7DEUvtMWWRIeq8TbdhUjJ+6ym359rNiAqpxrO5bLGOw=
+X-Received: by 2002:a05:6102:3171:b0:430:34b:9841 with SMTP id
+ l17-20020a056102317100b00430034b9841mr3155109vsm.19.1683240269075; Thu, 04
+ May 2023 15:44:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <595a37232267a_36ef3ff3e6fac4bc4442d@ip-172-30-1-208.mail>
+In-Reply-To: <595a37232267a_36ef3ff3e6fac4bc4442d@ip-172-30-1-208.mail>
+From: Lydia Stepanek <fake@email.com>
+Date: Thu, 4 May 2023 18:44:16 -0400
+Message-ID: <CADvz_yfzRkF-K1xy3GiGvC1gsHDQO33fRrBvQeeHHHvEz=o6og@mail.gmail.com>
+Subject: Fwd: This Week In Silicon Alley (Civic Art Lab 2017, CommonBond +
+ TechStars Social Venture Bootcamp, Entrepreneurs Roundtable, Future of
+ Emerging Tech, Product Group w/ Troops, Digital Nomad Lifestyle)
+To: help@isthisphishy.io
+Content-Type: multipart/alternative; boundary="0000000000004f579b05fae5eaf3"
+
+--0000000000004f579b05fae5eaf3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: GarysGuide <newsletter@garysguide.com>
+Date: Mon, Jul 3, 2017 at 8:23=E2=80=AFAM
+Subject: This Week In Silicon Alley (Civic Art Lab 2017, CommonBond +
+TechStars Social Venture Bootcamp, Entrepreneurs Roundtable, Future of
+Emerging Tech, Product Group w/ Troops, Digital Nomad Lifestyle)
+To: <fake@email.com>
+
+
+[image: GarysGuide]
+   *New York City*    San Francisco Bay Area
+<http://www.garysguide.com/events?region=3Dsfbay>
+   Jul 03, 2017: The Red, White & BBQ Edition! View in browser
+<http://gary.to/ba8yrre>   |   Subscribe
+<http://www.garysguide.com/events?region=3Dnewyork>
+*"Value is created on token level rather than on equity level, therefore
+opposing everything we experienced in conventional software businesses.
+Tokens represent an atomic unit of a company's business model."* // *Mappin=
+g
+The <http://gary.to/bycyvas>* *Decentralized World Of Tomorrow*
+
+*"In March, Arizona got a gift from California - free solar power. Actually
+better than free. California had produced so much solar power, it paid
+Arizona to take excess electricity its residents weren't using to avoid
+overloading its own power lines."* // *Solar* *Power
+<http://gary.to/0vki0je>*
+
+*"A new digital ID network built on biometrics & blockchain, as part of
+United Nations-supported project, will provide legal identification to 1.1
+billion people worldwide who do not have any official documents."* // *Refu=
+gee
+Global ID* *System <http://gary.to/xnya3wx>*
+
+*Space Corps* plan <http://gary.to/29qii94> by Pentagon. *Google* fined
+<http://gary.to/vb4e0s6> $2.7B by EU for breaching anti-trust rules.
+*Ransomware
+attack* in 64+ countries <http://gary.to/21f4741>. *Sweden* to eliminate
+<http://gary.to/pthb3cy> income taxes on startup stock options. *Alphabet's
+Waymo* to manage <http://gary.to/g071bf2> Avis self-driving fleet. *Block.o=
+ne
+ICO* record <http://gary.to/0eely91> *($185M in 5 days)*. *US laptop
+ban* lifted
+at <http://gary.to/1d73cnf> Abu Dhabi airport. *Tesla Model 3* first
+production <http://gary.to/1fg17cc> this Fri *(20,000/mo by Dec)*. *Boring
+Company* completed 1st section <http://gary.to/eykx40w> of LA tunnel. *Sili=
+con
+Valley VCs* outed for <http://gary.to/zsslod0> sexual harassment of female
+founders. *Redfin* *(real estate tech)* IPO <http://gary.to/wolqwhs>. And
+*Musk's* detailed plan <http://gary.to/we8s0ed> for colonizing Mars.
+
+*SpaceX* *to launch <http://gary.to/uufq8gn>* *Block 5* *(final upgrade to
+Falcon 9 rocket)* later this year and three *Falcon Heavy* launches planned
+for next 18 months + a demo in late 2017.
+
+NEW THINGS =3D=3D> *Area* 120 <http://gary.to/q4d8ksk> *(Early access progr=
+am
+workshop for Google's experimental products)*. *Token* Ring
+<http://gary.to/7yxu3wz> *(One ring to access everything incl. password,
+house key, credit card, transit card)*. *Nintendo* Super NES Classic
+<http://gary.to/l0afztx> *(Available Sep 29)*. *Detour* App
+<http://gary.to/5au1un7> *(Free until Labor Day)*.
+
+As y'all know, my New Years Resolution is to get to know GarysGuide members
+& subscribers better :) So *shoot me an email <gary@garysguide.com>* &
+introduce yourself!
+
+ANNOUNCING =3D=3D> *Barclays* *Accelerator <http://gary.to/fxpavud>* *(For
+startups focused on finance, banking, machine learning, cyber security,
+payments, cryptocurrency, insurance; $120K funding; 6% equity; Powered by
+Techstars)*; apply by Jul 14.
+
+ANNOUNCING =3D=3D> *Wall Street Journal:* *Global Startups Showcase
+<http://gary.to/yjk0z7k>* *(Showcasing 6 entrepreneurs from around the
+world; Startups should have raised no more than $5M; Demo on stage at WSJ
+D.Live Oct16-18)*; apply by Jul 07.
+
+ANNOUNCING =3D=3D> *Global Fintech* *Hackcelerator <http://gary.to/sfddrzu>=
+* *(20
+startups; 12 weeks program; S$20K + add'l S$50K for top 3 startups;
+Mentorship by fintech community & financial services industry; Demo Nov 16
+@ Singapore FinTech Festival)*; apply by Jul 15.
+
+ANNOUNCING =3D=3D> *French Tech* *Visa <http://gary.to/83rz01o>* *(Simplifi=
+ed,
+fast-track to obtain residence permit 'Passeport Talent'; For 3 types of
+international tech talent - startup founders, employees, investors; Valid
+for 4 years on renewable basis; No additional work permit reqd; Extended to
+immediate family members)*.
+
+ANNOUNCING =3D=3D> *CSI Tech* *Incubator <http://gary.to/v8qbm9o>* *(Mentor=
+ship,
+space + access to high performance computing; With College of Staten Island
+& CUNY)*; apply by Jul 07.
+
+SPACE =3D=3D> *BOND* *Collective <http://gary.to/q7795j0>* *(15% off 1st mo=
+nth;
+Mention GarysGuide; 1-50+ brand new custom offices @ 55 Broadway in
+Financial District)*.
+
+DON'T MISS! =3D=3D> Jul 27 *A.I.* *Brunchwork <http://gary.to/vipnrfj>* w/
+Dennis Mortensen *(Co-Founder/CEO, X.ai)* & Mandy Menaker *(Head of Brand
+Development, Shapr)*; 2 FREE Passes <http://gary.to/deals1> *($45 each)*!
+Jul 11 *23 Guidelines To Avoid* *A.I. Apocalypse <http://gary.to/c5tqsl0>*
+w/ Seth Baum *(Exec Dir., Global Catastrophic Risk Institute)*; 5 FREE
+Passes <http://gary.to/deals1>!
+
+DON'T MISS! =3D=3D> Jul 19 *Bringing IoT Products To Life* *With Kickstarte=
+r
+<http://gary.to/wara2gh>* w/ Julio Terra *(Dir. of Technology & Design,
+Kickstarter)*; 10 FREE Passes <http://gary.to/deals1>! Jul 11 *Pioneering
+New IoT Frontier* *With Personal Technology <http://gary.to/3fidv6t>* w/
+Isy Goldwasser *(Founder/CEO, Thync)*; 10 FREE Passes
+<http://gary.to/deals1>!
+
+DON'T MISS! =3D=3D> Jul 06 *Modvation:* *Diversity Ventures
+<http://gary.to/bnpkjfa>* *(SF)* w/ Patrick Lee *(Co-Founder/CEO, Rotten
+Tomatoes)*, Prayag Narula *(Founder/CEO, LeadGenius)*, Tyra Fennel *(Founde=
+r,
+Imprint City)*, Tam Pham *(Bot Academy)*, Sonia Le *(Founder/CEO, Cosmic
+Chic)*; 2 FREE Passes <http://gary.to/deals1> *($120 each)*!
+
+DON'T MISS! =3D=3D> Jul 13 *Black Women Talk Tech* *Summer Social
+<http://gary.to/nkmxnfn>* *(tasty bites + networking)*; 2 FREE Passes
+<http://gary.to/deals1>! Jul 16 *Brunch**work <http://gary.to/caf1ppm>* w/
+Lou Dubois *(Exec Director Digital Content @ NBC Universal)* & Mandy
+Menaker *(Head of Brand Development, Shapr)*; 2 FREE Passes
+<http://gary.to/deals1> *($40 each)*!
+
+DON'T MISS! =3D=3D> Jul 07 *Civic Art Lab* *2017 <http://gary.to/j4h8gxe>*
+*(Columbia
+University, New School, Queens College, Studio Basis, Perez Architecture,
+Squirrelz)* + Jul 08 Critical Fictions & Reimagining Citizenship
+<http://gary.to/isbjjmn> *(FREE)* + Jul 09 Community Resilience:
+Build-A-Workshop <http://gary.to/8xzz0s6> *(FREE)*.
+
+DON'T MISS! =3D=3D> Jul 08 *Art of Film Financing* *& Packaging
+<http://gary.to/22zcutq>* w/ Atit Shah *(Multiple-award Winning Producer
+incl. Money, The Crash, Brown Nation, Act of War)*; 2 FREE Passes
+<http://gary.to/deals1> *($150)*! Jul 17 *Reboot* *Labs
+<http://gary.to/g3306jx>* *(Learning How to Code for Media & Marketing)*.
+
+DON'T MISS! =3D=3D> Jul 12 *Save Net Neutrality* *Day of Action
+<http://gary.to/7r1qao3>*. Aug 18-20 *WeWork* *Summer Camp
+<http://gary.to/i9b550o>* @ Tunbridge Wells *(UK)*. Thru Dec 03 *Drones:* *=
+Is
+Sky The Limit <http://gary.to/kdypcrr>* @ Sea, Air & Space Museum.
+
+Jul 12 *How To Escape The* *Corporate Rat Race <http://gary.to/9lr18sr>*
+*(FREE)* Learn top mistakes to avoid when making transition, best type of
+business to start & 5-step process to follow going from employee to
+entrepreneur.
+
+Jul 13 *Culture Capitalist:* *What Can Venture Capital & Liberal Arts Teach
+Each Other? <http://gary.to/rdlsysd>* *(FREE)* w/ Andy Weissman *(Partner,
+Union Square Ventures)*, Adam Huttler *(Founder/CEO, Fractured Atlas)*,
+Vyjayanthi Vadrevu *(Sr Researcher, Conifer Research)*, Phil Surles *(Found=
+er,
+StudyUp)*.
+
+Jul 13 *Fail* *Forward <http://gary.to/v4hbedc>* *(FREE)* w/ Schuyler
+Brown *(Co-Founder/CMO,
+strongDM)*, Phil Sarin *(CTO, Managed By Q)*, Gavin Cowie *(VP Engg,
+StellaService)*, Daniel Doubrovkine *(CTO, Artsy)*, Emilia Serifova *(CTO,
+Learnvest)*.
+
+Jul 17 *AgTech's Bright Future:* *Growing Food And Data With IoT
+<http://gary.to/rjo0eri>* *(FREE)* w/ Jason Green *(CEO, Edenworks)*, Ron
+Hiller *(Founder, BLX.io)*, Ajay Kulkarni *(Founder/CEO, Timescale)*, Adam
+Wolf *(Founder/CEO, Arable)*, Louisa Taylor *(Head of Media, AgFunder)*,
+Michael Fernandez *(AeroFarms)*.
+
+Jul 19 *M&A Roundtable:* *Selling Your Media Business
+<http://gary.to/e7xls9x>* *(FREE)* w/ Dane Atkinson *(Co-Founder,
+Squarespace)*, David Leider *(Founder, Gas Station TV)*, David Segura
+*(Founder,
+Giant Media)*, Lance Barton *(SVP Corp Dev, IAC)*, Justin Trudel *(Dir.
+M&A, Dentsu Aegis)*, Teddy Hilmer *(Comcast VC)*.
+
+Jul 06 *CommonBond + TechStars* *Social Venture Bootcamp
+<http://gary.to/wdc2okv>* *(FREE)* Learn important skills needed to
+jumpstart business incl. mapping business model *(w/ Business Model Canvas)=
+*
+& pitching to investors.
+
+Nov 07 *Empire Startups Fintech* *Conference <http://gary.to/rk96hyf>*
+*(Showcasing
+Silicon Valley Fintech at its best; Topics incl. big data solving big
+problems for underserved, AI disrupting service, venture flow outside US;
+Hot startup demos)*.
+
+FREE PASSES! *(details <http://gary.to/deals1>)* =3D=3D> Jul 06 *Unreal Eng=
+ine
+4* Intro <http://gary.to/bsogg6n> w/ Rachl Bazelais *(Development Enggr,
+Aol)*. Jul 05 *Designing Games* For Impact <http://gary.to/crbb83y> With
+Sande Chen *(Game Designer)*. Jul 26 *Sheworx* Roundtable
+<http://gary.to/vrmba3b> w/ Karin Ajmani *(President of Healthcare
+Services, Progyny)*.
+
+UPCOMING EVENTS =3D=3D> Jul 13 *FinTech Founder* Fireside
+<http://gary.to/vm6h2ze> w/ Taavet Hinrikus *(Founder/CEO, TransferWise)* &
+Lily Katz *(Reporter, Bloomberg)*.
+
+CLASSES =3D=3D> *Flatiron School* Bootcamp Prep <http://gary.to/x966vd8>. J=
+ul
+10 *Big Data* w/ Hadoop Spark <http://gary.to/71birmi>. Jul 12 Open House
+<http://gary.to/rs8yymn> @ *Metis*. Jul 19 Web Development Info Session
+<http://gary.to/j4f35qw> @ *Galvanize*. Jul 26 Personal Development Nerds
+<http://gary.to/4acpzbl> @ *Reboot Labs*. Jul 27 Careers In Data Science
+<http://gary.to/k2sx0jf>.
+
+Mo' Classes =3D=3D> Jul 29 *Data Science w/ R:* Data Analysis & Visualizati=
+on
+<http://gary.to/z1pqe1c>. Jul 30 *Data Science w/ Python:* Data Analysis &
+Visualization <http://gary.to/gll1if7>. Aug 14 *Python* Intro
+<http://gary.to/b0r8tlg>. Aug 23 Web Design & Development Open
+<http://gary.to/lycfruy> @ *Noble*. Aug 28 Getting Started In Web Design
+<http://gary.to/n6ihfa1> @ *Noble*.
+
+DEADLINES =3D=3D> *MTA Genius Transit* Challenge <http://gary.to/8jgkd86> *=
+($1
+million award for the best ideas in 3 categories; #1 address aging signal
+system, #2 address aging subway cars, #3 design comms tech for cellular +
+WiFi connectivity in tunnels; Judges from Cornell Tech, Infor, USV,
+MongoDB, Stanford)*.
+
+Mo' Deadlines =3D=3D> *Startup Canadian Visa* Program <http://gary.to/p0i53=
+b6> *(By
+Launch Academy accelerator; For startups w/ $200K funding from Canadian VC
+or $75K from Canadian angel)*. *Parallel18* Accelerator
+<http://gary.to/wv2demv> *(@ Puerto Rico; 34 startups; Looking for a few
+mentors; Flown to Puerto Rico for 5 day stay betn April & July)*.
+
+CONGRATS! =3D=3D> Jon & *Auth0* *(cloud Identity as a service platform)* ra=
+ised
+<http://gary.to/n6f9km6> $30M. Ashleigh & *Provention Bio* *(biopharma)*
+raised <http://gary.to/it1r4ul> $28.4M. Ludovic & *Shapr* *(networking app)=
+*
+raised <http://gary.to/9wmap4x> $9.5M. Adam & *Homer Logistics* *(ptimizing
+local delivery using logistics technology)* raised <http://gary.to/iy2mdvm>
+$8.5M.
+
+Mo' Congrats! =3D=3D> Susannah & *Flip* *(peer-to-peer leasing marketplace)=
+*
+raised <http://gary.to/156u7l9> $2.2M. Dave & *Lynq* *(location technology)=
+*
+raised <http://gary.to/va3qoad> $1.9M. Janine & *StayAwhile* *(mid-term
+rental housing)* raised <http://gary.to/818qbcx> $1.5M.
+
+RECENTLY READ =3D=3D> *Tencent* Domination <http://gary.to/m06tgv7>, *Ends,
+Means* & Anti-trust <http://gary.to/u04zfim>, *Surveillance* State
+<http://gary.to/bi624aw>, *Jobs* Automation <http://gary.to/4orfxg7>,
+*Distributed* Truth <http://gary.to/0ibma9q>, *Instagram* Deep Text
+<http://gary.to/ar2xndu>, *Pricing* Differences <http://gary.to/3b3x4na>,
+*Yelp* vs Google <http://gary.to/mmpfesm>, *China's* Battery Factories
+<http://gary.to/7r3oojw>, *Online* Me <http://gary.to/wovi0tg>, *House*
+Pricing <http://gary.to/q45ih31>, *Career* Biohacks <http://gary.to/8n3dr6c=
+>,
+*Serena* & Alexis <http://gary.to/14o3fwo> and *Jay-Z* 4:44
+<http://gary.to/a0yj05x>.
+
+WHO'S HIRING =3D=3D> Big Data <http://gary.to/wurxys4> at *Fareportal*, Pro=
+duct
+<http://gary.to/r6e2gr4> at *Meetup*, Product <http://gary.to/wmku3lx> at
+*Dropbox*, Partner API <http://gary.to/kbg2nnb> at *Jet*, Exec Assistant
+<http://gary.to/59w1py8> at *BuzzFeed*, Email Mktg <http://gary.to/49qee3e>
+at *Kickstarter*, Acct Mgr <http://gary.to/ham7zc0> at *LinkedIn*, Mktg
+<http://gary.to/j87hue9> at *Skimm*, Designer <http://gary.to/dl2eikp> at
+*Bonobos*, Photo Intern <http://gary.to/wfdqoah> at *Birchbox*, iOS
+<http://gary.to/vkbtadk> at *Hueman*, Brand Mktg <http://gary.to/6vus3ma>
+at *Vox*, VP Sales <http://gary.to/fodssog> at *Architizer*, Community
+<http://gary.to/hyqck1o> at *WeWork*, Design <http://gary.to/coodncu>
+at *Bright
+Power*, Frontend <http://gary.to/q256k1e> at *E*Trade*, Acct Exec
+<http://gary.to/4p1a0pg> at *Criterion*, Office Mgr <http://gary.to/owr8elm=
+>
+at *Noble Markets*, & *many more
+<http://www.garysguide.com/jobs?region=3Dnewyork>!*
+
+Mo' Hiring! =3D=3D> Exec Assistant & Office Mgr <http://gary.to/2er2z7q> at
+*Updater*, Client Success Mgr <http://gary.to/3a6bwfl> at *Updater*, IT
+Solns Mgr <http://gary.to/6v3uop2> at *Updater*, Comms & PR Mgr
+<http://gary.to/ucbdiz9> at *Updater*, Acct Exec <http://gary.to/8fx9a8e>
+at *Tinybeans*.
+
+NYC =3D=3D> Jul 08 *Full Moon* Fest <http://gary.to/oqdnyr5> @ Governors
+Island. Jul 12-13 *Manhattan*henge <http://gary.to/ety86w2>. Jul 16
+*Ice-cream* Blizzard <http://gary.to/u6bbrbi> @ Grand Bazaar. Jul 28-30
+*Panorama* Music Festival <http://gary.to/unzcwsp>. Thru Aug 02 *Synthetic*
+Desert <http://gary.to/idyc1ac> @ Guggenheim. Thru Aug 12 *Celebrate*
+Brooklyn <http://gary.to/5zvtyfc>. Thru Aug 26 *Love In Venice* @ NYPL
+<http://gary.to/fpot55s>.
+
+Mo' NYC! =3D=3D> Aug 05, 12, 29 *Summer* Streets <http://gary.to/xdgvr3r> *=
+(7
+miles of streets open to public; 7am - 1pm)*. Thru Aug *Sweat* Sessions
+<http://gary.to/5iu4lw7> *(Free 45m fitness class every Tue)*. Thru
+Aug 31 *Pizza
++ Wine* Movie Nights <http://gary.to/3zy7mrx> @ Rooftop Reds. Thru Sep
+04 *Comme
+des Garcons* @ Met <http://gary.to/06wbefe>. Thru Sep 02 *MoMA PS1* Warmup
+<http://gary.to/t3jfh46>.
+
+Mo' NYC! =3D=3D> Thru Sep 22 *Summer* Stage <http://gary.to/1k3dxg0>. Oct
+12-15 *Wine
+& Food* Festival <http://gary.to/4xb2n3x>. Thru Oct *Kayaking* @ Downtown
+Boathouse <http://gary.to/dboen7f> *(Free)*. Thru Oct 29 *Dale Chihuly's* G=
+lass
+Art <http://gary.to/xja58te> @ Botanical Gardens.
+
+Now watch *The Greatest* Showman <http://gary.to/hs5cfgc>, *Hamilton
+Mixtape:* Immigrants <http://gary.to/9fbj2fg> and *Spider-Man* Homecoming
+<http://gary.to/owcrdud> *(premiering Jul 06)*!
+
+Until next week :)
+Gary
+*(aka "The Guy with the Red Tie <http://gary.to/redtie1>")*
+
+*Word on the Streets:* "I LOVE GarysGuide!" - Tracy Chadwell *(Founding
+Partner @ 1843 Capital <http://www.1843capital.com>)*
+*Thanks, Tracy! :)*
+
+Like this week's newsletter? Feel free to share it with your friends &
+followers on *Facebook <http://gary.to/3nwmi3y>*, *LinkedIn
+<http://gary.to/o4t7253>* & *Twitter <http://gary.to/0lyiupm>*. Grazie!
+<http://www.garysguide.com/redtie>
+
+<http://gary.to/6mkkokh>
+*Facebook completed 2nd test flight of AQUILA, its unmanned solar-powered
+drone which'll beam connectivity from 60K ft altitude w/ lasers & mm-wave
+systems. Nice, yo!*
+
+<http://gary.to/orxunpb>
+*Amazon filed patent for a beehive-shaped building which could serve as a
+robot-powered fulfillment ctr for unmanned aerial vehicles a.k.a.
+package-carrying delivery drones.*
+
+<http://gary.to/hakytpf>
+*Inside look at recently launched Station F in Paris (backed by French
+billionaire Xavier Niel) which, with 366,000+ sq ft & 3000 desks, is
+world's largest startup incubator / campus.*
+
+<http://gary.to/guhwtvi>
+*Eye-tracking technology by German startup SensoMotoric SMI (rumored
+acquired by Apple last week) can capture natural gaze and control & observe
+in real-time.*
+<http://gary.to/a8n0tyd>
+
+<http://gary.to/d2ord0b>
+
+<http://gary.to/hr633p3>
+
+<http://gary.to/oqd1ck7>
+
+<http://gary.to/96k2eem>
+
+<http://gary.to/9kub5oi>
+
+<http://gary.to/u4p9k9y>
+
+<http://gary.to/8p95ugj>
+
+<http://gary.to/bdx7sy5>
+
+<http://gary.to/3u7xn4r>
+
+<http://gary.to/4gtbf70>
+*Spotlight*
+------------------------------
+*Jul 11: NYC Bootcamp Tech Mingle - Summer Edition <http://gary.to/ga2mwmk>=
+*
+Evening of lightning talks & demos by bootcamp alumni, both recent
+graduates & experienced developers.
+*Jul 16: Brunchwork w/ NBCUniversal <http://gary.to/uoxa2ks>*
+With Lou Dubois (Executive Dir. Digital Content @ NBCUniversal) & Mandy
+Menaker (Head of Brand Development, Shapr).
+*Jul 17: IoT NY #45: AgTech's Bright Future: Growing Food (And Data) With
+IoT <http://gary.to/o9l1ct0>*
+Grower adoption, solution/investment trends in indoor & urban agriculture,
+precision agriculture, & closed-loop systems.
+*Jul 19: Bringing IoT Products to Life w/ Kickstarter
+<http://gary.to/og3b9y4>*
+With Julio Terra (Dir. of Technology & Design, Kickstarter).
+*Jul 27: Life After Galvanize - Careers In Data Science
+<http://gary.to/ws47k60>*
+With Maria Montoya (Career Services Mgr @ Galvanize Denver). Get a
+perspective on Galvanize works w/ & helps place them in hottest tech
+companies.
+*Jul 27: AI Brunchwork w/ X.ai <http://gary.to/yammyzf>*
+With Dennis Mortensen (Co-Founder/CEO, X.ai) & Mandy Menaker (Head of Brand
+Development, Shapr).
+
+*Class Spotlight*
+------------------------------
+*Flatiron School - Online Web Developer <http://gary.to/wthy3tr>*
+Learn at your own pace at Flatiron School's community-driven online campus.
+Financing scholarships available.
+*Jul 12: How To Escape The Corporate Rat Race <http://gary.to/3x2g7rb>*
+Learn top mistakes to avoid when making transition, best type of business
+to start & 5-step process to for going from employee to entrepreneur.
+*Jul 12: Metis New York Open House <http://gary.to/6a3gbz9>*
+Food & drinks + hang out w/ the Metis team & get a sampling of what
+students learn during 12 weeks of project-based data science work.
+*Jul 19: Galvanize Web Development Info Session <http://gary.to/kab1f8l>*
+Learn more about Galvanize's 24-week immersive web developer training
+program.
+*Jul 26: Reboot Labs Presents - Personal Development Nerds
+<http://gary.to/bv3hqx7>*
+Discussion on broad range of topics, cultivating space for deep &
+infrequently discussed conversations.
+*Aug 14: Introductory Python <http://gary.to/cew7dwq>*
+Short course @ NYC Data Science Academy of 4 weeks w/ 5 hours of class per
+week (split into two 2.5 hour evening classes).
+*Aug 28: How To Get Started In Web Design <http://gary.to/iu2vwk8>*
+Intro to HTML & CSS & see how they're used to layout webpages & style
+content.
+
+*Companies Hiring Spotlight*
+------------------------------
+*BuzzFeed <http://gary.to/bvxnfyw>*
+BuzzFeed has the hottest, most social content on the web.
+*Updater <http://gary.to/rxjmqz9>*
+Updater makes moving easier for the 45 million Americans on the move every
+year.
+*Tinybeans <https://tinybeans.recruitee.com/>*
+Want a sense of purpose in your career? Want to change lives of millions of
+families every day?
+*Wednesday, Jul 05*
+------------------------------
+*Jul 05*
+6:00pm Free
+*Entrepreneurs Roundtable <http://gary.to/phm3dye>*
+*Microsoft*, 11 Times Sq
+With David Horowitz (Founder/CEO, Touchdown Ventures).
+
+*Jul 05*
+6:00pm Free
+*Intro to Python - The Basics <http://gary.to/vp0fgs3>*
+*Galvanize NYC*, 315 Hudson St, 2nd Fl
+Two week workshop w/ Galvanize NYC.
+
+*Jul 05*
+6:30pm Free
+*How To Become A Product Manager <http://gary.to/qiprgxv>*
+*Product School NY*, 1216 Broadway, 2nd Fl
+With Tiffany Dockery (Product Owner, Spotify).
+
+*Jul 05*
+6:30pm $25
+*Designing Games for Impact <http://gary.to/0powdj3>*
+*Microsoft*, 11 Times Sq
+With Sande Chen (Writer & Game Designer).
+
+*Thursday, Jul 06*
+------------------------------
+*Jul 06*
+2:00pm Free
+*CommonBond + TechStars Social Venture Bootcamp <http://gary.to/ywmrj3q>*
+*Venue*, Online
+Learn the important skills needed to jumpstart your business including
+mapping your business model (w/ Business Model Canvas) & pitching it to
+investors.
+
+*Jul 06*
+2:30pm Free
+*Aol BUILD Series - Laura Dave <http://gary.to/0crjfgd>*
+*BUILD Studio*, 692 Broadway
+With Laura Dave (Author, Hello Sunshine).
+
+*Jul 06*
+6:00pm Free
+*Intro to User Experience Design (UX) <http://gary.to/6eoorg1>*
+*Noble Desktop*, 594 Broadway, Ste 1202
+Covering topics of User research, User scenarios, Personas, Journey maps,
+Information Architecture & more.
+
+*Jul 06*
+6:00pm Free
+*The Signals Are Talking - Forecasting The Future & Impact Of Emerging
+Technologies <http://gary.to/ih5htry>*
+*Venue*, To Be Announced
+With Amy Webb (Author, The Signals Are Talking).
+
+*Jul 06*
+6:30pm $25
+*Intro to Unreal Engine 4 <http://gary.to/uzpritv>*
+*Microsoft*, 11 Times Sq
+With Rachl Bazelais (Development Enggr Intern, AOL).
+
+*Jul 06*
+6:30pm Free
+*Living The Digital Nomad Lifestyle <http://gary.to/1f3xsen>*
+*Galvanize NYC*, 315 Hudson St, 2nd Fl
+Featuring Roam.co.
+
+*Jul 06*
+6:30pm $10
+*Integrating Analytics In The Product Development Process
+<http://gary.to/m8mfu5b>*
+*Product School NY*, 1216 Broadway, 2nd Fl
+With Daniel Brady (Data Scientist).
+
+*Jul 06*
+6:30pm Free
+*Stories From The Trenches - Automating CI & CD w/ Docker, AWS & TeamCity
+<http://gary.to/19x2zdq>*
+*Conductor*, 2 Park Ave
+With Mahmoud Ali (CI Enggr, Conductor) & Matthew Giresi (Dir. Quality
+Assurance, Conductor).
+
+*Jul 06*
+7:00pm Free
+*Elm Hack Night <http://gary.to/noihszo>*
+*Gust HQ*, 44 W 28th St, 7th Fl
+
+*Jul 06*
+7:00pm Free
+*The Product Group <http://gary.to/umm239c>*
+*iHeartMedia*, 32 6th Ave, 23rd Fl
+With Aditya Pandyaram (VP Product, Troops).
+
+*Friday, Jul 07*
+------------------------------
+*Jul 07*
+1:00pm $40
+*Civic Art Lab 2017 <http://gary.to/dni66nf>*
+*Creations Gallery*, 89 Ave C
+With Sohee Koo (Artist & Educator, Columbia University), Andrew De Rosa
+(Designer & Educator, Queens College), Katherine Fisher (Designer, Studio
+Basis), Dan Horn (Perez Architecture), Bunny Yan (Founder/Designer,
+Squirrelz).
+
+*Saturday, Jul 08*
+------------------------------
+*Jul 08*
+11:00am $150
+*Art of Film Financing & Packaging <http://gary.to/exc1h0x>*
+*Made in NY Media Center by IFP*, 30 John St, Brooklyn
+With Atit Shah (Multiple-award Winning Producer incl. Money, The Crash,
+Brown Nation An Act of War).
+
+*Jul 08*
+12:00pm $20
+*Growth Hacking & Free Press Boot Camp <http://gary.to/qx1qcz9>*
+*Galvanize NYC*, 315 Hudson St
+Get the growth hacking strategies needed to start & scale your company.
+
+*Jul 08*
+1:00pm $50
+*What IF - How to Make Your Ideas Real <http://gary.to/0hyeclo>*
+*Nulab*, 262 Bowery, Third Fl
+With Ajay Revels (Design Researcher & UX Consultant, Politemachines).
+
+*Jul 08*
+1:00pm Free
+*High NY Potluck Fundraiser @ Secret LES Garden <http://gary.to/lxa2whg>*
+*Venue*, To Be Announced
+
+*Jul 08*
+3:00pm Free
+*Civic Art Lab - Critical Fictions & Reimagining Citizenship
+<http://gary.to/vdkxzaz>*
+*Creations Gallery*, 89 Ave C
+With Marcus Wilford (Exhibit Designer, Studio Rondinone), Katherine Fisher
+(Designer, Studio Basis), Valentina Branada (Research Assistant for School
+of Design Strategies, The New School).
+
+*Jul 08*
+4:30pm Free
+*Technology Hasn't Changed Love, Here's Why <http://gary.to/o7ei28g>*
+*Bryant Park Grill*, 25 W 40th St
+
+*Sunday, Jul 09*
+------------------------------
+*Jul 09*
+10:30am Free
+*Civic Art Lab - Community Resilience Build-A-Workshop
+<http://gary.to/c0w36si>*
+*Creations Gallery*, 89 Ave C
+
+*Monday, Jul 10*
+------------------------------
+*Jul 10*
+11:00am Free
+*UNAI / ISA Forum on Human Security <http://gary.to/mysqoki>*
+*United Nations HQ*, 405 E 42nd St
+With Yukio Takasu (Special Advisor, Secretary-General on Human Security),
+Anjali Dayal (Prof. Int'l Politics, Fordham), Francesca Perucci (Dir.,
+United Nations Statistics Division), James Turpin (Chief of Peace &
+Security Practices @ Office of High Commissioner for Human Rights).
+
+*Jul 10*
+12:30pm Free
+*#JustVenmoMe - Sharing Code w/ Open Source <http://gary.to/zege32r>*
+*Civic Hall*, 118 W 22nd St, 12th Fl
+With Dasmer Singh (Product Mgr, Venmo).
+
+*Jul 10*
+5:00pm Free
+*TensorFlow Workshop & Firebase + Cloud Functions Demo
+<http://gary.to/kapdgmm>*
+*Google Chelsea Market*, 75 9th Ave, 2nd Fl
+With Josh Gordon (Dev Advocate, Google), Marianne Monteiro (TensorFlow),
+Ralph Yozzo (GDG NYC).
+
+*Jul 10*
+6:00pm $45
+*Asian Women In Business Mixer <http://gary.to/gecdgm5>*
+*French Cheese Board*, 41 Spring St
+Networking + french cheese paired w/ Suntory japanese whiskey.
+
+*Jul 10*
+6:00pm Free
+*Hardware Meetup <http://gary.to/8uzwen6>*
+*Microsoft*, 11 Times Sq
+With Jessica Banks (Founder/CEO, Rock Paper Robot), Vlad Dragusin (Creative
+Dir., Candylab Toys), Jonathan Bobrow (Founder/CEO, Move38).
+
+*Jul 10*
+6:00pm Free
+*CTO School <http://gary.to/6k67ta3>*
+*Pivotal Labs*, 625 Ave of Americas, 2nd Fl
+
+*Jul 10*
+6:00pm Free
+*4th Annual CommonBond Social Impact Award <http://gary.to/cgxz6lk>*
+*CommonBond HQ*, 524 Broadway, 6th Fl
+CommonBond giving $10,000 to undergraduate social entrepreneur whose
+business idea drives social impact. Demos by 3 finalists competing to
+jumpstart their ventures.
+
+*Jul 10*
+6:30pm Free
+*Fundamentals Of JavaScript <http://gary.to/ux1tqj1>*
+*Galvanize*, 315 Hudson St, 2nd Fl
+With Delmer Reed (Sr Web Developer & Instructor @ Galvanize).
+
+*Jul 10*
+7:00pm $2990
+*Big Data w/ Hadoop Spark <http://gary.to/v1u083c>*
+*NYC Data Science Academy*, 500 8th Ave, Ste 905
+6-week evening program providing hands-on intro to Hadoop Spark ecosystem
+of Big Data tech.
+
+*Jul 10*
+7:00pm Free
+*Techstars Second Monday <http://gary.to/qww1er9>*
+*Techstars IoT*, 79 Madison Ave
+Join Techstars staff, founders, mentors & community leaders.
+
+*Jul 10*
+7:00pm Free
+*Humanizing Data - Creating An Escape Room For Good
+<http://gary.to/n0vyxsn>*
+*Film Society at Lincoln Center - Elinor Bunin Film Center auditorium*, 144
+W 65th St
+With Desmond Patton (Prof. Social Work @ Columbia University).
+
+*Jul 10*
+7:30pm Free
+*Crypto Currency Discussion <http://gary.to/ztyx0t4>*
+*The Belfry*, 222 E 14th St
+
+*Tuesday, Jul 11*
+------------------------------
+*Jul 11*
+8:00am Free
+*NYC Tech Breakfast <http://gary.to/cdr9yar>*
+*Microsoft*, 11 Times Sq
+With Stphane Reynaud (CEO, CogniK), Pablo Subra-Gomez (Head of Sales North
+America, Mazen App), Bingxie Zhang (Enggr, Brookhaven National Laboratory),
+Mark Brehaut (Founder, Icebrkr).
+
+*Jul 11*
+6:00pm $20
+*23 Guidelines To Avoid An A.I. Apocalypse <http://gary.to/gnk342h>*
+*Galvanize*, 315 Hudson St, 2nd Fl
+With Seth Baum (Executive Dir., Global Catastrophic Risk Institute).
+
+*Jul 11*
+6:00pm Free
+*Galvanize Data Science Info Session <http://gary.to/shlgiaz>*
+*Galvanize NYC*, 315 Hudson St, 2nd Fl
+With Tim Zeiske (Sr Data Scientist, Galvanize).
+
+*Jul 11*
+6:00pm Free
+*Playmatics Presents - Media Center Game Night <http://gary.to/w1tkiye>*
+*Made in NY Media Center by IFP*, 30 John St, Brooklyn
+With Nick Fortugno (Founder/CCO, Playmatics).
+
+*Jul 11*
+6:00pm Free
+*Coaching The Startup Sales Rep <http://gary.to/8it4hwx>*
+*Work-bench*, 110 5th Ave, 5th Fl
+With Noah Goldman (Advisor, People.ai), Steve Richard (CRO, ExecVision),
+Kristina Wiig (VP Sales, StellaService).
+
+*Jul 11*
+6:00pm $5
+*What It Takes To Get Funding <http://gary.to/t74jzv6>*
+*The Farm Soho*, 447 Broadway, 2nd Fl
+With Peter Nicholas (Dir. Investment Strategy, Facilitated Growth), Vince
+Scafaria (Founder/CEO, DotAlign), Jason Wachter (Partner, Gottlieb,
+Rackman), M Wazihullah (BCG), Cassandra Anderon (TriNet), Richard Duda
+(Consulting CFO).
+
+*Jul 11*
+6:00pm Free
+*Flatiron Students Present - Technical Talks <http://gary.to/zffone8>*
+*The Flatiron School*, 11 Broadway, Ste 260
+4 developer pairs present on technical topic of choice.
+
+*Jul 11*
+6:00pm Free
+*CUNY Tech Meetup - Inside The Muse <http://gary.to/qcieqwz>*
+*The Muse*, 1375 Broadway, 20th Fl
+
+*Jul 11*
+6:00pm $20
+*Pioneering New IoT Frontier w/ Personal Technology
+<http://gary.to/juxqt3c>*
+*WeWork Penn Station*, 315 W 36th St
+With Isy Goldwasser (Founder/CEO, Thync).
+
+*Jul 11*
+6:30pm $40
+*Entrepreneurship Bootcamp Series - How To Hire The Right Tech Team
+<http://gary.to/pzha7o9>*
+*WeWork Soho South*, 428 Broadway
+With Asha Saxena (Prof. @ Columbia University, Entrepreneur-in-Residence @
+Eugene Lang Entrepreneurship Ctr & CEO @ Future Tech) & Dasmer Singh
+(Product Mgr @ Venmo).
+
+*Jul 11*
+6:30pm Free
+*NYC Bootcamp Tech Mingle - Summer Edition <http://gary.to/7m29axu>*
+*Dev Bootcamp NYC*, 48 Wall St, 15th Fl
+Evening of lightning talks & demos by bootcamp alumni, both recent
+graduates & experienced developers.
+
+*Jul 11*
+6:30pm Free
+*Women Who Code - Intro to React JS <http://gary.to/k0nmlos>*
+*Button HQ*, 220 E 23rd St
+With Grace Kwan (Sr Software Enggr, Button).
+
+*Jul 11*
+6:30pm Free
+*Cloud Data Warehousing - Place Visitation Analytics
+<http://gary.to/cwpcraa>*
+*PlaceIQ*, 5 Bryant Park, 18th Fl
+With Alessandro Pireno (Dir. Sales Engg, Snowflake Computing), Jonathan
+Lenaghan (SVP Product Development & Chief Scientist, PlaceIQ).
+
+*Jul 11*
+6:30pm $15
+*Banking, Finance & Venture Capital- Career Roundtable
+<http://gary.to/qne7aeg>*
+*WeWork Union Square*, 33 Irving Place
+With Robert Pestreich (MD, Harrison, Stone), Upaasna Laungani (Dir.
+Accounting Policy, Citi), Vicki Aubin (Career Development Coach, Flatiron
+School).
+
+*Jul 11*
+6:30pm $49
+*Jeffersonian Discussion on Meaningful Work <http://gary.to/9o5dsqu>*
+*Centre for Social Innovation*, 601 W 26th St, #325
+
+*Jul 11*
+6:30pm Free
+*Rocket Scientists of Wall Street - Quant-Algos Careers & Learning
+<http://gary.to/81t807h>*
+*Byte Academy*, 295 Madison Ave, 35th Fl
+With Nikhil Panchal (Strategic Advisor, Byte Academy).
+
+*Jul 11*
+7:00pm Free
+*NYC Ruby Talks <http://gary.to/ynx6ja9>*
+*Pivotal Labs*, 625 Ave of Americas, 2nd Fl
+
+*Jul 11*
+7:00pm $10
+*Driverless Future Challenge <http://gary.to/s508mlv>*
+*NYU Skirball Center*, 566 LaGuardia Place
+Final event of the Driverless Future Challenge. With NY Tech Meetup, Blank
+Space & City of New York.
+
+*Wednesday, Jul 12*
+------------------------------
+*Jul 12*
+6:00am $20
+*Daybreaker NYC // White Out Party <http://gary.to/4l9dw4y>*
+*The Oculus Plaza*, 33-69 Vesey St
+
+*Jul 12*
+8:00am *VentureCrush AngelVineVC <http://gary.to/le7bt8j>*
+*Venue*, To Be Announced
+Hang w/ founders, VCs, Angels, CEOs & others.
+
+*Jul 12*
+8:30am $15
+*Breakfast w/ an Investor - Eniac Ventures <http://gary.to/cbjzgn5>*
+*Cresa*, 1633 Broadway, 22nd Fl
+With Nihal Mehta (Founding General Partner, Eniac Ventures).
+
+*Jul 12*
+10:00am $10
+*Techday, Innovate, Inspire, Advance <http://gary.to/830hbmb>*
+*Microsoft*, 11 Times Sq
+With Ken Belva ( Lead Enggr, XSS Warrior), Maria Filipakis (Dir. Campaign
+Policy, Eric Dinallo for Attorney General), Ondrej Krehel (Cybersecurity &
+Digital Forensics, LIFARS), Gregory Richardson (CTO Ambassador & Solns
+Architect, McAfee), Ramy Ramirez (Computer Forensic Examiner, Copper River)=
+.
+
+*Jul 12*
+12:30pm Free
+*Galvanize Workshop - The Two Sales Myths That Kill B2B Startups
+<http://gary.to/xpsm6sw>*
+*Galvanize NYC*, 315 Hudson St, 2nd Fl
+With Victor Adefuye (Founder, Dana Consulting).
+
+*Jul 12*
+4:30pm Free
+*NYC Women In Digital Kick-off <http://gary.to/n9bu1s5>*
+*SIXTY SoHo*, 60 Thompson St
+With Alaina Shearer (Founder, Women in Digital), Breonna Rodriguez (Lead
+Digital Designer, Sesame Street), Debra Bednar (Founder/CEO, DB+co).
+
+*Jul 12*
+5:00pm Free
+*getgeeked New York 2017 <http://gary.to/qploc2z>*
+*Metropolitan Pavilion*, 125 W 18th St
+
+*Jul 12*
+5:30pm Free
+*Choosing - How Can We Make Better Choices? <http://gary.to/4e64xig>*
+*Adelphi University*, 75 Varick St
+
+*Jul 12*
+6:00pm Free
+*Intro to SVG Scalable Vector Graphics <http://gary.to/lyeg54y>*
+*Noble Desktop*, 594 Broadway, Ste 1202
+Overview of SVG, using in webpages, tips & best practices for saving
+graphics in Adobe Illustrator & more.
+
+*Jul 12*
+6:00pm $25
+*Women In Tech - Building Community <http://gary.to/rk33ro8>*
+*Squarespace*, 8 Clarkson St
+With Reshma Saujani (Founder, Girls Who Code) & Kristen Titus (Chief
+Technology & Innovation Officer, NYC).
+
+*Jul 12*
+6:00pm Free
+*Learn Code For Free <http://gary.to/hn68h8m>*
+*Codecademy HQ*, 49 W 27th St, 4th Fl
+
+*Jul 12*
+6:00pm Free
+*eCommerce Meetup <http://gary.to/vbj7bca>*
+*Microsoft Store*, 677 5th Ave, 3rd Fl
+
+*Jul 12*
+6:00pm Free
+*ONA NYC Annual Mid-Summer Mixer <http://gary.to/fp10usa>*
+*Twitter HQ*, 249 W 17th St
+Hors d'oeuvres, drinks & networking w/ tech & media peeps.
+
+*Jul 12*
+6:30pm Free
+*NY Code+Design Academy Grad Showcase <http://gary.to/0jofk21>*
+*Enjoy*, 324 Lafayette St, 7th Fl
+
+*Jul 12*
+6:30pm Free
+*Metis New York Open House <http://gary.to/9id76yr>*
+*Metis New York*, 27 E 28th St, 3rd Fl
+Food & drinks + hang out w/ the Metis team & get a sampling of what
+students learn during 12 weeks of project-based data science work.
+
+*Jul 12*
+6:30pm Free
+*On-Campus Beginner Study Session <http://gary.to/ty17344>*
+*The Flatiron School*, 11 Broadway, Ste 260
+
+*Jul 12*
+6:30pm $10
+*Growth Product Management w/ WeWork <http://gary.to/fq99na2>*
+*Product School NY*, 1216 Broadway, 2nd Fl
+With Drew Howard (Product Mgr Growth @ WeWork).
+
+*Jul 12*
+6:30pm $10
+*Emerging Trends In CSR - Social vs Consumer Impact
+<http://gary.to/ma1hzwj>*
+*Prime Produce*, 424 W 54th St
+With Danielle Holly (CEO, Common Impact) & Paul Kushnir (Solns Engagement
+Mgr, UPS Customer Solns).
+
+*Jul 12*
+7:00pm Free
+*How To Escape The Corporate Rat Race <http://gary.to/p40bm5v>*
+*WeWork Bryant Park*, 54 W 40th St
+Learn top mistakes to avoid when making the transition, best type of
+business to start & 5-step process to follow when going from employee to
+entrepreneur.
+
+*Jul 12*
+7:30pm $35
+*NPR's How I Built This w/ Jonah Peretti <http://gary.to/jesevjf>*
+*SVA Theatre*, 333 W 23rd St
+With Jonah Peretti (Founder/CEO, BuzzFeed).
+
+*Jul 12*
+8:30pm Free
+*Tech & Hustle - Run Your Business Anywhere <http://gary.to/28hcl77>*
+*General Assembly East*, 902 Broadway, 4th Fl
+With Carmen Antoun (Mktg, Google Cloud), Lauren Lutchna (President,
+Farmstead Apothecary), Raquel Vamos (Co-Owner, Dharma Yoga Wheel), Spencer
+McCluskey (Mktg Comms Specialist, Square), Derick Anies (Product Designer,
+Weebly), Katie Swett (Product Mgr, Weebly).
+
+
+More Upcoming Events
+------------------------------
+Jul 13:  *Web Development Final Projects Science Fair
+<http://gary.to/thmpoju>* @ The Flatiron School
+
+Jul 13:  *NJ Tech Meetup <http://gary.to/pj9av78>* @ Howe Center
+
+Jul 13:  *FinTech Open Mic Night - Bitcoin, Ethereum & Ripple Resurgence
+<http://gary.to/ldgtqq3>* @ Rise NYC
+
+Jul 13:  *Black Women Talk Tech Summer Social <http://gary.to/t88ncsy>* @
+Blender
+
+Jul 13:  *Analytics for Product Success w/ Jet.com <http://gary.to/ax66ew3>=
+*
+@ Product School NY
+
+Jul 13:  *Machine Learning at Spotify <http://gary.to/qunlc2f>* @ Spotify H=
+Q
+
+Jul 13:  *Culture Capitalist - What Can Venture Capital & Liberal Arts
+Teach Each Other? <http://gary.to/4reynhn>* @ WeWork Soho West
+
+Jul 13:  *FinTech Founder Fireside w/ TransferWise <http://gary.to/z55xcwe>=
+*
+@ Latham & Watkins
+
+Jul 13:  *Android Developers - Litho & Platform Independent Architecture
+<http://gary.to/4jml2lv>* @ iHeartRadio Theater
+
+Jul 13:  *Technology & Startups - Building An MVP In NYC
+<http://gary.to/6a0jucj>* @ Knotel Bryant
+
+Jul 13:  *Fail Forward <http://gary.to/vh5w7p7>* @ General Assembly East
+
+Jul 14:  *2nd Annual Immigrant Heritage Hackathon <http://gary.to/evpzo32>*
+@ Impact Hub NY
+
+Jul 16:  *Brunchwork w/ NBCUniversal <http://gary.to/hpw7cmk>* @ Financial
+Gym
+
+Jul 17:  *Design for Good - How Designers Can Lead Change & Build the
+Future <http://gary.to/ta6404h>* @ Galvanize
+
+Jul 17:  *Netflix - Wicked Hard Decisions <http://gary.to/2smdydu>* @
+Lifion by ADP
+
+Jul 17:  *Reboot Labs - Learning How To Code For Media & Marketing
+Professionals <http://gary.to/ay522o6>* @ Spark Labs Bryant Park
+
+Jul 17:  *IoT NY #45 - AgTech's Bright Future - Growing Food (And Data)
+With IoT <http://gary.to/rhoftpt>* @ Venue
+
+Jul 17:  *Masterclass In Leadership (Through Sports)
+<http://gary.to/g5mydzu>* @ General Assembly East
+
+Jul 18:  *Flatiron Students Present - Technical Talks
+<http://gary.to/4p1wkfx>* @ The Flatiron School
+
+Jul 18:  *EdTech Networking Mixer <http://gary.to/mkaylo3>* @ Edtech
+Factory Union Square
+
+Jul 18:  *Interactive Media <http://gary.to/rmv6qdl>* @ And & And
+
+Jul 18:  *Book Launch - Live Like Fiction <http://gary.to/z6uyd25>* @
+General Assembly East
+
+Jul 19:  *M&A Roundtable - Selling Your Media Business
+<http://gary.to/1ixew5a>* @ Rise NYC
+
+Jul 19:  *Galvanize Web Development Info Session <http://gary.to/wil5x31>*
+@ Galvanize NYC
+
+Jul 19:  *Bringing IoT Products To Life With Kickstarter
+<http://gary.to/8jvj4d5>* @ WeWork Penn Station
+
+Jul 19:  *An Entrepreneur's Guide To The Immigration Debate
+<http://gary.to/xqi29ki>* @ Venue
+
+Jul 19:  *Civic Hall Member Showcase <http://gary.to/6pi9y9l>* @ Civic Hall
+
+Jul 19:  *Focus AI - Ethical Impact Of AI <http://gary.to/pqeue9u>* @ Venue
+
+Jul 19:  *StartUp Grind - Venrock <http://gary.to/a717qs9>* @ DigitalOcean
+
+Jul 20:  *GrowCommerce 2017 <http://gary.to/009bzs3>* @ Convene
+
+Jul 20:  *Brooklyn Tech Breakfast <http://gary.to/5vbxl1o>* @ LIU Brooklyn
+
+Jul 20:  *Fireside Chat w/ Infor <http://gary.to/8zf9qym>* @ Infor
+
+Jul 20:  *Raising Startup Seed Funding <http://gary.to/vhdbsoq>* @ Venue
+
+Jul 20:  *Fund Your Dream & Live Your Dream <http://gary.to/972rfml>* @
+Galvanize NYC
+
+Jul 26:  *The Past, Present & Future of Personalization
+<http://gary.to/65pfmt7>* @ Digital Ocean
+
+Jul 26:  *Reboot Labs Presents - Personal Development Nerds
+<http://gary.to/czvn3h7>* @ Spark Labs Bryant Park
+
+Jul 27:  *Life After Galvanize - Careers In Data Science
+<http://gary.to/gjdta8s>* @ Galvanize NYC
+
+Jul 27:  *AI Brunchwork w/ X.ai <http://gary.to/hn4lgpl>* @ Alley Chelsea
+
+Jul 29:  *Data Science w/ R - Data Analysis & Visualization
+<http://gary.to/shwutl6>* @ NYC Data Science Academy
+
+Jul 30:  *Data Science w/ Python - Data Analysis & Visualization
+<http://gary.to/f92ufbd>* @ NYC Data Science Academy
+
+Aug 05:  *MusED Hackathon <http://gary.to/6z7mjw1>* @ Venue
+
+Add newsletter@garysguide.com to your address book to ensure delivery into
+your Inbox and not your bulk or junk folders.
+
+To change your email address just reply to this email with the new email
+address.
+
+To unsubscribe from the newsletter just reply to this email with the word
+"unsubscribe" in the title.
+
+Have a question, comment or feedback? Email Gary (aka "The Guy with the Red
+Tie") at gary@garysguide.com
+
+=C2=A9 2017 GarysGuide
+
+
+--=20
+Lydia*Stepanek*
+203.804.9137
+
+--0000000000004f579b05fae5eaf3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">---------- Forwarded message ---------<br>From: <strong cla=
+ss=3D"gmail_sendername" dir=3D"auto">GarysGuide</strong> <span dir=3D"auto"=
+>&lt;<a href=3D"mailto:newsletter@garysguide.com">newsletter@garysguide.com=
+</a>&gt;</span><br>Date: Mon, Jul 3, 2017 at 8:23=E2=80=AFAM<br>Subject: Th=
+is Week In Silicon Alley (Civic Art Lab 2017, CommonBond + TechStars Social=
+ Venture Bootcamp, Entrepreneurs Roundtable, Future of Emerging Tech, Produ=
+ct Group w/ Troops, Digital Nomad Lifestyle)<br>To:  &lt;<a href=3D"mailto:=
+fake@email.com">fake@email.com</a>&gt;<br></div><br><br=
+><u></u>
+
+
+<div>
+
+<table width=3D"100%" cellspacing=3D"10" cellpadding=3D"10" style=3D"backgr=
+ound-color:#eeeeee">
+
+<tbody><tr><td><table width=3D"100%" style=3D"background-color:#ffffff" cel=
+lspacing=3D"0" cellpadding=3D"0">
+
+<tbody><tr height=3D"50"><td height=3D"50" style=3D"background-color:#e03d3=
+e" align=3D"left" valign=3D"middle"><table cellspacing=3D"0" cellpadding=3D=
+"0"><tbody><tr><td>
+<img width=3D"560" height=3D"50" alt=3D"GarysGuide" src=3D"https://s3.amazo=
+naws.com/garysguide_images/gg_newsletter_top_nyc.png">
+
+</td></tr></tbody></table></td></tr>
+
+<tr><td height=3D"30" style=3D"background-color:#d1d1d1"><table width=3D"10=
+0%">
+<tbody><tr><td height=3D"30" valign=3D"middle" align=3D"left" style=3D"back=
+ground-color:#d1d1d1">
+=C2=A0=C2=A0=C2=A0<b>New York City</b>
+=C2=A0=C2=A0=C2=A0<a href=3D"http://www.garysguide.com/events?region=3Dsfba=
+y" target=3D"_blank">San Francisco Bay Area</a>
+</td></tr></tbody></table></td></tr>
+
+<tr><td height=3D"30" style=3D"background-color:#e3e3e3"><table width=3D"10=
+0%">
+<tbody><tr><td height=3D"30" valign=3D"middle" align=3D"left" style=3D"back=
+ground-color:#e3e3e3">=C2=A0=C2=A0=C2=A0Jul 03, 2017: The Red, White &amp; =
+BBQ Edition!</td>
+<td align=3D"right" style=3D"background-color:#e3e3e3"><a href=3D"http://ga=
+ry.to/ba8yrre" target=3D"_blank">View in browser</a>=C2=A0=C2=A0=C2=A0|=C2=
+=A0=C2=A0=C2=A0<a href=3D"http://www.garysguide.com/events?region=3Dnewyork=
+" target=3D"_blank">Subscribe</a>=C2=A0=C2=A0=C2=A0</td></tr>
+</tbody></table></td></tr>
+
+<tr><td valign=3D"top" style=3D"background-color:#ffffff"><table width=3D"1=
+00%" cellspacing=3D"8" cellpadding=3D"8"><tbody><tr><td valign=3D"top">
+<i>&quot;Value is created on token level rather than on equity level, there=
+fore opposing everything we experienced in conventional software businesses=
+. Tokens represent an atomic unit of a company&#39;s business model.&quot;<=
+/i> // <b><a href=3D"http://gary.to/bycyvas" target=3D"_blank">Mapping The<=
+/a></b> <b>Decentralized World Of Tomorrow</b>
+<br>
+<br><i>&quot;In March, Arizona got a gift from California - free solar powe=
+r. Actually better than free. California had produced so much solar power, =
+it paid Arizona to take excess electricity its residents weren&#39;t using =
+to avoid overloading its own power lines.&quot;</i> // <b>Solar</b> <b><a h=
+ref=3D"http://gary.to/0vki0je" target=3D"_blank">Power</a></b>
+<br>
+<br><i>&quot;A new digital ID network built on biometrics &amp; blockchain,=
+ as part of United Nations-supported project, will provide legal identifica=
+tion to 1.1 billion people worldwide who do not have any official documents=
+.&quot;</i> // <b>Refugee Global ID</b> <b><a href=3D"http://gary.to/xnya3w=
+x" target=3D"_blank">System</a></b>
+<br>
+<br><b>Space Corps</b> <a href=3D"http://gary.to/29qii94" target=3D"_blank"=
+>plan</a> by Pentagon. <b>Google</b> <a href=3D"http://gary.to/vb4e0s6" tar=
+get=3D"_blank">fined</a> $2.7B by EU for breaching anti-trust rules. <b>Ran=
+somware attack</b> <a href=3D"http://gary.to/21f4741" target=3D"_blank">in =
+64+ countries</a>. <b>Sweden</b> <a href=3D"http://gary.to/pthb3cy" target=
+=3D"_blank">to eliminate</a> income taxes on startup stock options. <b>Alph=
+abet&#39;s Waymo</b> <a href=3D"http://gary.to/g071bf2" target=3D"_blank">t=
+o manage</a> Avis self-driving fleet. <b>Block.one ICO</b> <a href=3D"http:=
+//gary.to/0eely91" target=3D"_blank">record</a> <i>($185M in 5 days)</i>. <=
+b>US laptop ban</b> <a href=3D"http://gary.to/1d73cnf" target=3D"_blank">li=
+fted at</a> Abu Dhabi airport. <b>Tesla Model 3</b> <a href=3D"http://gary.=
+to/1fg17cc" target=3D"_blank">first production</a> this Fri <i>(20,000/mo b=
+y Dec)</i>. <b>Boring Company</b> <a href=3D"http://gary.to/eykx40w" target=
+=3D"_blank">completed 1st section</a> of LA tunnel. <b>Silicon Valley VCs</=
+b> <a href=3D"http://gary.to/zsslod0" target=3D"_blank">outed for</a> sexua=
+l harassment of female founders. <b>Redfin</b> <i>(real estate tech)</i> <a=
+ href=3D"http://gary.to/wolqwhs" target=3D"_blank">IPO</a>. And <b>Musk&#39=
+;s</b> <a href=3D"http://gary.to/we8s0ed" target=3D"_blank">detailed plan</=
+a> for colonizing Mars.
+<br>
+<br><b>SpaceX</b> <b><a href=3D"http://gary.to/uufq8gn" target=3D"_blank">t=
+o launch</a></b> <b>Block 5</b> <i>(final upgrade to Falcon 9 rocket)</i> l=
+ater this year and three <b>Falcon Heavy</b> launches planned for next 18 m=
+onths + a demo in late 2017.
+<br>
+<br>NEW THINGS =3D=3D&gt; <b>Area</b> <a href=3D"http://gary.to/q4d8ksk" ta=
+rget=3D"_blank">120</a> <i>(Early access program workshop for Google&#39;s =
+experimental products)</i>. <b>Token</b> <a href=3D"http://gary.to/7yxu3wz"=
+ target=3D"_blank">Ring</a> <i>(One ring to access everything incl. passwor=
+d, house key, credit card, transit card)</i>. <b>Nintendo</b> <a href=3D"ht=
+tp://gary.to/l0afztx" target=3D"_blank">Super NES Classic</a> <i>(Available=
+ Sep 29)</i>. <b>Detour</b> <a href=3D"http://gary.to/5au1un7" target=3D"_b=
+lank">App</a> <i>(Free until Labor Day)</i>.
+<br>
+<br>As y&#39;all know, my New Years Resolution is to get to know GarysGuide=
+ members &amp; subscribers better :) So <b><a href=3D"mailto:gary@garysguid=
+e.com" target=3D"_blank">shoot me an email</a></b> &amp; introduce yourself=
+!<br><br>
+<font style=3D"background-color:#ffff99;padding:2px">ANNOUNCING</font> =3D=
+=3D&gt; <b>Barclays</b> <b><a href=3D"http://gary.to/fxpavud" target=3D"_bl=
+ank">Accelerator</a></b> <i>(For startups focused on finance, banking, mach=
+ine learning, cyber security, payments, cryptocurrency, insurance; $120K fu=
+nding; 6% equity; Powered by Techstars)</i>; apply by Jul 14.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">ANNOUNCING</font> =
+=3D=3D&gt; <b>Wall Street Journal:</b> <b><a href=3D"http://gary.to/yjk0z7k=
+" target=3D"_blank">Global Startups Showcase</a></b> <i>(Showcasing 6 entre=
+preneurs from around the world; Startups should have raised no more than $5=
+M; Demo on stage at WSJ D.Live Oct16-18)</i>; apply by Jul 07.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">ANNOUNCING</font> =
+=3D=3D&gt; <b>Global Fintech</b> <b><a href=3D"http://gary.to/sfddrzu" targ=
+et=3D"_blank">Hackcelerator</a></b> <i>(20 startups; 12 weeks program; S$20=
+K + add&#39;l S$50K for top 3 startups; Mentorship by fintech community &am=
+p; financial services industry; Demo Nov 16 @ Singapore FinTech Festival)</=
+i>; apply by Jul 15.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">ANNOUNCING</font> =
+=3D=3D&gt; <b>French Tech</b> <b><a href=3D"http://gary.to/83rz01o" target=
+=3D"_blank">Visa</a></b> <i>(Simplified, fast-track to obtain residence per=
+mit &#39;Passeport Talent&#39;; For 3 types of international tech talent - =
+startup founders, employees, investors; Valid for 4 years on renewable basi=
+s; No additional work permit reqd; Extended to immediate family members)</i=
+>.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">ANNOUNCING</font> =
+=3D=3D&gt; <b>CSI Tech</b> <b><a href=3D"http://gary.to/v8qbm9o" target=3D"=
+_blank">Incubator</a></b> <i>(Mentorship, space + access to high performanc=
+e computing; With College of Staten Island &amp; CUNY)</i>; apply by Jul 07=
+.<br><br>
+<font style=3D"background-color:#ffff99;padding:2px">SPACE</font> =3D=3D&gt=
+; <b>BOND</b> <b><a href=3D"http://gary.to/q7795j0" target=3D"_blank">Colle=
+ctive</a></b> <i>(15% off 1st month; Mention GarysGuide; 1-50+ brand new cu=
+stom offices @ 55 Broadway in Financial District)</i>.<br><br>
+<font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</font>!=
+ =3D=3D&gt; Jul 27 <b>A.I.</b> <b><a href=3D"http://gary.to/vipnrfj" target=
+=3D"_blank">Brunchwork</a></b> w/ Dennis Mortensen <i>(Co-Founder/CEO, X.ai=
+)</i> &amp; Mandy Menaker <i>(Head of Brand Development, Shapr)</i>; <a hre=
+f=3D"http://gary.to/deals1" target=3D"_blank">2 FREE Passes</a> <i>($45 eac=
+h)</i>! Jul 11 <b>23 Guidelines To Avoid</b> <b><a href=3D"http://gary.to/c=
+5tqsl0" target=3D"_blank">A.I. Apocalypse</a></b> w/ Seth Baum <i>(Exec Dir=
+., Global Catastrophic Risk Institute)</i>; <a href=3D"http://gary.to/deals=
+1" target=3D"_blank">5 FREE Passes</a>!
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</fo=
+nt>! =3D=3D&gt; Jul 19 <b>Bringing IoT Products To Life</b> <b><a href=3D"h=
+ttp://gary.to/wara2gh" target=3D"_blank">With Kickstarter</a></b> w/ Julio =
+Terra <i>(Dir. of Technology &amp; Design, Kickstarter)</i>; <a href=3D"htt=
+p://gary.to/deals1" target=3D"_blank">10 FREE Passes</a>! Jul 11 <b>Pioneer=
+ing New IoT Frontier</b> <b><a href=3D"http://gary.to/3fidv6t" target=3D"_b=
+lank">With Personal Technology</a></b> w/ Isy Goldwasser <i>(Founder/CEO, T=
+hync)</i>; <a href=3D"http://gary.to/deals1" target=3D"_blank">10 FREE Pass=
+es</a>!
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</fo=
+nt>! =3D=3D&gt; Jul 06 <b>Modvation:</b> <b><a href=3D"http://gary.to/bnpkj=
+fa" target=3D"_blank">Diversity Ventures</a></b> <i>(SF)</i> w/ Patrick Lee=
+ <i>(Co-Founder/CEO, Rotten Tomatoes)</i>, Prayag Narula <i>(Founder/CEO, L=
+eadGenius)</i>, Tyra Fennel <i>(Founder, Imprint City)</i>, Tam Pham <i>(Bo=
+t Academy)</i>, Sonia Le <i>(Founder/CEO, Cosmic Chic)</i>; <a href=3D"http=
+://gary.to/deals1" target=3D"_blank">2 FREE Passes</a> <i>($120 each)</i>!
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</fo=
+nt>! =3D=3D&gt; Jul 13 <b>Black Women Talk Tech</b> <b><a href=3D"http://ga=
+ry.to/nkmxnfn" target=3D"_blank">Summer Social</a></b> <i>(tasty bites + ne=
+tworking)</i>; <a href=3D"http://gary.to/deals1" target=3D"_blank">2 FREE P=
+asses</a>! Jul 16 <b>Brunch</b><b><a href=3D"http://gary.to/caf1ppm" target=
+=3D"_blank">work</a></b> w/ Lou Dubois <i>(Exec Director Digital Content @ =
+NBC Universal)</i> &amp; Mandy Menaker <i>(Head of Brand Development, Shapr=
+)</i>; <a href=3D"http://gary.to/deals1" target=3D"_blank">2 FREE Passes</a=
+> <i>($40 each)</i>!
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</fo=
+nt>! =3D=3D&gt; Jul 07 <b>Civic Art Lab</b> <b><a href=3D"http://gary.to/j4=
+h8gxe" target=3D"_blank">2017</a></b> <i>(Columbia University, New School, =
+Queens College, Studio Basis, Perez Architecture, Squirrelz)</i> + Jul 08 <=
+a href=3D"http://gary.to/isbjjmn" target=3D"_blank">Critical Fictions &amp;=
+ Reimagining Citizenship</a> <i>(FREE)</i> + Jul 09 <a href=3D"http://gary.=
+to/8xzz0s6" target=3D"_blank">Community Resilience: Build-A-Workshop</a> <i=
+>(FREE)</i>.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</fo=
+nt>! =3D=3D&gt; Jul 08 <b>Art of Film Financing</b> <b><a href=3D"http://ga=
+ry.to/22zcutq" target=3D"_blank">&amp; Packaging</a></b> w/ Atit Shah <i>(M=
+ultiple-award Winning Producer incl. Money, The Crash, Brown Nation, Act of=
+ War)</i>; <a href=3D"http://gary.to/deals1" target=3D"_blank">2 FREE Passe=
+s</a> <i>($150)</i>! Jul 17 <b>Reboot</b> <b><a href=3D"http://gary.to/g330=
+6jx" target=3D"_blank">Labs</a></b> <i>(Learning How to Code for Media &amp=
+; Marketing)</i>.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">DON&#39;T MISS</fo=
+nt>! =3D=3D&gt; Jul 12 <b>Save Net Neutrality</b> <b><a href=3D"http://gary=
+.to/7r1qao3" target=3D"_blank">Day of Action</a></b>. Aug 18-20 <b>WeWork</=
+b> <b><a href=3D"http://gary.to/i9b550o" target=3D"_blank">Summer Camp</a><=
+/b> @ Tunbridge Wells <i>(UK)</i>. Thru Dec 03 <b>Drones:</b> <b><a href=3D=
+"http://gary.to/kdypcrr" target=3D"_blank">Is Sky The Limit</a></b> @ Sea, =
+Air &amp; Space Museum.
+<br>
+<br>Jul 12 <b>How To Escape The</b> <b><a href=3D"http://gary.to/9lr18sr" t=
+arget=3D"_blank">Corporate Rat Race</a></b> <i>(FREE)</i> Learn top mistake=
+s to avoid when making transition, best type of business to start &amp; 5-s=
+tep process to follow going from employee to entrepreneur.=20
+<br>
+<br>Jul 13 <b>Culture Capitalist:</b> <b><a href=3D"http://gary.to/rdlsysd"=
+ target=3D"_blank">What Can Venture Capital &amp; Liberal Arts Teach Each O=
+ther?</a></b> <i>(FREE)</i> w/ Andy Weissman <i>(Partner, Union Square Vent=
+ures)</i>, Adam Huttler <i>(Founder/CEO, Fractured Atlas)</i>, Vyjayanthi V=
+adrevu <i>(Sr Researcher, Conifer Research)</i>, Phil Surles <i>(Founder, S=
+tudyUp)</i>.
+<br>
+<br>Jul 13 <b>Fail</b> <b><a href=3D"http://gary.to/v4hbedc" target=3D"_bla=
+nk">Forward</a></b> <i>(FREE)</i> w/ Schuyler Brown <i>(Co-Founder/CMO, str=
+ongDM)</i>, Phil Sarin <i>(CTO, Managed By Q)</i>, Gavin Cowie <i>(VP Engg,=
+ StellaService)</i>, Daniel Doubrovkine <i>(CTO, Artsy)</i>, Emilia Serifov=
+a <i>(CTO, Learnvest)</i>.
+<br>
+<br>Jul 17 <b>AgTech&#39;s Bright Future:</b> <b><a href=3D"http://gary.to/=
+rjo0eri" target=3D"_blank">Growing Food And Data With IoT</a></b> <i>(FREE)=
+</i> w/ Jason Green <i>(CEO, Edenworks)</i>, Ron Hiller <i>(Founder, BLX.io=
+)</i>, Ajay Kulkarni <i>(Founder/CEO, Timescale)</i>, Adam Wolf <i>(Founder=
+/CEO, Arable)</i>, Louisa Taylor <i>(Head of Media, AgFunder)</i>, Michael =
+Fernandez <i>(AeroFarms)</i>.
+<br>
+<br>Jul 19 <b>M&amp;A Roundtable:</b> <b><a href=3D"http://gary.to/e7xls9x"=
+ target=3D"_blank">Selling Your Media Business</a></b> <i>(FREE)</i> w/ Dan=
+e Atkinson <i>(Co-Founder, Squarespace)</i>, David Leider <i>(Founder, Gas =
+Station TV)</i>, David Segura <i>(Founder, Giant Media)</i>, Lance Barton <=
+i>(SVP Corp Dev, IAC)</i>, Justin Trudel <i>(Dir. M&amp;A, Dentsu Aegis)</i=
+>, Teddy Hilmer <i>(Comcast VC)</i>.
+<br>
+<br>Jul 06 <b>CommonBond + TechStars</b> <b><a href=3D"http://gary.to/wdc2o=
+kv" target=3D"_blank">Social Venture Bootcamp</a></b> <i>(FREE)</i> Learn i=
+mportant skills needed to jumpstart business incl. mapping business model <=
+i>(w/ Business Model Canvas)</i> &amp; pitching to investors.
+<br>
+<br>Nov 07 <b>Empire Startups Fintech</b> <b><a href=3D"http://gary.to/rk96=
+hyf" target=3D"_blank">Conference</a></b> <i>(Showcasing Silicon Valley Fin=
+tech at its best; Topics incl. big data solving big problems for underserve=
+d, AI disrupting service, venture flow outside US; Hot startup demos)</i>.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">FREE PASSES</font>=
+! <i>(<a href=3D"http://gary.to/deals1" target=3D"_blank">details</a>)</i> =
+=3D=3D&gt; Jul 06 <b>Unreal Engine 4</b> <a href=3D"http://gary.to/bsogg6n"=
+ target=3D"_blank">Intro</a> w/ Rachl Bazelais <i>(Development Enggr, Aol)<=
+/i>. Jul 05 <b>Designing Games</b> <a href=3D"http://gary.to/crbb83y" targe=
+t=3D"_blank">For Impact</a> With Sande Chen <i>(Game Designer)</i>. Jul 26 =
+<b>Sheworx</b> <a href=3D"http://gary.to/vrmba3b" target=3D"_blank">Roundta=
+ble</a> w/ Karin Ajmani <i>(President of Healthcare Services, Progyny)</i>.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">UPCOMING EVENTS</f=
+ont> =3D=3D&gt; Jul 13 <b>FinTech Founder</b> <a href=3D"http://gary.to/vm6=
+h2ze" target=3D"_blank">Fireside</a> w/ Taavet Hinrikus <i>(Founder/CEO, Tr=
+ansferWise)</i> &amp; Lily Katz <i>(Reporter, Bloomberg)</i>.
+<br>
+<br><font style=3D"background-color:#ffff99;padding:2px">CLASSES</font> =3D=
+=3D&gt; <b>Flatiron School</b> <a href=3D"http://gary.to/x966vd8" target=3D=
+"_blank">Bootcamp Prep</a>. Jul 10 <b>Big Data</b> <a href=3D"http://gary.t=
+o/71birmi" target=3D"_blank">w/ Hadoop Spark</a>. Jul 12 <a href=3D"http://=
+gary.to/rs8yymn" target=3D"_blank">Open House</a> @ <b>Metis</b>. Jul 19 <a=
+ href=3D"http://gary.to/j4f35qw" target=3D"_blank">Web Development Info Ses=
+sion</a> @ <b>Galvanize</b>. Jul 26 <a href=3D"http://gary.to/4acpzbl" targ=
+et=3D"_blank">Personal Development Nerds</a> @ <b>Reboot Labs</b>. Jul 27 <=
+a href=3D"http://gary.to/k2sx0jf" target=3D"_blank">Careers In Data Science=
+</a>.
+<br>
+<br>Mo&#39; Classes =3D=3D&gt; Jul 29 <b>Data Science w/ R:</b> <a href=3D"=
+http://gary.to/z1pqe1c" target=3D"_blank">Data Analysis &amp; Visualization=
+</a>. Jul 30 <b>Data Science w/ Python:</b> <a href=3D"http://gary.to/gll1i=
+f7" target=3D"_blank">Data Analysis &amp; Visualization</a>. Aug 14 <b>Pyth=
+on</b> <a href=3D"http://gary.to/b0r8tlg" target=3D"_blank">Intro</a>. Aug =
+23 <a href=3D"http://gary.to/lycfruy" target=3D"_blank">Web Design &amp; De=
+velopment Open</a> @ <b>Noble</b>. Aug 28 <a href=3D"http://gary.to/n6ihfa1=
+" target=3D"_blank">Getting Started In Web Design</a> @ <b>Noble</b>.<br><b=
+r>
+<font style=3D"background-color:#ffff99;padding:2px">DEADLINES</font> =3D=
+=3D&gt; <b>MTA Genius Transit</b> <a href=3D"http://gary.to/8jgkd86" target=
+=3D"_blank">Challenge</a> <i>($1 million award for the best ideas in 3 cate=
+gories; #1 address aging signal system, #2 address aging subway cars, #3 de=
+sign comms tech for cellular + WiFi connectivity in tunnels; Judges from Co=
+rnell Tech, Infor, USV, MongoDB, Stanford)</i>.
+<br>
+<br>Mo&#39; Deadlines =3D=3D&gt; <b>Startup Canadian Visa</b> <a href=3D"ht=
+tp://gary.to/p0i53b6" target=3D"_blank">Program</a> <i>(By Launch Academy a=
+ccelerator; For startups w/ $200K funding from Canadian VC or $75K from Can=
+adian angel)</i>. <b>Parallel18</b> <a href=3D"http://gary.to/wv2demv" targ=
+et=3D"_blank">Accelerator</a> <i>(@ Puerto Rico; 34 startups; Looking for a=
+ few mentors; Flown to Puerto Rico for 5 day stay betn April &amp; July)</i=
+>.<br><br>
+<font style=3D"background-color:#ffff99;padding:2px">CONGRATS</font>! =3D=
+=3D&gt; Jon &amp; <b>Auth0</b> <i>(cloud Identity as a service platform)</i=
+> <a href=3D"http://gary.to/n6f9km6" target=3D"_blank">raised</a> $30M. Ash=
+leigh &amp; <b>Provention Bio</b> <i>(biopharma)</i> <a href=3D"http://gary=
+.to/it1r4ul" target=3D"_blank">raised</a> $28.4M. Ludovic &amp; <b>Shapr</b=
+> <i>(networking app)</i> <a href=3D"http://gary.to/9wmap4x" target=3D"_bla=
+nk">raised</a> $9.5M. Adam &amp; <b>Homer Logistics</b> <i>(ptimizing local=
+ delivery using logistics technology)</i> <a href=3D"http://gary.to/iy2mdvm=
+" target=3D"_blank">raised</a> $8.5M.=20
+<br>
+<br>Mo&#39; Congrats! =3D=3D&gt; Susannah &amp; <b>Flip</b> <i>(peer-to-pee=
+r leasing marketplace)</i> <a href=3D"http://gary.to/156u7l9" target=3D"_bl=
+ank">raised</a> $2.2M. Dave &amp; <b>Lynq</b> <i>(location technology)</i> =
+<a href=3D"http://gary.to/va3qoad" target=3D"_blank">raised</a> $1.9M. Jani=
+ne &amp; <b>StayAwhile</b> <i>(mid-term rental housing)</i> <a href=3D"http=
+://gary.to/818qbcx" target=3D"_blank">raised</a> $1.5M.<br><br>
+<font style=3D"background-color:#ffff99;padding:2px">RECENTLY READ</font> =
+=3D=3D&gt; <b>Tencent</b> <a href=3D"http://gary.to/m06tgv7" target=3D"_bla=
+nk">Domination</a>, <b>Ends, Means</b> <a href=3D"http://gary.to/u04zfim" t=
+arget=3D"_blank">&amp; Anti-trust</a>, <b>Surveillance</b> <a href=3D"http:=
+//gary.to/bi624aw" target=3D"_blank">State</a>, <b>Jobs</b> <a href=3D"http=
+://gary.to/4orfxg7" target=3D"_blank">Automation</a>, <b>Distributed</b> <a=
+ href=3D"http://gary.to/0ibma9q" target=3D"_blank">Truth</a>, <b>Instagram<=
+/b> <a href=3D"http://gary.to/ar2xndu" target=3D"_blank">Deep Text</a>, <b>=
+Pricing</b> <a href=3D"http://gary.to/3b3x4na" target=3D"_blank">Difference=
+s</a>, <b>Yelp</b> <a href=3D"http://gary.to/mmpfesm" target=3D"_blank">vs =
+Google</a>, <b>China&#39;s</b> <a href=3D"http://gary.to/7r3oojw" target=3D=
+"_blank">Battery Factories</a>, <b>Online</b> <a href=3D"http://gary.to/wov=
+i0tg" target=3D"_blank">Me</a>, <b>House</b> <a href=3D"http://gary.to/q45i=
+h31" target=3D"_blank">Pricing</a>, <b>Career</b> <a href=3D"http://gary.to=
+/8n3dr6c" target=3D"_blank">Biohacks</a>, <b>Serena</b> <a href=3D"http://g=
+ary.to/14o3fwo" target=3D"_blank">&amp; Alexis</a> and <b>Jay-Z</b> <a href=
+=3D"http://gary.to/a0yj05x" target=3D"_blank">4:44</a>.<br><br>
+<font style=3D"background-color:#ffff93;padding:2px">WHO&#39;S HIRING</font=
+> =3D=3D&gt; <a href=3D"http://gary.to/wurxys4" target=3D"_blank">Big Data<=
+/a> at <b>Fareportal</b>, <a href=3D"http://gary.to/r6e2gr4" target=3D"_bla=
+nk">Product</a> at <b>Meetup</b>, <a href=3D"http://gary.to/wmku3lx" target=
+=3D"_blank">Product</a> at <b>Dropbox</b>, <a href=3D"http://gary.to/kbg2nn=
+b" target=3D"_blank">Partner API</a> at <b>Jet</b>, <a href=3D"http://gary.=
+to/59w1py8" target=3D"_blank">Exec Assistant</a> at <b>BuzzFeed</b>, <a hre=
+f=3D"http://gary.to/49qee3e" target=3D"_blank">Email Mktg</a> at <b>Kicksta=
+rter</b>, <a href=3D"http://gary.to/ham7zc0" target=3D"_blank">Acct Mgr</a>=
+ at <b>LinkedIn</b>, <a href=3D"http://gary.to/j87hue9" target=3D"_blank">M=
+ktg</a> at <b>Skimm</b>, <a href=3D"http://gary.to/dl2eikp" target=3D"_blan=
+k">Designer</a> at <b>Bonobos</b>, <a href=3D"http://gary.to/wfdqoah" targe=
+t=3D"_blank">Photo Intern</a> at <b>Birchbox</b>, <a href=3D"http://gary.to=
+/vkbtadk" target=3D"_blank">iOS</a> at <b>Hueman</b>, <a href=3D"http://gar=
+y.to/6vus3ma" target=3D"_blank">Brand Mktg</a> at <b>Vox</b>, <a href=3D"ht=
+tp://gary.to/fodssog" target=3D"_blank">VP Sales</a> at <b>Architizer</b>, =
+<a href=3D"http://gary.to/hyqck1o" target=3D"_blank">Community</a> at <b>We=
+Work</b>, <a href=3D"http://gary.to/coodncu" target=3D"_blank">Design</a> a=
+t <b>Bright Power</b>, <a href=3D"http://gary.to/q256k1e" target=3D"_blank"=
+>Frontend</a> at <b>E*Trade</b>, <a href=3D"http://gary.to/4p1a0pg" target=
+=3D"_blank">Acct Exec</a> at <b>Criterion</b>, <a href=3D"http://gary.to/ow=
+r8elm" target=3D"_blank">Office Mgr</a> at <b>Noble Markets</b>,  &amp; <b>=
+<a href=3D"http://www.garysguide.com/jobs?region=3Dnewyork" target=3D"_blan=
+k">many more</a>!</b><br><br> Mo&#39; Hiring! =3D=3D&gt; <a href=3D"http://=
+gary.to/2er2z7q" target=3D"_blank">Exec Assistant &amp; Office Mgr</a> at <=
+b>Updater</b>, <a href=3D"http://gary.to/3a6bwfl" target=3D"_blank">Client =
+Success Mgr</a> at <b>Updater</b>, <a href=3D"http://gary.to/6v3uop2" targe=
+t=3D"_blank">IT Solns Mgr</a> at <b>Updater</b>, <a href=3D"http://gary.to/=
+ucbdiz9" target=3D"_blank">Comms &amp; PR Mgr</a> at <b>Updater</b>, <a hre=
+f=3D"http://gary.to/8fx9a8e" target=3D"_blank">Acct Exec</a> at <b>Tinybean=
+s</b>.<br><br>
+
+<font style=3D"background-color:#ffff99;padding:2px">NYC</font> =3D=3D&gt; =
+Jul 08 <b>Full Moon</b> <a href=3D"http://gary.to/oqdnyr5" target=3D"_blank=
+">Fest</a> @ Governors Island. Jul 12-13 <b>Manhattan</b><a href=3D"http://=
+gary.to/ety86w2" target=3D"_blank">henge</a>. Jul 16 <b>Ice-cream</b> <a hr=
+ef=3D"http://gary.to/u6bbrbi" target=3D"_blank">Blizzard</a> @ Grand Bazaar=
+. Jul 28-30 <b>Panorama</b> <a href=3D"http://gary.to/unzcwsp" target=3D"_b=
+lank">Music Festival</a>. Thru Aug 02 <b>Synthetic</b> <a href=3D"http://ga=
+ry.to/idyc1ac" target=3D"_blank">Desert</a> @ Guggenheim. Thru Aug 12 <b>Ce=
+lebrate</b> <a href=3D"http://gary.to/5zvtyfc" target=3D"_blank">Brooklyn</=
+a>. Thru Aug 26 <b>Love In Venice</b> @ <a href=3D"http://gary.to/fpot55s" =
+target=3D"_blank">NYPL</a>.=20
+<br>
+<br>Mo&#39; NYC! =3D=3D&gt; Aug 05, 12, 29 <b>Summer</b> <a href=3D"http://=
+gary.to/xdgvr3r" target=3D"_blank">Streets</a> <i>(7 miles of streets open =
+to public; 7am - 1pm)</i>. Thru Aug <b>Sweat</b> <a href=3D"http://gary.to/=
+5iu4lw7" target=3D"_blank">Sessions</a> <i>(Free 45m fitness class every Tu=
+e)</i>. Thru Aug 31 <b>Pizza + Wine</b> <a href=3D"http://gary.to/3zy7mrx" =
+target=3D"_blank">Movie Nights</a> @ Rooftop Reds. Thru Sep 04 <b>Comme des=
+ Garcons</b> <a href=3D"http://gary.to/06wbefe" target=3D"_blank">@ Met</a>=
+. Thru Sep 02 <b>MoMA PS1</b> <a href=3D"http://gary.to/t3jfh46" target=3D"=
+_blank">Warmup</a>.
+<br>
+<br>Mo&#39; NYC! =3D=3D&gt; Thru Sep 22 <b>Summer</b> <a href=3D"http://gar=
+y.to/1k3dxg0" target=3D"_blank">Stage</a>. Oct 12-15 <b>Wine &amp; Food</b>=
+ <a href=3D"http://gary.to/4xb2n3x" target=3D"_blank">Festival</a>. Thru Oc=
+t <b>Kayaking</b> <a href=3D"http://gary.to/dboen7f" target=3D"_blank">@ Do=
+wntown Boathouse</a> <i>(Free)</i>. Thru Oct 29 <b>Dale Chihuly&#39;s</b> <=
+a href=3D"http://gary.to/xja58te" target=3D"_blank">Glass Art</a> @ Botanic=
+al Gardens.<br><br>
+Now watch <b>The Greatest</b> <a href=3D"http://gary.to/hs5cfgc" target=3D"=
+_blank">Showman</a>, <b>Hamilton Mixtape:</b> <a href=3D"http://gary.to/9fb=
+j2fg" target=3D"_blank">Immigrants</a> and <b>Spider-Man</b> <a href=3D"htt=
+p://gary.to/owcrdud" target=3D"_blank">Homecoming</a> <i>(premiering Jul 06=
+)</i>!<br><br>
+Until next week :)<br>Gary<br><i>(aka &quot;<a href=3D"http://gary.to/redti=
+e1" target=3D"_blank">The Guy with the Red Tie</a>&quot;)</i><br><br>
+<b>Word on the Streets:</b> &quot;I LOVE GarysGuide!&quot; - Tracy Chadwell=
+ <i>(Founding Partner @ <a href=3D"http://www.1843capital.com" target=3D"_b=
+lank">1843 Capital</a>)</i><br><i>Thanks, Tracy! :)</i><br><br>
+Like this week&#39;s newsletter? Feel free to share it with your friends &a=
+mp; followers on <b><a href=3D"http://gary.to/3nwmi3y" target=3D"_blank">Fa=
+cebook</a></b>, <b><a href=3D"http://gary.to/o4t7253" target=3D"_blank">Lin=
+kedIn</a></b> &amp; <b><a href=3D"http://gary.to/0lyiupm" target=3D"_blank"=
+>Twitter</a></b>. Grazie!<br>
+</td><td valign=3D"top" align=3D"center" width=3D"190"><a href=3D"http://ww=
+w.garysguide.com/redtie" target=3D"_blank"><img width=3D"190" height=3D"335=
+" src=3D"http://s3.amazonaws.com/garysguide/82eb142e23194ef49fe309be6bc99a1=
+6original.jpg"></a>
+<br><br><a href=3D"http://gary.to/6mkkokh" target=3D"_blank"><img width=3D"=
+190" height=3D"127" src=3D"http://s3.amazonaws.com/garysguide/2d2f2a10acbe4=
+1b3b4431a4271c3407foriginal.jpg"></a><br><i><b>Facebook</b> completed 2nd t=
+est flight of <b>AQUILA</b>, its unmanned <b>solar-powered drone</b> which&=
+#39;ll beam connectivity from 60K ft altitude w/ <b>lasers &amp; mm-wave sy=
+stems</b>. Nice, yo!</i>
+<br><br><a href=3D"http://gary.to/orxunpb" target=3D"_blank"><img width=3D"=
+190" height=3D"127" src=3D"http://s3.amazonaws.com/garysguide/c961b6aa67174=
+307973cfe25b76b0f4aoriginal.jpg"></a><br><i><b>Amazon</b> filed patent for =
+a <b>beehive-shaped building</b> which could serve as a <b>robot-powered fu=
+lfillment ctr</b> for unmanned aerial vehicles a.k.a. <b>package-carrying d=
+elivery drones</b>.</i>
+<br><br><a href=3D"http://gary.to/hakytpf" target=3D"_blank"><img width=3D"=
+190" height=3D"127" src=3D"http://s3.amazonaws.com/garysguide/790621af57a44=
+0048d79d108275b716doriginal.jpg"></a><br><i>Inside look at recently launche=
+d <b>Station F in Paris</b> (backed by French billionaire <b>Xavier Niel</b=
+>) which, with <b>366,000+ sq ft</b> &amp; 3000 desks, is <b>world&#39;s la=
+rgest startup incubator / campus</b>.</i>
+<br><br><a href=3D"http://gary.to/guhwtvi" target=3D"_blank"><img width=3D"=
+190" height=3D"127" src=3D"http://s3.amazonaws.com/garysguide/8b5d337b79934=
+60b9e421ff97fa87cc5original.jpg"></a><br><i><b>Eye-tracking</b> technology =
+by German startup <b>SensoMotoric SMI</b> (rumored acquired by Apple last w=
+eek) can capture <b>natural gaze</b> and control &amp; observe in <b>real-t=
+ime</b>.</i>
+</td></tr></tbody></table></td></tr>
+
+<tr><td valign=3D"top" style=3D"background-color:#ffffff">
+<table width=3D"100%" cellspacing=3D"8" cellpadding=3D"8">
+<tbody><tr><td><table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0">
+<tbody><tr><td><a href=3D"http://gary.to/a8n0tyd" target=3D"_blank"><img wi=
+dth=3D"600" height=3D"72.5" src=3D"http://s3.amazonaws.com/garysguide/60da2=
+fcba7ad46b99dd948ad6673a30doriginal.png"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/d2ord0b" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"http://s3.amazonaws.com/garysguide/7309f48d5403=
+4ede94a255dee792cdb4original.png"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/hr633p3" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"http://s3.amazonaws.com/garysguide/e251ce61dde8=
+4185b906ffde3a1bcb3coriginal.png"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/oqd1ck7" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"http://s3.amazonaws.com/garysguide/ccf5780c1e18=
+439d956e5d2bfa912ecaoriginal.png"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/96k2eem" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"http://s3.amazonaws.com/garysguide/bfd3380bf2fd=
+4e47bf962fbb02f3d19coriginal.jpg"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/9kub5oi" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"http://s3.amazonaws.com/garysguide/87d46bffdbd0=
+4506b262dfe3ea5c054boriginal.png"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/u4p9k9y" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"http://s3.amazonaws.com/garysguide/1e3dbc9e0069=
+4bc3969dbf477d39916boriginal.jpg"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/8p95ugj" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"http://s3.amazonaws.com/garysguide/c63ccc95f41a=
+49f4b8543ce49e36301boriginal.jpg"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/bdx7sy5" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"http://s3.amazonaws.com/garysguide/b5616cd4e131=
+406a8ac09015a5ddf25eoriginal.jpg"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/3u7xn4r" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"http://s3.amazonaws.com/garysguide/058d408ef1a3=
+4b0ea49a04418911b025original.jpg"></a></td></tr>
+<tr><td>=C2=A0</td></tr>
+<tr><td><a href=3D"http://gary.to/4gtbf70" target=3D"_blank"><img width=3D"=
+600" height=3D"72.5" src=3D"http://s3.amazonaws.com/garysguide/914da3a697eb=
+40f3a4f67c5dcd779779original.png"></a></td></tr>
+
+</tbody></table></td></tr>
+</tbody></table></td></tr>
+
+<tr><td valign=3D"top" style=3D"background-color:#ffffff"><table width=3D"1=
+00%" cellspacing=3D"8" cellpadding=3D"8">
+<tbody><tr><td><table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0">
+
+<tbody><tr><td><b><font style=3D"font-size:17px;color:#585858">Spotlight</f=
+ont></b></td></tr>
+<tr><td><hr style=3D"border:0;color:#585858;background-color:#585858;height=
+:1px"></td></tr>
+<tr><td align=3D"left"><table width=3D"100%" cellspacing=3D"3" cellpadding=
+=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"http:/=
+/s3.amazonaws.com/garysguide/8a78e153e7e7487eb0d84e0c5a0ee5d6original.jpg">=
+</td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/ga2mwmk" target=3D"_blank">Jul 11: NYC Bootcamp Tech Mingle -=
+ Summer Edition</a></b>
+<br><font style=3D"font-size:14px">Evening of lightning talks &amp; demos b=
+y bootcamp alumni, both recent graduates &amp; experienced developers.</fon=
+t>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table width=3D"100%" cellspacing=3D"3" cellpadding=
+=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"http:/=
+/s3.amazonaws.com/garysguide/9cafcb512c75433b95fc8f15d4e91bb2original.jpg">=
+</td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/uoxa2ks" target=3D"_blank">Jul 16: Brunchwork w/ NBCUniversal=
+</a></b>
+<br><font style=3D"font-size:14px">With Lou Dubois (Executive Dir. Digital =
+Content @ NBCUniversal) &amp; Mandy Menaker (Head of Brand Development, Sha=
+pr).</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table width=3D"100%" cellspacing=3D"3" cellpadding=
+=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"http:/=
+/s3.amazonaws.com/garysguide/3238fb81ab8e429b99db97b6c5ac10a2original.jpg">=
+</td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/o9l1ct0" target=3D"_blank">Jul 17: IoT NY #45: AgTech&#39;s B=
+right Future: Growing Food (And Data) With IoT</a></b>
+<br><font style=3D"font-size:14px">Grower adoption, solution/investment tre=
+nds in indoor &amp; urban agriculture, precision agriculture, &amp; closed-=
+loop systems.</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table width=3D"100%" cellspacing=3D"3" cellpadding=
+=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"http:/=
+/s3.amazonaws.com/garysguide/e06f4dee7d6348d1a102e576f676557doriginal.jpg">=
+</td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/og3b9y4" target=3D"_blank">Jul 19: Bringing IoT Products to L=
+ife w/ Kickstarter</a></b>
+<br><font style=3D"font-size:14px">With Julio Terra (Dir. of Technology &am=
+p; Design, Kickstarter).</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table width=3D"100%" cellspacing=3D"3" cellpadding=
+=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"http:/=
+/s3.amazonaws.com/garysguide/8a9b54f1e2074cef844eacb080230c0coriginal.png">=
+</td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/ws47k60" target=3D"_blank">Jul 27: Life After Galvanize - Car=
+eers In Data Science</a></b>
+<br><font style=3D"font-size:14px">With Maria Montoya (Career Services Mgr =
+@ Galvanize Denver). Get a perspective on Galvanize works w/ &amp; helps pl=
+ace them in hottest tech companies.</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table width=3D"100%" cellspacing=3D"3" cellpadding=
+=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"http:/=
+/s3.amazonaws.com/garysguide/9cafcb512c75433b95fc8f15d4e91bb2original.jpg">=
+</td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/yammyzf" target=3D"_blank">Jul 27: AI Brunchwork w/ X.ai</a><=
+/b>
+<br><font style=3D"font-size:14px">With Dennis Mortensen (Co-Founder/CEO, X=
+.ai) &amp; Mandy Menaker (Head of Brand Development, Shapr).</font>
+</td></tr>
+</tbody></table></td></tr>
+
+<tr><td>=C2=A0</td></tr>
+<tr><td><b><font style=3D"font-size:17px;color:#585858">Class Spotlight</fo=
+nt></b></td></tr>
+<tr><td><hr style=3D"border:0;color:#585858;background-color:#585858;height=
+:1px"></td></tr>
+<tr><td align=3D"left"><table cellspacing=3D"3" cellpadding=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"http:/=
+/s3.amazonaws.com/garysguide/8e30969ad4df48f49ef574ed87edeb96original.jpg">=
+</td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/wthy3tr" target=3D"_blank">Flatiron School - Online Web Devel=
+oper</a></b>
+<br><font style=3D"font-size:14px">Learn at your own pace at Flatiron Schoo=
+l&#39;s community-driven online campus. Financing  scholarships available.<=
+/font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table cellspacing=3D"3" cellpadding=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"http:/=
+/s3.amazonaws.com/garysguide/8da3133a0daa469d849182fb0851948boriginal.jpg">=
+</td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/3x2g7rb" target=3D"_blank">Jul 12: How To Escape The Corporat=
+e Rat Race</a></b>
+<br><font style=3D"font-size:14px">Learn top mistakes to avoid when making =
+transition, best type of business to start &amp; 5-step process to for goin=
+g from employee to entrepreneur.</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table cellspacing=3D"3" cellpadding=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"http:/=
+/s3.amazonaws.com/garysguide/1b74f513d5a849019c99a48a7bc3a5b0original.jpg">=
+</td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/6a3gbz9" target=3D"_blank">Jul 12: Metis New York Open House<=
+/a></b>
+<br><font style=3D"font-size:14px">Food &amp; drinks + hang out w/ the Meti=
+s team &amp; get a sampling of what students learn during 12 weeks of proje=
+ct-based data science work.</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table cellspacing=3D"3" cellpadding=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"http:/=
+/s3.amazonaws.com/garysguide/8a9b54f1e2074cef844eacb080230c0coriginal.png">=
+</td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/kab1f8l" target=3D"_blank">Jul 19: Galvanize Web Development =
+Info Session</a></b>
+<br><font style=3D"font-size:14px">Learn more about Galvanize&#39;s 24-week=
+ immersive web developer training program.</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table cellspacing=3D"3" cellpadding=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"http:/=
+/s3.amazonaws.com/garysguide/772eecf487614643b3732f7b3e3438c2original.jpg">=
+</td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/bv3hqx7" target=3D"_blank">Jul 26: Reboot Labs Presents - Per=
+sonal Development Nerds</a></b>
+<br><font style=3D"font-size:14px">Discussion on broad range of topics, cul=
+tivating space for deep &amp; infrequently discussed conversations.</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table cellspacing=3D"3" cellpadding=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"http:/=
+/s3.amazonaws.com/garysguide/b77a97fca55345eba6636a3855df0d49original.png">=
+</td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/cew7dwq" target=3D"_blank">Aug 14: Introductory Python</a></b=
+>
+<br><font style=3D"font-size:14px">Short course @ NYC Data Science Academy =
+of 4 weeks w/ 5 hours of class per week (split into two 2.5 hour evening cl=
+asses).</font>
+</td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table cellspacing=3D"3" cellpadding=3D"3">
+<tbody><tr><td width=3D"155"><img width=3D"150" height=3D"45" src=3D"http:/=
+/s3.amazonaws.com/garysguide/981271835c2f40b3b7236f91184cb975original.png">=
+</td>
+<td valign=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/iu2vwk8" target=3D"_blank">Aug 28: How To Get Started In Web =
+Design</a></b>
+<br><font style=3D"font-size:14px">Intro to HTML &amp; CSS &amp; see how th=
+ey&#39;re used to layout webpages &amp; style content. </font>
+</td></tr>
+</tbody></table></td></tr>
+
+<tr><td>=C2=A0</td></tr>
+<tr><td><b><font style=3D"font-size:17px;color:#585858">Companies Hiring Sp=
+otlight</font></b></td></tr>
+<tr><td><hr style=3D"border:0;color:#585858;background-color:#585858;height=
+:1px"></td></tr>
+<tr><td align=3D"left"><table cellspacing=3D"3" cellpadding=3D"3">
+<tbody><tr><td width=3D"66"><img width=3D"60" src=3D"http://s3.amazonaws.co=
+m/garysguide/e954ec7c28774ecf8980c36c144b2588original.png"></td><td valign=
+=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/bvxnfyw" target=3D"_blank">BuzzFeed</a></b>
+<br><font style=3D"font-size:14px">BuzzFeed has the hottest, most social co=
+ntent on the web.</font></td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table cellspacing=3D"3" cellpadding=3D"3">
+<tbody><tr><td width=3D"66"><img width=3D"60" src=3D"http://s3.amazonaws.co=
+m/garysguide/0a895b15d97747e79e3fb0b32c9e7e45original.jpg"></td><td valign=
+=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttp://gary.to/rxjmqz9" target=3D"_blank">Updater</a></b>
+<br><font style=3D"font-size:14px">Updater makes moving easier for the 45 m=
+illion Americans on the move every year.</font></td></tr>
+</tbody></table></td></tr>
+<tr><td align=3D"left"><table cellspacing=3D"3" cellpadding=3D"3">
+<tbody><tr><td width=3D"66"><img width=3D"60" src=3D"http://s3.amazonaws.co=
+m/garysguide/f27d22fed321411884872314d722cb1doriginal.png"></td><td valign=
+=3D"top">
+<b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=3D"h=
+ttps://tinybeans.recruitee.com/" target=3D"_blank">Tinybeans</a></b>
+<br><font style=3D"font-size:14px">Want a sense of purpose in your career? =
+Want to change lives of millions of families every day?</font></td></tr>
+</tbody></table></td></tr>
+
+</tbody></table></td></tr>
+</tbody></table></td></tr>
+
+<tr><td><table width=3D"100%" cellspacing=3D"8" cellpadding=3D"8">
+<tbody><tr><td><table cellspacing=3D"0" cellpadding=3D"0">=20
+<tbody><tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858"><b>Wedn=
+esday, Jul 05</b></td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 05</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/phm3dye" target=3D"_blank">Entrepreneurs Roundtable</a><=
+/b>
+<br><font style=3D"font-size:14px"><b>Microsoft</b>, 11 Times Sq<br>With Da=
+vid Horowitz (Founder/CEO, Touchdown Ventures).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 05</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/1961ueQ"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/vp0fgs3" target=3D"_blank">Intro to Python - The Basics<=
+/a></b>
+<br><font style=3D"font-size:14px"><b>Galvanize NYC</b>, 315 Hudson St, 2nd=
+ Fl<br>Two week workshop w/ Galvanize NYC.</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 05</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/qiprgxv" target=3D"_blank">How To Become A Product Manag=
+er</a></b>
+<br><font style=3D"font-size:14px"><b>Product School NY</b>, 1216 Broadway,=
+ 2nd Fl<br>With Tiffany Dockery (Product Owner, Spotify).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 05</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+25<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/0powdj3" target=3D"_blank">Designing Games for Impact</a=
+></b>
+<br><font style=3D"font-size:14px"><b>Microsoft</b>, 11 Times Sq<br>With Sa=
+nde Chen (Writer &amp; Game Designer).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858"><b>Thursday, J=
+ul 06</b></td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 06</b><br>2=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ywmrj3q" target=3D"_blank">CommonBond + TechStars Social=
+ Venture Bootcamp</a></b>
+<br><font style=3D"font-size:14px"><b>Venue</b>, Online<br>Learn the import=
+ant skills needed to jumpstart your business including mapping your busines=
+s model (w/ Business Model Canvas) &amp; pitching it to investors.</font></=
+td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 06</b><br>2=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/0crjfgd" target=3D"_blank">Aol BUILD Series - Laura Dave=
+</a></b>
+<br><font style=3D"font-size:14px"><b>BUILD Studio</b>, 692 Broadway<br>Wit=
+h Laura Dave (Author, Hello Sunshine).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 06</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/1961ueQ"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/6eoorg1" target=3D"_blank">Intro to User Experience Desi=
+gn (UX)</a></b>
+<br><font style=3D"font-size:14px"><b>Noble Desktop</b>, 594 Broadway, Ste =
+1202<br>Covering topics of User research, User scenarios, Personas, Journey=
+ maps, Information Architecture &amp; more.</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 06</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ih5htry" target=3D"_blank">The Signals Are Talking - For=
+ecasting The Future &amp; Impact Of Emerging Technologies</a></b>
+<br><font style=3D"font-size:14px"><b>Venue</b>, To Be Announced<br>With Am=
+y Webb (Author, The Signals Are Talking).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 06</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+25<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/uzpritv" target=3D"_blank">Intro to Unreal Engine 4</a><=
+/b>
+<br><font style=3D"font-size:14px"><b>Microsoft</b>, 11 Times Sq<br>With Ra=
+chl Bazelais (Development Enggr Intern, AOL).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 06</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/1961ueQ"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/1f3xsen" target=3D"_blank">Living The Digital Nomad Life=
+style</a></b>
+<br><font style=3D"font-size:14px"><b>Galvanize NYC</b>, 315 Hudson St, 2nd=
+ Fl<br>Featuring Roam.co.</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 06</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+10<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/m8mfu5b" target=3D"_blank">Integrating Analytics In The =
+Product Development Process</a></b>
+<br><font style=3D"font-size:14px"><b>Product School NY</b>, 1216 Broadway,=
+ 2nd Fl<br>With Daniel Brady (Data Scientist).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 06</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/19x2zdq" target=3D"_blank">Stories From The Trenches - A=
+utomating CI &amp; CD w/ Docker, AWS &amp; TeamCity</a></b>
+<br><font style=3D"font-size:14px"><b>Conductor</b>, 2 Park Ave<br>With Mah=
+moud Ali (CI Enggr, Conductor) &amp; Matthew Giresi (Dir. Quality Assurance=
+, Conductor).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 06</b><br>7=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/noihszo" target=3D"_blank">Elm Hack Night</a></b>
+<br><font style=3D"font-size:14px"><b>Gust HQ</b>, 44 W 28th St, 7th Fl</fo=
+nt></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 06</b><br>7=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/umm239c" target=3D"_blank">The Product Group</a></b>
+<br><font style=3D"font-size:14px"><b>iHeartMedia</b>, 32 6th Ave, 23rd Fl<=
+br>With Aditya Pandyaram (VP Product, Troops).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858"><b>Friday, Jul=
+ 07</b></td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 07</b><br>1=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+40<br>
+<img src=3D"http://bit.ly/1k776wH"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/dni66nf" target=3D"_blank">Civic Art Lab 2017</a></b>
+<br><font style=3D"font-size:14px"><b>Creations Gallery</b>, 89 Ave C<br>Wi=
+th Sohee Koo (Artist &amp; Educator, Columbia University), Andrew De Rosa (=
+Designer &amp; Educator, Queens College), Katherine Fisher (Designer, Studi=
+o Basis), Dan Horn (Perez Architecture), Bunny Yan (Founder/Designer, Squir=
+relz).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858"><b>Saturday, J=
+ul 08</b></td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 08</b><br>1=
+1:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+150<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/exc1h0x" target=3D"_blank">Art of Film Financing &amp; P=
+ackaging</a></b>
+<br><font style=3D"font-size:14px"><b>Made in NY Media Center by IFP</b>, 3=
+0 John St, Brooklyn<br>With Atit Shah (Multiple-award Winning Producer incl=
+. Money, The Crash, Brown Nation An Act of War).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 08</b><br>1=
+2:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+20<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/qx1qcz9" target=3D"_blank">Growth Hacking &amp; Free Pre=
+ss Boot Camp</a></b>
+<br><font style=3D"font-size:14px"><b>Galvanize NYC</b>, 315 Hudson St<br>G=
+et the growth hacking strategies needed to start &amp; scale your company.<=
+/font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 08</b><br>1=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+50<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/0hyeclo" target=3D"_blank">What IF - How to Make Your Id=
+eas Real</a></b>
+<br><font style=3D"font-size:14px"><b>Nulab</b>, 262 Bowery, Third Fl<br>Wi=
+th Ajay Revels (Design Researcher &amp; UX Consultant, Politemachines).</fo=
+nt></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 08</b><br>1=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/lxa2whg" target=3D"_blank">High NY Potluck Fundraiser @ =
+Secret LES Garden</a></b>
+<br><font style=3D"font-size:14px"><b>Venue</b>, To Be Announced</font></td=
+></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 08</b><br>3=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/vdkxzaz" target=3D"_blank">Civic Art Lab - Critical Fict=
+ions &amp; Reimagining Citizenship</a></b>
+<br><font style=3D"font-size:14px"><b>Creations Gallery</b>, 89 Ave C<br>Wi=
+th Marcus Wilford (Exhibit Designer, Studio Rondinone), Katherine Fisher (D=
+esigner, Studio Basis), Valentina Branada (Research Assistant for School of=
+ Design Strategies, The New School).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 08</b><br>4=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/o7ei28g" target=3D"_blank">Technology Hasn&#39;t Changed=
+ Love, Here&#39;s Why</a></b>
+<br><font style=3D"font-size:14px"><b>Bryant Park Grill</b>, 25 W 40th St</=
+font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858"><b>Sunday, Jul=
+ 09</b></td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 09</b><br>1=
+0:30am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/c0w36si" target=3D"_blank">Civic Art Lab - Community Res=
+ilience Build-A-Workshop</a></b>
+<br><font style=3D"font-size:14px"><b>Creations Gallery</b>, 89 Ave C</font=
+></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858"><b>Monday, Jul=
+ 10</b></td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 10</b><br>1=
+1:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/mysqoki" target=3D"_blank">UNAI / ISA Forum on Human Sec=
+urity</a></b>
+<br><font style=3D"font-size:14px"><b>United Nations HQ</b>, 405 E 42nd St<=
+br>With Yukio Takasu (Special Advisor, Secretary-General on Human Security)=
+, Anjali Dayal (Prof. Int&#39;l Politics, Fordham), Francesca Perucci (Dir.=
+, United Nations Statistics Division), James Turpin (Chief of Peace &amp; S=
+ecurity Practices @ Office of High Commissioner for Human Rights).</font></=
+td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 10</b><br>1=
+2:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/zege32r" target=3D"_blank">#JustVenmoMe - Sharing Code w=
+/ Open Source</a></b>
+<br><font style=3D"font-size:14px"><b>Civic Hall</b>, 118 W 22nd St, 12th F=
+l<br>With Dasmer Singh (Product Mgr, Venmo).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 10</b><br>5=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/kapdgmm" target=3D"_blank">TensorFlow Workshop &amp; Fir=
+ebase + Cloud Functions Demo</a></b>
+<br><font style=3D"font-size:14px"><b>Google Chelsea Market</b>, 75 9th Ave=
+, 2nd Fl<br>With Josh Gordon (Dev Advocate, Google),  Marianne Monteiro (Te=
+nsorFlow), Ralph Yozzo (GDG NYC).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 10</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+45<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/gecdgm5" target=3D"_blank">Asian Women In Business Mixer=
+</a></b>
+<br><font style=3D"font-size:14px"><b>French Cheese Board</b>, 41 Spring St=
+<br>Networking + french cheese paired w/ Suntory japanese whiskey.</font></=
+td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 10</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/1k776wH"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/8uzwen6" target=3D"_blank">Hardware Meetup</a></b>
+<br><font style=3D"font-size:14px"><b>Microsoft</b>, 11 Times Sq<br>With Je=
+ssica Banks (Founder/CEO, Rock Paper Robot), Vlad Dragusin (Creative Dir., =
+Candylab Toys), Jonathan Bobrow (Founder/CEO, Move38).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 10</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/6k67ta3" target=3D"_blank">CTO School</a></b>
+<br><font style=3D"font-size:14px"><b>Pivotal Labs</b>, 625 Ave of Americas=
+, 2nd Fl</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 10</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/1k776wH"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/cgxz6lk" target=3D"_blank">4th Annual CommonBond Social =
+Impact Award</a></b>
+<br><font style=3D"font-size:14px"><b>CommonBond HQ</b>, 524 Broadway, 6th =
+Fl<br>CommonBond giving $10,000 to undergraduate social entrepreneur whose =
+business idea drives social impact. Demos by 3 finalists competing to jumps=
+tart their ventures. </font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 10</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/1961ueQ"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ux1tqj1" target=3D"_blank">Fundamentals Of JavaScript</a=
+></b>
+<br><font style=3D"font-size:14px"><b>Galvanize</b>, 315 Hudson St, 2nd Fl<=
+br>With Delmer Reed (Sr Web Developer &amp; Instructor @ Galvanize).</font>=
+</td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 10</b><br>7=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+2990<br>
+<img src=3D"http://bit.ly/1961ueQ"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/v1u083c" target=3D"_blank">Big Data w/ Hadoop  Spark</a>=
+</b>
+<br><font style=3D"font-size:14px"><b>NYC Data Science Academy</b>, 500 8th=
+ Ave, Ste 905<br>6-week evening program providing hands-on intro to Hadoop =
+ Spark ecosystem of Big Data tech.</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 10</b><br>7=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/qww1er9" target=3D"_blank">Techstars Second Monday</a></=
+b>
+<br><font style=3D"font-size:14px"><b>Techstars IoT</b>, 79 Madison Ave<br>=
+Join Techstars staff, founders, mentors &amp; community leaders.</font></td=
+></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 10</b><br>7=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/n0vyxsn" target=3D"_blank">Humanizing Data - Creating An=
+ Escape Room For Good</a></b>
+<br><font style=3D"font-size:14px"><b>Film Society at Lincoln Center - Elin=
+or Bunin Film Center auditorium</b>, 144 W 65th St<br>With Desmond Patton (=
+Prof. Social Work @ Columbia University).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 10</b><br>7=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ztyx0t4" target=3D"_blank">Crypto Currency Discussion</a=
+></b>
+<br><font style=3D"font-size:14px"><b>The Belfry</b>, 222 E 14th St</font><=
+/td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858"><b>Tuesday, Ju=
+l 11</b></td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>8=
+:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/cdr9yar" target=3D"_blank">NYC Tech Breakfast</a></b>
+<br><font style=3D"font-size:14px"><b>Microsoft</b>, 11 Times Sq<br>With St=
+phane Reynaud (CEO, CogniK), Pablo Subra-Gomez (Head of Sales North America=
+, Mazen App), Bingxie Zhang (Enggr, Brookhaven National Laboratory), Mark B=
+rehaut (Founder, Icebrkr).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+20<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/gnk342h" target=3D"_blank">23 Guidelines To Avoid An A.I=
+. Apocalypse</a></b>
+<br><font style=3D"font-size:14px"><b>Galvanize</b>, 315 Hudson St, 2nd Fl<=
+br>With Seth Baum (Executive Dir., Global Catastrophic Risk Institute).</fo=
+nt></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/1961ueQ"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/shlgiaz" target=3D"_blank">Galvanize Data Science Info S=
+ession</a></b>
+<br><font style=3D"font-size:14px"><b>Galvanize NYC</b>, 315 Hudson St, 2nd=
+ Fl<br>With Tim Zeiske (Sr Data Scientist, Galvanize).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/w1tkiye" target=3D"_blank">Playmatics Presents - Media C=
+enter Game Night</a></b>
+<br><font style=3D"font-size:14px"><b>Made in NY Media Center by IFP</b>, 3=
+0 John St, Brooklyn<br>With Nick Fortugno (Founder/CCO, Playmatics).</font>=
+</td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/8it4hwx" target=3D"_blank">Coaching The Startup Sales Re=
+p</a></b>
+<br><font style=3D"font-size:14px"><b>Work-bench</b>, 110 5th Ave, 5th Fl<b=
+r>With Noah Goldman (Advisor, People.ai), Steve Richard (CRO, ExecVision), =
+Kristina Wiig (VP Sales, StellaService).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+5<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/t74jzv6" target=3D"_blank">What It Takes To Get Funding<=
+/a></b>
+<br><font style=3D"font-size:14px"><b>The Farm Soho</b>, 447 Broadway, 2nd =
+Fl<br>With Peter Nicholas (Dir. Investment Strategy, Facilitated Growth), V=
+ince Scafaria (Founder/CEO, DotAlign), Jason Wachter (Partner, Gottlieb, Ra=
+ckman), M Wazihullah (BCG), Cassandra Anderon (TriNet), Richard Duda (Consu=
+lting CFO).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/1961ueQ"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/zffone8" target=3D"_blank">Flatiron Students Present - T=
+echnical Talks</a></b>
+<br><font style=3D"font-size:14px"><b>The Flatiron School</b>, 11 Broadway,=
+ Ste 260<br>4 developer pairs present on technical topic of choice.</font><=
+/td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/qcieqwz" target=3D"_blank">CUNY Tech Meetup - Inside The=
+ Muse</a></b>
+<br><font style=3D"font-size:14px"><b>The Muse</b>, 1375 Broadway, 20th Fl<=
+/font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+20<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/juxqt3c" target=3D"_blank">Pioneering New IoT Frontier w=
+/ Personal Technology</a></b>
+<br><font style=3D"font-size:14px"><b>WeWork Penn Station</b>, 315 W 36th S=
+t<br>With Isy Goldwasser (Founder/CEO, Thync).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+40<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/pzha7o9" target=3D"_blank">Entrepreneurship Bootcamp Ser=
+ies - How To Hire The Right Tech Team</a></b>
+<br><font style=3D"font-size:14px"><b>WeWork Soho South</b>, 428 Broadway<b=
+r>With Asha Saxena (Prof. @ Columbia University, Entrepreneur-in-Residence =
+@ Eugene Lang Entrepreneurship Ctr &amp; CEO @ Future Tech) &amp; Dasmer Si=
+ngh (Product Mgr @ Venmo).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/1961ueQ"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/7m29axu" target=3D"_blank">NYC Bootcamp Tech Mingle - Su=
+mmer Edition</a></b>
+<br><font style=3D"font-size:14px"><b>Dev Bootcamp NYC</b>, 48 Wall St, 15t=
+h Fl<br>Evening of lightning talks &amp; demos by bootcamp alumni, both rec=
+ent graduates &amp; experienced developers.</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/k0nmlos" target=3D"_blank">Women Who Code - Intro to Rea=
+ct JS</a></b>
+<br><font style=3D"font-size:14px"><b>Button HQ</b>, 220 E 23rd St<br>With =
+Grace Kwan (Sr Software Enggr, Button).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/cwpcraa" target=3D"_blank">Cloud Data Warehousing - Plac=
+e Visitation Analytics</a></b>
+<br><font style=3D"font-size:14px"><b>PlaceIQ</b>, 5 Bryant Park, 18th Fl<b=
+r>With Alessandro Pireno (Dir. Sales Engg, Snowflake Computing), Jonathan L=
+enaghan (SVP Product Development &amp; Chief Scientist, PlaceIQ).</font></t=
+d></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+15<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/qne7aeg" target=3D"_blank">Banking, Finance &amp; Ventur=
+e Capital- Career Roundtable</a></b>
+<br><font style=3D"font-size:14px"><b>WeWork Union Square</b>, 33 Irving Pl=
+ace<br>With Robert Pestreich (MD, Harrison, Stone), Upaasna Laungani (Dir. =
+Accounting Policy, Citi), Vicki Aubin  (Career Development Coach, Flatiron =
+School).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+49<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/9o5dsqu" target=3D"_blank">Jeffersonian Discussion on Me=
+aningful Work</a></b>
+<br><font style=3D"font-size:14px"><b>Centre for Social Innovation</b>, 601=
+ W 26th St, #325</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/81t807h" target=3D"_blank">Rocket Scientists of Wall Str=
+eet - Quant-Algos Careers &amp; Learning</a></b>
+<br><font style=3D"font-size:14px"><b>Byte Academy</b>, 295 Madison Ave, 35=
+th Fl<br>With Nikhil Panchal (Strategic Advisor, Byte Academy).</font></td>=
+</tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>7=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ynx6ja9" target=3D"_blank">NYC Ruby Talks</a></b>
+<br><font style=3D"font-size:14px"><b>Pivotal Labs</b>, 625 Ave of Americas=
+, 2nd Fl</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 11</b><br>7=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+10<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/s508mlv" target=3D"_blank">Driverless Future Challenge</=
+a></b>
+<br><font style=3D"font-size:14px"><b>NYU Skirball Center</b>, 566 LaGuardi=
+a Place<br>Final event of the Driverless Future Challenge. With NY Tech Mee=
+tup, Blank Space &amp; City of New York.</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858"><b>Wednesday, =
+Jul 12</b></td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>6=
+:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+20<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/4l9dw4y" target=3D"_blank">Daybreaker NYC // White Out P=
+arty</a></b>
+<br><font style=3D"font-size:14px"><b>The Oculus Plaza</b>, 33-69 Vesey St<=
+/font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>8=
+:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/le7bt8j" target=3D"_blank">VentureCrush AngelVineVC</a><=
+/b>
+<br><font style=3D"font-size:14px"><b>Venue</b>, To Be Announced<br>Hang w/=
+ founders, VCs, Angels, CEOs &amp; others.</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>8=
+:30am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+15<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/cbjzgn5" target=3D"_blank">Breakfast w/ an Investor - En=
+iac Ventures</a></b>
+<br><font style=3D"font-size:14px"><b>Cresa</b>, 1633 Broadway, 22nd Fl<br>=
+With Nihal Mehta (Founding General Partner, Eniac Ventures).</font></td></t=
+r>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>1=
+0:00am</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+10<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/830hbmb" target=3D"_blank">Techday, Innovate, Inspire, A=
+dvance</a></b>
+<br><font style=3D"font-size:14px"><b>Microsoft</b>, 11 Times Sq<br>With Ke=
+n Belva ( Lead Enggr, XSS Warrior), Maria Filipakis (Dir. Campaign Policy, =
+Eric Dinallo for Attorney General), Ondrej Krehel (Cybersecurity &amp; Digi=
+tal Forensics, LIFARS), Gregory Richardson (CTO Ambassador &amp; Solns Arch=
+itect, McAfee), Ramy Ramirez (Computer Forensic Examiner, Copper River).</f=
+ont></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>1=
+2:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/1961ueQ"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/xpsm6sw" target=3D"_blank">Galvanize Workshop - The Two =
+Sales Myths That Kill B2B Startups</a></b>
+<br><font style=3D"font-size:14px"><b>Galvanize NYC</b>, 315 Hudson St, 2nd=
+ Fl<br>With Victor Adefuye (Founder, Dana Consulting).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>4=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/n9bu1s5" target=3D"_blank">NYC Women In Digital Kick-off=
+</a></b>
+<br><font style=3D"font-size:14px"><b>SIXTY SoHo</b>, 60 Thompson St<br>Wit=
+h Alaina Shearer (Founder, Women in Digital), Breonna Rodriguez (Lead Digit=
+al Designer, Sesame Street), Debra Bednar (Founder/CEO, DB+co).</font></td>=
+</tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>5=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/qploc2z" target=3D"_blank">getgeeked New York 2017</a></=
+b>
+<br><font style=3D"font-size:14px"><b>Metropolitan Pavilion</b>, 125 W 18th=
+ St</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>5=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/4e64xig" target=3D"_blank">Choosing - How Can We Make Be=
+tter Choices?</a></b>
+<br><font style=3D"font-size:14px"><b>Adelphi University</b>, 75 Varick St<=
+/font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/1961ueQ"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/lyeg54y" target=3D"_blank">Intro to SVG Scalable Vector =
+Graphics</a></b>
+<br><font style=3D"font-size:14px"><b>Noble Desktop</b>, 594 Broadway, Ste =
+1202<br>Overview of SVG, using in webpages, tips &amp; best practices for s=
+aving graphics in Adobe Illustrator &amp; more.</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+25<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/rk33ro8" target=3D"_blank">Women In Tech - Building Comm=
+unity</a></b>
+<br><font style=3D"font-size:14px"><b>Squarespace</b>, 8 Clarkson St<br>Wit=
+h Reshma Saujani (Founder, Girls Who Code) &amp; Kristen Titus (Chief Techn=
+ology &amp; Innovation Officer, NYC).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/hn68h8m" target=3D"_blank">Learn Code For Free</a></b>
+<br><font style=3D"font-size:14px"><b>Codecademy HQ</b>, 49 W 27th St, 4th =
+Fl</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/vbj7bca" target=3D"_blank">eCommerce Meetup</a></b>
+<br><font style=3D"font-size:14px"><b>Microsoft Store</b>, 677 5th Ave, 3rd=
+ Fl</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>6=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/fp10usa" target=3D"_blank">ONA NYC Annual Mid-Summer Mix=
+er</a></b>
+<br><font style=3D"font-size:14px"><b>Twitter HQ</b>, 249 W 17th St<br>Hors=
+ d&#39;oeuvres, drinks &amp; networking w/ tech &amp; media peeps.</font></=
+td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/0jofk21" target=3D"_blank">NY Code+Design Academy Grad S=
+howcase</a></b>
+<br><font style=3D"font-size:14px"><b>Enjoy</b>, 324 Lafayette St, 7th Fl</=
+font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/1961ueQ"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/9id76yr" target=3D"_blank">Metis New York Open House</a>=
+</b>
+<br><font style=3D"font-size:14px"><b>Metis New York</b>, 27 E 28th St, 3rd=
+ Fl<br>Food &amp; drinks + hang out w/ the Metis team &amp; get a sampling =
+of what students learn during 12 weeks of project-based data science work.<=
+/font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/1961ueQ"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ty17344" target=3D"_blank">On-Campus Beginner Study Sess=
+ion</a></b>
+<br><font style=3D"font-size:14px"><b>The Flatiron School</b>, 11 Broadway,=
+ Ste 260</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+10<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/fq99na2" target=3D"_blank">Growth Product Management w/ =
+WeWork</a></b>
+<br><font style=3D"font-size:14px"><b>Product School NY</b>, 1216 Broadway,=
+ 2nd Fl<br>With Drew Howard (Product Mgr Growth @ WeWork).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>6=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+10<br>
+</td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/ma1hzwj" target=3D"_blank">Emerging Trends In CSR - Soci=
+al vs Consumer Impact</a></b>
+<br><font style=3D"font-size:14px"><b>Prime Produce</b>, 424 W 54th St<br>W=
+ith Danielle Holly (CEO, Common Impact) &amp; Paul Kushnir (Solns Engagemen=
+t Mgr, UPS Customer Solns).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>7=
+:00pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/1961ueQ"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/p40bm5v" target=3D"_blank">How To Escape The Corporate R=
+at Race</a></b>
+<br><font style=3D"font-size:14px"><b>WeWork Bryant Park</b>, 54 W 40th St<=
+br>Learn top mistakes to avoid when making the transition, best type of bus=
+iness to start &amp; 5-step process to follow when going from employee to e=
+ntrepreneur.</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>7=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">$=
+35<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/jesevjf" target=3D"_blank">NPR&#39;s How I Built This w/=
+ Jonah Peretti</a></b>
+<br><font style=3D"font-size:14px"><b>SVA Theatre</b>, 333 W 23rd St<br>Wit=
+h Jonah Peretti (Founder/CEO, BuzzFeed).</font></td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr>
+<td valign=3D"top" width=3D"63" style=3D"font-size:14px"><b>Jul 12</b><br>8=
+:30pm</td>
+<td valign=3D"top" width=3D"63" align=3D"center" style=3D"font-size:14px">F=
+ree<br>
+<img src=3D"http://bit.ly/186n6rd"></td>
+<td><b><a style=3D"font-size:17px;color:#227dda;text-decoration:none" href=
+=3D"http://gary.to/28hcl77" target=3D"_blank">Tech &amp; Hustle - Run Your =
+Business Anywhere</a></b>
+<br><font style=3D"font-size:14px"><b>General Assembly East</b>, 902 Broadw=
+ay, 4th Fl<br>With Carmen Antoun (Mktg, Google Cloud), Lauren Lutchna (Pres=
+ident, Farmstead Apothecary), Raquel Vamos (Co-Owner, Dharma Yoga Wheel), S=
+pencer McCluskey (Mktg Comms Specialist, Square), Derick Anies (Product Des=
+igner, Weebly), Katie Swett (Product Mgr, Weebly).</font></td></tr>
+
+
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3">=C2=A0</td></tr>
+<tr><td colspan=3D"3" style=3D"font-size:17px;color:#585858">More Upcoming =
+Events</td></tr>
+<tr><td colspan=3D"3"><hr style=3D"border:0;color:#585858;background-color:=
+#585858;height:1px"></td></tr>
+<tr><td colspan=3D"3"><table width=3D"100%"><tbody><tr><td><font style=3D"f=
+ont-size:15px">
+</font></td></tr><tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 13:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/t=
+hmpoju" target=3D"_blank">Web Development Final Projects Science Fair</a></=
+b> @ The Flatiron School<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 13:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/p=
+j9av78" target=3D"_blank">NJ Tech Meetup</a></b> @ Howe Center<br><br></fon=
+t></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 13:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/l=
+dgtqq3" target=3D"_blank">FinTech Open Mic Night - Bitcoin, Ethereum &amp; =
+Ripple Resurgence</a></b> @ Rise NYC<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 13:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/t=
+88ncsy" target=3D"_blank">Black Women Talk Tech Summer Social</a></b> @ Ble=
+nder<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 13:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/a=
+x66ew3" target=3D"_blank">Analytics for Product Success w/ Jet.com</a></b> =
+@ Product School NY<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 13:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/q=
+unlc2f" target=3D"_blank">Machine Learning at Spotify</a></b> @ Spotify HQ<=
+br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 13:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/4=
+reynhn" target=3D"_blank">Culture Capitalist - What Can Venture Capital &am=
+p; Liberal Arts Teach Each Other?</a></b> @ WeWork Soho West<br><br></font>=
+</td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 13:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/z=
+55xcwe" target=3D"_blank">FinTech Founder Fireside w/ TransferWise</a></b> =
+@ Latham &amp; Watkins<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 13:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/4=
+jml2lv" target=3D"_blank">Android Developers - Litho &amp; Platform Indepen=
+dent Architecture</a></b> @ iHeartRadio Theater<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 13:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/6=
+a0jucj" target=3D"_blank">Technology &amp; Startups - Building An MVP In NY=
+C</a></b> @ Knotel Bryant<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 13:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/v=
+h5w7p7" target=3D"_blank">Fail Forward</a></b> @ General Assembly East<br><=
+br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 14:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/e=
+vpzo32" target=3D"_blank">2nd Annual Immigrant Heritage Hackathon</a></b> @=
+ Impact Hub NY<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 16:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/h=
+pw7cmk" target=3D"_blank">Brunchwork w/ NBCUniversal</a></b> @ Financial Gy=
+m<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 17:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/t=
+a6404h" target=3D"_blank">Design for Good - How Designers Can Lead Change &=
+amp; Build the Future</a></b> @ Galvanize<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 17:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/2=
+smdydu" target=3D"_blank">Netflix - Wicked Hard Decisions</a></b> @ Lifion =
+by ADP<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 17:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/a=
+y522o6" target=3D"_blank">Reboot Labs - Learning How To Code For Media &amp=
+; Marketing Professionals</a></b> @ Spark Labs Bryant Park<br><br></font></=
+td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 17:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/r=
+hoftpt" target=3D"_blank">IoT NY #45 - AgTech&#39;s Bright Future - Growing=
+ Food (And Data) With IoT</a></b> @ Venue<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 17:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/g=
+5mydzu" target=3D"_blank">Masterclass In Leadership (Through Sports)</a></b=
+> @ General Assembly East<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 18:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/4=
+p1wkfx" target=3D"_blank">Flatiron Students Present - Technical Talks</a></=
+b> @ The Flatiron School<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 18:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/m=
+kaylo3" target=3D"_blank">EdTech Networking Mixer</a></b> @ Edtech Factory =
+Union Square<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 18:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/r=
+mv6qdl" target=3D"_blank">Interactive Media</a></b> @ And &amp; And<br><br>=
+</font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 18:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/z=
+6uyd25" target=3D"_blank">Book Launch - Live Like Fiction</a></b> @ General=
+ Assembly East<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 19:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/1=
+ixew5a" target=3D"_blank">M&amp;A Roundtable - Selling Your Media Business<=
+/a></b> @ Rise NYC<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 19:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/w=
+il5x31" target=3D"_blank">Galvanize Web Development Info Session</a></b> @ =
+Galvanize NYC<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 19:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/8=
+jvj4d5" target=3D"_blank">Bringing IoT Products To Life With Kickstarter</a=
+></b> @ WeWork Penn Station<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 19:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/x=
+qi29ki" target=3D"_blank">An Entrepreneur&#39;s Guide To The Immigration De=
+bate</a></b> @ Venue<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 19:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/6=
+pi9y9l" target=3D"_blank">Civic Hall Member Showcase</a></b> @ Civic Hall<b=
+r><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 19:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/p=
+qeue9u" target=3D"_blank">Focus AI - Ethical Impact Of AI</a></b> @ Venue<b=
+r><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 19:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/a=
+717qs9" target=3D"_blank">StartUp Grind - Venrock</a></b> @ DigitalOcean<br=
+><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 20:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/0=
+09bzs3" target=3D"_blank">GrowCommerce 2017</a></b> @ Convene<br><br></font=
+></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 20:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/5=
+vbxl1o" target=3D"_blank">Brooklyn Tech Breakfast</a></b> @ LIU Brooklyn<br=
+><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 20:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/8=
+zf9qym" target=3D"_blank">Fireside Chat w/ Infor</a></b> @ Infor<br><br></f=
+ont></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 20:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/v=
+hdbsoq" target=3D"_blank">Raising Startup Seed Funding</a></b> @ Venue<br><=
+br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 20:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/9=
+72rfml" target=3D"_blank">Fund Your Dream &amp; Live Your Dream</a></b> @ G=
+alvanize NYC<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 26:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/6=
+5pfmt7" target=3D"_blank">The Past, Present &amp; Future of Personalization=
+</a></b> @ Digital Ocean<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 26:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/c=
+zvn3h7" target=3D"_blank">Reboot Labs Presents - Personal Development Nerds=
+</a></b> @ Spark Labs Bryant Park<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 27:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/g=
+jdta8s" target=3D"_blank">Life After Galvanize - Careers In Data Science</a=
+></b> @ Galvanize NYC<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 27:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/h=
+n4lgpl" target=3D"_blank">AI Brunchwork w/ X.ai</a></b> @ Alley Chelsea<br>=
+<br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 29:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/s=
+hwutl6" target=3D"_blank">Data Science w/ R - Data Analysis &amp; Visualiza=
+tion</a></b> @ NYC Data Science Academy<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Jul 30:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/f=
+92ufbd" target=3D"_blank">Data Science w/ Python - Data Analysis &amp; Visu=
+alization</a></b> @ NYC Data Science Academy<br><br></font></td></tr>
+<tr><td width=3D"59" valign=3D"top">
+<font style=3D"font-size:15px">Aug 05:=C2=A0
+<b><a style=3D"color:#227dda;text-decoration:none" href=3D"http://gary.to/6=
+z7mjw1" target=3D"_blank">MusED Hackathon</a></b> @ Venue<br><br></font></t=
+d></tr>
+
+</tbody></table></td></tr>
+
+</tbody></table></td></tr>
+
+</tbody></table></td></tr>
+</tbody></table></td></tr>
+
+<tr><td align=3D"center"><table width=3D"100%" cellspacing=3D"2" cellpaddin=
+g=3D"2">
+
+<tbody><tr><td align=3D"center"><font style=3D"font-size:13px;color:#666666=
+">
+Add <a href=3D"mailto:newsletter@garysguide.com" target=3D"_blank">newslett=
+er@garysguide.com</a> to your address book to ensure delivery into your Inb=
+ox and not your bulk or junk folders.=C2=A0=C2=A0
+<br><br>
+To change your email address just reply to this email with the new email ad=
+dress.
+<br><br>
+To unsubscribe from the newsletter just reply to this email with the word &=
+quot;unsubscribe&quot; in the title.
+<br><br>
+Have a question, comment or feedback? Email Gary (aka &quot;The Guy with th=
+e Red Tie&quot;) at <a href=3D"mailto:gary@garysguide.com" target=3D"_blank=
+">gary@garysguide.com</a>
+<br><br>
+=C2=A9 2017=C2=A0GarysGuide
+</font></td></tr>
+
+</tbody></table></td></tr>
+
+</tbody></table>
+
+</div>
+
+</div><br clear=3D"all"><div><br></div><span class=3D"gmail_signature_prefi=
+x">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=
+=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div style=
+=3D"font-family:arial,sans-serif;font-size:13.200000762939453px;font-style:=
+normal;font-variant:normal;letter-spacing:normal;line-height:normal;text-al=
+ign:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;wor=
+d-spacing:0px;background-color:rgb(255,255,255)"><font color=3D"#ff6600">Ly=
+dia<b>Stepanek</b></font></div><div style=3D"font-family:arial,sans-serif;f=
+ont-size:13.2000007629395px;font-style:normal;font-variant:normal;font-weig=
+ht:normal;letter-spacing:normal;line-height:normal;text-align:-webkit-auto;=
+text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;bac=
+kground-color:rgb(255,255,255)"><font color=3D"#666666">203.804.9137</font>=
+</div></div></div></div></div></div></div>
+
+--0000000000004f579b05fae5eaf3--

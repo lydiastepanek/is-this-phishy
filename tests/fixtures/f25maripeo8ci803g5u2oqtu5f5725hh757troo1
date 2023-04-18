@@ -1,0 +1,1478 @@
+Return-Path: <fake@email.com>
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id f25maripeo8ci803g5u2oqtu5f5725hh757troo1
+ for help@isthisphishy.io;
+ Thu, 04 May 2023 22:39:59 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.217.48 as permitted sender) client-ip=209.85.217.48; envelope-from=fake@email.com; helo=mail-vs1-f48.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.217.48 as permitted sender) client-ip=209.85.217.48; envelope-from=fake@email.com; helo=mail-vs1-f48.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFGbWxBZDFkeEFmM1NiNnVpOEF4MmI1aVhwRkx0dXI5emVkU3FYOG80R1RPdzUyb2ZjbWJjU3Q1VXlWOVlHeG5OY2dlcElRTlN3a2NiUUJLZ0xlU2lKSjBRdkE3NnFGYmtVelVvZW50Smt1VFVYQXdpYU9iLy8vV0VFRkdTOVRicjBPNkN6bnhPT0ZDdTg1TkRCREErRWFKUFZ4a01ZUVhUU0RlN3lPcXNFem1IaFdMQWFidnk1bWVZODhtMnZnaEo0dGpDS0ZyZm1ndnJNUGxQcWlKQTRTNjBCRHpNVWF2MWo4N3NZdDN2LzBueU9HaG81VWd0K0J5UTFyaGhycmhOYktnR1dNM2JJWUlCdStFTlMzUUlnZzM1azZMZUVoS1Q0emRaMlBGaDYvelE9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=WHn26PmNDkpxTbgAQ798a838HP3fgENnht2OlUOFVYw9nVirwXjGhko1IVv3BpcJabFD9WQfYQIEZVauOwOVtAPxdBZPjQt7Yn0q3K5nNjkC8Y59b5yRGWAKCP1YlQ0ZSRNJJsm6UoW9ybB5OD78xGic8IJYZbyGRtJtoYVgkTQ=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1683240000; v=1; bh=pUgeic7BtnG2zo3SpF5u6/0GVtHbOl32Pyr0oE5UuoQ=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-43478543ad0so32355137.1
+        for <help@isthisphishy.io>; Thu, 04 May 2023 15:39:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683239998; x=1685831998;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QeD8ARgRlcWZeZVRcwip0gpsNX3J5Ylbw5Y6tjDP5i8=;
+        b=XQqvJsNiqsnuUSfPyhXqsGVPFMs+OS8a3ZPj8wCKYKGv3MHg3AMiBdPVUh7WIQ7u9I
+         geb6FcYlxZYFtSn/Zow7EOz681X8Kr5iJwiLmyfbLbePFDb67uSiu2zMQzwLIlBPDkCU
+         xBrUjeTdcT5PBJKULlsEwHuDRxRcdDKEdg2uJr7kcsaCxDyoAagyIxGIh9O8n9MJozf7
+         Svl/BVwF2Hp3r0OKoWLShM8qR5cWs6mMLPC84/3DZlMDBFRwmJI+u0bXMH3Pi7qnVaLq
+         4I5608mvqB+SYUA91M7biE9Fa1uT3WVG2TlRU6XOIx4IrgBjEl8zrwatfTbrUJwSpwmI
+         wP6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683239998; x=1685831998;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QeD8ARgRlcWZeZVRcwip0gpsNX3J5Ylbw5Y6tjDP5i8=;
+        b=fuq6nSJcOy8Gxfx5hJ7h4jnMu08GiXJ2h0ZTarxBkGNwSQlV+r5UUNE/ORA7VxLczJ
+         nqqslMiBliF7foJf2iySBEhC7pe0SMpS/Kpu1aUeGNVLoaNrRH8eGQrQ0EDNeTcXMMyN
+         h5CYA10Qssu9/KetHQrj26jhDRay0bzjrbH06x3M/EaCl1jSDIXBgaP3imW246svRyfZ
+         3z7yq0G0nI6Y8IPq+Je3Ih9nCNoxwU8Tn2kIQclmP+z20E0aJAqKUCb4onAzDYN6ethq
+         SyuykGEU2fpCCd+x82vAkLgBKX15GyiDrcev5krgEKiBFO8CF1CQGB8eB2lJPyRvGDDj
+         O6UQ==
+X-Gm-Message-State: AC+VfDxsIHALHKNjyJHJPuWlJwkVUjzlbS723Z1R6w5NRxLCKd6Sgjr6
+	6Q6FfJcYm8CjVjXgHPf69nAzp52n2AqxgxAGkFIzFruHPpY=
+X-Google-Smtp-Source: ACHHUZ453YceKr4Ui8srTfnTQq4ANUbtMbsx74F2cWVUrl+8GjUg6xCG7kfnp7L91Ed+KDoI3R3klm9NOxl4VytkhJs=
+X-Received: by 2002:a67:edc6:0:b0:42e:ad0d:4da4 with SMTP id
+ e6-20020a67edc6000000b0042ead0d4da4mr3123540vsp.5.1683239997982; Thu, 04 May
+ 2023 15:39:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <RVeXKl0KMqqyQ30SgcSc4cBsI-0YVtxU5uetHAf1aM6zlZybohlAu1XVGxJR1HLaKt6zVXMkA8_-ze3mQfC_uiITzvJdJFRzfUK5VxBRzxzTABBSSwa_07wOe21f62yB0IB8sQABAgA=@t1.msgid.quoramail.com>
+In-Reply-To: <RVeXKl0KMqqyQ30SgcSc4cBsI-0YVtxU5uetHAf1aM6zlZybohlAu1XVGxJR1HLaKt6zVXMkA8_-ze3mQfC_uiITzvJdJFRzfUK5VxBRzxzTABBSSwa_07wOe21f62yB0IB8sQABAgA=@t1.msgid.quoramail.com>
+From: Lydia Stepanek <fake@email.com>
+Date: Thu, 4 May 2023 18:39:46 -0400
+Message-ID: <CADvz_ydjAE1=i+5mWxqjqiXdA4GqiDOFkJ=RB25Bypcw7=9qGQ@mail.gmail.com>
+Subject: Fwd: More related to "What are the current Facebook password requirements?"
+To: help@isthisphishy.io
+Content-Type: multipart/alternative; boundary="00000000000026cedc05fae5da00"
+
+--00000000000026cedc05fae5da00
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: Quora <curiosity-noreply@quora.com>
+Date: Tue, Feb 14, 2023 at 1:11=E2=80=AFPM
+Subject: More related to "What are the current Facebook password
+requirements?"
+To: <fake@email.com>
+
+
+You can=E2=80=99t see it from Facebook! But you can try to login in to Face=
+book
+with old password.After its an old password Facebook say =E2=80=9CSorry! Yo=
+u
+entered an old password Your password was changed about =E2=80=A6
+[image: Quora]
+<https://www.quora.com/qemail/track_click?aoid&aoty=3D7&aty=3D4&cp=3D0&ct=
+=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15c806c&inject=
+=3D1&source&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4lOzE5W%7C1_4zyOO=
+SnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_=
+XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&ty&ty_data&uid=
+=3DR8HOtSzxvKD&v=3D0>
+
+Stories from your activity
+
+How can I get my old Facebook password?
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8MXwxfDQwNjAwMDE1In0%3D&al_pri=3D1&aoid=3DmkqGLK5I6Ji&aoty=3D2&aty=
+=3D4&cp=3D1&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DLrwv4lOzE5W&uid=3DR8HOtSzxvKD&v=3D0>
+[image: Akalanka Ekanayake]
+<https://www.quora.com/qemail/track_click?aoid=3Djf7wWmNcqRq&aoty=3D3&aty=
+=3D4&cp=3D1&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DLrwv4lOzE5W&uid=3DR8HOtSzxvKD&v=3D0>
+
+*Akalanka Ekanayake
+<https://www.quora.com/qemail/track_click?aoid=3Djf7wWmNcqRq&aoty=3D3&aty=
+=3D4&cp=3D1&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DLrwv4lOzE5W&uid=3DR8HOtSzxvKD&v=3D0>*,
+CEO & Founder at Cyberscap (2019-present)
+
+Answered March 31, 2017
+<https://www.quora.com/qemail/track_click?aoid=3DLrwv4lOzE5W&aoty=3D1&aty=
+=3D4&cp=3D1&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DLrwv4lOzE5W&uid=3DR8HOtSzxvKD&v=3D0>
+
+You can=E2=80=99t see it from Facebook! But you can try to login in to Face=
+book
+with old password.After its an old password Facebook say =E2=80=9CSorry! Yo=
+u
+entered an old password Your pa...
+
+Read more =C2=BB
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8MXwxfDQwNjAwMDE1In0%3D&al_pri=3D0&aoid=3DLrwv4lOzE5W&aoty=3D1&aty=
+=3D4&cp=3D1&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DLrwv4lOzE5W&uid=3DR8HOtSzxvKD&v=3D0>
+
+I forgot my Facebook password and email password. How can I log into
+Facebook?
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8MnwxfDE0Nzc3NDM2MzY4NDA1MTkifQ%3D%3D&al_pri=3D1&aoid=3DjJeWQyJwRwQ&=
+aoty=3D2&aty=3D4&cp=3D2&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb=
+5831c15c7d15c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stori=
+es=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoq=
+tDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1=
+_dCX0ExqjlEi&ty=3D1&ty_data=3D4zyOOSnjcVi&uid=3DR8HOtSzxvKD&v=3D0>
+[image: Munir SO]
+<https://www.quora.com/qemail/track_click?aoid=3DzpvruYK6vyB&aoty=3D3&aty=
+=3D4&cp=3D2&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3D4zyOOSnjcVi&uid=3DR8HOtSzxvKD&v=3D0>
+
+*Munir SO
+<https://www.quora.com/qemail/track_click?aoid=3DzpvruYK6vyB&aoty=3D3&aty=
+=3D4&cp=3D2&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3D4zyOOSnjcVi&uid=3DR8HOtSzxvKD&v=3D0>*,
+Expert Digital Marketer - Make Money Online
+
+Answered Thu
+<https://www.quora.com/qemail/track_click?aoid=3D4zyOOSnjcVi&aoty=3D1&aty=
+=3D4&cp=3D2&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3D4zyOOSnjcVi&uid=3DR8HOtSzxvKD&v=3D0>
+
+If you've forgotten your Facebook password and email password, you can
+follow these steps to log into your Facebook account:
+
+   1. Go to the Facebook login page: Open your web bro...
+
+Read more =C2=BB
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8MnwxfDE0Nzc3NDM2MzY4NDA1MTkifQ%3D%3D&al_pri=3D0&aoid=3D4zyOOSnjcVi&=
+aoty=3D1&aty=3D4&cp=3D2&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb=
+5831c15c7d15c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stori=
+es=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoq=
+tDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1=
+_dCX0ExqjlEi&ty=3D1&ty_data=3D4zyOOSnjcVi&uid=3DR8HOtSzxvKD&v=3D0>
+
+How do I recover my old Facebook account when I no longer have access to my
+old phone, the old sim-card, my old email and password?
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8M3wxfDM5NTcwMDc1NiJ9&al_pri=3D1&aoid=3DLmVTtAfl9I6&aoty=3D2&aty=3D4=
+&cp=3D3&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15c806=
+c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4lOzE=
+5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHW=
+nyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&ty=
+=3D1&ty_data=3DXNmhzP5q0Nq&uid=3DR8HOtSzxvKD&v=3D0>
+[image: Vincent Vicky Victor]
+<https://www.quora.com/qemail/track_click?aoid=3D3dR2a3SlHfU&aoty=3D3&aty=
+=3D4&cp=3D3&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DXNmhzP5q0Nq&uid=3DR8HOtSzxvKD&v=3D0>
+
+*Vincent Vicky Victor
+<https://www.quora.com/qemail/track_click?aoid=3D3dR2a3SlHfU&aoty=3D3&aty=
+=3D4&cp=3D3&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DXNmhzP5q0Nq&uid=3DR8HOtSzxvKD&v=3D0>*,
+Proprietor - Self-employment at V3ImportExport (2013-present)
+
+Answered November 3
+<https://www.quora.com/qemail/track_click?aoid=3DXNmhzP5q0Nq&aoty=3D1&aty=
+=3D4&cp=3D3&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DXNmhzP5q0Nq&uid=3DR8HOtSzxvKD&v=3D0>
+
+   - Open any Facebook account and search for the account you want to
+   recover
+   - Once the account you want to recover gets opened, just click on the 3
+   dots underneath the cover phot...
+
+Read more =C2=BB
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8M3wxfDM5NTcwMDc1NiJ9&al_pri=3D0&aoid=3DXNmhzP5q0Nq&aoty=3D1&aty=3D4=
+&cp=3D3&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15c806=
+c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4lOzE=
+5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHW=
+nyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&ty=
+=3D1&ty_data=3DXNmhzP5q0Nq&uid=3DR8HOtSzxvKD&v=3D0>
+
+How do I sign into my old Facebook account?
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8NHwxfDMxODAwMDA5In0%3D&al_pri=3D1&aoid=3DMVeaNJGOVbW&aoty=3D2&aty=
+=3D4&cp=3D4&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DLLaG13nEVVq&uid=3DR8HOtSzxvKD&v=3D0>
+[image: Zachary Chastain]
+<https://www.quora.com/qemail/track_click?aoid=3DdpQalAuzVFZ&aoty=3D3&aty=
+=3D4&cp=3D4&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DLLaG13nEVVq&uid=3DR8HOtSzxvKD&v=3D0>
+
+*Zachary Chastain
+<https://www.quora.com/qemail/track_click?aoid=3DdpQalAuzVFZ&aoty=3D3&aty=
+=3D4&cp=3D4&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DLLaG13nEVVq&uid=3DR8HOtSzxvKD&v=3D0>*,
+Sr. Manager, Strategy and Planning at FUEL - For Brands (2017-present)
+
+Answered December 2, 2016
+<https://www.quora.com/qemail/track_click?aoid=3DLLaG13nEVVq&aoty=3D1&aty=
+=3D4&cp=3D4&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DLLaG13nEVVq&uid=3DR8HOtSzxvKD&v=3D0>
+
+You=E2=80=99ll need to know one of two things:
+
+   1. You=E2=80=99ll need to know the answer to your security question. You=
+ can
+   have Facebook let you reset your password, provide the correct answe...
+
+Read more =C2=BB
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8NHwxfDMxODAwMDA5In0%3D&al_pri=3D0&aoid=3DLLaG13nEVVq&aoty=3D1&aty=
+=3D4&cp=3D4&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DLLaG13nEVVq&uid=3DR8HOtSzxvKD&v=3D0>
+
+Can I get my old FB account back?
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8NXwxfDkyMDQzMDU3In0%3D&al_pri=3D1&aoid=3DopekyE4Qxkr&aoty=3D2&aty=
+=3D4&cp=3D5&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DFRoqtDKqYF8&uid=3DR8HOtSzxvKD&v=3D0>
+[image: Trygeania Dowell]
+<https://www.quora.com/qemail/track_click?aoid=3DdSllOi13Nf6&aoty=3D3&aty=
+=3D4&cp=3D5&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DFRoqtDKqYF8&uid=3DR8HOtSzxvKD&v=3D0>
+
+Trygeania Dowell
+<https://www.quora.com/qemail/track_click?aoid=3DdSllOi13Nf6&aoty=3D3&aty=
+=3D4&cp=3D5&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DFRoqtDKqYF8&uid=3DR8HOtSzxvKD&v=3D0>
+
+Answered July 20, 2018
+<https://www.quora.com/qemail/track_click?aoid=3DFRoqtDKqYF8&aoty=3D1&aty=
+=3D4&cp=3D5&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DFRoqtDKqYF8&uid=3DR8HOtSzxvKD&v=3D0>
+
+If Facebook deleted your account then they should of sent you a way to get
+it back. Most of the time you need to send them a copy of your ID with your
+name on it. If you pe...
+
+Read more =C2=BB
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8NXwxfDkyMDQzMDU3In0%3D&al_pri=3D0&aoid=3DFRoqtDKqYF8&aoty=3D1&aty=
+=3D4&cp=3D5&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DFRoqtDKqYF8&uid=3DR8HOtSzxvKD&v=3D0>
+
+How do I access my Facebook account if I don't have the phone number,
+password, or email?
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8NnwxfDQ0NjIwNjA2In0%3D&al_pri=3D1&aoid=3Ddfpokpn42FA&aoty=3D2&aty=
+=3D4&cp=3D6&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DzDHWnyPSbv4&uid=3DR8HOtSzxvKD&v=3D0>
+[image: Debabrata Halder]
+<https://www.quora.com/qemail/track_click?aoid=3DY6gWYgA4rLW&aoty=3D3&aty=
+=3D4&cp=3D6&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DzDHWnyPSbv4&uid=3DR8HOtSzxvKD&v=3D0>
+
+*Debabrata Halder
+<https://www.quora.com/qemail/track_click?aoid=3DY6gWYgA4rLW&aoty=3D3&aty=
+=3D4&cp=3D6&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DzDHWnyPSbv4&uid=3DR8HOtSzxvKD&v=3D0>*,
+knows Hindi
+
+Answered May 16, 2017
+<https://www.quora.com/qemail/track_click?aoid=3DzDHWnyPSbv4&aoty=3D1&aty=
+=3D4&cp=3D6&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DzDHWnyPSbv4&uid=3DR8HOtSzxvKD&v=3D0>
+
+First of all you must at least have email ID or phone number to have access
+to Facebook.
+
+By chance if you forget your password then also you can get access to
+facebook by re...
+
+Read more =C2=BB
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8NnwxfDQ0NjIwNjA2In0%3D&al_pri=3D0&aoid=3DzDHWnyPSbv4&aoty=3D1&aty=
+=3D4&cp=3D6&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DzDHWnyPSbv4&uid=3DR8HOtSzxvKD&v=3D0>
+
+How do I locate an old Facebook account?
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8N3wxfDc4ODA4MDc2In0%3D&al_pri=3D1&aoid=3DFCAW8msCeoU&aoty=3D2&aty=
+=3D4&cp=3D7&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DXFJKoUnGDG2&uid=3DR8HOtSzxvKD&v=3D0>
+[image: Christian Karasiewicz]
+<https://www.quora.com/qemail/track_click?aoid=3DF3JMrIkIDNy&aoty=3D3&aty=
+=3D4&cp=3D7&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DXFJKoUnGDG2&uid=3DR8HOtSzxvKD&v=3D0>
+
+*Christian Karasiewicz
+<https://www.quora.com/qemail/track_click?aoid=3DF3JMrIkIDNy&aoty=3D3&aty=
+=3D4&cp=3D7&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DXFJKoUnGDG2&uid=3DR8HOtSzxvKD&v=3D0>*,
+Live Video Producer, Podcaster
+
+Answered April 6, 2018
+<https://www.quora.com/qemail/track_click?aoid=3DXFJKoUnGDG2&aoty=3D1&aty=
+=3D4&cp=3D7&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DXFJKoUnGDG2&uid=3DR8HOtSzxvKD&v=3D0>
+
+Is it a Profile or Page? Can you elaborate more on what you are trying to
+find?
+
+Read more =C2=BB
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8N3wxfDc4ODA4MDc2In0%3D&al_pri=3D0&aoid=3DXFJKoUnGDG2&aoty=3D1&aty=
+=3D4&cp=3D7&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DXFJKoUnGDG2&uid=3DR8HOtSzxvKD&v=3D0>
+
+I forgot the email of my Facebook account, but I remember my password and
+username. How do I find my username?
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8OHwxfDEzODA3NTc2MSJ9&al_pri=3D1&aoid=3Dq1awWTs39sd&aoty=3D2&aty=3D4=
+&cp=3D8&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15c806=
+c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4lOzE=
+5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHW=
+nyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&ty=
+=3D1&ty_data=3DMu983HdrkLi&uid=3DR8HOtSzxvKD&v=3D0>
+[image: John Hunter]
+<https://www.quora.com/qemail/track_click?aoid=3Dq2GGfPCQsw4&aoty=3D3&aty=
+=3D4&cp=3D8&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DMu983HdrkLi&uid=3DR8HOtSzxvKD&v=3D0>
+
+*John Hunter
+<https://www.quora.com/qemail/track_click?aoid=3Dq2GGfPCQsw4&aoty=3D3&aty=
+=3D4&cp=3D8&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DMu983HdrkLi&uid=3DR8HOtSzxvKD&v=3D0>*,
+Avid gamer. Worked in customer services for many years.
+
+Answered May 2, 2019
+<https://www.quora.com/qemail/track_click?aoid=3DMu983HdrkLi&aoty=3D1&aty=
+=3D4&cp=3D8&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3DMu983HdrkLi&uid=3DR8HOtSzxvKD&v=3D0>
+
+I forgot the email of my Facebook account, but I remember my password and
+username. How do I find my username?
+
+Do you mean you need to know how to find the email address? Yo...
+
+Read more =C2=BB
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8OHwxfDEzODA3NTc2MSJ9&al_pri=3D0&aoid=3DMu983HdrkLi&aoty=3D1&aty=3D4=
+&cp=3D8&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15c806=
+c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4lOzE=
+5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHW=
+nyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&ty=
+=3D1&ty_data=3DMu983HdrkLi&uid=3DR8HOtSzxvKD&v=3D0>
+
+How do I recover my Facebook password by email?
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8OXwxfDIyOTMwNzU4MyJ9&al_pri=3D1&aoid=3DdDggRYYwPFB&aoty=3D2&aty=3D4=
+&cp=3D9&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15c806=
+c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4lOzE=
+5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHW=
+nyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&ty=
+=3D1&ty_data=3D8eu4ax2feIq&uid=3DR8HOtSzxvKD&v=3D0>
+[image: Jack Whales]
+<https://www.quora.com/qemail/track_click?aoid=3D9pPDVSpYlF1&aoty=3D3&aty=
+=3D4&cp=3D9&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3D8eu4ax2feIq&uid=3DR8HOtSzxvKD&v=3D0>
+
+*Jack Whales
+<https://www.quora.com/qemail/track_click?aoid=3D9pPDVSpYlF1&aoty=3D3&aty=
+=3D4&cp=3D9&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3D8eu4ax2feIq&uid=3DR8HOtSzxvKD&v=3D0>*,
+knows Swedish
+
+Answered July 24, 2020
+<https://www.quora.com/qemail/track_click?aoid=3D8eu4ax2feIq&aoty=3D1&aty=
+=3D4&cp=3D9&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4=
+lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_=
+zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi=
+&ty=3D1&ty_data=3D8eu4ax2feIq&uid=3DR8HOtSzxvKD&v=3D0>
+
+For this you need to take the help of you friend or try by your self
+
+From the friend help tell the friend to find your account and then go to
+the about the copy the URL seco...
+
+Read more =C2=BB
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8OXwxfDIyOTMwNzU4MyJ9&al_pri=3D0&aoid=3D8eu4ax2feIq&aoty=3D1&aty=3D4=
+&cp=3D9&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15c806=
+c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4lOzE=
+5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHW=
+nyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&ty=
+=3D1&ty_data=3D8eu4ax2feIq&uid=3DR8HOtSzxvKD&v=3D0>
+
+How do we recover a Facebook account without a confirmation code?
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8MTB8MXwyNjY5OTc2MzAifQ%3D%3D&al_pri=3D1&aoid=3DYVWgGYvtj61&aoty=3D2=
+&aty=3D4&cp=3D10&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15=
+c7d15c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_=
+Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8=
+%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0Ex=
+qjlEi&ty=3D1&ty_data=3DdCX0ExqjlEi&uid=3DR8HOtSzxvKD&v=3D0>
+[image: Kevin Fitzgerald]
+<https://www.quora.com/qemail/track_click?aoid=3DXyuIls5qTwr&aoty=3D3&aty=
+=3D4&cp=3D10&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d1=
+5c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv=
+4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1=
+_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlE=
+i&ty=3D1&ty_data=3DdCX0ExqjlEi&uid=3DR8HOtSzxvKD&v=3D0>
+
+*Kevin Fitzgerald
+<https://www.quora.com/qemail/track_click?aoid=3DXyuIls5qTwr&aoty=3D3&aty=
+=3D4&cp=3D10&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d1=
+5c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv=
+4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1=
+_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlE=
+i&ty=3D1&ty_data=3DdCX0ExqjlEi&uid=3DR8HOtSzxvKD&v=3D0>*,
+My identity was hacked by ex wife in Bulgaria
+
+Answered February 22, 2021
+<https://www.quora.com/qemail/track_click?aoid=3DdCX0ExqjlEi&aoty=3D1&aty=
+=3D4&cp=3D10&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d1=
+5c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv=
+4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1=
+_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlE=
+i&ty=3D1&ty_data=3DdCX0ExqjlEi&uid=3DR8HOtSzxvKD&v=3D0>
+
+Start new page with a different device or VPN=E2=80=A6.then you can get int=
+o your
+page=E2=80=A6if someone else is using it for their shitty purposes you can =
+ask for
+friendship with your fa...
+
+Read more =C2=BB
+<https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNo=
+IjogIjB8MTB8MXwyNjY5OTc2MzAifQ%3D%3D&al_pri=3D0&aoid=3DdCX0ExqjlEi&aoty=3D1=
+&aty=3D4&cp=3D10&ct=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15=
+c7d15c806c&inject=3D1&source=3D7&src=3D1&st=3D1676398299733944&stories=3D1_=
+Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8=
+%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0Ex=
+qjlEi&ty=3D1&ty_data=3DdCX0ExqjlEi&uid=3DR8HOtSzxvKD&v=3D0>
+Search More on Quora
+<https://www.quora.com/qemail/track_click?aoid&aoty=3D7&aty=3D4&cp=3D0&ct=
+=3D1676398299723286&et=3D130&id=3Db91edfd4ac034cb5831c15c7d15c806c&inject=
+=3D1&source&src=3D1&st=3D1676398299733944&stories=3D1_Lrwv4lOzE5W%7C1_4zyOO=
+SnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_=
+XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&ty&ty_data&uid=
+=3DR8HOtSzxvKD&v=3D0>
+
+This email was sent by Quora (605 Castro Street, Mountain View, CA 94041).
+If you don't want to receive this type of email in the future, please
+unsubscribe
+<https://www.quora.com/email_optout/qemail_unsubscribe?email_track_id=3Db91=
+edfd4ac034cb5831c15c7d15c806c&t=3D1676398299779689&token=3D581ef1bf281a20f2=
+598f4d0c11e7864dd1d43b8f8980b8668603a192f605ddc5c6e9df2bc6db453ba85d48ec0b2=
+c95854fb345334c98c3aa592f37684f3ab9b7&type=3D130&uid=3D77583537>
+.
+https://www.quora.com
+
+
+--=20
+Lydia*Stepanek*
+203.804.9137
+
+--00000000000026cedc05fae5da00
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">---------- Forwarded message ---------<br>From: <strong cla=
+ss=3D"gmail_sendername" dir=3D"auto">Quora</strong> <span dir=3D"auto">&lt;=
+<a href=3D"mailto:curiosity-noreply@quora.com">curiosity-noreply@quora.com<=
+/a>&gt;</span><br>Date: Tue, Feb 14, 2023 at 1:11=E2=80=AFPM<br>Subject: Mo=
+re related to &quot;What are the current Facebook password requirements?&qu=
+ot;<br>To:  &lt;<a href=3D"mailto:fake@email.com">fake@=
+gmail.com</a>&gt;<br></div><br><br><div class=3D"msg2606028884154816493"><u=
+></u><div style=3D"word-spacing:normal"><div style=3D"display:none;font-siz=
+e:1px;color:#ffffff;line-height:1px;max-height:0px;max-width:0px;opacity:0;=
+overflow:hidden">You can=E2=80=99t see it from Facebook! But you can try to=
+ login in to Facebook with old password.After its an old password Facebook =
+say =E2=80=9CSorry! You entered an old password Your password was changed a=
+bout =E2=80=A6</div><div style=3D"max-width:525px;margin:0 auto;text-align:=
+center;padding:0 4px 16px"><table border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"0" role=3D"presentation" style=3D"width:100%" align=3D"center"><tbody>=
+<tr><td><div style=3D"margin:0px auto;max-width:525px"><table border=3D"0" =
+cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"width:10=
+0%" align=3D"center"><tbody><tr><td style=3D"direction:ltr;font-size:0px;pa=
+dding:0px;padding-bottom:24px;padding-top:16px;text-align:center"><div styl=
+e=3D"font-size:0;line-height:0;display:inline-block;width:100%;direction:lt=
+r;text-align:center" class=3D"m_2606028884154816493mj-column-per-100"><div =
+style=3D"font-size:0px;text-align:left;direction:ltr;display:inline-block;v=
+ertical-align:top;width:100%" class=3D"m_2606028884154816493mj-column-per-1=
+00"><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"present=
+ation" style=3D"vertical-align:top" width=3D"100%"><tbody><tr><td style=3D"=
+font-size:0px;padding:0px;word-break:break-word" align=3D"center"><table bo=
+rder=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=
+=3D"border-collapse:collapse;border-spacing:0px"><tbody><tr><td style=3D"wi=
+dth:104px"><a href=3D"https://www.quora.com/qemail/track_click?aoid&amp;aot=
+y=3D7&amp;aty=3D4&amp;cp=3D0&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=
+=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source&amp;src=3D1&a=
+mp;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XN=
+mhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7=
+C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty&amp;ty_data&amp;uid=
+=3DR8HOtSzxvKD&amp;v=3D0" target=3D"_blank"><img alt=3D"Quora" height=3D"35=
+.13513513513514" src=3D"http://qsf.fs.quoracdn.net/-4-images.logo.WordmarkL=
+ogo_592x200_4x.png-26-b469cd653dba282b.png" style=3D"object-fit:contain;bor=
+der:0;display:block;outline:none;text-decoration:none;height:35.13513513513=
+514px;width:100%;font-size:13px" width=3D"104"></a></td></tr></tbody></tabl=
+e></td></tr><tr><td style=3D"font-size:0px;padding:0px;word-break:break-wor=
+d" align=3D"center"><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0"=
+ role=3D"presentation" style=3D"border-collapse:collapse;border-spacing:0px=
+"><tbody><tr><td style=3D"width:1px"><img alt=3D"" height=3D"1" src=3D"http=
+s://www.quora.com/qemail/mark_read?ct=3D1676398299723286&amp;et=3D130&amp;i=
+d=3Db91edfd4ac034cb5831c15c7d15c806c&amp;src=3D1&amp;st=3D1676398299733944&=
+amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq=
+%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax=
+2feIq%7C1_dCX0ExqjlEi&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"object-fit:=
+contain;border:0;display:block;outline:none;text-decoration:none;height:1px=
+;width:100%;font-size:13px" width=3D"1"></td></tr></tbody></table></td></tr=
+><tr><td style=3D"font-size:0px;padding:0px;word-break:break-word" align=3D=
+"center"><div style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:=
+19px;line-height:1.2;text-align:center;color:#333333">Stories from your act=
+ivity</div></td></tr><tr><td style=3D"font-size:0px;padding:0px;padding-top=
+:24px;padding-right:25%;padding-bottom:24px;padding-left:25%;word-break:bre=
+ak-word" align=3D"center"><p style=3D"border-top:solid 0.5px #b92b27;font-s=
+ize:1px;width:100%;margin:0"></p></td></tr><tr><td style=3D"font-size:0px;p=
+adding:0px;padding-bottom:8px;word-break:break-word" align=3D"left"><div st=
+yle=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:19px;font-weight=
+:700;letter-spacing:-0.5px;line-height:1.4;text-align:left;color:#333333"><=
+a href=3D"https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzM=
+sICJoYXNoIjogIjB8MXwxfDQwNjAwMDE1In0%3D&amp;al_pri=3D1&amp;aoid=3DmkqGLK5I6=
+Ji&amp;aoty=3D2&amp;aty=3D4&amp;cp=3D1&amp;ct=3D1676398299723286&amp;et=3D1=
+30&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&=
+amp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOO=
+SnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_=
+XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;=
+ty_data=3DLrwv4lOzE5W&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decora=
+tion:none;color:inherit" target=3D"_blank"><span style=3D"color:#333333"><s=
+pan>How can I get my old Facebook password?</span></span></a></div></td></t=
+r><tr><td style=3D"font-size:0px;padding:0px;word-break:break-word" align=
+=3D"left"><div style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size=
+:15px;line-height:1.6;text-align:left;color:#333333"><div style=3D"float:le=
+ft;padding-bottom:8px"><table><tbody><tr><td style=3D"line-height:1;padding=
+-right:8px" valign=3D"top" width=3D"40"><a href=3D"https://www.quora.com/qe=
+mail/track_click?aoid=3Djf7wWmNcqRq&amp;aoty=3D3&amp;aty=3D4&amp;cp=3D1&amp=
+;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c80=
+6c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;=
+stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1=
+_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feI=
+q%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DLrwv4lOzE5W&amp;uid=3DR8HOtSzxvK=
+D&amp;v=3D0" style=3D"text-decoration:underline" target=3D"_blank"><img alt=
+=3D"Akalanka Ekanayake" height=3D"40" src=3D"https://qph.fs.quoracdn.net/ma=
+in-thumb-263727391-50-ebeadcovmgnrbkxpbwmihvchewcxzidu.jpeg" style=3D"borde=
+r-radius:100%;text-decoration:none;display:block;border:0;outline:none;widt=
+h:40px;height:40px;float:none;padding:0;margin:auto" width=3D"40" align=3D"=
+none"></a></td><td valign=3D"top"><div style=3D"padding:0;padding-bottom:4p=
+x" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-s=
+ize:15px;line-height:1.2;color:#333333;text-align:left;margin:0"><b><a href=
+=3D"https://www.quora.com/qemail/track_click?aoid=3Djf7wWmNcqRq&amp;aoty=3D=
+3&amp;aty=3D4&amp;cp=3D1&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db9=
+1edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&am=
+p;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNm=
+hzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C=
+1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DLrwv=
+4lOzE5W&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:none;colo=
+r:inherit" target=3D"_blank"><span style=3D"color:#333333"><span style=3D"f=
+ont-weight:700">Akalanka Ekanayake</span></span></a></b>, CEO &amp; Founder=
+ at Cyberscap (2019-present)</p></div><div style=3D"padding:0" dir=3D"ltr">=
+<p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:13px;line-h=
+eight:1.2;color:#636466;text-align:left;margin:0"><a href=3D"https://www.qu=
+ora.com/qemail/track_click?aoid=3DLrwv4lOzE5W&amp;aoty=3D1&amp;aty=3D4&amp;=
+cp=3D1&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c=
+15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D16763982997=
+33944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG1=
+3nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_=
+8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DLrwv4lOzE5W&amp;uid=3D=
+R8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:none;color:inherit" target=
+=3D"_blank"><span style=3D"color:#636466">Answered March 31, 2017</span></a=
+></p></div></td></tr></tbody></table></div></div></td></tr><tr><td style=3D=
+"font-size:0px;padding:0px;word-break:break-word" align=3D"left"><div style=
+=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.=
+6;text-align:left;color:#333333"><a href=3D"https://www.quora.com/qemail/tr=
+ack_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjB8MXwxfDQwNjAwMDE1In0%3D&a=
+mp;al_pri=3D0&amp;aoid=3DLrwv4lOzE5W&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D1&am=
+p;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c8=
+06c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp=
+;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C=
+1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2fe=
+Iq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DLrwv4lOzE5W&amp;uid=3DR8HOtSzxv=
+KD&amp;v=3D0" style=3D"text-decoration:none;color:#333333" target=3D"_blank=
+"><span style=3D"color:#333333"><div style=3D"padding:0;padding-bottom:16px=
+" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-si=
+ze:15px;line-height:1.6;color:#333333;text-align:left;margin:0"><span>You c=
+an=E2=80=99t see it from Facebook! But you can try to login in to Facebook =
+with old password.After its an old password Facebook say =E2=80=9CSorry! Yo=
+u entered an old password Your pa...</span></p></div><div style=3D"padding:=
+0" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-s=
+ize:15px;line-height:1.6;color:#168de9;text-align:left;margin:0">Read more =
+=C2=BB</p></div></span></a></div></td></tr><tr><td style=3D"font-size:0px;p=
+adding:0px;padding-top:16px;padding-right:25%;padding-bottom:16px;padding-l=
+eft:25%;word-break:break-word" align=3D"center"><p style=3D"border-top:soli=
+d 0.5px #dee0e1;font-size:1px;width:100%;margin:0"></p></td></tr><tr><td st=
+yle=3D"font-size:0px;padding:0px;padding-bottom:8px;word-break:break-word" =
+align=3D"left"><div style=3D"font-family:system-ui,Segoe UI,sans-serif;font=
+-size:19px;font-weight:700;letter-spacing:-0.5px;line-height:1.4;text-align=
+:left;color:#333333"><a href=3D"https://www.quora.com/qemail/track_click?al=
+_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjB8MnwxfDE0Nzc3NDM2MzY4NDA1MTkifQ%3D%3D=
+&amp;al_pri=3D1&amp;aoid=3DjJeWQyJwRwQ&amp;aoty=3D2&amp;aty=3D4&amp;cp=3D2&=
+amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15=
+c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&a=
+mp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%=
+7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2=
+feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3D4zyOOSnjcVi&amp;uid=3DR8HOtSz=
+xvKD&amp;v=3D0" style=3D"text-decoration:none;color:inherit" target=3D"_bla=
+nk"><span style=3D"color:#333333"><span>I forgot my Facebook password and e=
+mail password. How can I log into Facebook?</span></span></a></div></td></t=
+r><tr><td style=3D"font-size:0px;padding:0px;word-break:break-word" align=
+=3D"left"><div style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size=
+:15px;line-height:1.6;text-align:left;color:#333333"><div style=3D"float:le=
+ft;padding-bottom:8px"><table><tbody><tr><td style=3D"line-height:1;padding=
+-right:8px" valign=3D"top" width=3D"40"><a href=3D"https://www.quora.com/qe=
+mail/track_click?aoid=3DzpvruYK6vyB&amp;aoty=3D3&amp;aty=3D4&amp;cp=3D2&amp=
+;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c80=
+6c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;=
+stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1=
+_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feI=
+q%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3D4zyOOSnjcVi&amp;uid=3DR8HOtSzxvK=
+D&amp;v=3D0" style=3D"text-decoration:underline" target=3D"_blank"><img alt=
+=3D"Munir SO" height=3D"40" src=3D"https://qph.fs.quoracdn.net/main-thumb-7=
+87725118-50-hbptxityflaqxyuvelipqnnltmayjzzv.jpeg" style=3D"border-radius:1=
+00%;text-decoration:none;display:block;border:0;outline:none;width:40px;hei=
+ght:40px;float:none;padding:0;margin:auto" width=3D"40" align=3D"none"></a>=
+</td><td valign=3D"top"><div style=3D"padding:0;padding-bottom:4px" dir=3D"=
+ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:15px;l=
+ine-height:1.2;color:#333333;text-align:left;margin:0"><b><a href=3D"https:=
+//www.quora.com/qemail/track_click?aoid=3DzpvruYK6vyB&amp;aoty=3D3&amp;aty=
+=3D4&amp;cp=3D2&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac0=
+34cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D16=
+76398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%=
+7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983Hd=
+rkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3D4zyOOSnjcVi&a=
+mp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:none;color:inherit=
+" target=3D"_blank"><span style=3D"color:#333333"><span style=3D"font-weigh=
+t:700">Munir SO</span></span></a></b>, Expert Digital Marketer - Make Money=
+ Online</p></div><div style=3D"padding:0" dir=3D"ltr"><p style=3D"font-fami=
+ly:system-ui,Segoe UI,sans-serif;font-size:13px;line-height:1.2;color:#6364=
+66;text-align:left;margin:0"><a href=3D"https://www.quora.com/qemail/track_=
+click?aoid=3D4zyOOSnjcVi&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D2&amp;ct=3D16763=
+98299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inje=
+ct=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1=
+_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF=
+8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0E=
+xqjlEi&amp;ty=3D1&amp;ty_data=3D4zyOOSnjcVi&amp;uid=3DR8HOtSzxvKD&amp;v=3D0=
+" style=3D"text-decoration:none;color:inherit" target=3D"_blank"><span styl=
+e=3D"color:#636466">Answered Thu</span></a></p></div></td></tr></tbody></ta=
+ble></div></div></td></tr><tr><td style=3D"font-size:0px;padding:0px;word-b=
+reak:break-word" align=3D"left"><div style=3D"font-family:system-ui,Segoe U=
+I,sans-serif;font-size:15px;line-height:1.6;text-align:left;color:#333333">=
+<a href=3D"https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMz=
+MsICJoYXNoIjogIjB8MnwxfDE0Nzc3NDM2MzY4NDA1MTkifQ%3D%3D&amp;al_pri=3D0&amp;a=
+oid=3D4zyOOSnjcVi&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D2&amp;ct=3D167639829972=
+3286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&=
+amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv4l=
+OzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_z=
+DHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&=
+amp;ty=3D1&amp;ty_data=3D4zyOOSnjcVi&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=
+=3D"text-decoration:none;color:#333333" target=3D"_blank"><span style=3D"co=
+lor:#333333"><div style=3D"padding:0;padding-bottom:16px" dir=3D"ltr"><p st=
+yle=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:15px;line-height=
+:1.6;color:#333333;text-align:left;margin:0"><span>If you&#39;ve forgotten =
+your Facebook password and email password, you can follow these steps to lo=
+g into your Facebook account:</span></p></div><div style=3D"font-family:sys=
+tem-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.6;padding-right:16p=
+x;color:#333333;padding-left:32px;padding-bottom:16px"><ol style=3D"padding=
+:0;margin:0"><li dir=3D"ltr" style=3D"margin:0"><span style=3D"font-weight:=
+bold">Go to the Facebook login page: </span><span>Open your web bro...</spa=
+n></li></ol></div><div style=3D"padding:0" dir=3D"ltr"><p style=3D"font-fam=
+ily:system-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.6;color:#168=
+de9;text-align:left;margin:0">Read more =C2=BB</p></div></span></a></div></=
+td></tr><tr><td style=3D"font-size:0px;padding:0px;padding-top:16px;padding=
+-right:25%;padding-bottom:16px;padding-left:25%;word-break:break-word" alig=
+n=3D"center"><p style=3D"border-top:solid 0.5px #dee0e1;font-size:1px;width=
+:100%;margin:0"></p></td></tr><tr><td style=3D"font-size:0px;padding:0px;pa=
+dding-bottom:8px;word-break:break-word" align=3D"left"><div style=3D"font-f=
+amily:system-ui,Segoe UI,sans-serif;font-size:19px;font-weight:700;letter-s=
+pacing:-0.5px;line-height:1.4;text-align:left;color:#333333"><a href=3D"htt=
+ps://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjog=
+IjB8M3wxfDM5NTcwMDc1NiJ9&amp;al_pri=3D1&amp;aoid=3DLmVTtAfl9I6&amp;aoty=3D2=
+&amp;aty=3D4&amp;cp=3D3&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91=
+edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp=
+;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmh=
+zP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1=
+_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DXNmhz=
+P5q0Nq&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:none;color=
+:inherit" target=3D"_blank"><span style=3D"color:#333333"><span>How do I re=
+cover my old Facebook account when I no longer have access to my old phone,=
+ the old sim-card, my old email and password?</span></span></a></div></td><=
+/tr><tr><td style=3D"font-size:0px;padding:0px;word-break:break-word" align=
+=3D"left"><div style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size=
+:15px;line-height:1.6;text-align:left;color:#333333"><div style=3D"float:le=
+ft;padding-bottom:8px"><table><tbody><tr><td style=3D"line-height:1;padding=
+-right:8px" valign=3D"top" width=3D"40"><a href=3D"https://www.quora.com/qe=
+mail/track_click?aoid=3D3dR2a3SlHfU&amp;aoty=3D3&amp;aty=3D4&amp;cp=3D3&amp=
+;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c80=
+6c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;=
+stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1=
+_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feI=
+q%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DXNmhzP5q0Nq&amp;uid=3DR8HOtSzxvK=
+D&amp;v=3D0" style=3D"text-decoration:underline" target=3D"_blank"><img alt=
+=3D"Vincent Vicky Victor" height=3D"40" src=3D"https://qph.fs.quoracdn.net/=
+main-thumb-291429924-50-lieevndzxjtsayasjprzdljqbboavecw.jpeg" style=3D"bor=
+der-radius:100%;text-decoration:none;display:block;border:0;outline:none;wi=
+dth:40px;height:40px;float:none;padding:0;margin:auto" width=3D"40" align=
+=3D"none"></a></td><td valign=3D"top"><div style=3D"padding:0;padding-botto=
+m:4px" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;fo=
+nt-size:15px;line-height:1.2;color:#333333;text-align:left;margin:0"><b><a =
+href=3D"https://www.quora.com/qemail/track_click?aoid=3D3dR2a3SlHfU&amp;aot=
+y=3D3&amp;aty=3D4&amp;cp=3D3&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=
+=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=
+=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%=
+7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUn=
+GDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=
+=3DXNmhzP5q0Nq&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:no=
+ne;color:inherit" target=3D"_blank"><span style=3D"color:#333333"><span sty=
+le=3D"font-weight:700">Vincent Vicky Victor</span></span></a></b>, Propriet=
+or - Self-employment at V3ImportExport (2013-present)</p></div><div style=
+=3D"padding:0" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-=
+serif;font-size:13px;line-height:1.2;color:#636466;text-align:left;margin:0=
+"><a href=3D"https://www.quora.com/qemail/track_click?aoid=3DXNmhzP5q0Nq&am=
+p;aoty=3D1&amp;aty=3D4&amp;cp=3D3&amp;ct=3D1676398299723286&amp;et=3D130&am=
+p;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;s=
+rc=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcV=
+i%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKo=
+UnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_da=
+ta=3DXNmhzP5q0Nq&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:=
+none;color:inherit" target=3D"_blank"><span style=3D"color:#636466">Answere=
+d November 3</span></a></p></div></td></tr></tbody></table></div></div></td=
+></tr><tr><td style=3D"font-size:0px;padding:0px;word-break:break-word" ali=
+gn=3D"left"><div style=3D"font-family:system-ui,Segoe UI,sans-serif;font-si=
+ze:15px;line-height:1.6;text-align:left;color:#333333"><a href=3D"https://w=
+ww.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjB8M3=
+wxfDM5NTcwMDc1NiJ9&amp;al_pri=3D0&amp;aoid=3DXNmhzP5q0Nq&amp;aoty=3D1&amp;a=
+ty=3D4&amp;cp=3D3&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4a=
+c034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D=
+1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0N=
+q%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983=
+HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DXNmhzP5q0Nq=
+&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:none;color:#3333=
+33" target=3D"_blank"><span style=3D"color:#333333"><div style=3D"font-fami=
+ly:system-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.6;padding-rig=
+ht:16px;color:#333333;padding-left:32px;padding-bottom:16px"><ul style=3D"p=
+adding:0;margin:0"><li dir=3D"ltr" style=3D"margin:0;margin-bottom:8px;list=
+-style:disc"><span>Open any Facebook account and search for the account you=
+ want to recover</span></li><li dir=3D"ltr" style=3D"margin:0;list-style:di=
+sc"><span>Once the account you want to recover gets opened, just click on t=
+he 3 dots underneath the cover phot...</span></li></ul></div><div style=3D"=
+padding:0" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-seri=
+f;font-size:15px;line-height:1.6;color:#168de9;text-align:left;margin:0">Re=
+ad more =C2=BB</p></div></span></a></div></td></tr><tr><td style=3D"font-si=
+ze:0px;padding:0px;padding-top:16px;padding-right:25%;padding-bottom:16px;p=
+adding-left:25%;word-break:break-word" align=3D"center"><p style=3D"border-=
+top:solid 0.5px #dee0e1;font-size:1px;width:100%;margin:0"></p></td></tr><t=
+r><td style=3D"font-size:0px;padding:0px;padding-bottom:8px;word-break:brea=
+k-word" align=3D"left"><div style=3D"font-family:system-ui,Segoe UI,sans-se=
+rif;font-size:19px;font-weight:700;letter-spacing:-0.5px;line-height:1.4;te=
+xt-align:left;color:#333333"><a href=3D"https://www.quora.com/qemail/track_=
+click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjB8NHwxfDMxODAwMDA5In0%3D&amp;a=
+l_pri=3D1&amp;aoid=3DMVeaNJGOVbW&amp;aoty=3D2&amp;aty=3D4&amp;cp=3D4&amp;ct=
+=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&=
+amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;sto=
+ries=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FR=
+oqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7=
+C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DLLaG13nEVVq&amp;uid=3DR8HOtSzxvKD&a=
+mp;v=3D0" style=3D"text-decoration:none;color:inherit" target=3D"_blank"><s=
+pan style=3D"color:#333333"><span>How do I sign into my old Facebook accoun=
+t?</span></span></a></div></td></tr><tr><td style=3D"font-size:0px;padding:=
+0px;word-break:break-word" align=3D"left"><div style=3D"font-family:system-=
+ui,Segoe UI,sans-serif;font-size:15px;line-height:1.6;text-align:left;color=
+:#333333"><div style=3D"float:left;padding-bottom:8px"><table><tbody><tr><t=
+d style=3D"line-height:1;padding-right:8px" valign=3D"top" width=3D"40"><a =
+href=3D"https://www.quora.com/qemail/track_click?aoid=3DdpQalAuzVFZ&amp;aot=
+y=3D3&amp;aty=3D4&amp;cp=3D4&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=
+=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=
+=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%=
+7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUn=
+GDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=
+=3DLLaG13nEVVq&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:un=
+derline" target=3D"_blank"><img alt=3D"Zachary Chastain" height=3D"40" src=
+=3D"https://qph.fs.quoracdn.net/main-thumb-7332728-50-jggkgnqfmggtoafgtsxfo=
+yykjlheequi.jpeg" style=3D"border-radius:100%;text-decoration:none;display:=
+block;border:0;outline:none;width:40px;height:40px;float:none;padding:0;mar=
+gin:auto" width=3D"40" align=3D"none"></a></td><td valign=3D"top"><div styl=
+e=3D"padding:0;padding-bottom:4px" dir=3D"ltr"><p style=3D"font-family:syst=
+em-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.2;color:#333333;text=
+-align:left;margin:0"><b><a href=3D"https://www.quora.com/qemail/track_clic=
+k?aoid=3DdpQalAuzVFZ&amp;aoty=3D3&amp;aty=3D4&amp;cp=3D4&amp;ct=3D167639829=
+9723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=
+=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1_L=
+rwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%=
+7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0Exq=
+jlEi&amp;ty=3D1&amp;ty_data=3DLLaG13nEVVq&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" =
+style=3D"text-decoration:none;color:inherit" target=3D"_blank"><span style=
+=3D"color:#333333"><span style=3D"font-weight:700">Zachary Chastain</span><=
+/span></a></b>, Sr. Manager, Strategy and Planning at FUEL - For Brands (20=
+17-present)</p></div><div style=3D"padding:0" dir=3D"ltr"><p style=3D"font-=
+family:system-ui,Segoe UI,sans-serif;font-size:13px;line-height:1.2;color:#=
+636466;text-align:left;margin:0"><a href=3D"https://www.quora.com/qemail/tr=
+ack_click?aoid=3DLLaG13nEVVq&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D4&amp;ct=3D1=
+676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;=
+inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=
+=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtD=
+KqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_d=
+CX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DLLaG13nEVVq&amp;uid=3DR8HOtSzxvKD&amp;v=
+=3D0" style=3D"text-decoration:none;color:inherit" target=3D"_blank"><span =
+style=3D"color:#636466">Answered December 2, 2016</span></a></p></div></td>=
+</tr></tbody></table></div></div></td></tr><tr><td style=3D"font-size:0px;p=
+adding:0px;word-break:break-word" align=3D"left"><div style=3D"font-family:=
+system-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.6;text-align:lef=
+t;color:#333333"><a href=3D"https://www.quora.com/qemail/track_click?al_imp=
+=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjB8NHwxfDMxODAwMDA5In0%3D&amp;al_pri=3D0&am=
+p;aoid=3DLLaG13nEVVq&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D4&amp;ct=3D167639829=
+9723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=
+=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1_L=
+rwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%=
+7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0Exq=
+jlEi&amp;ty=3D1&amp;ty_data=3DLLaG13nEVVq&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" =
+style=3D"text-decoration:none;color:#333333" target=3D"_blank"><span style=
+=3D"color:#333333"><div style=3D"padding:0;padding-bottom:16px" dir=3D"ltr"=
+><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:15px;line-=
+height:1.6;color:#333333;text-align:left;margin:0"><span>You=E2=80=99ll nee=
+d to know one of two things:</span></p></div><div style=3D"font-family:syst=
+em-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.6;padding-right:16px=
+;color:#333333;padding-left:32px;padding-bottom:16px"><ol style=3D"padding:=
+0;margin:0"><li dir=3D"ltr" style=3D"margin:0"><span>You=E2=80=99ll need to=
+ know the answer to your security question. You can have Facebook let you r=
+eset your password, provide the correct answe...</span></li></ol></div><div=
+ style=3D"padding:0" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI=
+,sans-serif;font-size:15px;line-height:1.6;color:#168de9;text-align:left;ma=
+rgin:0">Read more =C2=BB</p></div></span></a></div></td></tr><tr><td style=
+=3D"font-size:0px;padding:0px;padding-top:16px;padding-right:25%;padding-bo=
+ttom:16px;padding-left:25%;word-break:break-word" align=3D"center"><p style=
+=3D"border-top:solid 0.5px #dee0e1;font-size:1px;width:100%;margin:0"></p><=
+/td></tr><tr><td style=3D"font-size:0px;padding:0px;padding-bottom:8px;word=
+-break:break-word" align=3D"left"><div style=3D"font-family:system-ui,Segoe=
+ UI,sans-serif;font-size:19px;font-weight:700;letter-spacing:-0.5px;line-he=
+ight:1.4;text-align:left;color:#333333"><a href=3D"https://www.quora.com/qe=
+mail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjB8NXwxfDkyMDQzMDU3I=
+n0%3D&amp;al_pri=3D1&amp;aoid=3DopekyE4Qxkr&amp;aoty=3D2&amp;aty=3D4&amp;cp=
+=3D5&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15=
+c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733=
+944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13n=
+EVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8e=
+u4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DFRoqtDKqYF8&amp;uid=3DR8=
+HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:none;color:inherit" target=3D=
+"_blank"><span style=3D"color:#333333"><span>Can I get my old FB account ba=
+ck?</span></span></a></div></td></tr><tr><td style=3D"font-size:0px;padding=
+:0px;word-break:break-word" align=3D"left"><div style=3D"font-family:system=
+-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.6;text-align:left;colo=
+r:#333333"><div style=3D"float:left;padding-bottom:8px"><table><tbody><tr><=
+td style=3D"line-height:1;padding-right:8px" valign=3D"top" width=3D"40"><a=
+ href=3D"https://www.quora.com/qemail/track_click?aoid=3DdSllOi13Nf6&amp;ao=
+ty=3D3&amp;aty=3D4&amp;cp=3D5&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=
+=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=
+=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%=
+7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUn=
+GDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=
+=3DFRoqtDKqYF8&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:un=
+derline" target=3D"_blank"><img alt=3D"Trygeania Dowell" height=3D"40" src=
+=3D"https://qph.fs.quoracdn.net/main-thumb-234825852-50-cyygduzokllvbaquvwx=
+zinabmyhujraf.jpeg" style=3D"border-radius:100%;text-decoration:none;displa=
+y:block;border:0;outline:none;width:40px;height:40px;float:none;padding:0;m=
+argin:auto" width=3D"40" align=3D"none"></a></td><td valign=3D"top"><div st=
+yle=3D"padding:0;padding-bottom:4px" dir=3D"ltr"><p style=3D"font-family:sy=
+stem-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.2;color:#333333;te=
+xt-align:left;margin:0"><a href=3D"https://www.quora.com/qemail/track_click=
+?aoid=3DdSllOi13Nf6&amp;aoty=3D3&amp;aty=3D4&amp;cp=3D5&amp;ct=3D1676398299=
+723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D=
+1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv=
+4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1=
+_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlE=
+i&amp;ty=3D1&amp;ty_data=3DFRoqtDKqYF8&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" sty=
+le=3D"text-decoration:none;color:inherit" target=3D"_blank"><span style=3D"=
+color:#333333"><span style=3D"font-weight:700">Trygeania Dowell</span></spa=
+n></a></p></div><div style=3D"padding:0" dir=3D"ltr"><p style=3D"font-famil=
+y:system-ui,Segoe UI,sans-serif;font-size:13px;line-height:1.2;color:#63646=
+6;text-align:left;margin:0"><a href=3D"https://www.quora.com/qemail/track_c=
+lick?aoid=3DFRoqtDKqYF8&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D5&amp;ct=3D167639=
+8299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;injec=
+t=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1_=
+Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8=
+%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0Ex=
+qjlEi&amp;ty=3D1&amp;ty_data=3DFRoqtDKqYF8&amp;uid=3DR8HOtSzxvKD&amp;v=3D0"=
+ style=3D"text-decoration:none;color:inherit" target=3D"_blank"><span style=
+=3D"color:#636466">Answered July 20, 2018</span></a></p></div></td></tr></t=
+body></table></div></div></td></tr><tr><td style=3D"font-size:0px;padding:0=
+px;word-break:break-word" align=3D"left"><div style=3D"font-family:system-u=
+i,Segoe UI,sans-serif;font-size:15px;line-height:1.6;text-align:left;color:=
+#333333"><a href=3D"https://www.quora.com/qemail/track_click?al_imp=3DeyJ0e=
+XBlIjogMzMsICJoYXNoIjogIjB8NXwxfDkyMDQzMDU3In0%3D&amp;al_pri=3D0&amp;aoid=
+=3DFRoqtDKqYF8&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D5&amp;ct=3D167639829972328=
+6&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp=
+;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE=
+5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHW=
+nyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp=
+;ty=3D1&amp;ty_data=3DFRoqtDKqYF8&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D=
+"text-decoration:none;color:#333333" target=3D"_blank"><span style=3D"color=
+:#333333"><div style=3D"padding:0;padding-bottom:16px" dir=3D"ltr"><p style=
+=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.=
+6;color:#333333;text-align:left;margin:0"><span>If Facebook deleted your ac=
+count then they should of sent you a way to get it back. Most of the time y=
+ou need to send them a copy of your ID with your name on it. If you pe...</=
+span></p></div><div style=3D"padding:0" dir=3D"ltr"><p style=3D"font-family=
+:system-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.6;color:#168de9=
+;text-align:left;margin:0">Read more =C2=BB</p></div></span></a></div></td>=
+</tr><tr><td style=3D"font-size:0px;padding:0px;padding-top:16px;padding-ri=
+ght:25%;padding-bottom:16px;padding-left:25%;word-break:break-word" align=
+=3D"center"><p style=3D"border-top:solid 0.5px #dee0e1;font-size:1px;width:=
+100%;margin:0"></p></td></tr><tr><td style=3D"font-size:0px;padding:0px;pad=
+ding-bottom:8px;word-break:break-word" align=3D"left"><div style=3D"font-fa=
+mily:system-ui,Segoe UI,sans-serif;font-size:19px;font-weight:700;letter-sp=
+acing:-0.5px;line-height:1.4;text-align:left;color:#333333"><a href=3D"http=
+s://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogI=
+jB8NnwxfDQ0NjIwNjA2In0%3D&amp;al_pri=3D1&amp;aoid=3Ddfpokpn42FA&amp;aoty=3D=
+2&amp;aty=3D4&amp;cp=3D6&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db9=
+1edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&am=
+p;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNm=
+hzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C=
+1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DzDHW=
+nyPSbv4&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:none;colo=
+r:inherit" target=3D"_blank"><span style=3D"color:#333333"><span>How do I a=
+ccess my Facebook account if I don&#39;t have the phone number, password, o=
+r email?</span></span></a></div></td></tr><tr><td style=3D"font-size:0px;pa=
+dding:0px;word-break:break-word" align=3D"left"><div style=3D"font-family:s=
+ystem-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.6;text-align:left=
+;color:#333333"><div style=3D"float:left;padding-bottom:8px"><table><tbody>=
+<tr><td style=3D"line-height:1;padding-right:8px" valign=3D"top" width=3D"4=
+0"><a href=3D"https://www.quora.com/qemail/track_click?aoid=3DY6gWYgA4rLW&a=
+mp;aoty=3D3&amp;aty=3D4&amp;cp=3D6&amp;ct=3D1676398299723286&amp;et=3D130&a=
+mp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;=
+src=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjc=
+Vi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJK=
+oUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_d=
+ata=3DzDHWnyPSbv4&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration=
+:underline" target=3D"_blank"><img alt=3D"Debabrata Halder" height=3D"40" s=
+rc=3D"https://qph.fs.quoracdn.net/main-thumb-303233752-50-izaqbdtkrmfrclrxc=
+jnxepshywewjspk.jpeg" style=3D"border-radius:100%;text-decoration:none;disp=
+lay:block;border:0;outline:none;width:40px;height:40px;float:none;padding:0=
+;margin:auto" width=3D"40" align=3D"none"></a></td><td valign=3D"top"><div =
+style=3D"padding:0;padding-bottom:4px" dir=3D"ltr"><p style=3D"font-family:=
+system-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.2;color:#333333;=
+text-align:left;margin:0"><b><a href=3D"https://www.quora.com/qemail/track_=
+click?aoid=3DY6gWYgA4rLW&amp;aoty=3D3&amp;aty=3D4&amp;cp=3D6&amp;ct=3D16763=
+98299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inje=
+ct=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1=
+_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF=
+8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0E=
+xqjlEi&amp;ty=3D1&amp;ty_data=3DzDHWnyPSbv4&amp;uid=3DR8HOtSzxvKD&amp;v=3D0=
+" style=3D"text-decoration:none;color:inherit" target=3D"_blank"><span styl=
+e=3D"color:#333333"><span style=3D"font-weight:700">Debabrata Halder</span>=
+</span></a></b>, knows Hindi</p></div><div style=3D"padding:0" dir=3D"ltr">=
+<p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:13px;line-h=
+eight:1.2;color:#636466;text-align:left;margin:0"><a href=3D"https://www.qu=
+ora.com/qemail/track_click?aoid=3DzDHWnyPSbv4&amp;aoty=3D1&amp;aty=3D4&amp;=
+cp=3D6&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c=
+15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D16763982997=
+33944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG1=
+3nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_=
+8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DzDHWnyPSbv4&amp;uid=3D=
+R8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:none;color:inherit" target=
+=3D"_blank"><span style=3D"color:#636466">Answered May 16, 2017</span></a><=
+/p></div></td></tr></tbody></table></div></div></td></tr><tr><td style=3D"f=
+ont-size:0px;padding:0px;word-break:break-word" align=3D"left"><div style=
+=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.=
+6;text-align:left;color:#333333"><a href=3D"https://www.quora.com/qemail/tr=
+ack_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjB8NnwxfDQ0NjIwNjA2In0%3D&a=
+mp;al_pri=3D0&amp;aoid=3DzDHWnyPSbv4&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D6&am=
+p;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c8=
+06c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp=
+;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C=
+1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2fe=
+Iq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DzDHWnyPSbv4&amp;uid=3DR8HOtSzxv=
+KD&amp;v=3D0" style=3D"text-decoration:none;color:#333333" target=3D"_blank=
+"><span style=3D"color:#333333"><div style=3D"padding:0;padding-bottom:16px=
+" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-si=
+ze:15px;line-height:1.6;color:#333333;text-align:left;margin:0"><span>First=
+ of all you must at least have email ID or phone number to have access to F=
+acebook.</span></p></div><div style=3D"padding:0;padding-bottom:16px" dir=
+=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:15=
+px;line-height:1.6;color:#333333;text-align:left;margin:0"><span>By chance =
+if you forget your password then also you can get access to facebook by re.=
+..</span></p></div><div style=3D"padding:0" dir=3D"ltr"><p style=3D"font-fa=
+mily:system-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.6;color:#16=
+8de9;text-align:left;margin:0">Read more =C2=BB</p></div></span></a></div><=
+/td></tr><tr><td style=3D"font-size:0px;padding:0px;padding-top:16px;paddin=
+g-right:25%;padding-bottom:16px;padding-left:25%;word-break:break-word" ali=
+gn=3D"center"><p style=3D"border-top:solid 0.5px #dee0e1;font-size:1px;widt=
+h:100%;margin:0"></p></td></tr><tr><td style=3D"font-size:0px;padding:0px;p=
+adding-bottom:8px;word-break:break-word" align=3D"left"><div style=3D"font-=
+family:system-ui,Segoe UI,sans-serif;font-size:19px;font-weight:700;letter-=
+spacing:-0.5px;line-height:1.4;text-align:left;color:#333333"><a href=3D"ht=
+tps://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjo=
+gIjB8N3wxfDc4ODA4MDc2In0%3D&amp;al_pri=3D1&amp;aoid=3DFCAW8msCeoU&amp;aoty=
+=3D2&amp;aty=3D4&amp;cp=3D7&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=
+=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=
+=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%=
+7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUn=
+GDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=
+=3DXFJKoUnGDG2&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:no=
+ne;color:inherit" target=3D"_blank"><span style=3D"color:#333333"><span>How=
+ do I locate an old Facebook account?</span></span></a></div></td></tr><tr>=
+<td style=3D"font-size:0px;padding:0px;word-break:break-word" align=3D"left=
+"><div style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:15px;li=
+ne-height:1.6;text-align:left;color:#333333"><div style=3D"float:left;paddi=
+ng-bottom:8px"><table><tbody><tr><td style=3D"line-height:1;padding-right:8=
+px" valign=3D"top" width=3D"40"><a href=3D"https://www.quora.com/qemail/tra=
+ck_click?aoid=3DF3JMrIkIDNy&amp;aoty=3D3&amp;aty=3D4&amp;cp=3D7&amp;ct=3D16=
+76398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;i=
+nject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=
+=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtD=
+KqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_d=
+CX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DXFJKoUnGDG2&amp;uid=3DR8HOtSzxvKD&amp;v=
+=3D0" style=3D"text-decoration:underline" target=3D"_blank"><img alt=3D"Chr=
+istian Karasiewicz" height=3D"40" src=3D"https://qph.fs.quoracdn.net/main-t=
+humb-181486895-50-rukhvpumghcugbwowfdkliiudcmhapbe.jpeg" style=3D"border-ra=
+dius:100%;text-decoration:none;display:block;border:0;outline:none;width:40=
+px;height:40px;float:none;padding:0;margin:auto" width=3D"40" align=3D"none=
+"></a></td><td valign=3D"top"><div style=3D"padding:0;padding-bottom:4px" d=
+ir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:=
+15px;line-height:1.2;color:#333333;text-align:left;margin:0"><b><a href=3D"=
+https://www.quora.com/qemail/track_click?aoid=3DF3JMrIkIDNy&amp;aoty=3D3&am=
+p;aty=3D4&amp;cp=3D7&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edf=
+d4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=
+=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5=
+q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu=
+983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DXFJKoUnG=
+DG2&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:none;color:in=
+herit" target=3D"_blank"><span style=3D"color:#333333"><span style=3D"font-=
+weight:700">Christian Karasiewicz</span></span></a></b>, Live Video Produce=
+r, Podcaster</p></div><div style=3D"padding:0" dir=3D"ltr"><p style=3D"font=
+-family:system-ui,Segoe UI,sans-serif;font-size:13px;line-height:1.2;color:=
+#636466;text-align:left;margin:0"><a href=3D"https://www.quora.com/qemail/t=
+rack_click?aoid=3DXFJKoUnGDG2&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D7&amp;ct=3D=
+1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp=
+;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;storie=
+s=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqt=
+DKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_=
+dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DXFJKoUnGDG2&amp;uid=3DR8HOtSzxvKD&amp;=
+v=3D0" style=3D"text-decoration:none;color:inherit" target=3D"_blank"><span=
+ style=3D"color:#636466">Answered April 6, 2018</span></a></p></div></td></=
+tr></tbody></table></div></div></td></tr><tr><td style=3D"font-size:0px;pad=
+ding:0px;word-break:break-word" align=3D"left"><div style=3D"font-family:sy=
+stem-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.6;text-align:left;=
+color:#333333"><a href=3D"https://www.quora.com/qemail/track_click?al_imp=
+=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjB8N3wxfDc4ODA4MDc2In0%3D&amp;al_pri=3D0&am=
+p;aoid=3DXFJKoUnGDG2&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D7&amp;ct=3D167639829=
+9723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=
+=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1_L=
+rwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%=
+7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0Exq=
+jlEi&amp;ty=3D1&amp;ty_data=3DXFJKoUnGDG2&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" =
+style=3D"text-decoration:none;color:#333333" target=3D"_blank"><span style=
+=3D"color:#333333"><div style=3D"padding:0" dir=3D"ltr"><p style=3D"font-fa=
+mily:system-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.6;color:#33=
+3333;text-align:left;margin:0"><span>Is it a Profile or Page? Can you elabo=
+rate more on what you are trying to find?</span></p></div><div style=3D"pad=
+ding:0" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;f=
+ont-size:15px;line-height:1.6;color:#168de9;text-align:left;margin:0">Read =
+more =C2=BB</p></div></span></a></div></td></tr><tr><td style=3D"font-size:=
+0px;padding:0px;padding-top:16px;padding-right:25%;padding-bottom:16px;padd=
+ing-left:25%;word-break:break-word" align=3D"center"><p style=3D"border-top=
+:solid 0.5px #dee0e1;font-size:1px;width:100%;margin:0"></p></td></tr><tr><=
+td style=3D"font-size:0px;padding:0px;padding-bottom:8px;word-break:break-w=
+ord" align=3D"left"><div style=3D"font-family:system-ui,Segoe UI,sans-serif=
+;font-size:19px;font-weight:700;letter-spacing:-0.5px;line-height:1.4;text-=
+align:left;color:#333333"><a href=3D"https://www.quora.com/qemail/track_cli=
+ck?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjB8OHwxfDEzODA3NTc2MSJ9&amp;al_pri=
+=3D1&amp;aoid=3Dq1awWTs39sd&amp;aoty=3D2&amp;aty=3D4&amp;cp=3D8&amp;ct=3D16=
+76398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;i=
+nject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=
+=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtD=
+KqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_d=
+CX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DMu983HdrkLi&amp;uid=3DR8HOtSzxvKD&amp;v=
+=3D0" style=3D"text-decoration:none;color:inherit" target=3D"_blank"><span =
+style=3D"color:#333333"><span>I forgot the email of my Facebook account, bu=
+t I remember my password and username. How do I find my username?</span></s=
+pan></a></div></td></tr><tr><td style=3D"font-size:0px;padding:0px;word-bre=
+ak:break-word" align=3D"left"><div style=3D"font-family:system-ui,Segoe UI,=
+sans-serif;font-size:15px;line-height:1.6;text-align:left;color:#333333"><d=
+iv style=3D"float:left;padding-bottom:8px"><table><tbody><tr><td style=3D"l=
+ine-height:1;padding-right:8px" valign=3D"top" width=3D"40"><a href=3D"http=
+s://www.quora.com/qemail/track_click?aoid=3Dq2GGfPCQsw4&amp;aoty=3D3&amp;at=
+y=3D4&amp;cp=3D8&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac=
+034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1=
+676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq=
+%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983H=
+drkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DMu983HdrkLi&=
+amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:underline" target=
+=3D"_blank"><img alt=3D"John Hunter" height=3D"40" src=3D"https://qph.fs.qu=
+oracdn.net/main-thumb-302423721-50-mszvisnipifxjxreqkwtraxccjdctjnn.jpeg" s=
+tyle=3D"border-radius:100%;text-decoration:none;display:block;border:0;outl=
+ine:none;width:40px;height:40px;float:none;padding:0;margin:auto" width=3D"=
+40" align=3D"none"></a></td><td valign=3D"top"><div style=3D"padding:0;padd=
+ing-bottom:4px" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans=
+-serif;font-size:15px;line-height:1.2;color:#333333;text-align:left;margin:=
+0"><b><a href=3D"https://www.quora.com/qemail/track_click?aoid=3Dq2GGfPCQsw=
+4&amp;aoty=3D3&amp;aty=3D4&amp;cp=3D8&amp;ct=3D1676398299723286&amp;et=3D13=
+0&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&a=
+mp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOS=
+njcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_X=
+FJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;t=
+y_data=3DMu983HdrkLi&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decorat=
+ion:none;color:inherit" target=3D"_blank"><span style=3D"color:#333333"><sp=
+an style=3D"font-weight:700">John Hunter</span></span></a></b>, Avid gamer.=
+ Worked in customer services for many years.</p></div><div style=3D"padding=
+:0" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-=
+size:13px;line-height:1.2;color:#636466;text-align:left;margin:0"><a href=
+=3D"https://www.quora.com/qemail/track_click?aoid=3DMu983HdrkLi&amp;aoty=3D=
+1&amp;aty=3D4&amp;cp=3D8&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db9=
+1edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&am=
+p;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNm=
+hzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C=
+1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DMu98=
+3HdrkLi&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:none;colo=
+r:inherit" target=3D"_blank"><span style=3D"color:#636466">Answered May 2, =
+2019</span></a></p></div></td></tr></tbody></table></div></div></td></tr><t=
+r><td style=3D"font-size:0px;padding:0px;word-break:break-word" align=3D"le=
+ft"><div style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:15px;=
+line-height:1.6;text-align:left;color:#333333"><a href=3D"https://www.quora=
+.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjB8OHwxfDEzOD=
+A3NTc2MSJ9&amp;al_pri=3D0&amp;aoid=3DMu983HdrkLi&amp;aoty=3D1&amp;aty=3D4&a=
+mp;cp=3D8&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb58=
+31c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D16763982=
+99733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LL=
+aG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7=
+C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3DMu983HdrkLi&amp;uid=
+=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:none;color:#333333" targ=
+et=3D"_blank"><span style=3D"color:#333333"><div style=3D"padding:0;padding=
+-bottom:16px" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-s=
+erif;font-size:15px;line-height:1.6;color:#333333;text-align:left;margin:0"=
+><span>I forgot the email of my Facebook account, but </span><span style=3D=
+"font-weight:bold">I remember my password and username. </span><span>How do=
+ I find my username?</span></p></div><div style=3D"padding:0;padding-bottom=
+:16px" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;fo=
+nt-size:15px;line-height:1.6;color:#333333;text-align:left;margin:0"><span>=
+Do you mean you need to know how to find the email address? Yo...</span></p=
+></div><div style=3D"padding:0" dir=3D"ltr"><p style=3D"font-family:system-=
+ui,Segoe UI,sans-serif;font-size:15px;line-height:1.6;color:#168de9;text-al=
+ign:left;margin:0">Read more =C2=BB</p></div></span></a></div></td></tr><tr=
+><td style=3D"font-size:0px;padding:0px;padding-top:16px;padding-right:25%;=
+padding-bottom:16px;padding-left:25%;word-break:break-word" align=3D"center=
+"><p style=3D"border-top:solid 0.5px #dee0e1;font-size:1px;width:100%;margi=
+n:0"></p></td></tr><tr><td style=3D"font-size:0px;padding:0px;padding-botto=
+m:8px;word-break:break-word" align=3D"left"><div style=3D"font-family:syste=
+m-ui,Segoe UI,sans-serif;font-size:19px;font-weight:700;letter-spacing:-0.5=
+px;line-height:1.4;text-align:left;color:#333333"><a href=3D"https://www.qu=
+ora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjB8OXwxfDI=
+yOTMwNzU4MyJ9&amp;al_pri=3D1&amp;aoid=3DdDggRYYwPFB&amp;aoty=3D2&amp;aty=3D=
+4&amp;cp=3D9&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034c=
+b5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D16763=
+98299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1=
+_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkL=
+i%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3D8eu4ax2feIq&amp;=
+uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:none;color:inherit" t=
+arget=3D"_blank"><span style=3D"color:#333333"><span>How do I recover my Fa=
+cebook password by email?</span></span></a></div></td></tr><tr><td style=3D=
+"font-size:0px;padding:0px;word-break:break-word" align=3D"left"><div style=
+=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.=
+6;text-align:left;color:#333333"><div style=3D"float:left;padding-bottom:8p=
+x"><table><tbody><tr><td style=3D"line-height:1;padding-right:8px" valign=
+=3D"top" width=3D"40"><a href=3D"https://www.quora.com/qemail/track_click?a=
+oid=3D9pPDVSpYlF1&amp;aoty=3D3&amp;aty=3D4&amp;cp=3D9&amp;ct=3D167639829972=
+3286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&=
+amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv4l=
+OzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_z=
+DHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&=
+amp;ty=3D1&amp;ty_data=3D8eu4ax2feIq&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=
+=3D"text-decoration:underline" target=3D"_blank"><img alt=3D"Jack Whales" h=
+eight=3D"40" src=3D"https://qsf.fs.quoracdn.net/-4-images.new_grid.profile_=
+default.png-26-688c79556f251aa0.png" style=3D"border-radius:100%;text-decor=
+ation:none;display:block;border:0;outline:none;width:40px;height:40px;float=
+:none;padding:0;margin:auto" width=3D"40" align=3D"none"></a></td><td valig=
+n=3D"top"><div style=3D"padding:0;padding-bottom:4px" dir=3D"ltr"><p style=
+=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.=
+2;color:#333333;text-align:left;margin:0"><b><a href=3D"https://www.quora.c=
+om/qemail/track_click?aoid=3D9pPDVSpYlF1&amp;aoty=3D3&amp;aty=3D4&amp;cp=3D=
+9&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d=
+15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944=
+&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVV=
+q%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4a=
+x2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3D8eu4ax2feIq&amp;uid=3DR8HOt=
+SzxvKD&amp;v=3D0" style=3D"text-decoration:none;color:inherit" target=3D"_b=
+lank"><span style=3D"color:#333333"><span style=3D"font-weight:700">Jack Wh=
+ales</span></span></a></b>, knows Swedish</p></div><div style=3D"padding:0"=
+ dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-siz=
+e:13px;line-height:1.2;color:#636466;text-align:left;margin:0"><a href=3D"h=
+ttps://www.quora.com/qemail/track_click?aoid=3D8eu4ax2feIq&amp;aoty=3D1&amp=
+;aty=3D4&amp;cp=3D9&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd=
+4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=
+=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5=
+q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu=
+983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3D8eu4ax2f=
+eIq&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:none;color:in=
+herit" target=3D"_blank"><span style=3D"color:#636466">Answered July 24, 20=
+20</span></a></p></div></td></tr></tbody></table></div></div></td></tr><tr>=
+<td style=3D"font-size:0px;padding:0px;word-break:break-word" align=3D"left=
+"><div style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:15px;li=
+ne-height:1.6;text-align:left;color:#333333"><a href=3D"https://www.quora.c=
+om/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsICJoYXNoIjogIjB8OXwxfDIyOTMw=
+NzU4MyJ9&amp;al_pri=3D0&amp;aoid=3D8eu4ax2feIq&amp;aoty=3D1&amp;aty=3D4&amp=
+;cp=3D9&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831=
+c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299=
+733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG=
+13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1=
+_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=3D8eu4ax2feIq&amp;uid=
+=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:none;color:#333333" targ=
+et=3D"_blank"><span style=3D"color:#333333"><div style=3D"padding:0;padding=
+-bottom:16px" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe UI,sans-s=
+erif;font-size:15px;line-height:1.6;color:#333333;text-align:left;margin:0"=
+><span>For this you need to take the help of you friend or try by your self=
+</span></p></div><div style=3D"padding:0;padding-bottom:16px" dir=3D"ltr"><=
+p style=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:15px;line-he=
+ight:1.6;color:#333333;text-align:left;margin:0"><span>From the friend help=
+ tell the friend to find your account and then go to the about the copy the=
+ URL seco...</span></p></div><div style=3D"padding:0" dir=3D"ltr"><p style=
+=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.=
+6;color:#168de9;text-align:left;margin:0">Read more =C2=BB</p></div></span>=
+</a></div></td></tr><tr><td style=3D"font-size:0px;padding:0px;padding-top:=
+16px;padding-right:25%;padding-bottom:16px;padding-left:25%;word-break:brea=
+k-word" align=3D"center"><p style=3D"border-top:solid 0.5px #dee0e1;font-si=
+ze:1px;width:100%;margin:0"></p></td></tr><tr><td style=3D"font-size:0px;pa=
+dding:0px;padding-bottom:8px;word-break:break-word" align=3D"left"><div sty=
+le=3D"font-family:system-ui,Segoe UI,sans-serif;font-size:19px;font-weight:=
+700;letter-spacing:-0.5px;line-height:1.4;text-align:left;color:#333333"><a=
+ href=3D"https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMs=
+ICJoYXNoIjogIjB8MTB8MXwyNjY5OTc2MzAifQ%3D%3D&amp;al_pri=3D1&amp;aoid=3DYVWg=
+GYvtj61&amp;aoty=3D2&amp;aty=3D4&amp;cp=3D10&amp;ct=3D1676398299723286&amp;=
+et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;sourc=
+e=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1=
+_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv=
+4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D=
+1&amp;ty_data=3DdCX0ExqjlEi&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-=
+decoration:none;color:inherit" target=3D"_blank"><span style=3D"color:#3333=
+33"><span>How do we recover a Facebook account without a confirmation code?=
+</span></span></a></div></td></tr><tr><td style=3D"font-size:0px;padding:0p=
+x;word-break:break-word" align=3D"left"><div style=3D"font-family:system-ui=
+,Segoe UI,sans-serif;font-size:15px;line-height:1.6;text-align:left;color:#=
+333333"><div style=3D"float:left;padding-bottom:8px"><table><tbody><tr><td =
+style=3D"line-height:1;padding-right:8px" valign=3D"top" width=3D"40"><a hr=
+ef=3D"https://www.quora.com/qemail/track_click?aoid=3DXyuIls5qTwr&amp;aoty=
+=3D3&amp;aty=3D4&amp;cp=3D10&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=
+=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=3D7&amp;src=
+=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%=
+7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUn=
+GDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1&amp;ty_data=
+=3DdCX0ExqjlEi&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-decoration:un=
+derline" target=3D"_blank"><img alt=3D"Kevin Fitzgerald" height=3D"40" src=
+=3D"https://qph.fs.quoracdn.net/main-thumb-1402843158-50-hbarliuvfoezgulnlk=
+yicktjaecjwknk.jpeg" style=3D"border-radius:100%;text-decoration:none;displ=
+ay:block;border:0;outline:none;width:40px;height:40px;float:none;padding:0;=
+margin:auto" width=3D"40" align=3D"none"></a></td><td valign=3D"top"><div s=
+tyle=3D"padding:0;padding-bottom:4px" dir=3D"ltr"><p style=3D"font-family:s=
+ystem-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.2;color:#333333;t=
+ext-align:left;margin:0"><b><a href=3D"https://www.quora.com/qemail/track_c=
+lick?aoid=3DXyuIls5qTwr&amp;aoty=3D3&amp;aty=3D4&amp;cp=3D10&amp;ct=3D16763=
+98299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inje=
+ct=3D1&amp;source=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1=
+_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF=
+8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0E=
+xqjlEi&amp;ty=3D1&amp;ty_data=3DdCX0ExqjlEi&amp;uid=3DR8HOtSzxvKD&amp;v=3D0=
+" style=3D"text-decoration:none;color:inherit" target=3D"_blank"><span styl=
+e=3D"color:#333333"><span style=3D"font-weight:700">Kevin Fitzgerald</span>=
+</span></a></b>, My identity was hacked by ex wife in Bulgaria</p></div><di=
+v style=3D"padding:0" dir=3D"ltr"><p style=3D"font-family:system-ui,Segoe U=
+I,sans-serif;font-size:13px;line-height:1.2;color:#636466;text-align:left;m=
+argin:0"><a href=3D"https://www.quora.com/qemail/track_click?aoid=3DdCX0Exq=
+jlEi&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D10&amp;ct=3D1676398299723286&amp;et=
+=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=
+=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_=
+4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4=
+%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1=
+&amp;ty_data=3DdCX0ExqjlEi&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-d=
+ecoration:none;color:inherit" target=3D"_blank"><span style=3D"color:#63646=
+6">Answered February 22, 2021</span></a></p></div></td></tr></tbody></table=
+></div></div></td></tr><tr><td style=3D"font-size:0px;padding:0px;word-brea=
+k:break-word" align=3D"left"><div style=3D"font-family:system-ui,Segoe UI,s=
+ans-serif;font-size:15px;line-height:1.6;text-align:left;color:#333333"><a =
+href=3D"https://www.quora.com/qemail/track_click?al_imp=3DeyJ0eXBlIjogMzMsI=
+CJoYXNoIjogIjB8MTB8MXwyNjY5OTc2MzAifQ%3D%3D&amp;al_pri=3D0&amp;aoid=3DdCX0E=
+xqjlEi&amp;aoty=3D1&amp;aty=3D4&amp;cp=3D10&amp;ct=3D1676398299723286&amp;e=
+t=3D130&amp;id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;inject=3D1&amp;source=
+=3D7&amp;src=3D1&amp;st=3D1676398299733944&amp;stories=3D1_Lrwv4lOzE5W%7C1_=
+4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVVq%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4=
+%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4ax2feIq%7C1_dCX0ExqjlEi&amp;ty=3D1=
+&amp;ty_data=3DdCX0ExqjlEi&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" style=3D"text-d=
+ecoration:none;color:#333333" target=3D"_blank"><span style=3D"color:#33333=
+3"><div style=3D"padding:0;padding-bottom:16px" dir=3D"ltr"><p style=3D"fon=
+t-family:system-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.6;color=
+:#333333;text-align:left;margin:0"><span>Start new page with a different de=
+vice or VPN=E2=80=A6.then you can get into your page=E2=80=A6if someone els=
+e is using it for their shitty purposes you can ask for friendship with you=
+r fa...</span></p></div><div style=3D"padding:0" dir=3D"ltr"><p style=3D"fo=
+nt-family:system-ui,Segoe UI,sans-serif;font-size:15px;line-height:1.6;colo=
+r:#168de9;text-align:left;margin:0">Read more =C2=BB</p></div></span></a></=
+div></td></tr><tr><td style=3D"font-size:0px;padding:0px;padding-top:32px;p=
+adding-bottom:32px;word-break:break-word" align=3D"center"><table border=3D=
+"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"bord=
+er-collapse:separate;line-height:100%"><tbody><tr><td style=3D"border:1px s=
+olid null;border-radius:25px;height:50px;background:#2e69ff" align=3D"cente=
+r" bgcolor=3D"#2e69ff" role=3D"presentation" valign=3D"middle"><a href=3D"h=
+ttps://www.quora.com/qemail/track_click?aoid&amp;aoty=3D7&amp;aty=3D4&amp;c=
+p=3D0&amp;ct=3D1676398299723286&amp;et=3D130&amp;id=3Db91edfd4ac034cb5831c1=
+5c7d15c806c&amp;inject=3D1&amp;source&amp;src=3D1&amp;st=3D1676398299733944=
+&amp;stories=3D1_Lrwv4lOzE5W%7C1_4zyOOSnjcVi%7C1_XNmhzP5q0Nq%7C1_LLaG13nEVV=
+q%7C1_FRoqtDKqYF8%7C1_zDHWnyPSbv4%7C1_XFJKoUnGDG2%7C1_Mu983HdrkLi%7C1_8eu4a=
+x2feIq%7C1_dCX0ExqjlEi&amp;ty&amp;ty_data&amp;uid=3DR8HOtSzxvKD&amp;v=3D0" =
+style=3D"display:inline-block;background:#2e69ff;color:#ffffff;font-family:=
+system-ui,Segoe UI,sans-serif;font-size:14px;font-weight:500;line-height:12=
+0%;margin:0;text-decoration:none;text-transform:none;padding:8px 32px;borde=
+r-radius:25px" target=3D"_blank">Search More on Quora</a></td></tr></tbody>=
+</table></td></tr></tbody></table></div></div></td></tr></tbody></table></d=
+iv></td></tr></tbody></table><table border=3D"0" cellpadding=3D"0" cellspac=
+ing=3D"0" role=3D"presentation" style=3D"width:100%" align=3D"center"><tbod=
+y><tr><td><div style=3D"margin:0px auto;max-width:525px"><table border=3D"0=
+" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"width:=
+100%" align=3D"center"><tbody><tr><td style=3D"direction:ltr;font-size:0px;=
+padding:24px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:=
+center"><div style=3D"font-size:0px;text-align:left;direction:ltr;display:i=
+nline-block;vertical-align:top;width:100%" class=3D"m_2606028884154816493mj=
+-column-per-100"><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" ro=
+le=3D"presentation" style=3D"vertical-align:top" width=3D"100%"><tbody><tr>=
+<td style=3D"font-size:0px;padding:0px;padding-top:0px;padding-bottom:16px;=
+word-break:break-word" align=3D"center"><p style=3D"border-top:solid 0.5px =
+#dee0e1;font-size:1px;width:100%;margin:0"></p></td></tr><tr><td style=3D"f=
+ont-size:0px;padding:0px;padding-top:16px;padding-bottom:8px;word-break:bre=
+ak-word" align=3D"center"><div style=3D"font-family:system-ui,Segoe UI,sans=
+-serif;font-size:11px;line-height:1.6;text-align:center;color:#939598">This=
+ email was sent by Quora (605 Castro Street, Mountain View, CA 94041).<br>I=
+f you don&#39;t want to receive this type of email in the future, please <a=
+ href=3D"https://www.quora.com/email_optout/qemail_unsubscribe?email_track_=
+id=3Db91edfd4ac034cb5831c15c7d15c806c&amp;t=3D1676398299779689&amp;token=3D=
+581ef1bf281a20f2598f4d0c11e7864dd1d43b8f8980b8668603a192f605ddc5c6e9df2bc6d=
+b453ba85d48ec0b2c95854fb345334c98c3aa592f37684f3ab9b7&amp;type=3D130&amp;ui=
+d=3D77583537" style=3D"text-decoration:underline;color:inherit" target=3D"_=
+blank">unsubscribe</a>.</div></td></tr><tr><td style=3D"font-size:0px;paddi=
+ng:0px;word-break:break-word" align=3D"center"><div style=3D"font-family:sy=
+stem-ui,Segoe UI,sans-serif;font-size:11px;line-height:1.6;text-align:cente=
+r;color:#939598"><a href=3D"https://www.quora.com" style=3D"text-decoration=
+:underline;color:inherit" target=3D"_blank">https://www.quora.com</a></div>=
+</td></tr></tbody></table></div></td></tr></tbody></table></div></td></tr><=
+/tbody></table></div></div></div></div><br clear=3D"all"><div><br></div><sp=
+an class=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D=
+"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div>=
+<div dir=3D"ltr"><div><div style=3D"font-family:arial,sans-serif;font-size:=
+13.200000762939453px;font-style:normal;font-variant:normal;letter-spacing:n=
+ormal;line-height:normal;text-align:-webkit-auto;text-indent:0px;text-trans=
+form:none;white-space:normal;word-spacing:0px;background-color:rgb(255,255,=
+255)"><font color=3D"#ff6600">Lydia<b>Stepanek</b></font></div><div style=
+=3D"font-family:arial,sans-serif;font-size:13.2000007629395px;font-style:no=
+rmal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-heig=
+ht:normal;text-align:-webkit-auto;text-indent:0px;text-transform:none;white=
+-space:normal;word-spacing:0px;background-color:rgb(255,255,255)"><font col=
+or=3D"#666666">203.804.9137</font></div></div></div></div></div></div></div=
+>
+
+--00000000000026cedc05fae5da00--
