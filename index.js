@@ -232,7 +232,6 @@ export const createResponse = async (s3Object) => {
         // AddressList
         fromAddress,
       ],
-      BccAddresses: ["sent@isthisphishy.io"],
     },
     Message: {
       // Message
