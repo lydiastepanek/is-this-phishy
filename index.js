@@ -225,7 +225,7 @@ export const createResponse = async (s3Object) => {
   }
   const input = {
     // SendRawEmailRequest
-    Source: '"Walmart CEO" <help@isthisphishy.io>',
+    Source: '"IsThisPhishy" <help@isthisphishy.io>',
     Destination: {
       // Destination
       ToAddresses: [
@@ -244,7 +244,7 @@ export const createResponse = async (s3Object) => {
         // Body
         Html: {
           Charset: "UTF-8",
-          Data: "This is a spoofed email",
+          Data: data,
         },
       },
     },
