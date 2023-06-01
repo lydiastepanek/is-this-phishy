@@ -338,7 +338,7 @@ describe("testsRequiringAWSCredentials", () => {
     });
 
     test("sends email successfully and doesn't go to spam for gmail inbox", async () => {
-      const key = "vtv4u1rc14r7kdsndm09eugcgtjdr3pgm7e4ss01";
+      const key = "display_name_spoofing";
       const s3Object = await getForwardedEmailFromS3(key);
       try {
         const input = await createResponse(s3Object);
