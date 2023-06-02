@@ -188,7 +188,10 @@ export const getViolations = (parentEmail, forwardedEmailFromAddress) => {
 
 export const createResponse = async (s3Object) => {
   const parentEmail = await simpleParser(s3Object);
-  const forwardedEmail = new EmailForwardParser().read(parentEmail.text);
+  let forwardedEmail;
+  if (parentEmail.text) {
+    forwardedEmail = new EmailForwardParser().read(parentEmail.text);
+  }
   const fromAddress = parentEmail.from.value[0].address;
   if (fromAddress) {
     const emailDomain = fromAddress.split("@").pop();
@@ -201,7 +204,7 @@ export const createResponse = async (s3Object) => {
     `Your email address and all emails you send us are auto-deleted from our servers after 7 days. After that, no one, not even IsThisPhishy, can read them.` +
     `</td></tr></table><br><br>`;
   let data;
-  if (forwardedEmail.forwarded) {
+  if (forwardedEmail && forwardedEmail.forwarded) {
     data =
       dataPrivacyStatement +
       `<div> Hi ${parentEmail.from.value[0].name}, <br><br>` +
