@@ -2,10 +2,10 @@ import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
 import { S3 } from "@aws-sdk/client-s3";
 import EmailForwardParser from "email-forward-parser";
 import { simpleParser } from "mailparser";
-import { TOP_MILLION_DOMAINS } from "./topDomains.js";
+import { TOP_MILLION_DOMAINS } from "./topDomains/topDomains.js";
 import { Response } from "node-fetch";
 import URI from "urijs";
-import { POPULAR_EMAIL_DOMAINS } from "./popularEmailDomains.js";
+import { POPULAR_EMAIL_DOMAINS } from "./popularEmailDomains/popularEmailDomains.js";
 
 const REGION = process.env.REGION;
 const BUCKET = process.env.S3_BUCKET;
