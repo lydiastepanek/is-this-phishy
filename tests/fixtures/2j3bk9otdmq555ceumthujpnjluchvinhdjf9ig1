@@ -1,0 +1,133 @@
+Return-Path: <lydia.stepanek@gmail.com>
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id 2j3bk9otdmq555ceumthujpnjluchvinhdjf9ig1
+ for help@isthisphishy.io;
+ Wed, 14 Jun 2023 10:10:39 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.128.49 as permitted sender) client-ip=209.85.128.49; envelope-from=lydia.stepanek@gmail.com; helo=mail-wm1-f49.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.128.49 as permitted sender) client-ip=209.85.128.49; envelope-from=lydia.stepanek@gmail.com; helo=mail-wm1-f49.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFIZFhOWnNRdlpQZGI1dzRybERrbEUzU0Yva0NiZ2hMSlpsbXRJOXdpOEpUVGpyOEdoRnMzVDcrTHZPcW9ZRVZNSHUvN3o0MVRkQmlvL0w0NEpDWmp5eXlkeGNnVVE3NU4zUU1VNkJaQm1hcHJxMStFaWVUUXJNN3pHdDFyRUFRdVRYMGlIb3NiRzQrK3BCTm5uZWQ1QXlNZEhCSXo4d09YY2k4a0VyazhLdzY0RFdCL0ZnUTdaejUrSHVRczJ3aWtjYVNQOW4rQjl4Ukdid2hWRjJSMXEvNFZMQUJLdFFLeis2WGhqK1ZMSGVxNXRNKyt5VlJsWVJYZ3FYV0c0MnM3ZnM3UlFMWSs4K0VZcHp3NGhra3ZPUEhIN3FWaTRlR05VcWJqalhzenEvdVE9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=aTRwJxmQBF8w3S3FX+Me0PXJlMXG8xpFDQTUUztG6baQAWWCBnZ2yXinmvJ/9Onx1Wy8BmBYqlOkHK3WvbVzckVEe/OP6owIAQhs9sipnq5hLzOKUtydya/6WvGN0AR8VTsx6jeyWpYdBS6QckQmXju4b3/XfIYHny2k63aPT+Q=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1686737440; v=1; bh=asV/ffJjm9VdpQVNH6fd48R2XB0oAvdmtobmJ0Erx9E=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f736e0c9a8so3430275e9.2
+        for <help@isthisphishy.io>; Wed, 14 Jun 2023 03:10:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686737438; x=1689329438;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=asV/ffJjm9VdpQVNH6fd48R2XB0oAvdmtobmJ0Erx9E=;
+        b=Eiwu90IEM0wp78rAc8W1F3yO2Bn1g4BOmXE+TbtGfwtjxuzfMAOKgh3l2MC72DTcyF
+         b5pZd3Vw7mtZIHo6f34Pn9WbzumogXSoILADNyAcepci71FuGucQSWTfUgG21RnBR50a
+         df2bWg9dbAmBOMaSmUeNeDbBdIUDMizcgPxwKPwGuAhpBsk2OsQxfR8TGWnzMV57RD6C
+         ORcQqGPqKr1Pqk8T6a2rxSQOf+rlPFiwQ+PuFCS6PrJW8vCfhEYewhC85OA2Dv3zrskl
+         Yr8rNbDUF4zShCwbuW1fEj02bbWsJ0/cneLn5+bGZN0GTpMJ1NifBxaeL97wsfXEHhpX
+         +PHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686737438; x=1689329438;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=asV/ffJjm9VdpQVNH6fd48R2XB0oAvdmtobmJ0Erx9E=;
+        b=JUSu/kUZuauqCOmRVBIm1reNUXyG6JI4i47z3tmafQVkgYZ5KHPpVmOHVtLO8HuMO8
+         5hsP5600Dl7E7TZXHRZhnEE5zffb19j/GTpFT9pw2YYtcHQqZxL+oVZYn0IVDOJzHKvu
+         o6YYrWwVqyhPIZttvZ/xihRiciNmh2vSpcvrgr+CjHyyHSSxC2T04blheBjKep0ZnLKC
+         JbRu4QDRTRe96BAo/8Itt5Gyx/m/JRYnI5eEyPK5GjO9fTpbnG6MAFJu28jn1DLJUtiy
+         RF0M/2H+uxGteLRTLy99oYwN33HILblkEZG49klYRiO3JFNVevbnpCSiTO0osJFPY1UI
+         5Ruw==
+X-Gm-Message-State: AC+VfDxkRcK6JUJlanH2rlCzMkRRZoqmWHg2MnkZvRPSePdG5RFN/U2o
+	CgM3An4O8c7hll9ocu4FXIhEg0W/k4tnXhKQ7/mpPsg6g+g=
+X-Google-Smtp-Source: ACHHUZ5mUmbRPk2P8OeZyli72nPd/f2bCFtIYNbUNVIovBeUo2UEG1pv7kdcKaFF5TPobKzghhnCAjyKVVewTfnHlEo=
+X-Received: by 2002:a7b:ce06:0:b0:3f7:5e3:c1f2 with SMTP id
+ m6-20020a7bce06000000b003f705e3c1f2mr9794608wmc.8.1686737438053; Wed, 14 Jun
+ 2023 03:10:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <1MDhhX-1qJnEF1U2x-00An3j@mail.gmx.net>
+In-Reply-To: <1MDhhX-1qJnEF1U2x-00An3j@mail.gmx.net>
+From: "J Doe" <lydia.stepanek@gmail.com>
+Date: Wed, 14 Jun 2023 12:10:11 +0200
+Message-ID: <CABJ5WA4i03hWDmnNgjgNW-LO3sMjdC07GR_iLWaMZ9m8Fozcdg@mail.gmail.com>
+Subject: Fwd: This Offre IP-TV For You With Low Price
+To: help@isthisphishy.io
+Content-Type: multipart/alternative; boundary="000000000000d3215305fe14297a"
+
+--000000000000d3215305fe14297a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+LS0tLS0tLS0tLSBGb3J3YXJkZWQgbWVzc2FnZSAtLS0tLS0tLS0NCkRhOiBJUC1UViA8bGlwc2xl
+bXphcmF1cjl3QGdteC5uZXQ+DQpEYXRlOiBtYXIgMTMgZ2l1IDIwMjMgYWxsZSBvcmUgMTM6NDAN
+ClN1YmplY3Q6IFRoaXMgT2ZmcmUgSVAtVFYgRm9yIFlvdSBXaXRoIExvdyBQcmljZQ0KVG86IG5j
+b3JyYWRpbiA8bmNvcnJhZGluQGdtYWlsLmNvbT4NCg0KDQrwn42/8J+NvyBXT1JMRCBJUFRWIPCf
+jb/wn42/DQoNCuKchSBFdmVuIGZhc3Rlcg0K4pyFIEV2ZW4gYmlnZ2VyDQrinIUgRm9ybXVsYSAx
+IGNvY2twaXQgY2FtZXJhDQrinIUgTW92aWUgV2lzaGVzDQoNCuKclO+4j1NreSArIFNreSBTcG9y
+dHMg4piB77iPDQrinJTvuI8gTGVnIHNwb3J0cyDwn4+ADQrinJTvuI9EYXpuIOKave+4jw0K4pyU
+77iPVGVsZWtvbSBTcG9ydHNiYXIg8J+atOKAjeKZgO+4jw0K4pyU77iPTmV0ZmxpePCfjqwNCuKc
+lO+4j0FtYXpvbiBQcmltZfCfk70NCuKclO+4j0Rpc25leSsg8J+Ohg0K4pyU77iPIEV4eGVuIPCf
+jqUNCuKclO+4j1h4WPCfkosNCuKclO+4j0Zvcm11bGEgMSDwn4+ODQrinJTvuI8gTWFnZW50YSDi
+mr3vuI8NCg0K4p2X77iPMjAwMDArIGNoYW5uZWxzIPCfk7oNCuKdl++4jzMwKyBsYW5ndWFnZXMg
+ICAgIPCfh6nwn4eq8J+HrvCfh7nwn4e68J+HuPCfh6zwn4en8J+HufCfh7cNCuKdl++4jzExNyww
+MDArIFZPRHMg8J+Ong0K4p2X77iPRGFpbHkgdXBkYXRlcyDwn5SdDQoNCuKtkO+4jzI0Lzcgc3Vw
+cG9ydCDij7ANCuKtkO+4j05vIGhhbmdpbmcg8J+aqw0KDQpDb21wYXRpYmxlIGRldmljZXM6DQpB
+bWF6b24gRmlyZSBUViBTdGljayDwn5aKDQpBbmRyb2lkIGJveCDwn6WKDQpTbWFydCBUViDwn5O6
+DQpzbWFydCBwaG9uZSDwn5OxDQpQQyDwn5K7DQoNCmluZ29hZHMubmV0DQoNCmh0dHBzOi8vd2Eu
+bWUvMjEyNjY3NzYzNzE4DQo=
+--000000000000d3215305fe14297a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
+sans-serif"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">---------- Forwarded message ---------<br>Da: <b class=3D"g=
+mail_sendername" dir=3D"auto">IP-TV</b> <span dir=3D"auto">&lt;<a href=3D"m=
+ailto:lipslemzaraur9w@gmx.net">lipslemzaraur9w@gmx.net</a>&gt;</span><br>Da=
+te: mar 13 giu 2023 alle ore 13:40<br>Subject: This Offre IP-TV For You Wit=
+h Low Price<br>To: lydia.stepanek &lt;<a href=3D"mailto:lydia.stepanek@gmail.com">nco=
+rradin@gmail.com</a>&gt;<br></div><br><br>=F0=9F=8D=BF=F0=9F=8D=BF WORLD IP=
+TV =F0=9F=8D=BF=F0=9F=8D=BF<br>
+<br>
+=E2=9C=85 Even faster<br>
+=E2=9C=85 Even bigger<br>
+=E2=9C=85 Formula 1 cockpit camera<br>
+=E2=9C=85 Movie Wishes<br>
+<br>
+=E2=9C=94=EF=B8=8FSky + Sky Sports =E2=98=81=EF=B8=8F<br>
+=E2=9C=94=EF=B8=8F Leg sports =F0=9F=8F=80<br>
+=E2=9C=94=EF=B8=8FDazn =E2=9A=BD=EF=B8=8F<br>
+=E2=9C=94=EF=B8=8FTelekom Sportsbar =F0=9F=9A=B4=E2=80=8D=E2=99=80=EF=B8=8F=
+<br>
+=E2=9C=94=EF=B8=8FNetflix=F0=9F=8E=AC<br>
+=E2=9C=94=EF=B8=8FAmazon Prime=F0=9F=93=BD<br>
+=E2=9C=94=EF=B8=8FDisney+ =F0=9F=8E=86<br>
+=E2=9C=94=EF=B8=8F Exxen =F0=9F=8E=A5<br>
+=E2=9C=94=EF=B8=8FXxX=F0=9F=92=8B<br>
+=E2=9C=94=EF=B8=8FFormula 1 =F0=9F=8F=8E<br>
+=E2=9C=94=EF=B8=8F Magenta =E2=9A=BD=EF=B8=8F<br>
+<br>
+=E2=9D=97=EF=B8=8F20000+ channels =F0=9F=93=BA<br>
+=E2=9D=97=EF=B8=8F30+ languages=C2=A0 =C2=A0 =C2=A0=F0=9F=87=A9=F0=9F=87=AA=
+=F0=9F=87=AE=F0=9F=87=B9=F0=9F=87=BA=F0=9F=87=B8=F0=9F=87=AC=F0=9F=87=A7=F0=
+=9F=87=B9=F0=9F=87=B7<br>
+=E2=9D=97=EF=B8=8F117,000+ VODs =F0=9F=8E=9E<br>
+=E2=9D=97=EF=B8=8FDaily updates =F0=9F=94=9D<br>
+<br>
+=E2=AD=90=EF=B8=8F24/7 support =E2=8F=B0<br>
+=E2=AD=90=EF=B8=8FNo hanging =F0=9F=9A=AB<br>
+<br>
+Compatible devices:<br>
+Amazon Fire TV Stick =F0=9F=96=8A<br>
+Android box =F0=9F=A5=8A<br>
+Smart TV =F0=9F=93=BA<br>
+smart phone =F0=9F=93=B1<br>
+PC =F0=9F=92=BB<br>
+<br>
+<a href=3D"http://ingoads.net" rel=3D"noreferrer" target=3D"_blank">ingoads=
+.net</a><br>
+<br>
+<a href=3D"https://wa.me/212667763718" rel=3D"noreferrer" target=3D"_blank"=
+>https://wa.me/212667763718</a><br>
+<br>
+</div></div>
+
+--000000000000d3215305fe14297a--
