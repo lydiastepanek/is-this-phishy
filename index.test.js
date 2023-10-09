@@ -318,6 +318,25 @@ describe("testsNotRequiringAWSCredentials", () => {
       }
     });
   });
+
+  test("sees violations in email with weird links", async () => {
+    const email = read("chsskmt90ega2e6j0l6c4iknvsfaicvrgpbc9ug1");
+    try {
+      const input = await createResponse(email);
+      expect(input.Message.Body.Html.Data.includes(NO_VIOLATIONS)).toBe(false);
+      expect(
+        input.Message.Body.Html.Data.includes(POPULAR_EMAIL_DOMAIN_VIOLATION)
+      ).toBe(true);
+      expect(
+        input.Message.Body.Html.Data.includes(NON_TOP_MILLION_LINK_EMAIL)
+      ).toBe(true);
+      expect(input.Message.Body.Html.Data.includes(ATTACHMENT_VIOLATION)).toBe(
+        false
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  });
 });
 
 describe("testsRequiringAWSCredentials", () => {

@@ -1,0 +1,1589 @@
+Return-Path: <lydia.stepanek@gmail.com>
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id chsskmt90ega2e6j0l6c4iknvsfaicvrgpbc9ug1
+ for help@isthisphishy.io;
+ Mon, 09 Oct 2023 15:17:08 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.222.45 as permitted sender) client-ip=209.85.222.45; envelope-from=lydia.stepanek@gmail.com; helo=mail-ua1-f45.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.222.45 as permitted sender) client-ip=209.85.222.45; envelope-from=lydia.stepanek@gmail.com; helo=mail-ua1-f45.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFIVGthL2FBaURKQ0tDcThvT1ZvUDNzZXZuWWdoNkpFYUlYd1VvWWlsRlhXS0ZxZWs5eXNqQVVJUmhIM0ZxY2h4bGsrcnF5U0d4TGxKczJpdUFnN0JXQnZRRGJxU1RGdTc2NVZBdFV5d2ZRak1BSEYvQmkwM1FwcEJPMXRNMC9nbEpDT2VEODRkTmx4QVNRMHQ4SEMzb1duZFhXakU3MVh2dGp3blUyeFZzSXQwTElmblZHSld3RkNLdVc0WUQybVRtSEgvdlAzRTM0V1dNWDEvMXlBL3pyMzNQUitNUDV3SGF5K3ZDZW1CRFhYNWJ2bXRVL3BmNWwwaHNudnY3MGNuTDVmT2x3aUwzcWozdXBlcy9aNzdiZXBDOGg5OGRheWw3UVRMRGxJMWY2NkE9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=CGerB1AFIU9KbqNRvl28wtvWsJ8XsgX4Mzmp26JbXukbcmEK6d6DqfyE82a37eg4ilDFG1gK1XqCxmxv6DI37BegPYeQFbnRIutVPiouYV895ZJD57t01uYef3cmL8Z6JiXcHxRI4+Fhn9fkZc2c6Jsrsd+mIHbB2hD1bmCozw8=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1696864628; v=1; bh=6llA3f/eIbfF0Q+/ch/iNooTsc5LiP08dVBNC2q5l3M=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-7ab68ef45e7so1243382241.3
+        for <help@isthisphishy.io>; Mon, 09 Oct 2023 08:17:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696864627; x=1697469427; darn=isthisphishy.io;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nxbL7nP+crCD1gxRv/jcIvu5EVDJRLVTbr6HEqXm9s0=;
+        b=VEnZZp7hOP5ZmITeZyOV3Q+kSAfkqXrwUrEnRGcb9qnfEMzZyt6WUd32+jRLAzklxL
+         4UNZGxEkDMKMBMDWieXPQqaqUcSMTmU/LoPIvp5Ko3gLYuPriiGGN1fWWEBySKv1zG17
+         /9PDzWAlDJryCUtVl3UM8hA9ivjWBlbMEdzGnYP7cyuSqjhrUxQ/sQq1jXkgNe+0Udu+
+         mFoiLsKu1hZ0OnSAktTGknOiFrJ32Ff+4FOGKZ6+1ztF48nNW+u4n87g+2GQuMWoDzeJ
+         8vxq7nBJhLQLrkFVK+JcdNSfhdPitP+fGDbU0Jcwd2+Z/rT0R5h/4tnJ5gC1E2PfFgv2
+         k8xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696864627; x=1697469427;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nxbL7nP+crCD1gxRv/jcIvu5EVDJRLVTbr6HEqXm9s0=;
+        b=YpYduzGH37rwiLVsjMR6U4ceFrNDuRmcbtzLPGBoalCH0ESflqwNtpjWDKPfgvV/ax
+         KSzFiNvaXHfBRsT3UVgtnkGIZ+OqFheKbUBWr3zKncnFmnBjrVG1ka4hFwhQGbCz8nzQ
+         Ll5NMeahtYc1rAujVbsL6A5T5Lh1EoTMU+chOLT0+aKFA8IE+IMPKeUptPPtEOjd+5rV
+         It3wcLeoyySVTGum7ByFDC362zdDF/LXe0ZEXeOJHlnt1iJB6ANHwPv14mWDSmx1V2DH
+         PrsOaffSi+3Glp46bnyG/Fp6IhfH+hBn+JQF0q5g74Wl/7P0d/Ww1V8CtdrOY6VGC6jw
+         bCHQ==
+X-Gm-Message-State: AOJu0YyX1U6BEJU41LMAkikskCWfiKWMpc7IYr3gySRGWYLUTMF8JhXC
+	MnqZZh7YEAdOOmuNO1u6qqoVE1+0JpjPnk2ZBGx3kXaMH3Y=
+X-Google-Smtp-Source: AGHT+IGVTwIQQm91K4jIdPKqT/sv/yrjfx76S7qvike6LXJ8nfs77O9b5iA3ZEy+cEDj9Gf2JiczRDKIvGbjfDguWgM=
+X-Received: by 2002:a67:bd13:0:b0:452:579d:7f3c with SMTP id
+ y19-20020a67bd13000000b00452579d7f3cmr11137184vsq.4.1696864626770; Mon, 09
+ Oct 2023 08:17:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <5B.7C.09920.91A89156@gh.mta2vrest.cc.prd.sparkpost>
+In-Reply-To: <5B.7C.09920.91A89156@gh.mta2vrest.cc.prd.sparkpost>
+From: Lydia Stepanek <lydia.stepanek@gmail.com>
+Date: Mon, 9 Oct 2023 11:16:54 -0400
+Message-ID: <CADvz_yfh96uhS9niGHpRc8gXM7TK7w33x8ORMSdxgJwLhX5SRQ@mail.gmail.com>
+Subject: Fwd: A pretty perfect pollo asado
+To: help@isthisphishy.io
+Content-Type: multipart/alternative; boundary="0000000000004f8af206074a156a"
+
+--0000000000004f8af206074a156a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: NYT Cooking <nytdirect@nytimes.com>
+Date: Sun, Oct 1, 2023 at 11:02=E2=80=AFAM
+Subject: A pretty perfect pollo asado
+To: <lydia.stepanek@gmail.com>
+
+
+With muffuletta chopped salad and a big batch of Bolognese.
+View in browser
+<https://nl.nytimes.com/f/a/9WCR2hwB1PZ0uvc4MdkQNQ~~/AAAAAQA~/RgRm_A8ZP4QkA=
+Wh0dHBzOi8vbWVzc2FnaW5nLWN1c3RvbS1uZXdzbGV0dGVycy5ueXRpbWVzLmNvbS90ZW1wbGF0=
+ZS9vYWt2Mj9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0=
+xMDM5Nzkmbmw9Y29va2luZyZwcm9kdWN0Q29kZT1DSyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW=
+50X2lkPTE0NjIwMCZ0ZT0xJnVyaT1ueXQlM0ElMkYlMkZuZXdzbGV0dGVyJTJGYzNlZGM0NWYtO=
+WFmMS01MTZiLWE2NjUtYTE5MDg3ZWI5Zjg4JnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2Zi=
+ODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQ=
+AAAAD>
+|nytimes.com
+<https://nl.nytimes.com/f/a/hkjPkmDkywW2EVv8M4Ba-w~~/AAAAAQA~/RgRm_A8ZP0Ssa=
+HR0cHM6Ly93d3cubnl0aW1lcy5jb20vP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMx=
+MDAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21=
+lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2=
+U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>
+Continue reading the main story
+<#m_-296316671843205585_a11y-skip-ad-marquee>
+[image: Marquee Ad]
+<https://nl.nytimes.com/f/a/1YWqDc1YXelks71ZSbdj7g~~/AAAAAQA~/RgRm_A8ZP0SSa=
+HR0cHM6Ly9saXZlaW50ZW50Lm5ld3lvcmt0aW1lc2luZm8uY29tL2NsaWNrP3M9MjA3NDk1Jmxp=
+PUNLJm09ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2YmcD1DS18yMDIzMTAwMSZ0ZT0=
+xJm5sPWNvb2tpbmcmZW1jPWVkaXRfY2tfMjAyMzEwMDFXA255dEIKZRQZihllnnC1x1IYbHlkaW=
+Euc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>
+
+[image: Cooking]
+<https://nl.nytimes.com/f/cooking/24071AQ-ghd2lUMjdrchBg~~/AAAAAQA~/RgRm_A8=
+ZP0SwaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tLz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF=
+9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxM=
+DA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2Zi=
+ODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQ=
+AAAAD>
+
+October 1, 2023
+Christopher Testani for The New York Times. Food Stylist: Simon Andrews.
+<https://nl.nytimes.com/f/cooking/6eMAWP6JsIfy5RN4OcfXJg~~/AAAAAQA~/RgRm_A8=
+ZP0TLaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyNDQ0MS1wb2xsby1hc2=
+Fkbz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5N=
+zkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVz=
+ZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1I=
+YbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>
+What to cook this week: pollo asado, muffuletta chopped salad and a big
+batch of Bolognese
+[image: Author Headshot]
+<https://nl.nytimes.com/f/newsletter/etkKL3N_Yo1Vsr8N8IaPuQ~~/AAAAAQA~/RgRm=
+_A8ZP0S5aHR0cHM6Ly93d3cubnl0aW1lcy5jb20vYnkvc2FtLXNpZnRvbj9jYW1wYWlnbl9pZD0=
+1OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZW=
+dpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZ=
+WQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtA=
+Z21haWwuY29tWAQAAAAD>
+
+By Sam Sifton
+<https://nl.nytimes.com/f/newsletter/etkKL3N_Yo1Vsr8N8IaPuQ~~/AAAAAQA~/RgRm=
+_A8ZP0S5aHR0cHM6Ly93d3cubnl0aW1lcy5jb20vYnkvc2FtLXNpZnRvbj9jYW1wYWlnbl9pZD0=
+1OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZW=
+dpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZ=
+WQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtA=
+Z21haWwuY29tWAQAAAAD>
+
+Good morning. September played out strangely where I hang out: unreasonably
+Augustlike at first, and then hard into autumnal damp and gloom. I know
+we=E2=80=99re nowhere near last licks on grilling season, but there=E2=80=
+=99s something a
+little valedictory about lighting the fires these days. I feel as if I=E2=
+=80=99m
+cooking on borrowed time.
+
+So it=E2=80=99s pollo asado
+<https://nl.nytimes.com/f/cooking/6eMAWP6JsIfy5RN4OcfXJg~~/AAAAAQA~/RgRm_A8=
+ZP0TLaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyNDQ0MS1wb2xsby1hc2=
+Fkbz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5N=
+zkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVz=
+ZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1I=
+YbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>
+(above) for sure today, Ham El-Waylly=E2=80=99s recipe, marinated all after=
+noon and
+placed near glowing coals an hour before sunset, to serve with warm
+tortillas, rice and beans
+<https://nl.nytimes.com/f/cooking/vKWjVvNcE_Z4GDUWXCAy0g~~/AAAAAQA~/RgRm_A8=
+ZP0TaaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMDAyNS1yaWNlLWFuZC=
+1iZWFucy13aXRoLWV4dHJhcz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpb=
+nN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lk=
+PTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA25=
+5dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>,
+hot sauce and wedges of lime. I love Ham=E2=80=99s technique here, which ca=
+lls for
+cooking the chicken over indirect heat, essentially smoke-roasting it
+skin-side up, so the fat renders into the meat and the skin crisps without
+burning.
+
+Featured Recipe
+Pollo Asado
+<https://nl.nytimes.com/f/cooking/6eMAWP6JsIfy5RN4OcfXJg~~/AAAAAQA~/RgRm_A8=
+ZP0TLaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyNDQ0MS1wb2xsby1hc2=
+Fkbz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5N=
+zkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVz=
+ZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1I=
+YbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>
+
+View Recipe =E2=86=92
+<https://nl.nytimes.com/f/cooking/6eMAWP6JsIfy5RN4OcfXJg~~/AAAAAQA~/RgRm_A8=
+ZP0TLaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyNDQ0MS1wb2xsby1hc2=
+Fkbz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5N=
+zkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVz=
+ZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1I=
+YbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>
+
+(Can=E2=80=99t find annatto seeds in your pantry or the market? Lay in some=
+ achiote
+paste or seasoning; Goya makes a version with cumin, coriander and MSG
+that=E2=80=99s pretty good.)
+
+Then flan
+<https://nl.nytimes.com/f/cooking/akloFcG5sZMA9nB-wfNSQA~~/AAAAAQA~/RgRm_A8=
+ZP0TEaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyNDQzMi1mbGFuP2NhbX=
+BhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb=
+29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1l=
+ZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5=
+zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>
+for dessert? That would be outstanding.
+
+With Sunday taken care of, we can take a look at the rest of the week =E2=
+=80=A6
+Monday
+
+Hetty Lui McKinnon=E2=80=99s recipe for salt and pepper tofu
+<https://nl.nytimes.com/f/cooking/RKU8KVDKqdO_1phFyTBDxg~~/AAAAAQA~/RgRm_A8=
+ZP0TUaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMzM0My1zYWx0LWFuZC=
+1wZXBwZXItdG9mdT9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZ=
+V9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIw=
+MCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQ=
+ZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>
+calls for seasoning with white pepper, sugar, ground ginger and five-spice
+powder along with the salt. I generally add a whisper of ground Sichuan
+peppercorn for its lovely numbing qualities against the bite of white
+pepper, but it=E2=80=99s hardly necessary. Serve with rice and, if you=E2=
+=80=99re me, fried
+sweet plantains
+<https://nl.nytimes.com/f/cooking/XCiUtAPYEItt7xeDJaXhRw~~/AAAAAQA~/RgRm_A8=
+ZP0TdaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMDUxNy1tYWR1cm9zLW=
+ZyaWVkLXN3ZWV0LXBsYW50YWlucz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwM=
+SZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50=
+X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2Z=
+XA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>
+.
+Continue reading the main story
+<#m_-296316671843205585_a11y-skip-universal-0>
+ADVERTISEMENT
+[image: Ad]
+<https://nl.nytimes.com/f/a/e0muNBmoL9axtunc5YZdAQ~~/AAAAAQA~/RgRm_A8ZP0SSa=
+HR0cHM6Ly9saXZlaW50ZW50Lm5ld3lvcmt0aW1lc2luZm8uY29tL2NsaWNrP3M9MjAxODE1Jmxp=
+PUNLJm09ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2YmcD1DS18yMDIzMTAwMSZ0ZT0=
+xJm5sPWNvb2tpbmcmZW1jPWVkaXRfY2tfMjAyMzEwMDFXA255dEIKZRQZihllnnC1x1IYbHlkaW=
+Euc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>
+
+[image: Article Image]
+
+Ryan Liebe for The New York Times. Food Stylist: Simon Andrews.
+<https://nl.nytimes.com/f/cooking/RKU8KVDKqdO_1phFyTBDxg~~/AAAAAQA~/RgRm_A8=
+ZP0TUaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMzM0My1zYWx0LWFuZC=
+1wZXBwZXItdG9mdT9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZ=
+V9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIw=
+MCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQ=
+ZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>
+Salt
+and Pepper Tofu
+
+By Hetty Lui McKinnon
+
+30 minutes
+
+Makes 4 servings
+<https://nl.nytimes.com/f/cooking/RKU8KVDKqdO_1phFyTBDxg~~/AAAAAQA~/RgRm_A8=
+ZP0TUaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMzM0My1zYWx0LWFuZC=
+1wZXBwZXItdG9mdT9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZ=
+V9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIw=
+MCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQ=
+ZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>
+Tuesday
+
+Miso-mustard salmon roasted over cabbage
+<https://nl.nytimes.com/f/cooking/3oJBZavF6Dqp86mIGAdD0w~~/AAAAAQA~/RgRm_A8=
+ZP0TTaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyNDY1My1taXNvLW11c3=
+RhcmQtc2FsbW9uP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX=
+2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAw=
+JnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBm=
+KGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>
+is a classic Ali Slagle jam, with a salty, spicy sauce that plays
+beautifully with the sweetness of the fish and cabbage. There=E2=80=99s ama=
+zing
+textural contrast as well, as you alternate between the softness of the
+salmon and the crunch of the vegetable. A one-pan delight!
+[image: Article Image]
+
+David Malosh for The New York Times. Food Stylist: Simon Andrews.
+<https://nl.nytimes.com/f/cooking/3oJBZavF6Dqp86mIGAdD0w~~/AAAAAQA~/RgRm_A8=
+ZP0TTaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyNDY1My1taXNvLW11c3=
+RhcmQtc2FsbW9uP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX=
+2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAw=
+JnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBm=
+KGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>
+Miso-Mustard
+Salmon
+
+By Ali Slagle
+
+30 minutes
+
+Makes 4 servings
+<https://nl.nytimes.com/f/cooking/3oJBZavF6Dqp86mIGAdD0w~~/AAAAAQA~/RgRm_A8=
+ZP0TTaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyNDY1My1taXNvLW11c3=
+RhcmQtc2FsbW9uP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX=
+2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAw=
+JnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBm=
+KGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>
+Wednesday
+
+I don=E2=80=99t like to eat muffuletta sandwiches outside New Orleans, but =
+I=E2=80=99ve got
+no problem knocking down Kay Chun=E2=80=99s recipe for a muffuletta chopped=
+ salad
+<https://nl.nytimes.com/f/cooking/dxAepxE4F-SD4nlGq1achA~~/AAAAAQA~/RgRm_A8=
+ZP0TYaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMzgwNy1tdWZmdWxldH=
+RhLWNob3BwZWQtc2FsYWQ_Y2FtcGFpZ25faWQ9NTgmZW1jPWVkaXRfY2tfMjAyMzEwMDEmaW5zd=
+GFuY2VfaWQ9MTAzOTc5Jm5sPWNvb2tpbmcmcmVnaV9pZD0yMDI2MTAwODQmc2VnbWVudF9pZD0x=
+NDYyMDAmdGU9MSZ1c2VyX2lkPWVlOTVlMmQxMWVkMGY5MzZhOTdmYjg1NTI4ZDY3ZTdmVwNueXR=
+CCmUUGYoZZZ5wtcdSGGx5ZGlhLnN0ZXBhbmVrQGdtYWlsLmNvbVgEAAAAAw~~>
+a few times a year, particularly on a weeknight when I have both provolone
+and soppressata in the fridge. Kay adds chickpeas and avocado at the end; I
+sometimes swap those out for diced ham and Swiss cheese.
+[image: Article Image]
+
+Kerri Brewer for The New York Times. Food Stylist: Simon Andrews.
+<https://nl.nytimes.com/f/cooking/dxAepxE4F-SD4nlGq1achA~~/AAAAAQA~/RgRm_A8=
+ZP0TYaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMzgwNy1tdWZmdWxldH=
+RhLWNob3BwZWQtc2FsYWQ_Y2FtcGFpZ25faWQ9NTgmZW1jPWVkaXRfY2tfMjAyMzEwMDEmaW5zd=
+GFuY2VfaWQ9MTAzOTc5Jm5sPWNvb2tpbmcmcmVnaV9pZD0yMDI2MTAwODQmc2VnbWVudF9pZD0x=
+NDYyMDAmdGU9MSZ1c2VyX2lkPWVlOTVlMmQxMWVkMGY5MzZhOTdmYjg1NTI4ZDY3ZTdmVwNueXR=
+CCmUUGYoZZZ5wtcdSGGx5ZGlhLnN0ZXBhbmVrQGdtYWlsLmNvbVgEAAAAAw~~>
+Muffuletta
+Chopped Salad
+
+By Kay Chun
+
+10 minutes
+
+Makes 4 servings
+<https://nl.nytimes.com/f/cooking/dxAepxE4F-SD4nlGq1achA~~/AAAAAQA~/RgRm_A8=
+ZP0TYaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMzgwNy1tdWZmdWxldH=
+RhLWNob3BwZWQtc2FsYWQ_Y2FtcGFpZ25faWQ9NTgmZW1jPWVkaXRfY2tfMjAyMzEwMDEmaW5zd=
+GFuY2VfaWQ9MTAzOTc5Jm5sPWNvb2tpbmcmcmVnaV9pZD0yMDI2MTAwODQmc2VnbWVudF9pZD0x=
+NDYyMDAmdGU9MSZ1c2VyX2lkPWVlOTVlMmQxMWVkMGY5MzZhOTdmYjg1NTI4ZDY3ZTdmVwNueXR=
+CCmUUGYoZZZ5wtcdSGGx5ZGlhLnN0ZXBhbmVrQGdtYWlsLmNvbVgEAAAAAw~~>
+Thursday
+
+Nik Sharma=E2=80=99s recipe for chicken breasts with miso-garlic sauce
+<https://nl.nytimes.com/f/cooking/jQ3hiOgnHkw0NyPLsIGOjw~~/AAAAAQA~/RgRm_A8=
+ZP0TmaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMTk4MS1jaGlja2VuLW=
+JyZWFzdHMtd2l0aC1taXNvLWdhcmxpYy1zYXVjZT9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja=
+18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4=
+NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU=
+1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAA=
+AD>
+makes for a perfect topping for a salad of crunchy greens and sliced
+carrots. Use some of the pan sauce and rice vinegar to build out a dressing
+and you=E2=80=99re good to go.
+[image: Article Image]
+
+Johnny Miller for The New York Times. Food Stylist: Susan Spungen.
+<https://nl.nytimes.com/f/cooking/jQ3hiOgnHkw0NyPLsIGOjw~~/AAAAAQA~/RgRm_A8=
+ZP0TmaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMTk4MS1jaGlja2VuLW=
+JyZWFzdHMtd2l0aC1taXNvLWdhcmxpYy1zYXVjZT9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja=
+18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4=
+NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU=
+1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAA=
+AD>
+Chicken
+Breasts With Miso-Garlic Sauce
+
+By Nik Sharma
+
+About 1 hour
+
+Makes 4 servings
+<https://nl.nytimes.com/f/cooking/jQ3hiOgnHkw0NyPLsIGOjw~~/AAAAAQA~/RgRm_A8=
+ZP0TmaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMTk4MS1jaGlja2VuLW=
+JyZWFzdHMtd2l0aC1taXNvLWdhcmxpYy1zYXVjZT9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja=
+18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4=
+NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU=
+1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAA=
+AD>
+Friday
+
+And then you can head into the weekend with Marcella Hazan
+<https://nl.nytimes.com/f/newsletter/DqK-FDh4X_JqDz3WN7PmlQ~~/AAAAAQA~/RgRm=
+_A8ZP4QCAWh0dHBzOi8vd3d3Lm55dGltZXMuY29tLzIwMTMvMDkvMzAvZGluaW5nL01hcmNlbGx=
+hLUhhemFuLWRpZXMtY2hhbmdlZC10aGUtd2F5LWFtZXJpY2Fucy1jb29rLWl0YWxpYW4tZm9vZC=
+5odG1sP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwM=
+zk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEm=
+dXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWecLX=
+HUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>=E2=80=99s
+Bolognese sauce
+<https://nl.nytimes.com/f/cooking/RBNc_4gGTn69y4oVH27zyQ~~/AAAAAQA~/RgRm_A8=
+ZP0TfaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAxNTE4MS1tYXJjZWxsYS=
+1oYXphbnMtYm9sb2duZXNlLXNhdWNlP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxM=
+DAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21l=
+bnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U=
+3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>
+recipe, which I have found provides the perfect excuse to work from home.
+Get that going during your lunch hour and smell it burbling away all
+afternoon. Serve over pasta for dinner, and experience the sublime.
+[image: Article Image]
+
+Jim Wilson/The New York Times
+<https://nl.nytimes.com/f/cooking/RBNc_4gGTn69y4oVH27zyQ~~/AAAAAQA~/RgRm_A8=
+ZP0TfaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAxNTE4MS1tYXJjZWxsYS=
+1oYXphbnMtYm9sb2duZXNlLXNhdWNlP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxM=
+DAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21l=
+bnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U=
+3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>
+Marcella
+Hazan=E2=80=99s Bolognese Sauce
+
+Recipe from Marcella Hazan
+
+Adapted by The New York Times
+
+At least 4 hours
+
+Makes 2 heaping cups, for about 6 servings and 1 1/2 pounds pasta
+<https://nl.nytimes.com/f/cooking/RBNc_4gGTn69y4oVH27zyQ~~/AAAAAQA~/RgRm_A8=
+ZP0TfaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAxNTE4MS1tYXJjZWxsYS=
+1oYXphbnMtYm9sb2duZXNlLXNhdWNlP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxM=
+DAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21l=
+bnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U=
+3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>
+
+Thousands and thousands more recipes are waiting for you on New York Times
+Cooking
+<https://nl.nytimes.com/f/cooking/24071AQ-ghd2lUMjdrchBg~~/AAAAAQA~/RgRm_A8=
+ZP0SwaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tLz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF=
+9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxM=
+DA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2Zi=
+ODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQ=
+AAAAD>,
+though you need to be a subscriber to read them. If you haven=E2=80=99t alr=
+eady, I
+hope you will join the crew
+<https://nl.nytimes.com/f/a/MYQvaCyGoQjEOCmJXN8i3Q~~/AAAAAQA~/RgRm_A8ZP0TAa=
+HR0cHM6Ly93d3cubnl0aW1lcy5jb20vc3Vic2NyaXB0aW9uL2Nvb2tpbmc_Y2FtcGFpZ25faWQ9=
+NTgmZW1jPWVkaXRfY2tfMjAyMzEwMDEmaW5zdGFuY2VfaWQ9MTAzOTc5Jm5sPWNvb2tpbmcmcmV=
+naV9pZD0yMDI2MTAwODQmc2VnbWVudF9pZD0xNDYyMDAmdGU9MSZ1c2VyX2lkPWVlOTVlMmQxMW=
+VkMGY5MzZhOTdmYjg1NTI4ZDY3ZTdmVwNueXRCCmUUGYoZZZ5wtcdSGGx5ZGlhLnN0ZXBhbmVrQ=
+GdtYWlsLmNvbVgEAAAAAw~~>
+.
+
+We are standing by like matrons at the school dance should you run into
+trouble with our technology. Just write cookingcare@nytimes.com and someone
+will get back to you. I=E2=80=99m around myself should you want to get some=
+thing
+off your chest about what we=E2=80=99re doing here and why. Write
+foodeditor@nytimes.com. I can=E2=80=99t respond to every letter. But I do r=
+ead
+every one I get.
+
+Now, it=E2=80=99s a far cry from anything to do with quinces or crab, but y=
+ou
+should read Joe Kloc=E2=80=99s story in Harpers, =E2=80=9CThe Golden Fleece
+<https://nl.nytimes.com/f/a/EIG7yxJyRHBT8hfLjHOLWA~~/AAAAAQA~/RgRm_A8ZP0TOa=
+HR0cHM6Ly9oYXJwZXJzLm9yZy9hcmNoaXZlLzIwMjMvMTAvdGhlLWdvbGRlbi1mbGVlY2Uta2xv=
+Yz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzk=
+mbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZX=
+JfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYb=
+HlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>.=E2=80=9D
+It=E2=80=99s notionally about used paperbacks, but really it=E2=80=99s an a=
+dventure yarn.
+
+Today is Jimmy Carter=E2=80=99s 99th birthday
+<https://nl.nytimes.com/f/newsletter/L_RX_1ekxj_KMv-vrV0Q1g~~/AAAAAQA~/RgRm=
+_A8ZP0TcaHR0cHM6Ly93d3cubnl0aW1lcy5jb20vMjAyMy8wOS8yMS91cy9wb2xpdGljcy9qaW1=
+teS1jYXJ0ZXItaG9zcGljZS5odG1sP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMD=
+AxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lb=
+nRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3=
+ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>,
+and to celebrate I set The Times=E2=80=99s wayback machine to Oct. 1, 1924
+<https://nl.nytimes.com/f/a/Dr8SHT044fGwRE6tWvd1iQ~~/AAAAAQA~/RgRm_A8ZP4QIA=
+Wh0dHBzOi8vd3d3Lm55dGltZXMuY29tLzE5MjQvMTAvMDEvYXJjaGl2ZXMvYWJvbGl0aW9uLW9m=
+LXJ1YmJlci1ob3NlLWFzLXdoaXAtZm9yLXB1cGlscy10aHJlYXRlbnMtZGlzcnVwdGlvbi1vZi5=
+odG1sP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwMz=
+k3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmd=
+XNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWecLXH=
+UhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>:
+=E2=80=9CAbolition of Rubber Hose as Whip for Pupils Threatens Disruption o=
+f
+Elmsford Schools=E2=80=9D reads a front-page article from that day.
+
+I really enjoyed this Justin Richmond interview with the guitarist Johnny
+Marr
+<https://nl.nytimes.com/f/a/mggt23UhHsIdNxdisNMB9A~~/AAAAAQA~/RgRm_A8ZP0S_a=
+HR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g_Y2FtcGFpZ25faWQ9NTgmZW1jPWVkaXRfY2tf=
+MjAyMzEwMDEmaW5zdGFuY2VfaWQ9MTAzOTc5Jm5sPWNvb2tpbmcmcmVnaV9pZD0yMDI2MTAwODQ=
+mc2VnbWVudF9pZD0xNDYyMDAmdGU9MSZ1c2VyX2lkPWVlOTVlMmQxMWVkMGY5MzZhOTdmYjg1NT=
+I4ZDY3ZTdmJnY9LTc2ODFsV2lfRG9XA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ=
+21haWwuY29tWAQAAAAD>
+on the =E2=80=9CBroken Record=E2=80=9D podcast. (Here=E2=80=99s an accompan=
+ying Spotify playlist
+<https://nl.nytimes.com/f/a/zkHic61wyp0UPAkI0lAjYg~~/AAAAAQA~/RgRm_A8ZP0Tla=
+HR0cHM6Ly9vcGVuLnNwb3RpZnkuY29tL3BsYXlsaXN0LzNHQWhWT2k2UkZtWEowMVFXbVVlUTg_=
+Y2FtcGFpZ25faWQ9NTgmZW1jPWVkaXRfY2tfMjAyMzEwMDEmaW5zdGFuY2VfaWQ9MTAzOTc5Jm5=
+kPTEmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZzaT02OT=
+IxNTQ5YTQ1YTc0ZjNkJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N=
+2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>
+.)
+
+Finally, we=E2=80=99ll be skiing soon enough. Here=E2=80=99s the trailer fo=
+r =E2=80=9CThe Land of
+Giants
+<https://nl.nytimes.com/f/a/MMBOIyWbp7Y6evSi55fApw~~/AAAAAQA~/RgRm_A8ZP0Swa=
+HR0cHM6Ly95b3V0dS5iZS9USi1aRlVQTl8zOD9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18y=
+MDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZ=
+zZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1Mj=
+hkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>=
+=E2=80=9D
+to build up the stoke. Enjoy that, cook a lot and I=E2=80=99ll be back next=
+ week.
+[image: Fresh, delicious dinner ideas for busy people, from Emily Weinstein
+and NYT Cooking.]
+
+Sign up for the Five Weeknight Dishes newsletter
+
+Fresh dinner ideas for busy people who want something great to eat, with
+NYT Cooking recipes sent to you weekly.
+Get it in your inbox
+<https://nl.nytimes.com/f/a/QMNW6llOZwQeNE3Y1unSYQ~~/AAAAAQA~/RgRm_A8ZP0Tfa=
+HR0cHM6Ly93d3cubnl0aW1lcy5jb20vbmV3c2xldHRlcnM_Y2FtcGFpZ25faWQ9NTgmZW1jPWVk=
+aXRfY2tfMjAyMzEwMDEmaW5zdGFuY2VfaWQ9MTAzOTc5Jm5ld3NsZXR0ZXJfc2lnbnVwPXRydWU=
+mbmw9Y29va2luZyZwcm9kdWN0X2NvZGU9RldEJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaW=
+Q9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDb=
+nl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>
+[image: Tanya Sichynsky shares the most delicious vegetarian recipes for
+weeknight cooking, packed lunches and dinner parties.]
+
+Sign up for The Veggie newsletter
+
+Tanya Sichynsky shares the most delicious vegetarian recipes for weeknight
+cooking, packed lunches and dinner parties.
+Get it in your inbox
+<https://nl.nytimes.com/f/a/hn5WeEF9xZ-RJqbIl_wrwg~~/AAAAAQA~/RgRm_A8ZP0Tfa=
+HR0cHM6Ly93d3cubnl0aW1lcy5jb20vbmV3c2xldHRlcnM_Y2FtcGFpZ25faWQ9NTgmZW1jPWVk=
+aXRfY2tfMjAyMzEwMDEmaW5zdGFuY2VfaWQ9MTAzOTc5Jm5ld3NsZXR0ZXJfc2lnbnVwPXRydWU=
+mbmw9Y29va2luZyZwcm9kdWN0X2NvZGU9VkVHJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaW=
+Q9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDb=
+nl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>
+Continue reading the main story
+<#m_-296316671843205585_a11y-skip-tracking_unit-1>
+Continue reading the main story
+<#m_-296316671843205585_a11y-skip-universal-2>
+ADVERTISEMENT
+[image: Ad]
+<https://nl.nytimes.com/f/a/58vs7Spuld6VcumLUjrjzQ~~/AAAAAQA~/RgRm_A8ZP0SSa=
+HR0cHM6Ly9saXZlaW50ZW50Lm5ld3lvcmt0aW1lc2luZm8uY29tL2NsaWNrP3M9ODE4NDU2Jmxp=
+PUNLJm09ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2YmcD1DS18yMDIzMTAwMSZ0ZT0=
+xJm5sPWNvb2tpbmcmZW1jPWVkaXRfY2tfMjAyMzEwMDFXA255dEIKZRQZihllnnC1x1IYbHlkaW=
+Euc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>
+
+Need help? Review our newsletter help page
+<https://nl.nytimes.com/f/a/rjM5DnzYsqt0hfFleBuE_Q~~/AAAAAQA~/RgRm_A8ZP0TXa=
+HR0cHM6Ly9oZWxwLm55dGltZXMuY29tL2hjL2VuLXVzL2FydGljbGVzLzM2MDAwMTQ4ODI2Ni1O=
+ZXdzbGV0dGVycz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9=
+pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMC=
+Z0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZi=
+hllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>
+or contact us
+<https://nl.nytimes.com/f/a/j2B1oEK1rVATfXFgGa-S7Q~~/AAAAAQA~/RgRm_A8ZP0TWa=
+HR0cHM6Ly9oZWxwLm55dGltZXMuY29tL2hjL2VuLXVzL2FydGljbGVzLzExNTAxNTM4NTg4Ny1D=
+b250YWN0LXVzP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2l=
+kPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJn=
+RlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKG=
+WWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>
+for assistance.
+
+You received this email because you signed up for Cooking from The New York
+Times.
+
+To stop receiving Cooking, unsubscribe
+<https://nl.nytimes.com/f/a/FyrdMzekdqjNYvZW9y15-g~~/AAAAAQA~/RgRm_A8ZP0TYa=
+HR0cHM6Ly93d3cubnl0aW1lcy5jb20vbmV3c2xldHRlcnMvb3B0b3V0P2VtYz1lZGl0X2NrXzIw=
+MjMxMDAxJm5sPWNvb2tpbmcmcHJvZHVjdD1DSyZzZW5kX2lkPTE0NjIwMCZ0ZT0xJnRva2VuPTZ=
+hMGY3YzEzZDlkYzVjZDA4OTljZDJiYmQxODVhMGMwODAyMzE3NjkzOWFkNjYyNTk1ZjU3OWJmYT=
+dkZjUzNjE1OWUwZTM0NzRjMzBlMTEzZWZlZDAyNTM5MTY5MzlmZDA2Mjg1YjIyVwNueXRCCmUUG=
+YoZZZ5wtcdSGGx5ZGlhLnN0ZXBhbmVrQGdtYWlsLmNvbVgEAAAAAw~~>.
+To opt out of other promotional emails from The Times, including those
+regarding The Athletic, manage your email settings
+<https://nl.nytimes.com/f/a/9ChrSYugpxo9ksH4t1n-2w~~/AAAAAQA~/RgRm_A8ZP0TNa=
+HR0cHM6Ly93d3cubnl0aW1lcy5jb20vbmV3c2xldHRlcnMvbWFuYWdlP2VtYz1lZGl0X2NrXzIw=
+MjMxMDAxJm5sPWNvb2tpbmcmc2VuZF9pZD0xNDYyMDAmdGU9MSZ0b2tlbj01NTRmZDg2MmM1Nzg=
+3N2UxZmJiZDE2NTdiZWE5YWYwOWVmNWY4MWI2MThmZTM1ZDVlNTdiN2VmODZjODc2ZTkxOThhZm=
+M2MzlmODAwMzRhMDY5ZGNkOGNmNTBmYmRiNzQxNzdiNDc5MVcDbnl0QgplFBmKGWWecLXHUhhse=
+WRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>.
+To opt out of updates and offers sent from The Athletic, submit a request.
+
+Subscribe to NYT Cooking
+<https://nl.nytimes.com/f/a/QlEeoMsPvIn4p3ruDkZpmg~~/AAAAAQA~/RgRm_A8ZP0TWa=
+HR0cHM6Ly93d3cubnl0aW1lcy5jb20vc3Vic2NyaXB0aW9uL2Nvb2tpbmcuaHRtbD9jYW1wYWln=
+bklkPTZYUUhSJmNhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2l=
+kPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJn=
+RlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKG=
+WWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>Get
+the NYT Cooking app
+<https://nl.nytimes.com/f/cooking/_ZnF6flMGVInV9L92OiNew~~/AAAAAQA~/RgRm_A8=
+ZP0T0aHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL2ZyZXF1ZW50bHktYXNrZWQtcXVlc3Rpb2=
+5zP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwMzk3O=
+SZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNl=
+cl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZiNob3ctZG8taS1kb3dubG9hZC1=
+0aGUtbnl0LWNvb2tpbmctaW9zLWFwcFcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0=
+BnbWFpbC5jb21YBAAAAAM~>
+
+Connect with us on:
+[image: facebook]
+<https://nl.nytimes.com/f/a/uN8QyeA-ZMW8mJaiewjTug~~/AAAAAQA~/RgRm_A8ZP0S4a=
+HR0cHM6Ly93d3cuZmFjZWJvb2suY29tL255dGNvb2tpbmcvP2NhbXBhaWduX2lkPTU4JmVtYz1l=
+ZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjA=
+yNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YT=
+k3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb=
+21YBAAAAAM~>
+[image:
+twitter]
+<https://nl.nytimes.com/f/a/WFVS-ePLFsW9J1DBdytlQA~~/AAAAAQA~/RgRm_A8ZP0Sva=
+HR0cHM6Ly90d2l0dGVyLmNvbS9ueXRmb29kP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIw=
+MjMxMDAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnN=
+lZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOG=
+Q2N2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>
+[image:
+instagram]
+<https://nl.nytimes.com/f/a/vd-0MEvbowqwBZDS_zruDQ~~/AAAAAQA~/RgRm_A8ZP0S5a=
+HR0cHM6Ly93d3cuaW5zdGFncmFtLmNvbS9ueXRjb29raW5nLz9jYW1wYWlnbl9pZD01OCZlbWM9=
+ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTI=
+wMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNm=
+E5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY=
+29tWAQAAAAD>
+[image:
+pinterest]
+<https://nl.nytimes.com/f/a/43K4wgCzltuFlk2jLW8jJQ~~/AAAAAQA~/RgRm_A8ZP0S5a=
+HR0cHM6Ly93d3cucGludGVyZXN0LmNvbS9ueXRjb29raW5nLz9jYW1wYWlnbl9pZD01OCZlbWM9=
+ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTI=
+wMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNm=
+E5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY=
+29tWAQAAAAD>
+
+Change Your Email
+<https://nl.nytimes.com/f/a/-OPtGK-FSqPJPhUiawZWqQ~~/AAAAAQA~/RgRm_A8ZP0TAa=
+HR0cHM6Ly9teWFjY291bnQubnl0aW1lcy5jb20vbWVtL2VtYWlsLmh0bWw_Y2FtcGFpZ25faWQ9=
+NTgmZW1jPWVkaXRfY2tfMjAyMzEwMDEmaW5zdGFuY2VfaWQ9MTAzOTc5Jm5sPWNvb2tpbmcmcmV=
+naV9pZD0yMDI2MTAwODQmc2VnbWVudF9pZD0xNDYyMDAmdGU9MSZ1c2VyX2lkPWVlOTVlMmQxMW=
+VkMGY5MzZhOTdmYjg1NTI4ZDY3ZTdmVwNueXRCCmUUGYoZZZ5wtcdSGGx5ZGlhLnN0ZXBhbmVrQ=
+GdtYWlsLmNvbVgEAAAAAw~~>Privacy
+Policy
+<https://nl.nytimes.com/f/a/7FdLFGGUFmb3QBKUH6AXvg~~/AAAAAQA~/RgRm_A8ZP0Tia=
+HR0cHM6Ly93d3cubnl0aW1lcy5jb20vY29udGVudC9oZWxwL3JpZ2h0cy9wcml2YWN5L3BvbGlj=
+eS9wcml2YWN5LXBvbGljeS5odG1sP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDA=
+xJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbn=
+RfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3Z=
+lcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~>Contact
+Us
+<https://nl.nytimes.com/f/a/ov6uJ1NCys9JICD8wEx5DQ~~/AAAAAQA~/RgRm_A8ZP0TIa=
+HR0cHM6Ly9teWFjY291bnQubnl0aW1lcy5jb20vbWVtYmVyY2VudGVyL2hlbHAuaHRtbD9jYW1w=
+YWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29=
+va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZW=
+U5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc=
+3RlcGFuZWtAZ21haWwuY29tWAQAAAAD>California
+Notices
+<https://nl.nytimes.com/f/a/M0-kgfnTXdPhfrNZVgs1sw~~/AAAAAQA~/RgRm_A8ZP0TFa=
+HR0cHM6Ly93d3cubnl0aW1lcy5jb20vcHJpdmFjeS9jYWxpZm9ybmlhLW5vdGljZT9jYW1wYWln=
+bl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2l=
+uZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NW=
+UyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3Rlc=
+GFuZWtAZ21haWwuY29tWAQAAAAD>
+[image: LiveIntent Logo]
+<https://nl.nytimes.com/f/a/5Q97fHryJtdbPFlolOzM9A~~/AAAAAQA~/RgRm_A8ZP0RKa=
+HR0cHM6Ly93d3cubGl2ZWludGVudC5jb20vcG93ZXJlZC1ieT90ZT0xJm5sPWNvb2tpbmcmZW1j=
+PWVkaXRfY2tfMjAyMzEwMDFXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWw=
+uY29tWAQAAAAD>[image:
+AdChoices Logo]
+<https://nl.nytimes.com/f/a/gyJGxkwzkWa3zLlSLFAgVw~~/AAAAAQA~/RgRm_A8ZP0RKa=
+HR0cHM6Ly93d3cubGl2ZWludGVudC5jb20vYWQtY2hvaWNlcz90ZT0xJm5sPWNvb2tpbmcmZW1j=
+PWVkaXRfY2tfMjAyMzEwMDFXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWw=
+uY29tWAQAAAAD>
+
+The New York Times Company. 620 Eighth Avenue New York, NY 10018
+
+
+--=20
+Lydia
+*Stepanek*
+cybersecurity developer & blogger <https://www.lydiaoncybersecurity.com/>
+
+--0000000000004f8af206074a156a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">---------- Forwarded message ---------<br>From: <strong cla=
+ss=3D"gmail_sendername" dir=3D"auto">NYT Cooking</strong> <span dir=3D"auto=
+">&lt;<a href=3D"mailto:nytdirect@nytimes.com">nytdirect@nytimes.com</a>&gt=
+;</span><br>Date: Sun, Oct 1, 2023 at 11:02=E2=80=AFAM<br>Subject: A pretty=
+ perfect pollo asado<br>To:  &lt;<a href=3D"mailto:lydia.stepanek@gmail.com=
+">lydia.stepanek@gmail.com</a>&gt;<br></div><br><br><div class=3D"msg-29631=
+6671843205585"><u></u><div>
+<div style=3D"color:transparent;opacity:0;font-size:0px;border:0;max-height=
+:1px;width:1px;margin:0px;padding:0px;border-width:0px!important;display:no=
+ne!important;line-height:0px!important"><img border=3D"0" width=3D"1" heigh=
+t=3D"1" src=3D"https://nl.nytimes.com/q/3axt6m1uAxq7T9IXdCgfBA~~/AAAAAQA~/R=
+gRm_A8ZPVcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~=
+" alt=3D""></div>
+<div style=3D"display:none;font-size:1px;color:#fff;line-height:1px;max-hei=
+ght:0;max-width:0;opacity:0;overflow:hidden">With muffuletta chopped salad =
+and a big batch of Bolognese.</div><div><table width=3D"100%" align=3D"left=
+" border=3D"0" style=3D"margin:0" bgcolor=3D"#FFFFFF"><tbody><tr><td id=3D"=
+m_-296316671843205585EMAIL_CONTAINER" align=3D"left" width=3D"100%"><div st=
+yle=3D"margin:0 auto;max-width:600px;width:100%"><table role=3D"presentatio=
+n" width=3D"100%" cellpadding=3D"0"><tbody><tr style=3D"width:100%"><td sty=
+le=3D"padding:15px 0 5px;border-bottom:1px solid #dcdcdc;text-align:center;=
+width:100%"><div style=3D"font-family:arial,sans-serif;font-size:12px;text-=
+align:center;width:100%;padding-bottom:10px"><a href=3D"https://nl.nytimes.=
+com/f/a/9WCR2hwB1PZ0uvc4MdkQNQ~~/AAAAAQA~/RgRm_A8ZP4QkAWh0dHBzOi8vbWVzc2Fna=
+W5nLWN1c3RvbS1uZXdzbGV0dGVycy5ueXRpbWVzLmNvbS90ZW1wbGF0ZS9vYWt2Mj9jYW1wYWln=
+bl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2l=
+uZyZwcm9kdWN0Q29kZT1DSyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT=
+0xJnVyaT1ueXQlM0ElMkYlMkZuZXdzbGV0dGVyJTJGYzNlZGM0NWYtOWFmMS01MTZiLWE2NjUtY=
+TE5MDg3ZWI5Zjg4JnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255=
+dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" alt=3D"View i=
+n browser" style=3D"color:#666;text-decoration:none;line-height:18px" targe=
+t=3D"_blank">View in browser</a><span style=3D"color:#dcdcdc;margin:0 10px"=
+>|</span><a href=3D"https://nl.nytimes.com/f/a/hkjPkmDkywW2EVv8M4Ba-w~~/AAA=
+AAQA~/RgRm_A8ZP0SsaHR0cHM6Ly93d3cubnl0aW1lcy5jb20vP2NhbXBhaWduX2lkPTU4JmVtY=
+z1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9=
+MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM=
+2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC=
+5jb21YBAAAAAM~" alt=3D"The New York Times" style=3D"color:#666;text-decorat=
+ion:none;line-height:18px" target=3D"_blank">nytimes.com</a></div><a href=
+=3D"#m_-296316671843205585_a11y-skip-ad-marquee" style=3D"display:block;wid=
+th:1px;height:1px;max-height:1px;overflow:hidden;color:transparent">Continu=
+e reading the main story</a><span style=3D"width:100%;text-align:center"><t=
+able border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center"><tbo=
+dy><tr><td colspan=3D"2" align=3D"center"><a href=3D"https://nl.nytimes.com=
+/f/a/1YWqDc1YXelks71ZSbdj7g~~/AAAAAQA~/RgRm_A8ZP0SSaHR0cHM6Ly9saXZlaW50ZW50=
+Lm5ld3lvcmt0aW1lc2luZm8uY29tL2NsaWNrP3M9MjA3NDk1JmxpPUNLJm09ZWU5NWUyZDExZWQ=
+wZjkzNmE5N2ZiODU1MjhkNjdlN2YmcD1DS18yMDIzMTAwMSZ0ZT0xJm5sPWNvb2tpbmcmZW1jPW=
+VkaXRfY2tfMjAyMzEwMDFXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY=
+29tWAQAAAAD" rel=3D"nofollow" target=3D"_blank"><img src=3D"https://liveint=
+ent.newyorktimesinfo.com/imp?s=3D207495&amp;li=3DCK&amp;m=3Dee95e2d11ed0f93=
+6a97fb85528d67e7f&amp;p=3DCK_20231001" border=3D"0" width=3D"600" style=3D"=
+width:100%;max-width:600px!important" alt=3D"Marquee Ad"></a></td></tr><tr>=
+<td height=3D"10px"></td></tr></tbody></table></span></td></tr><tr style=3D=
+"width:100%" id=3D"m_-296316671843205585_a11y-skip-ad-marquee"><td class=3D=
+"m_-296316671843205585css-1jpu573" style=3D"border-bottom:1px solid #dcdcdc=
+;padding:19px 0 20px;width:100%;text-align:center" width=3D"100%" align=3D"=
+center"><div class=3D"m_-296316671843205585css-1nu1ipb" style=3D"margin-bot=
+tom:15px"><a href=3D"https://nl.nytimes.com/f/cooking/24071AQ-ghd2lUMjdrchB=
+g~~/AAAAAQA~/RgRm_A8ZP0SwaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tLz9jYW1wYWlnbl=
+9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZ=
+yZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUy=
+ZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGF=
+uZWtAZ21haWwuY29tWAQAAAAD" alt=3D"Cooking" target=3D"_blank"><img src=3D"ht=
+tps://static.nytimes.com/email-images/F-Cooking%402x.png" alt=3D"Cooking" s=
+tyle=3D"width:300px" width=3D"300"></a></div><p style=3D"width:100%;margin-=
+bottom:0;font:12px/12px georgia,serif">October 1, 2023</p></td></tr><tr><td=
+ height=3D"20" width=3D"100%" style=3D"font-size:0;line-height:0"></td></tr=
+></tbody></table></div><div style=3D"margin:0 auto;max-width:600px;width:10=
+0%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td align=3D"left"><=
+a href=3D"https://nl.nytimes.com/f/cooking/6eMAWP6JsIfy5RN4OcfXJg~~/AAAAAQA=
+~/RgRm_A8ZP0TLaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyNDQ0MS1wb=
+2xsby1hc2Fkbz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9p=
+ZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ=
+0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZih=
+llnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" style=3D"text-decoratio=
+n:none" target=3D"_blank"><table width=3D"100%" cellspacing=3D"0" cellpaddi=
+ng=3D"0" style=3D"border-spacing:0;font-family:arial,sans-serif;color:#333;=
+padding:0;background:#fff"><tbody><tr><td style=3D"width:100%;padding:0;lin=
+e-height:1" width=3D"100%"><img src=3D"https://static01.nyt.com/images/2023=
+/09/22/multimedia/HE-pollo-asada-zlwv/HE-pollo-asada-zlwv-jumbo.jpg" width=
+=3D"600" class=3D"m_-296316671843205585css-zh06no" style=3D"display:block;w=
+idth:100%;height:auto;padding-top:10px"></td></tr><tr><td class=3D"m_-29631=
+6671843205585css-1am1dwg" style=3D"text-align:right;width:100%;padding-top:=
+5px;padding-bottom:10px;line-height:14px" width=3D"100%" align=3D"right"><s=
+pan><span class=3D"m_-296316671843205585css-atnqj9" style=3D"margin:0;font:=
+normal 14px georgia,serif;color:#666"></span><span class=3D"m_-296316671843=
+205585css-eu0g1z" style=3D"margin:0;font:normal 11px georgia,serif;padding-=
+left:0;color:#888;letter-spacing:.01em">Christopher Testani for The New Yor=
+k Times. Food Stylist: Simon Andrews.</span></span></td></tr></tbody></tabl=
+e></a></td></tr></tbody></table></div><div style=3D"margin:0 auto;max-width=
+:600px;width:100%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td a=
+lign=3D"left"><h2 style=3D"color:#000;font:400 25px/32.5px georgia,serif;ma=
+rgin:0 0 10px">What to cook this week: pollo asado, muffuletta chopped sala=
+d and a big batch of Bolognese</h2></td></tr></tbody></table></div><div sty=
+le=3D"margin:0 auto;max-width:600px;width:100%"><table width=3D"100%" cellp=
+adding=3D"0"><tbody><tr><td style=3D"padding:0 9px 15px 0;vertical-align:mi=
+ddle;width:45px" width=3D"45" valign=3D"middle"><a href=3D"https://nl.nytim=
+es.com/f/newsletter/etkKL3N_Yo1Vsr8N8IaPuQ~~/AAAAAQA~/RgRm_A8ZP0S5aHR0cHM6L=
+y93d3cubnl0aW1lcy5jb20vYnkvc2FtLXNpZnRvbj9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9j=
+a18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA=
+4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiOD=
+U1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAA=
+AAD" target=3D"_blank"><img src=3D"https://static01.nyt.com/images/2018/06/=
+21/multimedia/author-sam-sifton/author-sam-sifton-blogSmallThumb.png" alt=
+=3D"Author Headshot" style=3D"width:45px;height:45px;border-radius:100%" wi=
+dth=3D"45" height=3D"45"></a></td><td style=3D"padding:0 0 15px 0;vertical-=
+align:middle" valign=3D"middle"><p style=3D"font:13px/18px arial,sans-serif=
+;letter-spacing:.2px;color:#000;margin-bottom:3px;font:600 13px/18px arial,=
+sans-serif">By <a href=3D"https://nl.nytimes.com/f/newsletter/etkKL3N_Yo1Vs=
+r8N8IaPuQ~~/AAAAAQA~/RgRm_A8ZP0S5aHR0cHM6Ly93d3cubnl0aW1lcy5jb20vYnkvc2FtLX=
+NpZnRvbj9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xM=
+DM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0x=
+JnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC=
+1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" class=3D"m_-2963166718432055=
+85css-1ckldco" style=3D"color:inherit;text-decoration:none;border-bottom:1p=
+x solid #ccc" target=3D"_blank">Sam Sifton</a></p></td></tr></tbody></table=
+></div><div style=3D"margin:0 auto;max-width:600px;width:100%"><table width=
+=3D"100%" cellpadding=3D"0"><tbody><tr><td align=3D"left"><p style=3D"color=
+:#333;font:normal 17px/25px georgia,serif;margin:0 0 15px">Good morning. Se=
+ptember played out strangely where I hang out: unreasonably Augustlike at f=
+irst, and then hard into autumnal damp and gloom. I know we=E2=80=99re nowh=
+ere near last licks on grilling season, but there=E2=80=99s something a lit=
+tle valedictory about lighting the fires these days. I feel as if I=E2=80=
+=99m cooking on borrowed time.</p></td></tr></tbody></table></div><div styl=
+e=3D"margin:0 auto;max-width:600px;width:100%"><table width=3D"100%" cellpa=
+dding=3D"0"><tbody><tr><td align=3D"left"><p style=3D"color:#333;font:norma=
+l 17px/25px georgia,serif;margin:0 0 15px">So it=E2=80=99s <a href=3D"https=
+://nl.nytimes.com/f/cooking/6eMAWP6JsIfy5RN4OcfXJg~~/AAAAAQA~/RgRm_A8ZP0TLa=
+HR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyNDQ0MS1wb2xsby1hc2Fkbz9j=
+YW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw=
+9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaW=
+Q9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlka=
+WEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" class=3D"m_-296316671843205585css-1tzg=
+32" style=3D"color:#e33d26;text-decoration:underline;font-family:inherit;fo=
+nt-size:inherit" target=3D"_blank">pollo asado</a> (above) for sure today, =
+Ham El-Waylly=E2=80=99s recipe, marinated all afternoon and placed near glo=
+wing coals an hour before sunset, to serve with warm tortillas, <a href=3D"=
+https://nl.nytimes.com/f/cooking/vKWjVvNcE_Z4GDUWXCAy0g~~/AAAAAQA~/RgRm_A8Z=
+P0TaaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMDAyNS1yaWNlLWFuZC1=
+iZWFucy13aXRoLWV4dHJhcz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbn=
+N0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkP=
+TE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255=
+dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" class=3D"m_-2=
+96316671843205585css-1tzg32" style=3D"color:#e33d26;text-decoration:underli=
+ne;font-family:inherit;font-size:inherit" target=3D"_blank">rice and beans<=
+/a>, hot sauce and wedges of lime. I love Ham=E2=80=99s technique here, whi=
+ch calls for cooking the chicken over indirect heat, essentially smoke-roas=
+ting it skin-side up, so the fat renders into the meat and the skin crisps =
+without burning.</p></td></tr></tbody></table></div><div style=3D"margin:0 =
+auto;max-width:600px;width:100%"><table width=3D"100%" cellpadding=3D"0"><t=
+body><tr><td style=3D"padding-bottom:15px"></td></tr><tr><td style=3D"paddi=
+ng-bottom:15px;border-top:1px solid #dcdcdc"></td></tr></tbody></table></di=
+v><div style=3D"margin:0 auto;max-width:600px;width:100%"><p style=3D"font:=
+700 17px/25px georgia,serif;color:#e33d26">Featured Recipe</p><table width=
+=3D"100%" cellpadding=3D"0"><tbody><tr></tr></tbody></table></div><div styl=
+e=3D"margin:0 auto;max-width:600px;width:100%"><table width=3D"100%" cellpa=
+dding=3D"0"><tbody><tr><td align=3D"left"><h2 style=3D"color:#000;font:400 =
+20px/27.5px georgia,serif;margin:0 0 10px"><span style=3D"font-weight:700;f=
+ont-size:inherit"><a href=3D"https://nl.nytimes.com/f/cooking/6eMAWP6JsIfy5=
+RN4OcfXJg~~/AAAAAQA~/RgRm_A8ZP0TLaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2=
+lwZXMvMTAyNDQ0MS1wb2xsby1hc2Fkbz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzM=
+TAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdt=
+ZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjd=
+lN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" styl=
+e=3D"color:#000;text-decoration:none" target=3D"_blank">Pollo Asado</a></sp=
+an></h2></td></tr></tbody></table></div><div style=3D"margin:0 auto;max-wid=
+th:600px;width:100%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td=
+ align=3D"left"><p style=3D"color:#333;font:normal 17px/25px georgia,serif;=
+margin:0 0 15px"><a href=3D"https://nl.nytimes.com/f/cooking/6eMAWP6JsIfy5R=
+N4OcfXJg~~/AAAAAQA~/RgRm_A8ZP0TLaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2l=
+wZXMvMTAyNDQ0MS1wb2xsby1hc2Fkbz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMT=
+AwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZ=
+W50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdl=
+N2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" class=
+=3D"m_-296316671843205585css-1tzg32" style=3D"color:#e33d26;text-decoration=
+:underline;font-family:inherit;font-size:inherit" target=3D"_blank">View Re=
+cipe =E2=86=92</a></p></td></tr></tbody></table></div><div style=3D"margin:=
+0 auto;max-width:600px;width:100%"><table width=3D"100%" cellpadding=3D"0">=
+<tbody><tr><td style=3D"padding-bottom:15px"></td></tr><tr><td style=3D"pad=
+ding-bottom:15px;border-top:1px solid #dcdcdc"></td></tr></tbody></table></=
+div><div style=3D"margin:0 auto;max-width:600px;width:100%"><table width=3D=
+"100%" cellpadding=3D"0"><tbody><tr><td align=3D"left"><p style=3D"color:#3=
+33;font:normal 17px/25px georgia,serif;margin:0 0 15px">(Can=E2=80=99t find=
+ annatto seeds in your pantry or the market? Lay in some achiote paste or s=
+easoning; Goya makes a version with cumin, coriander and MSG that=E2=80=99s=
+ pretty good.)</p></td></tr></tbody></table></div><div style=3D"margin:0 au=
+to;max-width:600px;width:100%"><table width=3D"100%" cellpadding=3D"0"><tbo=
+dy><tr><td align=3D"left"><p style=3D"color:#333;font:normal 17px/25px geor=
+gia,serif;margin:0 0 15px">Then <a href=3D"https://nl.nytimes.com/f/cooking=
+/akloFcG5sZMA9nB-wfNSQA~~/AAAAAQA~/RgRm_A8ZP0TEaHR0cHM6Ly9jb29raW5nLm55dGlt=
+ZXMuY29tL3JlY2lwZXMvMTAyNDQzMi1mbGFuP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzI=
+wMjMxMDAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0Jn=
+NlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyO=
+GQ2N2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~=
+" class=3D"m_-296316671843205585css-1tzg32" style=3D"color:#e33d26;text-dec=
+oration:underline;font-family:inherit;font-size:inherit" target=3D"_blank">=
+flan</a> for dessert? That would be outstanding.</p></td></tr></tbody></tab=
+le></div><div style=3D"margin:0 auto;max-width:600px;width:100%"><table wid=
+th=3D"100%" cellpadding=3D"0"><tbody><tr><td align=3D"left"><p style=3D"col=
+or:#333;font:normal 17px/25px georgia,serif;margin:0 0 15px">With Sunday ta=
+ken care of, we can take a look at the rest of the week =E2=80=A6</p></td><=
+/tr></tbody></table></div><div style=3D"margin:0 auto;max-width:600px;width=
+:100%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td align=3D"left=
+"><h2 style=3D"color:#000;font:400 20px/27.5px georgia,serif;margin:0 0 10p=
+x"><span style=3D"font-weight:700;font-size:inherit">Monday</span></h2></td=
+></tr></tbody></table></div><div style=3D"margin:0 auto;max-width:600px;wid=
+th:100%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td align=3D"le=
+ft"><p style=3D"color:#333;font:normal 17px/25px georgia,serif;margin:0 0 1=
+5px">Hetty Lui McKinnon=E2=80=99s recipe for <a href=3D"https://nl.nytimes.=
+com/f/cooking/RKU8KVDKqdO_1phFyTBDxg~~/AAAAAQA~/RgRm_A8ZP0TUaHR0cHM6Ly9jb29=
+raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMzM0My1zYWx0LWFuZC1wZXBwZXItdG9mdT9jYW=
+1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y=
+29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9=
+ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWE=
+uc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" class=3D"m_-296316671843205585css-1tzg32=
+" style=3D"color:#e33d26;text-decoration:underline;font-family:inherit;font=
+-size:inherit" target=3D"_blank">salt and pepper tofu</a> calls for seasoni=
+ng with white pepper, sugar, ground ginger and five-spice powder along with=
+ the salt. I generally add a whisper of ground Sichuan peppercorn for its l=
+ovely numbing qualities against the bite of white pepper, but it=E2=80=99s =
+hardly necessary. Serve with rice and, if you=E2=80=99re me, <a href=3D"htt=
+ps://nl.nytimes.com/f/cooking/XCiUtAPYEItt7xeDJaXhRw~~/AAAAAQA~/RgRm_A8ZP0T=
+daHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMDUxNy1tYWR1cm9zLWZyaW=
+VkLXN3ZWV0LXBsYW50YWlucz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpb=
+nN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lk=
+PTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA25=
+5dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" class=3D"m_-=
+296316671843205585css-1tzg32" style=3D"color:#e33d26;text-decoration:underl=
+ine;font-family:inherit;font-size:inherit" target=3D"_blank">fried sweet pl=
+antains</a>.</p></td></tr></tbody></table></div><div style=3D"margin:0 auto=
+;max-width:600px;width:100%"><table width=3D"100%" cellpadding=3D"0"><tbody=
+><tr><td align=3D"center" style=3D"padding:0"><a href=3D"#m_-29631667184320=
+5585_a11y-skip-universal-0" style=3D"display:block;width:1px;height:1px;max=
+-height:1px;overflow:hidden;color:transparent">Continue reading the main st=
+ory</a></td></tr></tbody></table></div><div style=3D"margin:0 auto;max-widt=
+h:600px;width:100%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td =
+height=3D"10px" width=3D"100%" style=3D"font-size:0;line-height:0"></td></t=
+r><tr><td style=3D"padding:15px 0 5px;border-top:1px solid #dcdcdc;text-ali=
+gn:center;background-color:#fff"><h3 color=3D"#666666" class=3D"m_-29631667=
+1843205585css-1q4lnbl" style=3D"font:10px/13px arial,sans-serif;color:#666;=
+letter-spacing:.7px;margin-bottom:5px;margin-top:0;text-align:center">ADVER=
+TISEMENT</h3><span style=3D"width:100%;text-align:center"><table border=3D"=
+0" cellpadding=3D"0" cellspacing=3D"0" style=3D"margin:0 auto"><tbody><tr><=
+td colspan=3D"2"><a href=3D"https://nl.nytimes.com/f/a/e0muNBmoL9axtunc5YZd=
+AQ~~/AAAAAQA~/RgRm_A8ZP0SSaHR0cHM6Ly9saXZlaW50ZW50Lm5ld3lvcmt0aW1lc2luZm8uY=
+29tL2NsaWNrP3M9MjAxODE1JmxpPUNLJm09ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdl=
+N2YmcD1DS18yMDIzMTAwMSZ0ZT0xJm5sPWNvb2tpbmcmZW1jPWVkaXRfY2tfMjAyMzEwMDFXA25=
+5dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" rel=3D"nofol=
+low" target=3D"_blank"><img alt=3D"Ad" src=3D"https://liveintent.newyorktim=
+esinfo.com/imp?s=3D201815&amp;li=3DCK&amp;m=3Dee95e2d11ed0f936a97fb85528d67=
+e7f&amp;p=3DCK_20231001" border=3D"0" width=3D"600" style=3D"width:100%;max=
+-width:600px!important"></a></td></tr></tbody></table></span></td></tr><tr>=
+<td height=3D"0" width=3D"100%" style=3D"font-size:0;line-height:0"></td></=
+tr></tbody></table></div><div id=3D"m_-296316671843205585_a11y-skip-univers=
+al-0" style=3D"margin:0 auto;max-width:600px;width:100%"><table width=3D"10=
+0%" cellpadding=3D"0"><tbody><tr><td style=3D"padding:15px 0 0;border-botto=
+m:2px solid #000"></td></tr><tr><td style=3D"padding:7px 0 5px;text-align:l=
+eft"><p class=3D"m_-296316671843205585css-kxmjiu" style=3D"letter-spacing:.=
+4px;font:700 17px/25px arial,sans-serif;color:#000;margin-bottom:15px"></p>=
+</td></tr><tr><td style=3D"padding:0 0 25px"><table width=3D"100%" cellpadd=
+ing=3D"0"><tbody><tr><td class=3D"m_-296316671843205585css-60p5qj" style=3D=
+"display:inline-block;width:291px;max-width:291px;vertical-align:top" width=
+=3D"291" valign=3D"top"><a href=3D"https://nl.nytimes.com/f/cooking/RKU8KVD=
+KqdO_1phFyTBDxg~~/AAAAAQA~/RgRm_A8ZP0TUaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29t=
+L3JlY2lwZXMvMTAyMzM0My1zYWx0LWFuZC1wZXBwZXItdG9mdT9jYW1wYWlnbl9pZD01OCZlbWM=
+9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPT=
+IwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzN=
+mE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwu=
+Y29tWAQAAAAD" style=3D"text-decoration:none;text-align:left;display:block" =
+target=3D"_blank"><img src=3D"https://static01.nyt.com/images/2022/07/19/di=
+ning/hm-salt-and-pepper-tofu/merlin_209335443_68354d62-e10a-48d3-86bc-5b5e6=
+d2fcdf6-mediumThreeByTwo440.jpg" alt=3D"Article Image" class=3D"m_-29631667=
+1843205585css-1dt8t6g" style=3D"width:291px;height:auto;box-sizing:border-b=
+ox;vertical-align:top" width=3D"291"><p class=3D"m_-296316671843205585css-1=
+vyni31" style=3D"margin:2px 0 0;text-align:right;color:#888;font:11px/17px =
+georgia,serif">Ryan Liebe for The New York Times. Food Stylist: Simon Andre=
+ws.</p></a></td><td class=3D"m_-296316671843205585css-11s6k7k" style=3D"ver=
+tical-align:top;width:51%;padding:0 0 0 15px" width=3D"51%" valign=3D"top">=
+<a href=3D"https://nl.nytimes.com/f/cooking/RKU8KVDKqdO_1phFyTBDxg~~/AAAAAQ=
+A~/RgRm_A8ZP0TUaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMzM0My1z=
+YWx0LWFuZC1wZXBwZXItdG9mdT9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZ=
+pbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2=
+lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA=
+255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" style=3D"t=
+ext-decoration:none;text-align:left;display:block" target=3D"_blank"><h3 st=
+yle=3D"color:#000;margin:0;padding:0;font:25px/30px georgia,serif">Salt and=
+ Pepper Tofu</h3><p class=3D"m_-296316671843205585css-17hq1vh" style=3D"mar=
+gin:7px 0 1px 0;color:#000;font:600 14px/20px arial,sans-serif">By Hetty Lu=
+i McKinnon</p><p class=3D"m_-296316671843205585css-1vf75vd" style=3D"color:=
+#333;font:400 14px/20px arial,sans-serif;text-align:left;margin:0">30 minut=
+es</p><p class=3D"m_-296316671843205585css-1vf75vd" style=3D"color:#333;fon=
+t:400 14px/20px arial,sans-serif;text-align:left;margin:0">Makes 4 servings=
+</p></a></td></tr></tbody></table></td></tr><tr><td style=3D"padding:0 0 25=
+px;border-top:1px solid #dcdcdc"></td></tr></tbody></table></div><div style=
+=3D"margin:0 auto;max-width:600px;width:100%"><table width=3D"100%" cellpad=
+ding=3D"0"><tbody><tr><td align=3D"left"><h2 style=3D"color:#000;font:400 2=
+0px/27.5px georgia,serif;margin:0 0 10px"><span style=3D"font-weight:700;fo=
+nt-size:inherit">Tuesday</span></h2></td></tr></tbody></table></div><div st=
+yle=3D"margin:0 auto;max-width:600px;width:100%"><table width=3D"100%" cell=
+padding=3D"0"><tbody><tr><td align=3D"left"><p style=3D"color:#333;font:nor=
+mal 17px/25px georgia,serif;margin:0 0 15px"><a href=3D"https://nl.nytimes.=
+com/f/cooking/3oJBZavF6Dqp86mIGAdD0w~~/AAAAAQA~/RgRm_A8ZP0TTaHR0cHM6Ly9jb29=
+raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyNDY1My1taXNvLW11c3RhcmQtc2FsbW9uP2NhbX=
+BhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb=
+29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1l=
+ZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5=
+zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~" class=3D"m_-296316671843205585css-1tzg32=
+" style=3D"color:#e33d26;text-decoration:underline;font-family:inherit;font=
+-size:inherit" target=3D"_blank">Miso-mustard salmon roasted over cabbage</=
+a> is a classic Ali Slagle jam, with a salty, spicy sauce that plays beauti=
+fully with the sweetness of the fish and cabbage. There=E2=80=99s amazing t=
+extural contrast as well, as you alternate between the softness of the salm=
+on and the crunch of the vegetable. A one-pan delight!</p></td></tr></tbody=
+></table></div><div style=3D"margin:0 auto;max-width:600px;width:100%"><tab=
+le width=3D"100%" cellpadding=3D"0"><tbody><tr><td style=3D"padding:15px 0 =
+0;border-bottom:1px solid #dcdcdc"></td></tr><tr><td style=3D"padding:20px =
+0 25px"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td class=3D"m_-=
+296316671843205585css-60p5qj" style=3D"display:inline-block;width:291px;max=
+-width:291px;vertical-align:top" width=3D"291" valign=3D"top"><a href=3D"ht=
+tps://nl.nytimes.com/f/cooking/3oJBZavF6Dqp86mIGAdD0w~~/AAAAAQA~/RgRm_A8ZP0=
+TTaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyNDY1My1taXNvLW11c3Rhc=
+mQtc2FsbW9uP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lk=
+PTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnR=
+lPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGW=
+WecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~" style=3D"text-decoratio=
+n:none;text-align:left;display:block" target=3D"_blank"><img src=3D"https:/=
+/static01.nyt.com/images/2023/09/27/multimedia/AS-miso-mustard-salmon-pfwz/=
+AS-miso-mustard-salmon-pfwz-mediumThreeByTwo440.jpg" alt=3D"Article Image" =
+class=3D"m_-296316671843205585css-1dt8t6g" style=3D"width:291px;height:auto=
+;box-sizing:border-box;vertical-align:top" width=3D"291"><p class=3D"m_-296=
+316671843205585css-1vyni31" style=3D"margin:2px 0 0;text-align:right;color:=
+#888;font:11px/17px georgia,serif">David Malosh for The New York Times. Foo=
+d Stylist: Simon Andrews.</p></a></td><td class=3D"m_-296316671843205585css=
+-11s6k7k" style=3D"vertical-align:top;width:51%;padding:0 0 0 15px" width=
+=3D"51%" valign=3D"top"><a href=3D"https://nl.nytimes.com/f/cooking/3oJBZav=
+F6Dqp86mIGAdD0w~~/AAAAAQA~/RgRm_A8ZP0TTaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29t=
+L3JlY2lwZXMvMTAyNDY1My1taXNvLW11c3RhcmQtc2FsbW9uP2NhbXBhaWduX2lkPTU4JmVtYz1=
+lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9Mj=
+AyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2Y=
+Tk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5j=
+b21YBAAAAAM~" style=3D"text-decoration:none;text-align:left;display:block" =
+target=3D"_blank"><h3 style=3D"color:#000;margin:0;padding:0;font:25px/30px=
+ georgia,serif">Miso-Mustard Salmon</h3><p class=3D"m_-296316671843205585cs=
+s-17hq1vh" style=3D"margin:7px 0 1px 0;color:#000;font:600 14px/20px arial,=
+sans-serif">By Ali Slagle</p><p class=3D"m_-296316671843205585css-1vf75vd" =
+style=3D"color:#333;font:400 14px/20px arial,sans-serif;text-align:left;mar=
+gin:0">30 minutes</p><p class=3D"m_-296316671843205585css-1vf75vd" style=3D=
+"color:#333;font:400 14px/20px arial,sans-serif;text-align:left;margin:0">M=
+akes 4 servings</p></a></td></tr></tbody></table></td></tr><tr><td style=3D=
+"padding:0 0 25px;border-top:1px solid #dcdcdc"></td></tr></tbody></table><=
+/div><div style=3D"margin:0 auto;max-width:600px;width:100%"><table width=
+=3D"100%" cellpadding=3D"0"><tbody><tr><td align=3D"left"><h2 style=3D"colo=
+r:#000;font:400 20px/27.5px georgia,serif;margin:0 0 10px"><span style=3D"f=
+ont-weight:700;font-size:inherit">Wednesday</span></h2></td></tr></tbody></=
+table></div><div style=3D"margin:0 auto;max-width:600px;width:100%"><table =
+width=3D"100%" cellpadding=3D"0"><tbody><tr><td align=3D"left"><p style=3D"=
+color:#333;font:normal 17px/25px georgia,serif;margin:0 0 15px">I don=E2=80=
+=99t like to eat muffuletta sandwiches outside New Orleans, but I=E2=80=99v=
+e got no problem knocking down Kay Chun=E2=80=99s recipe for a <a href=3D"h=
+ttps://nl.nytimes.com/f/cooking/dxAepxE4F-SD4nlGq1achA~~/AAAAAQA~/RgRm_A8ZP=
+0TYaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMzgwNy1tdWZmdWxldHRh=
+LWNob3BwZWQtc2FsYWQ_Y2FtcGFpZ25faWQ9NTgmZW1jPWVkaXRfY2tfMjAyMzEwMDEmaW5zdGF=
+uY2VfaWQ9MTAzOTc5Jm5sPWNvb2tpbmcmcmVnaV9pZD0yMDI2MTAwODQmc2VnbWVudF9pZD0xND=
+YyMDAmdGU9MSZ1c2VyX2lkPWVlOTVlMmQxMWVkMGY5MzZhOTdmYjg1NTI4ZDY3ZTdmVwNueXRCC=
+mUUGYoZZZ5wtcdSGGx5ZGlhLnN0ZXBhbmVrQGdtYWlsLmNvbVgEAAAAAw~~" class=3D"m_-29=
+6316671843205585css-1tzg32" style=3D"color:#e33d26;text-decoration:underlin=
+e;font-family:inherit;font-size:inherit" target=3D"_blank">muffuletta chopp=
+ed salad</a> a few times a year, particularly on a weeknight when I have bo=
+th provolone and soppressata in the fridge. Kay adds chickpeas and avocado =
+at the end; I sometimes swap those out for diced ham and Swiss cheese.</p><=
+/td></tr></tbody></table></div><div style=3D"margin:0 auto;max-width:600px;=
+width:100%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td style=3D=
+"padding:15px 0 0;border-bottom:1px solid #dcdcdc"></td></tr><tr><td style=
+=3D"padding:20px 0 25px"><table width=3D"100%" cellpadding=3D"0"><tbody><tr=
+><td class=3D"m_-296316671843205585css-60p5qj" style=3D"display:inline-bloc=
+k;width:291px;max-width:291px;vertical-align:top" width=3D"291" valign=3D"t=
+op"><a href=3D"https://nl.nytimes.com/f/cooking/dxAepxE4F-SD4nlGq1achA~~/AA=
+AAAQA~/RgRm_A8ZP0TYaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMzgw=
+Ny1tdWZmdWxldHRhLWNob3BwZWQtc2FsYWQ_Y2FtcGFpZ25faWQ9NTgmZW1jPWVkaXRfY2tfMjA=
+yMzEwMDEmaW5zdGFuY2VfaWQ9MTAzOTc5Jm5sPWNvb2tpbmcmcmVnaV9pZD0yMDI2MTAwODQmc2=
+VnbWVudF9pZD0xNDYyMDAmdGU9MSZ1c2VyX2lkPWVlOTVlMmQxMWVkMGY5MzZhOTdmYjg1NTI4Z=
+DY3ZTdmVwNueXRCCmUUGYoZZZ5wtcdSGGx5ZGlhLnN0ZXBhbmVrQGdtYWlsLmNvbVgEAAAAAw~~=
+" style=3D"text-decoration:none;text-align:left;display:block" target=3D"_b=
+lank"><img src=3D"https://static01.nyt.com/images/2023/03/28/dining/kc-chop=
+ped-salad-with-olive-vinaigrette2/kc-chopped-salad-with-olive-vinaigrette2-=
+mediumThreeByTwo440.jpg" alt=3D"Article Image" class=3D"m_-2963166718432055=
+85css-1dt8t6g" style=3D"width:291px;height:auto;box-sizing:border-box;verti=
+cal-align:top" width=3D"291"><p class=3D"m_-296316671843205585css-1vyni31" =
+style=3D"margin:2px 0 0;text-align:right;color:#888;font:11px/17px georgia,=
+serif">Kerri Brewer for The New York Times. Food Stylist: Simon Andrews.</p=
+></a></td><td class=3D"m_-296316671843205585css-11s6k7k" style=3D"vertical-=
+align:top;width:51%;padding:0 0 0 15px" width=3D"51%" valign=3D"top"><a hre=
+f=3D"https://nl.nytimes.com/f/cooking/dxAepxE4F-SD4nlGq1achA~~/AAAAAQA~/RgR=
+m_A8ZP0TYaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMzgwNy1tdWZmdW=
+xldHRhLWNob3BwZWQtc2FsYWQ_Y2FtcGFpZ25faWQ9NTgmZW1jPWVkaXRfY2tfMjAyMzEwMDEma=
+W5zdGFuY2VfaWQ9MTAzOTc5Jm5sPWNvb2tpbmcmcmVnaV9pZD0yMDI2MTAwODQmc2VnbWVudF9p=
+ZD0xNDYyMDAmdGU9MSZ1c2VyX2lkPWVlOTVlMmQxMWVkMGY5MzZhOTdmYjg1NTI4ZDY3ZTdmVwN=
+ueXRCCmUUGYoZZZ5wtcdSGGx5ZGlhLnN0ZXBhbmVrQGdtYWlsLmNvbVgEAAAAAw~~" style=3D=
+"text-decoration:none;text-align:left;display:block" target=3D"_blank"><h3 =
+style=3D"color:#000;margin:0;padding:0;font:25px/30px georgia,serif">Mufful=
+etta Chopped Salad</h3><p class=3D"m_-296316671843205585css-17hq1vh" style=
+=3D"margin:7px 0 1px 0;color:#000;font:600 14px/20px arial,sans-serif">By K=
+ay Chun</p><p class=3D"m_-296316671843205585css-1vf75vd" style=3D"color:#33=
+3;font:400 14px/20px arial,sans-serif;text-align:left;margin:0">10 minutes<=
+/p><p class=3D"m_-296316671843205585css-1vf75vd" style=3D"color:#333;font:4=
+00 14px/20px arial,sans-serif;text-align:left;margin:0">Makes 4 servings</p=
+></a></td></tr></tbody></table></td></tr><tr><td style=3D"padding:0 0 25px;=
+border-top:1px solid #dcdcdc"></td></tr></tbody></table></div><div style=3D=
+"margin:0 auto;max-width:600px;width:100%"><table width=3D"100%" cellpaddin=
+g=3D"0"><tbody><tr><td align=3D"left"><h2 style=3D"color:#000;font:400 20px=
+/27.5px georgia,serif;margin:0 0 10px"><span style=3D"font-weight:700;font-=
+size:inherit">Thursday</span></h2></td></tr></tbody></table></div><div styl=
+e=3D"margin:0 auto;max-width:600px;width:100%"><table width=3D"100%" cellpa=
+dding=3D"0"><tbody><tr><td align=3D"left"><p style=3D"color:#333;font:norma=
+l 17px/25px georgia,serif;margin:0 0 15px">Nik Sharma=E2=80=99s recipe for =
+<a href=3D"https://nl.nytimes.com/f/cooking/jQ3hiOgnHkw0NyPLsIGOjw~~/AAAAAQ=
+A~/RgRm_A8ZP0TmaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAyMTk4MS1j=
+aGlja2VuLWJyZWFzdHMtd2l0aC1taXNvLWdhcmxpYy1zYXVjZT9jYW1wYWlnbl9pZD01OCZlbWM=
+9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPT=
+IwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzN=
+mE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwu=
+Y29tWAQAAAAD" class=3D"m_-296316671843205585css-1tzg32" style=3D"color:#e33=
+d26;text-decoration:underline;font-family:inherit;font-size:inherit" target=
+=3D"_blank">chicken breasts with miso-garlic sauce</a> makes for a perfect =
+topping for a salad of crunchy greens and sliced carrots. Use some of the p=
+an sauce and rice vinegar to build out a dressing and you=E2=80=99re good t=
+o go.</p></td></tr></tbody></table></div><div style=3D"margin:0 auto;max-wi=
+dth:600px;width:100%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><t=
+d style=3D"padding:15px 0 0;border-bottom:1px solid #dcdcdc"></td></tr><tr>=
+<td style=3D"padding:20px 0 25px"><table width=3D"100%" cellpadding=3D"0"><=
+tbody><tr><td class=3D"m_-296316671843205585css-60p5qj" style=3D"display:in=
+line-block;width:291px;max-width:291px;vertical-align:top" width=3D"291" va=
+lign=3D"top"><a href=3D"https://nl.nytimes.com/f/cooking/jQ3hiOgnHkw0NyPLsI=
+GOjw~~/AAAAAQA~/RgRm_A8ZP0TmaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXM=
+vMTAyMTk4MS1jaGlja2VuLWJyZWFzdHMtd2l0aC1taXNvLWdhcmxpYy1zYXVjZT9jYW1wYWlnbl=
+9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZ=
+yZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUy=
+ZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGF=
+uZWtAZ21haWwuY29tWAQAAAAD" style=3D"text-decoration:none;text-align:left;di=
+splay:block" target=3D"_blank"><img src=3D"https://static01.nyt.com/images/=
+2021/03/11/dining/ns-chicken-miso/merlin_184703406_ac39c68d-be77-4745-a319-=
+b6a7cafbc3c1-mediumThreeByTwo440.jpg" alt=3D"Article Image" class=3D"m_-296=
+316671843205585css-1dt8t6g" style=3D"width:291px;height:auto;box-sizing:bor=
+der-box;vertical-align:top" width=3D"291"><p class=3D"m_-296316671843205585=
+css-1vyni31" style=3D"margin:2px 0 0;text-align:right;color:#888;font:11px/=
+17px georgia,serif">Johnny Miller for The New York Times. Food Stylist: Sus=
+an Spungen.</p></a></td><td class=3D"m_-296316671843205585css-11s6k7k" styl=
+e=3D"vertical-align:top;width:51%;padding:0 0 0 15px" width=3D"51%" valign=
+=3D"top"><a href=3D"https://nl.nytimes.com/f/cooking/jQ3hiOgnHkw0NyPLsIGOjw=
+~~/AAAAAQA~/RgRm_A8ZP0TmaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTA=
+yMTk4MS1jaGlja2VuLWJyZWFzdHMtd2l0aC1taXNvLWdhcmxpYy1zYXVjZT9jYW1wYWlnbl9pZD=
+01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZ=
+WdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDEx=
+ZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWt=
+AZ21haWwuY29tWAQAAAAD" style=3D"text-decoration:none;text-align:left;displa=
+y:block" target=3D"_blank"><h3 style=3D"color:#000;margin:0;padding:0;font:=
+25px/30px georgia,serif">Chicken Breasts With Miso-Garlic Sauce</h3><p clas=
+s=3D"m_-296316671843205585css-17hq1vh" style=3D"margin:7px 0 1px 0;color:#0=
+00;font:600 14px/20px arial,sans-serif">By Nik Sharma</p><p class=3D"m_-296=
+316671843205585css-1vf75vd" style=3D"color:#333;font:400 14px/20px arial,sa=
+ns-serif;text-align:left;margin:0">About 1 hour</p><p class=3D"m_-296316671=
+843205585css-1vf75vd" style=3D"color:#333;font:400 14px/20px arial,sans-ser=
+if;text-align:left;margin:0">Makes 4 servings</p></a></td></tr></tbody></ta=
+ble></td></tr><tr><td style=3D"padding:0 0 25px;border-top:1px solid #dcdcd=
+c"></td></tr></tbody></table></div><div style=3D"margin:0 auto;max-width:60=
+0px;width:100%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td alig=
+n=3D"left"><h2 style=3D"color:#000;font:400 20px/27.5px georgia,serif;margi=
+n:0 0 10px"><span style=3D"font-weight:700;font-size:inherit">Friday</span>=
+</h2></td></tr></tbody></table></div><div style=3D"margin:0 auto;max-width:=
+600px;width:100%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td al=
+ign=3D"left"><p style=3D"color:#333;font:normal 17px/25px georgia,serif;mar=
+gin:0 0 15px">And then you can head into the weekend with <a href=3D"https:=
+//nl.nytimes.com/f/newsletter/DqK-FDh4X_JqDz3WN7PmlQ~~/AAAAAQA~/RgRm_A8ZP4Q=
+CAWh0dHBzOi8vd3d3Lm55dGltZXMuY29tLzIwMTMvMDkvMzAvZGluaW5nL01hcmNlbGxhLUhhem=
+FuLWRpZXMtY2hhbmdlZC10aGUtd2F5LWFtZXJpY2Fucy1jb29rLWl0YWxpYW4tZm9vZC5odG1sP=
+2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwMzk3OSZu=
+bD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9=
+pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseW=
+RpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~" class=3D"m_-296316671843205585css-1=
+tzg32" style=3D"color:#e33d26;text-decoration:underline;font-family:inherit=
+;font-size:inherit" target=3D"_blank">Marcella Hazan</a>=E2=80=99s <a href=
+=3D"https://nl.nytimes.com/f/cooking/RBNc_4gGTn69y4oVH27zyQ~~/AAAAAQA~/RgRm=
+_A8ZP0TfaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTAxNTE4MS1tYXJjZWx=
+sYS1oYXphbnMtYm9sb2duZXNlLXNhdWNlP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMj=
+MxMDAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ=
+21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2=
+N2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~" c=
+lass=3D"m_-296316671843205585css-1tzg32" style=3D"color:#e33d26;text-decora=
+tion:underline;font-family:inherit;font-size:inherit" target=3D"_blank">Bol=
+ognese sauce</a> recipe, which I have found provides the perfect excuse to =
+work from home. Get that going during your lunch hour and smell it burbling=
+ away all afternoon. Serve over pasta for dinner, and experience the sublim=
+e.</p></td></tr></tbody></table></div><div style=3D"margin:0 auto;max-width=
+:600px;width:100%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td s=
+tyle=3D"padding:15px 0 0;border-bottom:1px solid #dcdcdc"></td></tr><tr><td=
+ style=3D"padding:20px 0 25px"><table width=3D"100%" cellpadding=3D"0"><tbo=
+dy><tr><td class=3D"m_-296316671843205585css-60p5qj" style=3D"display:inlin=
+e-block;width:291px;max-width:291px;vertical-align:top" width=3D"291" valig=
+n=3D"top"><a href=3D"https://nl.nytimes.com/f/cooking/RBNc_4gGTn69y4oVH27zy=
+Q~~/AAAAAQA~/RgRm_A8ZP0TfaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMT=
+AxNTE4MS1tYXJjZWxsYS1oYXphbnMtYm9sb2duZXNlLXNhdWNlP2NhbXBhaWduX2lkPTU4JmVtY=
+z1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9=
+MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM=
+2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC=
+5jb21YBAAAAAM~" style=3D"text-decoration:none;text-align:left;display:block=
+" target=3D"_blank"><img src=3D"https://static01.nyt.com/images/2015/08/27/=
+dining/ElCerrito_ThePasta2/ElCerrito_ThePasta2-mediumThreeByTwo440.jpg" alt=
+=3D"Article Image" class=3D"m_-296316671843205585css-1dt8t6g" style=3D"widt=
+h:291px;height:auto;box-sizing:border-box;vertical-align:top" width=3D"291"=
+><p class=3D"m_-296316671843205585css-1vyni31" style=3D"margin:2px 0 0;text=
+-align:right;color:#888;font:11px/17px georgia,serif">Jim Wilson/The New Yo=
+rk Times</p></a></td><td class=3D"m_-296316671843205585css-11s6k7k" style=
+=3D"vertical-align:top;width:51%;padding:0 0 0 15px" width=3D"51%" valign=
+=3D"top"><a href=3D"https://nl.nytimes.com/f/cooking/RBNc_4gGTn69y4oVH27zyQ=
+~~/AAAAAQA~/RgRm_A8ZP0TfaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tL3JlY2lwZXMvMTA=
+xNTE4MS1tYXJjZWxsYS1oYXphbnMtYm9sb2duZXNlLXNhdWNlP2NhbXBhaWduX2lkPTU4JmVtYz=
+1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9M=
+jAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2=
+YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5=
+jb21YBAAAAAM~" style=3D"text-decoration:none;text-align:left;display:block"=
+ target=3D"_blank"><h3 style=3D"color:#000;margin:0;padding:0;font:25px/30p=
+x georgia,serif">Marcella Hazan=E2=80=99s Bolognese Sauce</h3><p class=3D"m=
+_-296316671843205585css-1aoxbjl" style=3D"margin:7px 0 0 0;color:#000;font:=
+600 14px/20px arial,sans-serif">Recipe from Marcella Hazan</p><p class=3D"m=
+_-296316671843205585css-15gejjc" style=3D"margin:0 0 1px 0;color:#000;font:=
+600 14px/20px arial,sans-serif">Adapted by The New York Times</p><p class=
+=3D"m_-296316671843205585css-1vf75vd" style=3D"color:#333;font:400 14px/20p=
+x arial,sans-serif;text-align:left;margin:0">At least 4 hours</p><p class=
+=3D"m_-296316671843205585css-1vf75vd" style=3D"color:#333;font:400 14px/20p=
+x arial,sans-serif;text-align:left;margin:0">Makes 2 heaping cups, for abou=
+t 6 servings and 1 1/2 pounds pasta</p></a></td></tr></tbody></table></td><=
+/tr><tr><td style=3D"padding:0 0 25px;border-top:1px solid #dcdcdc"></td></=
+tr></tbody></table></div><div style=3D"margin:0 auto;max-width:600px;width:=
+100%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td align=3D"left"=
+><p style=3D"color:#333;font:normal 17px/25px georgia,serif;margin:0 0 15px=
+">Thousands and thousands more recipes are waiting for you on <a href=3D"ht=
+tps://nl.nytimes.com/f/cooking/24071AQ-ghd2lUMjdrchBg~~/AAAAAQA~/RgRm_A8ZP0=
+SwaHR0cHM6Ly9jb29raW5nLm55dGltZXMuY29tLz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja=
+18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4=
+NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU=
+1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAA=
+AD" class=3D"m_-296316671843205585css-1tzg32" style=3D"color:#e33d26;text-d=
+ecoration:underline;font-family:inherit;font-size:inherit" target=3D"_blank=
+">New York Times Cooking</a>, though you need to be a subscriber to read th=
+em. If you haven=E2=80=99t already, I hope you will <a href=3D"https://nl.n=
+ytimes.com/f/a/MYQvaCyGoQjEOCmJXN8i3Q~~/AAAAAQA~/RgRm_A8ZP0TAaHR0cHM6Ly93d3=
+cubnl0aW1lcy5jb20vc3Vic2NyaXB0aW9uL2Nvb2tpbmc_Y2FtcGFpZ25faWQ9NTgmZW1jPWVka=
+XRfY2tfMjAyMzEwMDEmaW5zdGFuY2VfaWQ9MTAzOTc5Jm5sPWNvb2tpbmcmcmVnaV9pZD0yMDI2=
+MTAwODQmc2VnbWVudF9pZD0xNDYyMDAmdGU9MSZ1c2VyX2lkPWVlOTVlMmQxMWVkMGY5MzZhOTd=
+mYjg1NTI4ZDY3ZTdmVwNueXRCCmUUGYoZZZ5wtcdSGGx5ZGlhLnN0ZXBhbmVrQGdtYWlsLmNvbV=
+gEAAAAAw~~" class=3D"m_-296316671843205585css-1tzg32" style=3D"color:#e33d2=
+6;text-decoration:underline;font-family:inherit;font-size:inherit" target=
+=3D"_blank">join the crew</a>.</p></td></tr></tbody></table></div><div styl=
+e=3D"margin:0 auto;max-width:600px;width:100%"><table width=3D"100%" cellpa=
+dding=3D"0"><tbody><tr><td align=3D"left"><p style=3D"color:#333;font:norma=
+l 17px/25px georgia,serif;margin:0 0 15px">We are standing by like matrons =
+at the school dance should you run into trouble with our technology. Just w=
+rite <a href=3D"mailto:cookingcare@nytimes.com" class=3D"m_-296316671843205=
+585css-1tzg32" style=3D"color:#e33d26;text-decoration:underline;font-family=
+:inherit;font-size:inherit" target=3D"_blank">cookingcare@nytimes.com</a> a=
+nd someone will get back to you. I=E2=80=99m around myself should you want =
+to get something off your chest about what we=E2=80=99re doing here and why=
+. Write <a href=3D"mailto:foodeditor@nytimes.com" class=3D"m_-2963166718432=
+05585css-1tzg32" style=3D"color:#e33d26;text-decoration:underline;font-fami=
+ly:inherit;font-size:inherit" target=3D"_blank">foodeditor@nytimes.com</a>.=
+ I can=E2=80=99t respond to every letter. But I do read every one I get.</p=
+></td></tr></tbody></table></div><div style=3D"margin:0 auto;max-width:600p=
+x;width:100%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td align=
+=3D"left"><p style=3D"color:#333;font:normal 17px/25px georgia,serif;margin=
+:0 0 15px">Now, it=E2=80=99s a far cry from anything to do with quinces or =
+crab, but you should read Joe Kloc=E2=80=99s story in Harpers, =E2=80=9C<a =
+href=3D"https://nl.nytimes.com/f/a/EIG7yxJyRHBT8hfLjHOLWA~~/AAAAAQA~/RgRm_A=
+8ZP0TOaHR0cHM6Ly9oYXJwZXJzLm9yZy9hcmNoaXZlLzIwMjMvMTAvdGhlLWdvbGRlbi1mbGVlY=
+2Uta2xvYz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0x=
+MDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0=
+xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnn=
+C1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" class=3D"m_-296316671843205=
+585css-1tzg32" style=3D"color:#e33d26;text-decoration:underline;font-family=
+:inherit;font-size:inherit" target=3D"_blank">The Golden Fleece</a>.=E2=80=
+=9D It=E2=80=99s notionally about used paperbacks, but really it=E2=80=99s =
+an adventure yarn.</p></td></tr></tbody></table></div><div style=3D"margin:=
+0 auto;max-width:600px;width:100%"><table width=3D"100%" cellpadding=3D"0">=
+<tbody><tr><td align=3D"left"><p style=3D"color:#333;font:normal 17px/25px =
+georgia,serif;margin:0 0 15px">Today is <a href=3D"https://nl.nytimes.com/f=
+/newsletter/L_RX_1ekxj_KMv-vrV0Q1g~~/AAAAAQA~/RgRm_A8ZP0TcaHR0cHM6Ly93d3cub=
+nl0aW1lcy5jb20vMjAyMy8wOS8yMS91cy9wb2xpdGljcy9qaW1teS1jYXJ0ZXItaG9zcGljZS5o=
+dG1sP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwMzk=
+3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdX=
+Nlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWecLXHU=
+hhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~" class=3D"m_-296316671843205585=
+css-1tzg32" style=3D"color:#e33d26;text-decoration:underline;font-family:in=
+herit;font-size:inherit" target=3D"_blank">Jimmy Carter=E2=80=99s 99th birt=
+hday</a>, and to celebrate I set The Times=E2=80=99s wayback machine to <a =
+href=3D"https://nl.nytimes.com/f/a/Dr8SHT044fGwRE6tWvd1iQ~~/AAAAAQA~/RgRm_A=
+8ZP4QIAWh0dHBzOi8vd3d3Lm55dGltZXMuY29tLzE5MjQvMTAvMDEvYXJjaGl2ZXMvYWJvbGl0a=
+W9uLW9mLXJ1YmJlci1ob3NlLWFzLXdoaXAtZm9yLXB1cGlscy10aHJlYXRlbnMtZGlzcnVwdGlv=
+bi1vZi5odG1sP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2l=
+kPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJn=
+RlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKG=
+WWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~" class=3D"m_-2963166718=
+43205585css-1tzg32" style=3D"color:#e33d26;text-decoration:underline;font-f=
+amily:inherit;font-size:inherit" target=3D"_blank">Oct. 1, 1924</a>: =E2=80=
+=9CAbolition of Rubber Hose as Whip for Pupils Threatens Disruption of Elms=
+ford Schools=E2=80=9D reads a front-page article from that day.</p></td></t=
+r></tbody></table></div><div style=3D"margin:0 auto;max-width:600px;width:1=
+00%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td align=3D"left">=
+<p style=3D"color:#333;font:normal 17px/25px georgia,serif;margin:0 0 15px"=
+>I really enjoyed <a href=3D"https://nl.nytimes.com/f/a/mggt23UhHsIdNxdisNM=
+B9A~~/AAAAAQA~/RgRm_A8ZP0S_aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g_Y2FtcGFp=
+Z25faWQ9NTgmZW1jPWVkaXRfY2tfMjAyMzEwMDEmaW5zdGFuY2VfaWQ9MTAzOTc5Jm5sPWNvb2t=
+pbmcmcmVnaV9pZD0yMDI2MTAwODQmc2VnbWVudF9pZD0xNDYyMDAmdGU9MSZ1c2VyX2lkPWVlOT=
+VlMmQxMWVkMGY5MzZhOTdmYjg1NTI4ZDY3ZTdmJnY9LTc2ODFsV2lfRG9XA255dEIKZRQZihlln=
+nC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" class=3D"m_-29631667184320=
+5585css-1tzg32" style=3D"color:#e33d26;text-decoration:underline;font-famil=
+y:inherit;font-size:inherit" target=3D"_blank">this Justin Richmond intervi=
+ew with the guitarist Johnny Marr</a> on the =E2=80=9CBroken Record=E2=80=
+=9D podcast. (Here=E2=80=99s an accompanying Spotify <a href=3D"https://nl.=
+nytimes.com/f/a/zkHic61wyp0UPAkI0lAjYg~~/AAAAAQA~/RgRm_A8ZP0TlaHR0cHM6Ly9vc=
+GVuLnNwb3RpZnkuY29tL3BsYXlsaXN0LzNHQWhWT2k2UkZtWEowMVFXbVVlUTg_Y2FtcGFpZ25f=
+aWQ9NTgmZW1jPWVkaXRfY2tfMjAyMzEwMDEmaW5zdGFuY2VfaWQ9MTAzOTc5Jm5kPTEmbmw9Y29=
+va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZzaT02OTIxNTQ5YTQ1YT=
+c0ZjNkJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0Q=
+gplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~" class=3D"m_-29=
+6316671843205585css-1tzg32" style=3D"color:#e33d26;text-decoration:underlin=
+e;font-family:inherit;font-size:inherit" target=3D"_blank">playlist</a>.)</=
+p></td></tr></tbody></table></div><div style=3D"margin:0 auto;max-width:600=
+px;width:100%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td align=
+=3D"left"><p style=3D"color:#333;font:normal 17px/25px georgia,serif;margin=
+:0 0 15px">Finally, we=E2=80=99ll be skiing soon enough. Here=E2=80=99s the=
+ trailer for =E2=80=9C<a href=3D"https://nl.nytimes.com/f/a/MMBOIyWbp7Y6evS=
+i55fApw~~/AAAAAQA~/RgRm_A8ZP0SwaHR0cHM6Ly95b3V0dS5iZS9USi1aRlVQTl8zOD9jYW1w=
+YWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29=
+va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZW=
+U5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc=
+3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" class=3D"m_-296316671843205585css-1tzg32" =
+style=3D"color:#e33d26;text-decoration:underline;font-family:inherit;font-s=
+ize:inherit" target=3D"_blank">The Land of Giants</a>=E2=80=9D to build up =
+the stoke. Enjoy that, cook a lot and I=E2=80=99ll be back next week.</p></=
+td></tr></tbody></table></div><div style=3D"margin:0 auto;max-width:600px;w=
+idth:100%"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td height=3D=
+"15" width=3D"100%" style=3D"font-size:0;line-height:0"></td></tr><tr><td h=
+eight=3D"17" width=3D"100%" style=3D"line-height:0;border-top:1px solid #dc=
+dcdc;font-size:0"></td></tr><tr><td align=3D"left"><table width=3D"100%" ce=
+llpadding=3D"0"><tbody><tr><td style=3D"vertical-align:top;margin:0;padding=
+:0;width:62px;height:66px" width=3D"62" height=3D"66" valign=3D"top"><img s=
+rc=3D"https://static.nytimes.com/email-images/NYT-Newsletters-FiveWeeknight=
+Dishes-Icon-500px.jpg" alt=3D"Fresh, delicious dinner ideas for busy people=
+, from Emily Weinstein and NYT Cooking." style=3D"padding-top:4px;width:62p=
+x;height:62px" width=3D"62" height=3D"62"></td><td class=3D"m_-296316671843=
+205585css-1ujlque" style=3D"vertical-align:top;margin:0;padding:1px 0 0 16p=
+x" valign=3D"top"><p class=3D"m_-296316671843205585css-z1w0sx" style=3D"fon=
+t:italic 700 16px/20px georgia,serif;color:#000;padding:0 0 2px 0;margin:0"=
+>Sign up for the Five Weeknight Dishes newsletter</p><p style=3D"font:itali=
+c 300 16px/20px georgia,serif;color:#000;padding:0 0 2px 0;margin:0;display=
+:block">Fresh dinner ideas for busy people who want something great to eat,=
+ with NYT Cooking recipes sent to you weekly.</p><a href=3D"https://nl.nyti=
+mes.com/f/a/QMNW6llOZwQeNE3Y1unSYQ~~/AAAAAQA~/RgRm_A8ZP0TfaHR0cHM6Ly93d3cub=
+nl0aW1lcy5jb20vbmV3c2xldHRlcnM_Y2FtcGFpZ25faWQ9NTgmZW1jPWVkaXRfY2tfMjAyMzEw=
+MDEmaW5zdGFuY2VfaWQ9MTAzOTc5Jm5ld3NsZXR0ZXJfc2lnbnVwPXRydWUmbmw9Y29va2luZyZ=
+wcm9kdWN0X2NvZGU9RldEJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPT=
+EmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWec=
+LXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~" class=3D"m_-29631667184320=
+5585css-152yczj" style=3D"font:italic 300 16px/20px georgia,serif;color:#e3=
+3d26;text-decoration:underline;padding:0;margin:0" target=3D"_blank">Get it=
+ in your inbox</a></td></tr></tbody></table></td></tr><tr><td height=3D"0" =
+width=3D"100%" style=3D"line-height:0;font-size:0"></td></tr><tr><td height=
+=3D"0" width=3D"100%" style=3D"font-size:0;line-height:0"></td></tr></tbody=
+></table></div><div style=3D"margin:0 auto;max-width:600px;width:100%"><tab=
+le width=3D"100%" cellpadding=3D"0"><tbody><tr><td height=3D"0" width=3D"10=
+0%" style=3D"font-size:0;line-height:0"></td></tr><tr><td height=3D"17" wid=
+th=3D"100%" style=3D"line-height:0;font-size:0"></td></tr><tr><td align=3D"=
+left"><table width=3D"100%" cellpadding=3D"0"><tbody><tr><td style=3D"verti=
+cal-align:top;margin:0;padding:0;width:62px;height:66px" width=3D"62" heigh=
+t=3D"66" valign=3D"top"><img src=3D"https://static.nytimes.com/email-images=
+/NYT-Newsletters-TheVeggie-Icon-500px.jpg" alt=3D"Tanya Sichynsky shares th=
+e most delicious vegetarian recipes for weeknight cooking, packed lunches a=
+nd dinner parties." style=3D"padding-top:4px;width:62px;height:62px" width=
+=3D"62" height=3D"62"></td><td class=3D"m_-296316671843205585css-1ujlque" s=
+tyle=3D"vertical-align:top;margin:0;padding:1px 0 0 16px" valign=3D"top"><p=
+ class=3D"m_-296316671843205585css-z1w0sx" style=3D"font:italic 700 16px/20=
+px georgia,serif;color:#000;padding:0 0 2px 0;margin:0">Sign up for The Veg=
+gie newsletter</p><p style=3D"font:italic 300 16px/20px georgia,serif;color=
+:#000;padding:0 0 2px 0;margin:0;display:block">Tanya Sichynsky shares the =
+most delicious vegetarian recipes for weeknight cooking, packed lunches and=
+ dinner parties.</p><a href=3D"https://nl.nytimes.com/f/a/hn5WeEF9xZ-RJqbIl=
+_wrwg~~/AAAAAQA~/RgRm_A8ZP0TfaHR0cHM6Ly93d3cubnl0aW1lcy5jb20vbmV3c2xldHRlcn=
+M_Y2FtcGFpZ25faWQ9NTgmZW1jPWVkaXRfY2tfMjAyMzEwMDEmaW5zdGFuY2VfaWQ9MTAzOTc5J=
+m5ld3NsZXR0ZXJfc2lnbnVwPXRydWUmbmw9Y29va2luZyZwcm9kdWN0X2NvZGU9VkVHJnJlZ2lf=
+aWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDB=
+mOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbW=
+FpbC5jb21YBAAAAAM~" class=3D"m_-296316671843205585css-152yczj" style=3D"fon=
+t:italic 300 16px/20px georgia,serif;color:#e33d26;text-decoration:underlin=
+e;padding:0;margin:0" target=3D"_blank">Get it in your inbox</a></td></tr><=
+/tbody></table></td></tr><tr><td height=3D"25" width=3D"100%" style=3D"line=
+-height:0;font-size:0"></td></tr><tr><td height=3D"0" width=3D"100%" style=
+=3D"font-size:0;line-height:0"></td></tr></tbody></table></div><div style=
+=3D"margin:0 auto;max-width:600px;width:100%"><table width=3D"100%" cellpad=
+ding=3D"0"><tbody><tr><td align=3D"center" style=3D"padding:0"><a href=3D"#=
+m_-296316671843205585_a11y-skip-tracking_unit-1" style=3D"display:block;wid=
+th:1px;height:1px;max-height:1px;overflow:hidden;color:transparent">Continu=
+e reading the main story</a></td></tr></tbody></table></div><div style=3D"o=
+verflow:hidden;height:0;width:100%;max-width:600px;margin:0 auto"><table ce=
+llpadding=3D"0" cellspacing=3D"0" border=3D"0" width=3D"40" height=3D"6"><t=
+body><tr><td><img src=3D"https://liveintent.newyorktimesinfo.com/imp?s=3D12=
+3646600&amp;sz=3D2x1&amp;m=3Dee95e2d11ed0f936a97fb85528d67e7f&amp;p=3DCK_20=
+231001&amp;li=3DCK" width=3D"2" height=3D"6" border=3D"0"></td><td><img src=
+=3D"https://liveintent.newyorktimesinfo.com/imp?s=3D123646601&amp;sz=3D2x1&=
+amp;m=3Dee95e2d11ed0f936a97fb85528d67e7f&amp;p=3DCK_20231001&amp;li=3DCK" w=
+idth=3D"2" height=3D"6" border=3D"0"></td><td><img src=3D"https://liveinten=
+t.newyorktimesinfo.com/imp?s=3D123646602&amp;sz=3D2x1&amp;m=3Dee95e2d11ed0f=
+936a97fb85528d67e7f&amp;p=3DCK_20231001&amp;li=3DCK" width=3D"2" height=3D"=
+6" border=3D"0"></td><td><img src=3D"https://liveintent.newyorktimesinfo.co=
+m/imp?s=3D123646603&amp;sz=3D2x1&amp;m=3Dee95e2d11ed0f936a97fb85528d67e7f&a=
+mp;p=3DCK_20231001&amp;li=3DCK" width=3D"2" height=3D"6" border=3D"0"></td>=
+<td><img src=3D"https://liveintent.newyorktimesinfo.com/imp?s=3D123646604&a=
+mp;sz=3D2x1&amp;m=3Dee95e2d11ed0f936a97fb85528d67e7f&amp;p=3DCK_20231001&am=
+p;li=3DCK" width=3D"2" height=3D"6" border=3D"0"></td></tr></tbody></table>=
+</div><div id=3D"m_-296316671843205585_a11y-skip-tracking_unit-1" style=3D"=
+margin:0 auto;max-width:600px;width:100%"><table width=3D"100%" cellpadding=
+=3D"0"><tbody><tr><td align=3D"center" style=3D"padding:0"><a href=3D"#m_-2=
+96316671843205585_a11y-skip-universal-2" style=3D"display:block;width:1px;h=
+eight:1px;max-height:1px;overflow:hidden;color:transparent">Continue readin=
+g the main story</a></td></tr></tbody></table></div><div style=3D"margin:0 =
+auto;max-width:600px;width:100%"><table width=3D"100%" cellpadding=3D"0"><t=
+body><tr><td height=3D"10px" width=3D"100%" style=3D"font-size:0;line-heigh=
+t:0"></td></tr><tr><td style=3D"padding:15px 0 5px;border-top:1px solid #dc=
+dcdc;text-align:center;background-color:#fff"><h3 color=3D"#666666" class=
+=3D"m_-296316671843205585css-1q4lnbl" style=3D"font:10px/13px arial,sans-se=
+rif;color:#666;letter-spacing:.7px;margin-bottom:5px;margin-top:0;text-alig=
+n:center">ADVERTISEMENT</h3><span style=3D"width:100%;text-align:center"><t=
+able border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"margin:0 aut=
+o"><tbody><tr><td colspan=3D"2"><a href=3D"https://nl.nytimes.com/f/a/58vs7=
+Spuld6VcumLUjrjzQ~~/AAAAAQA~/RgRm_A8ZP0SSaHR0cHM6Ly9saXZlaW50ZW50Lm5ld3lvcm=
+t0aW1lc2luZm8uY29tL2NsaWNrP3M9ODE4NDU2JmxpPUNLJm09ZWU5NWUyZDExZWQwZjkzNmE5N=
+2ZiODU1MjhkNjdlN2YmcD1DS18yMDIzMTAwMSZ0ZT0xJm5sPWNvb2tpbmcmZW1jPWVkaXRfY2tf=
+MjAyMzEwMDFXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAA=
+D" rel=3D"nofollow" target=3D"_blank"><img alt=3D"Ad" src=3D"https://livein=
+tent.newyorktimesinfo.com/imp?s=3D818456&amp;li=3DCK&amp;m=3Dee95e2d11ed0f9=
+36a97fb85528d67e7f&amp;p=3DCK_20231001" border=3D"0" width=3D"600" style=3D=
+"width:100%;max-width:600px!important"></a></td></tr></tbody></table></span=
+></td></tr><tr><td height=3D"0" width=3D"100%" style=3D"font-size:0;line-he=
+ight:0"></td></tr></tbody></table></div><div id=3D"m_-296316671843205585_a1=
+1y-skip-universal-2" style=3D"margin:0 auto;max-width:600px;width:100%"><ta=
+ble width=3D"100%" role=3D"presentation" cellpadding=3D"0"><tbody><tr><td h=
+eight=3D"15" width=3D"100%" style=3D"font-size:0;line-height:0"></td></tr><=
+tr><td style=3D"padding:12px 0;border-top:1px solid #000"><p style=3D"displ=
+ay:block;font:12px/15px arial,sans-serif;color:#666;text-align:left;margin-=
+bottom:7px">Need help? Review our <a href=3D"https://nl.nytimes.com/f/a/rjM=
+5DnzYsqt0hfFleBuE_Q~~/AAAAAQA~/RgRm_A8ZP0TXaHR0cHM6Ly9oZWxwLm55dGltZXMuY29t=
+L2hjL2VuLXVzL2FydGljbGVzLzM2MDAwMTQ4ODI2Ni1OZXdzbGV0dGVycz9jYW1wYWlnbl9pZD0=
+1OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZW=
+dpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZ=
+WQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtA=
+Z21haWwuY29tWAQAAAAD" class=3D"m_-296316671843205585css-1010355" style=3D"c=
+olor:#df321b;text-decoration:none;font-family:inherit;font-size:inherit" ta=
+rget=3D"_blank">newsletter help page</a> or <a href=3D"https://nl.nytimes.c=
+om/f/a/j2B1oEK1rVATfXFgGa-S7Q~~/AAAAAQA~/RgRm_A8ZP0TWaHR0cHM6Ly9oZWxwLm55dG=
+ltZXMuY29tL2hjL2VuLXVzL2FydGljbGVzLzExNTAxNTM4NTg4Ny1Db250YWN0LXVzP2NhbXBha=
+WduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29r=
+aW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk=
+1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdG=
+VwYW5la0BnbWFpbC5jb21YBAAAAAM~" class=3D"m_-296316671843205585css-1010355" =
+style=3D"color:#df321b;text-decoration:none;font-family:inherit;font-size:i=
+nherit" target=3D"_blank">contact us</a> for assistance.</p><p style=3D"dis=
+play:block;font:12px/15px arial,sans-serif;color:#666;text-align:left;margi=
+n-bottom:7px"><span>You received this email because you signed up for Cooki=
+ng from The New York Times.</span></p><p style=3D"display:block;font:12px/1=
+5px arial,sans-serif;color:#666;text-align:left;margin-bottom:0">To stop re=
+ceiving Cooking, <a href=3D"https://nl.nytimes.com/f/a/FyrdMzekdqjNYvZW9y15=
+-g~~/AAAAAQA~/RgRm_A8ZP0TYaHR0cHM6Ly93d3cubnl0aW1lcy5jb20vbmV3c2xldHRlcnMvb=
+3B0b3V0P2VtYz1lZGl0X2NrXzIwMjMxMDAxJm5sPWNvb2tpbmcmcHJvZHVjdD1DSyZzZW5kX2lk=
+PTE0NjIwMCZ0ZT0xJnRva2VuPTZhMGY3YzEzZDlkYzVjZDA4OTljZDJiYmQxODVhMGMwODAyMzE=
+3NjkzOWFkNjYyNTk1ZjU3OWJmYTdkZjUzNjE1OWUwZTM0NzRjMzBlMTEzZWZlZDAyNTM5MTY5Mz=
+lmZDA2Mjg1YjIyVwNueXRCCmUUGYoZZZ5wtcdSGGx5ZGlhLnN0ZXBhbmVrQGdtYWlsLmNvbVgEA=
+AAAAw~~" class=3D"m_-296316671843205585css-1010355" style=3D"color:#df321b;=
+text-decoration:none;font-family:inherit;font-size:inherit" target=3D"_blan=
+k">unsubscribe</a>. To opt out of other promotional emails from The Times, =
+including those regarding The Athletic, <a href=3D"https://nl.nytimes.com/f=
+/a/9ChrSYugpxo9ksH4t1n-2w~~/AAAAAQA~/RgRm_A8ZP0TNaHR0cHM6Ly93d3cubnl0aW1lcy=
+5jb20vbmV3c2xldHRlcnMvbWFuYWdlP2VtYz1lZGl0X2NrXzIwMjMxMDAxJm5sPWNvb2tpbmcmc=
+2VuZF9pZD0xNDYyMDAmdGU9MSZ0b2tlbj01NTRmZDg2MmM1Nzg3N2UxZmJiZDE2NTdiZWE5YWYw=
+OWVmNWY4MWI2MThmZTM1ZDVlNTdiN2VmODZjODc2ZTkxOThhZmM2MzlmODAwMzRhMDY5ZGNkOGN=
+mNTBmYmRiNzQxNzdiNDc5MVcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC=
+5jb21YBAAAAAM~" class=3D"m_-296316671843205585css-1010355" style=3D"color:#=
+df321b;text-decoration:none;font-family:inherit;font-size:inherit" target=
+=3D"_blank">manage <span class=3D"m_-296316671843205585css-ge16ha">your ema=
+il settings</span></a>. To opt out of updates and offers sent from The Athl=
+etic, <a class=3D"m_-296316671843205585css-1010355" style=3D"color:#df321b;=
+text-decoration:none;font-family:inherit;font-size:inherit">submit a reques=
+t</a>.</p></td></tr><tr><td style=3D"border-top:1px solid #dcdcdc;padding:1=
+0px 0"><p style=3D"display:inline-block;font:12px/15px arial,sans-serif;col=
+or:#666;text-align:left;margin-bottom:0"><a href=3D"https://nl.nytimes.com/=
+f/a/QlEeoMsPvIn4p3ruDkZpmg~~/AAAAAQA~/RgRm_A8ZP0TWaHR0cHM6Ly93d3cubnl0aW1lc=
+y5jb20vc3Vic2NyaXB0aW9uL2Nvb2tpbmcuaHRtbD9jYW1wYWlnbklkPTZYUUhSJmNhbXBhaWdu=
+X2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5=
+nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZT=
+JkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwY=
+W5la0BnbWFpbC5jb21YBAAAAAM~" color=3D"#DF321B" class=3D"m_-2963166718432055=
+85css-177uyrx" style=3D"display:inline-block;text-decoration:none;color:#df=
+321b" target=3D"_blank">Subscribe to NYT Cooking</a><span class=3D"m_-29631=
+6671843205585css-5zpqw8" style=3D"display:none"><a href=3D"https://nl.nytim=
+es.com/f/cooking/_ZnF6flMGVInV9L92OiNew~~/AAAAAQA~/RgRm_A8ZP0T0aHR0cHM6Ly9j=
+b29raW5nLm55dGltZXMuY29tL2ZyZXF1ZW50bHktYXNrZWQtcXVlc3Rpb25zP2NhbXBhaWduX2l=
+kPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJn=
+JlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkM=
+TFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZiNob3ctZG8taS1kb3dubG9hZC10aGUtbnl0LWNvb2tp=
+bmctaW9zLWFwcFcDbnl0QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAA=
+AAAM~" color=3D"#DF321B" style=3D"display:inline-block;text-decoration:none=
+;color:#df321b" target=3D"_blank">Get the NYT Cooking app</a></span></p></t=
+d></tr><tr><td style=3D"border-top:1px solid #dcdcdc;padding:9px 0 8px"><ta=
+ble role=3D"presentation"><tbody><tr><td style=3D"padding-right:15px"><p st=
+yle=3D"display:inline-block;font:12px/15px arial,sans-serif;color:#666;text=
+-align:left;margin-bottom:0">Connect with us on:</p></td><td style=3D"paddi=
+ng-right:15px"><a href=3D"https://nl.nytimes.com/f/a/uN8QyeA-ZMW8mJaiewjTug=
+~~/AAAAAQA~/RgRm_A8ZP0S4aHR0cHM6Ly93d3cuZmFjZWJvb2suY29tL255dGNvb2tpbmcvP2N=
+hbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2lkPTEwMzk3OSZubD=
+1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJnRlPTEmdXNlcl9pZ=
+D1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKGWWecLXHUhhseWRp=
+YS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~" target=3D"_blank"><img width=3D"25" h=
+eight=3D"25" alt=3D"facebook" style=3D"vertical-align:middle" src=3D"https:=
+//static.nytimes.com/email-images/design-system/social-icons/facebook.png">=
+</a></td><td style=3D"padding-right:15px"><a href=3D"https://nl.nytimes.com=
+/f/a/WFVS-ePLFsW9J1DBdytlQA~~/AAAAAQA~/RgRm_A8ZP0SvaHR0cHM6Ly90d2l0dGVyLmNv=
+bS9ueXRmb29kP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3RhbmNlX2l=
+kPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9MTQ2MjAwJn=
+RlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0QgplFBmKG=
+WWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~" target=3D"_blank"><img=
+ width=3D"25" height=3D"25" alt=3D"twitter" style=3D"vertical-align:middle"=
+ src=3D"https://static.nytimes.com/email-images/design-system/social-icons/=
+twitter.png"></a></td><td style=3D"padding-right:15px"><a href=3D"https://n=
+l.nytimes.com/f/a/vd-0MEvbowqwBZDS_zruDQ~~/AAAAAQA~/RgRm_A8ZP0S5aHR0cHM6Ly9=
+3d3cuaW5zdGFncmFtLmNvbS9ueXRjb29raW5nLz9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja1=
+8yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4N=
+CZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1=
+MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAA=
+D" target=3D"_blank"><img width=3D"25" height=3D"25" alt=3D"instagram" styl=
+e=3D"vertical-align:middle" src=3D"https://static.nytimes.com/email-images/=
+design-system/social-icons/instagram.png"></a></td><td style=3D"padding-rig=
+ht:15px"><a href=3D"https://nl.nytimes.com/f/a/43K4wgCzltuFlk2jLW8jJQ~~/AAA=
+AAQA~/RgRm_A8ZP0S5aHR0cHM6Ly93d3cucGludGVyZXN0LmNvbS9ueXRjb29raW5nLz9jYW1wY=
+Wlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAwMSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29v=
+a2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW50X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU=
+5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3=
+RlcGFuZWtAZ21haWwuY29tWAQAAAAD" target=3D"_blank"><img width=3D"25" height=
+=3D"25" alt=3D"pinterest" style=3D"vertical-align:middle" src=3D"https://st=
+atic.nytimes.com/email-images/design-system/social-icons/pinterest.png"></a=
+></td></tr></tbody></table></td></tr><tr><td style=3D"border-top:1px solid =
+#dcdcdc;padding:8px 0"><p style=3D"display:inline-block;font:12px/20px aria=
+l,sans-serif;color:#666;text-align:left;margin-bottom:0"><a href=3D"https:/=
+/nl.nytimes.com/f/a/-OPtGK-FSqPJPhUiawZWqQ~~/AAAAAQA~/RgRm_A8ZP0TAaHR0cHM6L=
+y9teWFjY291bnQubnl0aW1lcy5jb20vbWVtL2VtYWlsLmh0bWw_Y2FtcGFpZ25faWQ9NTgmZW1j=
+PWVkaXRfY2tfMjAyMzEwMDEmaW5zdGFuY2VfaWQ9MTAzOTc5Jm5sPWNvb2tpbmcmcmVnaV9pZD0=
+yMDI2MTAwODQmc2VnbWVudF9pZD0xNDYyMDAmdGU9MSZ1c2VyX2lkPWVlOTVlMmQxMWVkMGY5Mz=
+ZhOTdmYjg1NTI4ZDY3ZTdmVwNueXRCCmUUGYoZZZ5wtcdSGGx5ZGlhLnN0ZXBhbmVrQGdtYWlsL=
+mNvbVgEAAAAAw~~" color=3D"#DF321B" style=3D"display:inline-block;text-decor=
+ation:none;color:#df321b;border-right:1px solid #dcdcdc;padding-right:10px;=
+margin-right:10px" target=3D"_blank">Change Your Email</a><a href=3D"https:=
+//nl.nytimes.com/f/a/7FdLFGGUFmb3QBKUH6AXvg~~/AAAAAQA~/RgRm_A8ZP0TiaHR0cHM6=
+Ly93d3cubnl0aW1lcy5jb20vY29udGVudC9oZWxwL3JpZ2h0cy9wcml2YWN5L3BvbGljeS9wcml=
+2YWN5LXBvbGljeS5odG1sP2NhbXBhaWduX2lkPTU4JmVtYz1lZGl0X2NrXzIwMjMxMDAxJmluc3=
+RhbmNlX2lkPTEwMzk3OSZubD1jb29raW5nJnJlZ2lfaWQ9MjAyNjEwMDg0JnNlZ21lbnRfaWQ9M=
+TQ2MjAwJnRlPTEmdXNlcl9pZD1lZTk1ZTJkMTFlZDBmOTM2YTk3ZmI4NTUyOGQ2N2U3ZlcDbnl0=
+QgplFBmKGWWecLXHUhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~" color=3D"#DF3=
+21B" style=3D"display:inline-block;text-decoration:none;color:#df321b;borde=
+r-right:1px solid #dcdcdc;padding-right:10px;margin-right:10px" target=3D"_=
+blank">Privacy Policy</a><a href=3D"https://nl.nytimes.com/f/a/ov6uJ1NCys9J=
+ICD8wEx5DQ~~/AAAAAQA~/RgRm_A8ZP0TIaHR0cHM6Ly9teWFjY291bnQubnl0aW1lcy5jb20vb=
+WVtYmVyY2VudGVyL2hlbHAuaHRtbD9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAw=
+MSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW5=
+0X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2=
+ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" color=
+=3D"#DF321B" style=3D"display:inline-block;text-decoration:none;color:#df32=
+1b;border-right:1px solid #dcdcdc;padding-right:10px;margin-right:10px" tar=
+get=3D"_blank">Contact Us</a><a href=3D"https://nl.nytimes.com/f/a/M0-kgfnT=
+XdPhfrNZVgs1sw~~/AAAAAQA~/RgRm_A8ZP0TFaHR0cHM6Ly93d3cubnl0aW1lcy5jb20vcHJpd=
+mFjeS9jYWxpZm9ybmlhLW5vdGljZT9jYW1wYWlnbl9pZD01OCZlbWM9ZWRpdF9ja18yMDIzMTAw=
+MSZpbnN0YW5jZV9pZD0xMDM5Nzkmbmw9Y29va2luZyZyZWdpX2lkPTIwMjYxMDA4NCZzZWdtZW5=
+0X2lkPTE0NjIwMCZ0ZT0xJnVzZXJfaWQ9ZWU5NWUyZDExZWQwZjkzNmE5N2ZiODU1MjhkNjdlN2=
+ZXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" color=
+=3D"#DF321B" style=3D"display:inline-block;text-decoration:none;color:#df32=
+1b" target=3D"_blank">California Notices</a></p></td></tr><tr><td style=3D"=
+border-top:1px solid #dcdcdc;padding:5px 0 7px"><a style=3D"display:inline-=
+block;text-decoration:none;color:#666;border-right:1px solid #dcdcdc;paddin=
+g-right:10px;margin-right:10px;line-height:0" href=3D"https://nl.nytimes.co=
+m/f/a/5Q97fHryJtdbPFlolOzM9A~~/AAAAAQA~/RgRm_A8ZP0RKaHR0cHM6Ly93d3cubGl2ZWl=
+udGVudC5jb20vcG93ZXJlZC1ieT90ZT0xJm5sPWNvb2tpbmcmZW1jPWVkaXRfY2tfMjAyMzEwMD=
+FXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" color=
+=3D"#666666" target=3D"_blank"><img width=3D"150" alt=3D"LiveIntent Logo" s=
+tyle=3D"vertical-align:middle" src=3D"https://static.nytimes.com/email-imag=
+es/design-system/ads/liveintentads.png"></a><a style=3D"display:inline-bloc=
+k;text-decoration:none;color:#666;line-height:0" href=3D"https://nl.nytimes=
+.com/f/a/gyJGxkwzkWa3zLlSLFAgVw~~/AAAAAQA~/RgRm_A8ZP0RKaHR0cHM6Ly93d3cubGl2=
+ZWludGVudC5jb20vYWQtY2hvaWNlcz90ZT0xJm5sPWNvb2tpbmcmZW1jPWVkaXRfY2tfMjAyMzE=
+wMDFXA255dEIKZRQZihllnnC1x1IYbHlkaWEuc3RlcGFuZWtAZ21haWwuY29tWAQAAAAD" colo=
+r=3D"#666666" target=3D"_blank"><img width=3D"70" alt=3D"AdChoices Logo" st=
+yle=3D"vertical-align:middle" src=3D"https://static.nytimes.com/email-image=
+s/design-system/ads/adchoices.png"></a></td></tr><tr><td style=3D"border-to=
+p:1px solid #dcdcdc;padding:10px 0 30px"><p color=3D"#999999" style=3D"disp=
+lay:inline-block;font:12px/15px arial,sans-serif;color:#999;text-align:left=
+;margin-bottom:0">The New York Times Company. 620 Eighth Avenue New York, N=
+Y 10018</p></td></tr></tbody></table></div></td></tr></tbody></table></div>
+<img border=3D"0" width=3D"1" height=3D"1" alt=3D"" src=3D"https://nl.nytim=
+es.com/q/wHOZpEtjO-VBt3T1d504bg~~/AAAAAQA~/RgRm_A8ZPlcDbnl0QgplFBmKGWWecLXH=
+UhhseWRpYS5zdGVwYW5la0BnbWFpbC5jb21YBAAAAAM~">
+</div>
+
+</div></div><br clear=3D"all"><div><br></div><span class=3D"gmail_signature=
+_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature" data-smar=
+tmail=3D"gmail_signature"><div dir=3D"ltr"><div dir=3D"ltr"><div style=3D"f=
+ont-family:arial,sans-serif;font-size:13.200000762939453px;font-style:norma=
+l;font-variant:normal;letter-spacing:normal;line-height:normal;text-align:-=
+webkit-auto;text-indent:0px;text-transform:none;white-space:normal;word-spa=
+cing:0px;background-color:rgb(255,255,255)"><font color=3D"#ff6600">Lydia<b=
+>Stepanek<br></b></font></div><div style=3D"font-family:arial,sans-serif;fo=
+nt-size:13.2px;font-style:normal;font-variant:normal;letter-spacing:normal;=
+line-height:normal;text-align:-webkit-auto;text-indent:0px;text-transform:n=
+one;white-space:normal;word-spacing:0px;background-color:rgb(255,255,255)">=
+<span style=3D"color:rgb(102,102,102);text-align:-webkit-auto">cybersecurit=
+y developer &amp;=C2=A0</span><a href=3D"https://www.lydiaoncybersecurity.c=
+om/" style=3D"text-align:-webkit-auto" target=3D"_blank">blogger</a><br></d=
+iv></div></div></div></div>
+
+--0000000000004f8af206074a156a--
