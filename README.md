@@ -1,4 +1,4 @@
-# IsThisPhishy
+# Is This Phishy
 
 Node version
 v16.20.0
@@ -6,6 +6,7 @@ v16.20.0
 ## To install dependencies:
 
 ```
+nvm use 16
 npm install
 ```
 
@@ -24,7 +25,7 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 ### Pull Request Process
 
-1. Ensure tests are passing. To run the main algorithm test suite (doesn't require AWS credentials): 
+1. Ensure tests are passing. To run the main algorithm test suite (doesn't require AWS credentials):
 ```
 npm test -- -t 'testsNotRequiringAWSCredentials'
 ```
@@ -35,4 +36,4 @@ npm test -- -t 'testsNotRequiringAWSCredentials'
 
 ## License
 
-IsThisPhishy is released under the [MIT License](https://opensource.org/licenses/MIT).
+Is This Phishy is released under the [MIT License](https://opensource.org/licenses/MIT).
