@@ -1,5 +1,5 @@
 'use strict'
-const Minipass = require('minipass')
+const { Minipass } = require('minipass')
 const MinipassSized = require('minipass-sized')
 
 const Blob = require('./blob.js')
@@ -146,7 +146,7 @@ class Body {
 
     // do the pipe in the promise, because the pipe() can send too much
     // data through right away and upset the MP Sized object
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       // if the stream is some other kind of stream, then pipe through a MP
       // so we can collect it more easily.
       if (stream !== upstream) {

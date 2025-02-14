@@ -13,11 +13,15 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.315.0",
     "@aws-sdk/client-ses": "^3.316.0",
+    "cheerio": "^1.0.0-rc.12",
     "babel-jest": "^29.5.0",
     "email-forward-parser": "^1.4.2",
     "mailparser": "^3.6.4",
     "node-fetch": "^2.6.9",
+    "sanitize-filename": "^1.6.3",
+    "to-case": "^2.0.0",
     "ts-jest": "^29.1.0",
-    "urijs": "^1.19.11"
+    "urijs": "^1.19.11",
+    "whois-json": "^2.0.4"
   }
 }

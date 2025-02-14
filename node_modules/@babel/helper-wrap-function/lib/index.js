@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = wrapFunction;
-var _helperFunctionName = require("@babel/helper-function-name");
 var _template = require("@babel/template");
 var _t = require("@babel/types");
 const {
@@ -46,13 +45,11 @@ function classOrObjectMethod(path, callId) {
   const body = node.body;
   const container = functionExpression(null, [], blockStatement(body.body), true);
   body.body = [returnStatement(callExpression(callExpression(callId, [container]), []))];
-
   node.async = false;
   node.generator = false;
-
   path.get("body.body.0.argument.callee.arguments.0").unwrapFunctionEnvironment();
 }
-function plainFunction(inPath, callId, noNewArrows, ignoreFunctionLength) {
+function plainFunction(inPath, callId, noNewArrows, ignoreFunctionLength, hadName) {
   let path = inPath;
   let node;
   let functionId = null;
@@ -85,7 +82,7 @@ function plainFunction(inPath, callId, noNewArrows, ignoreFunctionLength) {
   }
   const wrapperArgs = {
     NAME: functionId || null,
-    REF: path.scope.generateUidIdentifier(functionId ? functionId.name : "ref"),
+    REF: path.scope.generateUidIdentifier(hadName ? functionId.name : "ref"),
     FUNCTION: built,
     PARAMS: params
   };
@@ -95,17 +92,10 @@ function plainFunction(inPath, callId, noNewArrows, ignoreFunctionLength) {
     path.insertAfter(container[1]);
   } else {
     let container;
-    if (functionId) {
+    if (hadName) {
       container = buildNamedExpressionWrapper(wrapperArgs);
     } else {
       container = buildAnonymousExpressionWrapper(wrapperArgs);
-      const returnFn = container.callee.body.body[1].argument;
-      (0, _helperFunctionName.default)({
-        node: returnFn,
-        parent: path.parent,
-        scope: path.scope
-      });
-      functionId = returnFn.id;
     }
     if (functionId || !ignoreFunctionLength && params.length) {
       path.replaceWith(container);
@@ -114,12 +104,17 @@ function plainFunction(inPath, callId, noNewArrows, ignoreFunctionLength) {
     }
   }
 }
-function wrapFunction(path, callId,
-noNewArrows = true, ignoreFunctionLength = false) {
+function wrapFunction(path, callId, noNewArrows = true, ignoreFunctionLength = false) {
   if (path.isMethod()) {
     classOrObjectMethod(path, callId);
   } else {
-    plainFunction(path, callId, noNewArrows, ignoreFunctionLength);
+    const hadName = "id" in path.node && !!path.node.id;
+    {
+      var _path, _path$ensureFunctionN;
+      (_path$ensureFunctionN = (_path = path).ensureFunctionName) != null ? _path$ensureFunctionN : _path.ensureFunctionName = require("@babel/traverse").NodePath.prototype.ensureFunctionName;
+    }
+    path = path.ensureFunctionName(false);
+    plainFunction(path, callId, noNewArrows, ignoreFunctionLength, hadName);
   }
 }
 

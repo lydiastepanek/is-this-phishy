@@ -22,6 +22,7 @@ pooling, proxies, retries, [and more](#features)!
   * [`make-fetch-happen` options](#extra-options)
     * [`opts.cachePath`](#opts-cache-path)
     * [`opts.cache`](#opts-cache)
+    * [`opts.cacheAdditionalHeaders`](#opts-cache-additional-headers)
     * [`opts.proxy`](#opts-proxy)
     * [`opts.noProxy`](#opts-no-proxy)
     * [`opts.ca, opts.cert, opts.key`](#https-opts)
@@ -61,26 +62,12 @@ fetch('https://registry.npmjs.org/make-fetch-happen').then(res => {
 * Quite fast, really
 * Automatic HTTP-semantics-aware request retries
 * Cache-fallback automatic "offline mode"
-* Proxy support (http, https, socks, socks4, socks5)
 * Built-in request caching following full HTTP caching rules (`Cache-Control`, `ETag`, `304`s, cache fallback on error, etc).
 * Node.js Stream support
 * Transparent gzip and deflate support
 * [Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) support
-* Literally punches nazis
-* Built in DNS cache
-* (PENDING) Range request caching and resuming
-
-### Contributing
-
-The make-fetch-happen team enthusiastically welcomes contributions and project participation! There's a bunch of things you can do if you want to contribute! The [Contributor Guide](https://github.com/npm/cli/blob/latest/CONTRIBUTING.md) outlines the process for community interaction and contribution. Please don't hesitate to jump in if you'd like to, or even ask us questions if something isn't clear.
-
-All participants and maintainers in this project are expected to follow the [npm Code of Conduct](https://www.npmjs.com/policies/conduct), and just generally be excellent to each other.
-
-Please refer to the [Changelog](CHANGELOG.md) for project history details, too.
-
-Happy hacking!
-
-### API
+* Proxy support (http, https, socks, socks4, socks5. via [`@npmcli/agent`](https://npm.im/@npmcli/agent))
+* DNS cache (via ([`@npmcli/agent`](https://npm.im/@npmcli/agent))
 
 #### <a name="fetch"></a> `> fetch(uriOrRequest, [opts]) -> Promise<Response>`
 
@@ -125,11 +112,6 @@ The following options for `minipass-fetch` are used as-is:
 These other options are modified or augmented by make-fetch-happen:
 
 * headers - Default `User-Agent` set to make-fetch happen. `Connection` is set to `keep-alive` or `close` automatically depending on `opts.agent`.
-* agent
-  * If agent is null, an http or https Agent will be automatically used. By default, these will be `http.globalAgent` and `https.globalAgent`.
-  * If [`opts.proxy`](#opts-proxy) is provided and `opts.agent` is null, the agent will be set to an appropriate proxy-handling agent.
-  * If `opts.agent` is an object, it will be used as the request-pooling agent argument for this request.
-  * If `opts.agent` is `false`, it will be passed as-is to the underlying request library. This causes a new Agent to be spawned for every request.
 
 For more details, see [the documentation for `minipass-fetch` itself](https://github.com/npm/minipass-fetch#options).
 
@@ -139,6 +121,7 @@ make-fetch-happen augments the `minipass-fetch` API with additional features ava
 
 * [`opts.cachePath`](#opts-cache-path) - Cache target to read/write
 * [`opts.cache`](#opts-cache) - `fetch` cache mode. Controls cache *behavior*.
+* [`opts.cacheAdditionalHeaders`](#opts-cache-additional-headers) - Store additional headers in the cache
 * [`opts.proxy`](#opts-proxy) - Proxy agent
 * [`opts.noProxy`](#opts-no-proxy) - Domain segments to disable proxying for.
 * [`opts.ca, opts.cert, opts.key, opts.strictSSL`](#https-opts)
@@ -148,6 +131,7 @@ make-fetch-happen augments the `minipass-fetch` API with additional features ava
 * [`opts.onRetry`](#opts-onretry) - a function called whenever a retry is attempted
 * [`opts.integrity`](#opts-integrity) - [Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) metadata.
 * [`opts.dns`](#opts-dns) - DNS cache options
+* [`opts.agent`](#opts-agent) - http/https/proxy/socks agent options.  See [`@npmcli/agent`](https://npm.im/@npmcli/agent) for more info.
 
 #### <a name="opts-cache-path"></a> `> opts.cachePath`
 
@@ -216,6 +200,34 @@ fetch('https://registry.npmjs.org/make-fetch-happen', {
 // Will use any local data, even if stale. Otherwise, will hit network.
 fetch('https://registry.npmjs.org/make-fetch-happen', {
   cache: 'force-cache'
+})
+```
+
+#### <a name="opts-cache-additional-headers"></a> `> opts.cacheAdditionalHeaders`
+
+The following headers are always stored in the cache when present:
+
+- `cache-control`
+- `content-encoding`
+- `content-language`
+- `content-type`
+- `date`
+- `etag`
+- `expires`
+- `last-modified`
+- `link`
+- `location`
+- `pragma`
+- `vary`
+
+This option allows a user to store additional custom headers in the cache.
+
+
+##### Example
+
+```javascript
+fetch('https://registry.npmjs.org/make-fetch-happen', {
+  cacheAdditionalHeaders: ['my-custom-header'],
 })
 ```
 
@@ -321,14 +333,14 @@ fetch('http://one-more.site.com', {
 
 #### <a name="opts-onretry"></a> `> opts.onRetry`
 
-A function called whenever a retry is attempted.
+A function called with the response or error which caused the retry whenever one is attempted.
 
 ##### Example
 
 ```javascript
 fetch('https://flaky.site.com', {
-  onRetry() {
-    console.log('we will retry!')
+  onRetry(cause) {
+    console.log('we will retry because of', cause)
   }
 })
 ```
@@ -350,12 +362,3 @@ fetch('https://malicious-registry.org/make-fetch-happen/-/make-fetch-happen-1.0.
   integrity: 'sha1-o47j7zAYnedYFn1dF/fR9OV3z8Q='
 }) // Error: EINTEGRITY
 ```
-
-#### <a name="opts-dns"></a> `> opts.dns`
-
-An object that provides options for the built-in DNS cache. The following options are available:
-
-Note: Due to limitations in the current proxy agent implementation, users of proxies will not benefit from the DNS cache.
-
-* `ttl`: Milliseconds to keep cached DNS responses for. Defaults to `5 * 60 * 1000` (5 minutes)
-* `lookup`: A custom lookup function, see [`dns.lookup()`](https://nodejs.org/api/dns.html#dnslookuphostname-options-callback) for implementation details. Defaults to `require('dns').lookup`.
