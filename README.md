@@ -1,12 +1,9 @@
 # Is This Phishy
 
-Node version
-v16.20.0
-
 ## To install dependencies:
 
 ```
-nvm use 16
+nvm use 22
 npm install
 ```
 
