@@ -13,8 +13,9 @@ export const processMessage = async (parentEmail) => {
     const relativeLinks = $(LINK_ELEMENT_TYPES);
     relativeLinks.each((index, value) => {
         const href = $(value).attr("href");
-        fullLinkUrls.add(new URI(href));
-        domainNames.add(new URI(href).domain());
+        let uri = new URI(href);
+        fullLinkUrls.add(`${uri.hostname()}${uri.path()}`);
+        domainNames.add(uri.domain());
     });
 
     return {fullLinkUrls, domainNames};

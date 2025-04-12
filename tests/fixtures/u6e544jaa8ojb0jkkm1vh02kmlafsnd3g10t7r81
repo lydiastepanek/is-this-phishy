@@ -1,0 +1,108 @@
+Return-Path: <lydia.stepanek@gmail.com>
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id u6e544jaa8ojb0jkkm1vh02kmlafsnd3g10t7r81
+ for help@isthisphishy.io;
+ Sat, 12 Apr 2025 22:53:26 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.216.46 as permitted sender) client-ip=209.85.216.46; envelope-from=lydia.stepanek@gmail.com; helo=mail-pj1-f46.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.216.46 as permitted sender) client-ip=209.85.216.46; envelope-from=lydia.stepanek@gmail.com; helo=mail-pj1-f46.google.com;
+ dkim=pass header.i=@gmail.com;
+ dmarc=pass header.from=gmail.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFISnpYOG5JU2s0cWxQM2d4WStXY1pOT1RoT1llZ1EyRGxOa09kaGRIR3NYVEhGQVppVWdOT0xNbGhROUJNcWtZTlQ1bGlXenJ2ZTladXAwelJhLzZoMXMraVZYRjRRTXpuNHprRTVMc055bXpWaGFDcjZ1ZVRtZmNFN2trTENlT2pZdVVldmsvMkRvcDFpa1BxNzJDOU1PVmUxcUMrb0xSN1ZldWN1cFZwelE0czRiUkR4NHdndnFZalNXYmNWMWs4Q3RWcDdTOXRlSTZXMUFNVW96QlZvTSthRy93M1V0WW1Ic1YxaTdHUjRSbXk4MWhNbXhHRXE2MngvdVFSb3VZZXVwNjg3enZvYnVXMWpQNGx1ZFNBTElHT3ZDRmdiTWJscklrN3l2NGRsc1E9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=mjZpb28X7uCiQyv7Lt4x5S2eNztYvXpVWuif1osNLgqRYJ/GGUWLaekIrXh0LHkk2WiMVH+DL0rE7B8wkefmJEr3RiRaqSo9U0lXaJbEkzY79EEnYyTzWV5RN7jByYef1OvmA8hGaVd9dsT8iDMZLKGCdc0SVmUeijxH3cooCVA=; c=relaxed/simple; s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw; d=amazonses.com; t=1744498406; v=1; bh=JX69yAF1YZcQ5kLsbNM/QXMsfclWixvCpxPMAh6sONU=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3018e2d042bso2177918a91.2
+        for <help@isthisphishy.io>; Sat, 12 Apr 2025 15:53:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744498405; x=1745103205; darn=isthisphishy.io;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JX69yAF1YZcQ5kLsbNM/QXMsfclWixvCpxPMAh6sONU=;
+        b=Rfbl8tt6+7rPXy1qnIX13/93Ep458MfkmZ8H/duqPcBJQjVlXrAoTA08ZGA0ad50vF
+         GtqaQRxYV7fxBw3QIFvwvVtTGQ3VWVXnRCstCaLqV5s1n/IpkPCHXUOjcz+6W1Hsc1qq
+         jXrZrjP8pEMhk2MI9rhDscj5eX3Cxfd/ZUI/qboOqNTa/zSap4dKZsx20JSgKALip2/p
+         n6I9uSIJ/7zJz5O0bXS5fetTiby0AvD+cNrIliesE6GNCFCTTLeiGC7KJi/5R/laETWy
+         e6k1RAbwJcU9xi4DuZt/9HT1O96/xuLi9rceSFS3HFPnwhk/+WoRPtug7PI9HMTG4bq4
+         5z4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744498405; x=1745103205;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JX69yAF1YZcQ5kLsbNM/QXMsfclWixvCpxPMAh6sONU=;
+        b=GXikDcNLUzmhWC6rEFLJnW+LDz3iP38RWLhUHysUDlLdgSXkFUtAsDv3ZvW4YIW4PF
+         U1gXUbY2SjXGSp/aCxz7k/swWIBl3WPYrBoWhrN+ljnw4Ugn1wF5fXYxsDhDQyYSxLn0
+         rz9BdbjAKmxXI4g0HvF1SzRmro3A4ARgLtYQtFeEsP01b+A0yKq36N9MHFz5Q5G+wrZ6
+         tFLK7grDpiI+WJJV7ZVeY21jAdX24TqYZTmfSvCN+yBv4kS5E7mmLITud+me55775kBr
+         4n5cfGu1f3tQiHZ/RfYrK2IksaJHCQAwPZF7BkGMj/4dVIvJaI22VO8/NAJqTJ8+IsBG
+         q/Xg==
+X-Gm-Message-State: AOJu0YyXFl9dxliVsKANy7d/D+YqElSxzgEoJFaa4AUHdcuQ0rKDKn+Y
+	JTJyryjdM+JaXeIdlqiPJCsjEXpcowHWFEHo/0tjFKSMDcBXBLQ1Chqoemp2h8KwxGw4zd5VlVx
+	XM13sXoshsFFxuqit+QBf0aPQnVWWQA==
+X-Gm-Gg: ASbGnct0cKlOExTbuGHxVSc5HSJ4c130IkvXCXdCx2n6lbCHylpx2o1yHyvOQ3HM7r/
+	Zy4Y5UklBSV4JYq8/9iD5TvgdCdY8ZvszXK6j9cMMAJIKkqNyMT1wWy2T3yhhCLbERnlDWGsxou
+	zjLFJXUXurJVgHNNH3cfRXnyERwpvMP7D34O2ExbL6fRxSHGrXDX/rLgE=
+X-Google-Smtp-Source: AGHT+IG7lXGP4OzyvXFSJY7xkyiTNawZCchQ3TSWhyD/hFCGo6Dea3YVvQk1P/NOT0d6Ivp+33pBL8F4HJtQUHb97GU=
+X-Received: by 2002:a17:90b:2642:b0:2ff:4bac:6fa2 with SMTP id
+ 98e67ed59e1d1-3082367dd6fmr12513217a91.16.1744498404650; Sat, 12 Apr 2025
+ 15:53:24 -0700 (PDT)
+MIME-Version: 1.0
+References: <CADvz_ydBHEvjUoKdeeyhHgL3PhOrgsjA8e2aS_gKCtpi7-ev0g@mail.gmail.com>
+In-Reply-To: <CADvz_ydBHEvjUoKdeeyhHgL3PhOrgsjA8e2aS_gKCtpi7-ev0g@mail.gmail.com>
+From: Lydia Stepanek <lydia.stepanek@gmail.com>
+Date: Sat, 12 Apr 2025 18:53:12 -0400
+X-Gm-Features: ATxdqUGyKIEJJWt97LCwHWt9b1f6JYHgqcZhDPsIypPg_KwXlWWreWSB3zQyNNg
+Message-ID: <CADvz_yfXVzXdb0z31UfKTqaAWFP5j1O+8vs=GzqbsvraViAbrg@mail.gmail.com>
+Subject: Fwd: hi
+To: help@isthisphishy.io
+Content-Type: multipart/alternative; boundary="000000000000b8773106329cafbe"
+
+--000000000000b8773106329cafbe
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: Lydia Stepanek <lydia.stepanek@gmail.com>
+Date: Sat, Apr 12, 2025 at 6:53=E2=80=AFPM
+Subject: hi
+To: Lydia Stepanek <lydia.stepanek@gmail.com>
+
+
+hi
+<https://s3.amazonaws.com/garysguide/2d2f2a10acbe4=3D1b3b4431a4271c3407fori=
+ginal.jpg>
+
+--=20
+Lydia*Stepanek*
+Pen Loop Studio <https://www.penloop.io/>
+
+--000000000000b8773106329cafbe
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote gmail_quote_container"><=
+div dir=3D"ltr" class=3D"gmail_attr">---------- Forwarded message ---------=
+<br>From: <strong class=3D"gmail_sendername" dir=3D"auto">Lydia Stepanek</s=
+trong> <span dir=3D"auto">&lt;<a href=3D"mailto:lydia.stepanek@gmail.com">l=
+ydia.stepanek@gmail.com</a>&gt;</span><br>Date: Sat, Apr 12, 2025 at 6:53=
+=E2=80=AFPM<br>Subject: hi<br>To: Lydia Stepanek &lt;<a href=3D"mailto:lydi=
+a.stepanek@gmail.com">lydia.stepanek@gmail.com</a>&gt;<br></div><br><br><di=
+v dir=3D"ltr"><div><a href=3D"https://s3.amazonaws.com/garysguide/2d2f2a10a=
+cbe4=3D1b3b4431a4271c3407foriginal.jpg" target=3D"_blank">hi</a></div><div>=
+<br></div><span class=3D"gmail_signature_prefix">-- </span><br><div dir=3D"=
+ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=
+=3D"ltr"><div style=3D"border-color:var(--chakra-colors-chakra-border-color=
+);color:rgb(0,0,0);text-align:-webkit-auto;font-family:arial,sans-serif;fon=
+t-size:13.2px;line-height:normal"><font color=3D"#ff6600" style=3D"border-c=
+olor:var(--chakra-colors-chakra-border-color)">Lydia<b style=3D"border-colo=
+r:var(--chakra-colors-chakra-border-color)">Stepanek</b></font></div><div s=
+tyle=3D"border-color:var(--chakra-colors-chakra-border-color);color:rgb(0,0=
+,0);text-align:-webkit-auto;font-family:arial,sans-serif;font-size:13.2px;l=
+ine-height:normal"><div style=3D"border-color:var(--chakra-colors-chakra-bo=
+rder-color);line-height:normal;text-align:-webkit-auto"><a href=3D"https://=
+www.penloop.io/" style=3D"border-color:var(--chakra-colors-chakra-border-co=
+lor);color:rgb(17,85,204)" target=3D"_blank">Pen Loop Studio</a></div></div=
+></div></div></div>
+</div></div>
+
+--000000000000b8773106329cafbe--

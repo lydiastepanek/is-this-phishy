@@ -24,11 +24,11 @@ export const sectionForWellKnownPhishingLinks = (fullLinkUrls) => {
         }
     );
     return {
-        isViolation: wellKnownPhishingLinks.keys.length > 0,
-        title: "Phishing links found",
+        isViolation: Object.keys(wellKnownPhishingLinks).length > 0,
+        title: "Phishy links found",
         explanation: PHISHING_LINK_EMAIL,
         detail: `<ul style="margin: 0;">` +
-            wellKnownPhishingLinks
+            Object.keys(wellKnownPhishingLinks)
                 .map(
                     (link) =>
                         `<li>${wellKnownPhishingLinks[link]} (full link address: ${link})</li>`

@@ -258,6 +258,29 @@ describe("testsNotRequiringAWSCredentials", () => {
             }
         });
 
+        test("sees violations in email containing s3 link", async () => {
+            const email = read("u6e544jaa8ojb0jkkm1vh02kmlafsnd3g10t7r81");
+            try {
+                const input = await createResponse(email);
+                expect(
+                    input.Message.Body.Html.Data.includes(PHISHING_LINK_EMAIL)
+                ).toBe(true);
+            } catch (e) {
+                console.log(e);
+            }
+        });
+        test("sees violations in another email containing s3 link", async () => {
+            const email = read("6t1vv70c0jp6ihcgfkk3rdtln1cv6k6lm8a8de01");
+            try {
+                const input = await createResponse(email);
+                expect(
+                    input.Message.Body.Html.Data.includes(PHISHING_LINK_EMAIL)
+                ).toBe(true);
+            } catch (e) {
+                console.log(e);
+            }
+        })
+
         test("sees violations in gary's guide email with unusual links", async () => {
             const email = read("834urg4d5bgs535u9eusqdf8psn9bsm9sba4cu01");
             try {
