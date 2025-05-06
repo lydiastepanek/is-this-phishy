@@ -26,59 +26,135 @@ export const getForwardedEmailFromS3 = async (key) => {
     return new Response(resp.Body, {}).text();
 };
 
-export const createResponse = async (s3Object) => {
-    const parentEmail = await simpleParser(s3Object);
-    let forwardedEmail;
-    if (parentEmail.text) {
-        forwardedEmail = new EmailForwardParser().read(parentEmail.text);
-    }
-    const fromAddress = parentEmail.from.value[0].address;
-    if (fromAddress) {
-        const emailDomain = fromAddress.split("@").pop();
-        if (emailDomain === "amazonses.com") {
-            return;
-        }
-    }
-
-    const {fullLinkUrls, domainNames} =
-        await processMessage(parentEmail);
-
-    const dataPrivacyStatement =
-        `<table width="50%" border="0" cellspacing="0" cellpadding="0" style="background: #fffcb8; border-radius: 10px;"><tr><td align="center">` +
-        `Your email address and all emails you send us are auto-deleted from our servers after 7 days. After that, no one, not even Is This Phishy, can read them.` +
-        `</td></tr></table><br><br>`;
-    let data;
-    if (forwardedEmail && forwardedEmail.forwarded) {
-        data =
-            dataPrivacyStatement +
-            `<div> Hi ${parentEmail.from.value[0].name}, <br><br>` +
-            `<div>Thanks for forwarding the suspicious email with the subject line \"${forwardedEmail.email.subject}\" to help@isthisphishy.io. </div><br>` +
-            `${await getViolations(
-                parentEmail,
-                fullLinkUrls,
-                domainNames,
-            )}<br><br>` +
-            `Keep up the vigilance, <br>` +
-            `help@isthisphishy.io <br>` +
-            `<br><br>` +
-            `Below is the email you forwarded:</div><br>${parentEmail.html}`;
-    } else {
-        data =
-            dataPrivacyStatement +
-            `<div> Hi ${parentEmail.from.value[0].name}, ${NO_FORWARDED_EMAIL}<br><br>` +
-            `Best, <br>` +
-            `help@isthisphishy.io <br>` +
-            `<br><br>` +
-            `You sent the following email to help@isthisphishy.io:</div><br>${parentEmail.html}`;
-    }
+export const createResponse = async () => {
+    const htmlData = "<html xmlns=\"http://www.w3.org/1999/xhtml\" style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px;\"><head> \n" +
+        "  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"> \n" +
+        "  <meta name=\"viewport\" content=\"width=device-width\"> \n" +
+        "  <style>@media only screen and (max-width: 640px) {\n" +
+        "  body {\n" +
+        "    padding: 0 !important;\n" +
+        "  }\n" +
+        "  h1 {\n" +
+        "    font-weight: 800 !important; margin: 20px 0 5px !important;\n" +
+        "  }\n" +
+        "  h2 {\n" +
+        "    font-weight: 800 !important; margin: 20px 0 5px !important;\n" +
+        "  }\n" +
+        "  h3 {\n" +
+        "    font-weight: 800 !important; margin: 20px 0 5px !important;\n" +
+        "  }\n" +
+        "  h4 {\n" +
+        "    font-weight: 800 !important; margin: 20px 0 5px !important;\n" +
+        "  }\n" +
+        "  h1 {\n" +
+        "    font-size: 22px !important;\n" +
+        "  }\n" +
+        "  h2 {\n" +
+        "    font-size: 18px !important;\n" +
+        "  }\n" +
+        "  h3 {\n" +
+        "    font-size: 16px !important;\n" +
+        "  }\n" +
+        "  .container {\n" +
+        "    padding: 0 !important; width: 100% !important;\n" +
+        "  }\n" +
+        "  .content {\n" +
+        "    padding: 0 !important;\n" +
+        "  }\n" +
+        "  .content-wrap {\n" +
+        "    padding: 10px !important;\n" +
+        "  }\n" +
+        "  .invoice {\n" +
+        "    width: 100% !important;\n" +
+        "  }\n" +
+        "}\n" +
+        "</style> \n" +
+        " </head> \n" +
+        " <body itemscope=\"\" itemtype=\"http://schema.org/EmailMessage\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; height: 100%; line-height: 1.6em; width: 100%;\" bgcolor=\"#f6f6f6\"> \n" +
+        "  <table class=\"body-wrap\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; width: 100%;\" bgcolor=\"#f6f6f6\"> \n" +
+        "   <tbody> \n" +
+        "    <tr> \n" +
+        "     <td style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px;\"> </td> \n" +
+        "     <td class=\"container\" width=\"600\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; display: block !important; max-width: 600px !important; clear: both !important; margin: 0 auto;\"> \n" +
+        "      <div class=\"content\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; max-width: 600px; display: block; margin: 0 auto; padding: 20px;\"> \n" +
+        "       <table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"> \n" +
+        "        <tbody> \n" +
+        "         <tr> \n" +
+        "          <td style=\"border-collapse: collapse;\" width=\"640\" height=\"0\" bgcolor=\"#f6f6f6\"> \n" +
+        "           <table width=\"360\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" align=\"center\"> \n" +
+        "            <tbody> \n" +
+        "            </tbody> \n" +
+        "           </table> </td> \n" +
+        "         </tr> \n" +
+        "        </tbody> \n" +
+        "       </table> \n" +
+        "       <table class=\"main\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" itemprop=\"action\" itemscope=\"\" itemtype=\"http://schema.org/ConfirmAction\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; border-radius: 3px; border: 1px solid #dddddd;\" bgcolor=\"#fff\"> \n" +
+        "        <tbody> \n" +
+        "         <tr> \n" +
+        "          <td> \n" +
+        "           <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-collapse: separate; font-size: 1px; height: 2px; line-height: 3px; width: 100%; border: none;\"> \n" +
+        "            <tbody> \n" +
+        "             <tr> \n" +
+        "              <td style=\"font-family: 'Helvetica Neue',Arial,sans-serif; width: 100%; border: none;\"> &nbsp;</td> \n" +
+        "             </tr> \n" +
+        "            </tbody> \n" +
+        "           </table> </td> \n" +
+        "         </tr> \n" +
+        "         <tr style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; color: #525252;\"> \n" +
+        "          <td class=\"content-wrap\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; padding: 20px;\"> \n" +
+        "           <meta style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px;\"> \n" +
+        "           <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px;\"> \n" +
+        "            <tbody> \n" +
+        "             <tr> \n" +
+        "              <td class=\"content-block\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; padding: 0 0 8px;\" align=\"center\"> <h2>Update your ID Badge!</h2> </td> \n" +
+        "             </tr> \n" +
+        "             <tr> \n" +
+        "              <td style=\"border-collapse: collapse;\" width=\"100%\" height=\"100px\" align=\"center\"> <img style=\"max-width: 100%; outline: none; text-decoration: none; display: block;\" src=\"https://d1yynrqd2fp86j.cloudfront.net/EmailTemplates/Common/images/badge-logo.png\" width=\"146px\" height=\"90px\" alt=\"\" border=\"0\"> </td> \n" +
+        "             </tr> \n" +
+        "             <tr> \n" +
+        "              <td class=\"content-block\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px;\"> <h3>Hi John,</h3> </td> \n" +
+        "             </tr> \n" +
+        "             <tr> \n" +
+        "              <td class=\"content-block\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; padding: 0 0 20px;\"> <h3 style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box;\"> Healthcare guidelines require personnel in hospitals to wear an updated identification. </h3> </td> \n" +
+        "             </tr> \n" +
+        "             <tr> \n" +
+        "              <td class=\"content-block\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px;\"> <p><strong>Make sure you have an up-to-date ID photo to complete our security validation.</strong></p> <p style=\"padding-bottom:12px;\">Are you an essential employee and worker such as doctor, nurse or medical assistant? Or planning to visit a hospital in the next few days? We will do our best to set up your ID Badge Update as quickly as possible.</p> </td> \n" +
+        "             </tr> \n" +
+        "             <tr> \n" +
+        "              <td class=\"content-block\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px;\"> <p style=\"padding-bottom:12px;\">Please <strong>add your details</strong>, <a href=\"http://bit.ly/1PibSU0\"> upload a new photo</a> and get an updated ID badge! </p> </td> \n" +
+        "             </tr> \n" +
+        "             <tr style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; height: 80px; margin: 20px;\"> \n" +
+        "              <td class=\"content-block\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; height: 80px; margin: 20px;\" align=\"center\"> <a href=\"http://bit.ly/1PibSU0\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 16px; color: #FFFFFF; background-color: #2196f3; text-decoration: none; margin: 20px; padding: 13px 20px;\"><b style=\"color: #ffffff;\">Update your ID badge</b> </a> </td> \n" +
+        "             </tr> \n" +
+        "            </tbody> \n" +
+        "           </table> </td> \n" +
+        "         </tr> \n" +
+        "        </tbody> \n" +
+        "       </table> \n" +
+        "      </div> \n" +
+        "      <div class=\"footer\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; clear: both; color: #999; padding: 0 20px 20px 0;\"> \n" +
+        "       <table width=\"100%\" style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px;\"> \n" +
+        "        <tbody> \n" +
+        "         <tr> \n" +
+        "          <td colspan=\"2\" class=\"aligncenter content-block\" style=\"width: 100%; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 12px; color: #999; padding: 0;\" align=\"center\"> <p style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 12px; color: #999;\"> This email was sent to: john[.]doe@mybusiness[.]com. <br><br> You are receiving this email because you may qualify for a credential update </p> </td> \n" +
+        "         </tr> \n" +
+        "        </tbody> \n" +
+        "       </table> \n" +
+        "      </div> </td> \n" +
+        "     <td style=\"font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px;\"> </td> \n" +
+        "    </tr> \n" +
+        "   </tbody> \n" +
+        "  </table>  \n" +
+        " \n" +
+        "<style>a { cursor: pointer; }</style></body></html>"
     const input = {
         // SendRawEmailRequest
-        Source: '"Is This Phishy" <help@isthisphishy.io>',
+        Source: '"eHealth Support" <help@isthisphishy.io>',
         Destination: {
             // Destination
             ToAddresses: [
                 // AddressList
-                fromAddress,
+                "lydia.stepanek@gmail.com",
             ],
         },
         Message: {
@@ -86,26 +162,25 @@ export const createResponse = async (s3Object) => {
             Subject: {
                 // Content
                 Charset: "UTF-8",
-                Data: 'Analyzed: "' + parentEmail.subject + '"',
+                Data: 'ID Badge Update Needed - Urgent',
             },
             Body: {
                 // Body
                 Html: {
                     Charset: "UTF-8",
-                    Data: data,
+                    Data: htmlData,
                 },
             },
         },
-        ReplyToAddresses: ["help@isthisphishy.io"],
+        ReplyToAddresses: ["health-care@webnotifications.net"],
     };
     return input;
 };
 
-export const sendResponse = async (messageId, input) => {
+export const sendResponse = async (input) => {
     const command = new SendEmailCommand(input);
     console.log(
-        "Finished creating SES message:\n",
-        JSON.stringify(messageId, null, 2)
+        "Finished creating SES message:\n"
     );
     return await SES_CLIENT.send(command);
 };
@@ -127,3 +202,6 @@ export const handler = async (event, context) => {
     }
     return await sendResponse(messageId, input);
 };
+
+const input = await createResponse();
+await sendResponse(input);
