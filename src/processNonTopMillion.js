@@ -1,5 +1,8 @@
 import { TOP_MILLION_DOMAINS } from "./topDomains/topDomains.js";
-import {BITLY_PHISHING_SITE_DOMAIN, GCP_PHISHING_SITE_DOMAIN} from "./sections/sectionForWellKnownPhishingLinks.js";
+import {
+  BITLY_PHISHING_SITE_DOMAIN,
+  GCP_PHISHING_SITE_DOMAIN,
+} from "./sections/sectionForWellKnownPhishingLinks.js";
 
 export const processNonTopMillion = (domainNames) => {
   const topMillionDomainNames = [];
