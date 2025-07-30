@@ -40,15 +40,16 @@ export const createResponse = async (s3Object) => {
         }
     }
 
-    const {fullLinkUrls, domainNames} =
-        await processMessage(parentEmail);
-
     const dataPrivacyStatement =
         `<table width="50%" border="0" cellspacing="0" cellpadding="0" style="background: #fffcb8; border-radius: 10px;"><tr><td align="center">` +
         `Your email address and all emails you send us are auto-deleted from our servers after 7 days. After that, no one, not even Is This Phishy, can read them.` +
         `</td></tr></table><br><br>`;
     let data;
-    if (forwardedEmail && forwardedEmail.forwarded) {
+    if (forwardedEmail && forwardedEmail.forwarded && typeof parentEmail.textAsHtml === "string") {
+
+        const {fullLinkUrls, domainNames} =
+            await processMessage(parentEmail);
+
         data =
             dataPrivacyStatement +
             `<div> Hi ${parentEmail.from.value[0].name}, <br><br>` +
